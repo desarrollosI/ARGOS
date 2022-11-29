@@ -1,0 +1,1 @@
+//aca se harian los filtros y o peticiones al backend se exportan el index
