@@ -1,10 +1,10 @@
 
-import { Navbar } from '../../ui';
+import { NavbarN } from '../../ui';
 
 export const ArgosRoutes = () => {
   return (
     <>
-        <Navbar />
+        <NavbarN />
     </>
   )
 }
