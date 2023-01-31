@@ -23,7 +23,7 @@ export const BuscadorFacial = () => {
 
        const buscarRegistros = async() => {
             try{
-                const response = await fetch('http://192.168.9.227/face/buscarCaras.php')
+                const response = await fetch('http://172.18.10.227/face/buscarCaras.php')
                 //console.log(response.json())
                 let json =  await response.json();
                 setData(json);

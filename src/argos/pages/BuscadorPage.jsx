@@ -1,4 +1,5 @@
 import React from "react";
+import { BuscadorInformacion } from "../components/BuscadorInformacion";
 
 export const BuscadorPage = () => {
   return (
@@ -23,7 +24,9 @@ export const BuscadorPage = () => {
           </div>
           <hr />
         </div>
-        <div className="row"></div>
+        <div className="row">
+          <BuscadorInformacion/>
+        </div>
       </div>
     </>
   );
