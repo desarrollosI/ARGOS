@@ -26,12 +26,14 @@ export const BuscadorFacial = () => {
 
        const buscarRegistros = async() => {
             try{
-                const response = await fetch('http://172.18.10.71/face/buscarCaras.php')
+                const response = await fetch('http://172.18.10.71:2687/api/caras',{
+                  method: 'POST',
+                })
                 //console.log(response.json())
                 let json =  await response.json();
-                console.log('json', json);
-                setData(json.Remisiones);
-                setDataInspecciones(json.Inspecciones);
+                //console.log('Respuesta del fetch', json.data.Remisiones);
+                setData(json.data.Remisiones);
+                setDataInspecciones(json.data.Inspecciones);
                 setIsLoadinData(false)
             }catch (error) {
                 console.error(error)
@@ -122,7 +124,7 @@ export const BuscadorFacial = () => {
            arrayDesc.pop();
             descriptions.push(Float32Array.from(arrayDesc)) // guardo los descriptores en un arreglo, puede ser distinto ya con bd
           // revisar que imprime , regresa el nombre y los datos faciales
-          return new faceapi.LabeledFaceDescriptors(`Inspeccion: ${res.No_Inspeccion} ${res.src}`, descriptions) 
+          return new faceapi.LabeledFaceDescriptors(`Inspeccion: ${res.No_inspeccion} ${res.src}`, descriptions) 
         })
       )
     }

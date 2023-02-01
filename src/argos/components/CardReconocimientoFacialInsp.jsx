@@ -4,6 +4,7 @@ import "./css/card.css";
 let guardar
 const separarFichaInspeccion = ({ _label }) => {
     let newLabel = _label.split(" ");
+    console.log(newLabel);
     guardar = newLabel[1]
     newLabel.shift()
     newLabel.shift()
