@@ -4,13 +4,16 @@ import * as faceapi from 'face-api.js';
 import './css/BuscadorFacial.css';
 
 import {CardReconocimientoFacial}  from './CardReconocimientoFacial';
+import {CardReconocimientoFacialInsp} from './CardReconocimientoFacialInsp';
 import LoadingSpinner from './LoadingSpiner';
 import LoadingFace from './LoadingFace';
 
 export const BuscadorFacial = () => {
 
     const [Data, setData] = useState([]);
+    const [DataInspecciones, setDataInspecciones] = useState([]);
     const [Parecidos, setParecidos] = useState([]);
+    const [ParecidosInspecciones, setParecidosInspecciones] = useState([]);
     const [CaraSubida, setCaraSubida] = useState([]);
     const [files, setFiles] = useState([]);
     const [images, setImages] = useState(['./assets/silueta.jpg']);
@@ -23,11 +26,12 @@ export const BuscadorFacial = () => {
 
        const buscarRegistros = async() => {
             try{
-                const response = await fetch('http://172.18.10.227/face/buscarCaras.php')
+                const response = await fetch('http://172.18.10.71/face/buscarCaras.php')
                 //console.log(response.json())
                 let json =  await response.json();
-                setData(json);
-                console.log(Data);
+                console.log('json', json);
+                setData(json.Remisiones);
+                setDataInspecciones(json.Inspecciones);
                 setIsLoadinData(false)
             }catch (error) {
                 console.error(error)
@@ -105,15 +109,31 @@ export const BuscadorFacial = () => {
         // revisar que imprime , regresa el nombre y los datos faciales
         return new faceapi.LabeledFaceDescriptors(`Ficha: ${res.No_Ficha}, Remisión: ${res.No_Remision}`, descriptions) 
         
-      })
-    )
+        })
+      )
+    }
+
+    const loadLabeledImagesInspecciones = async () => {
+      return Promise.all(
+        DataInspecciones.map(async res => {
+          const descriptions = []
+           // una imagen de muestra
+           var arrayDesc = res.descriptor.split('_');
+           arrayDesc.pop();
+            descriptions.push(Float32Array.from(arrayDesc)) // guardo los descriptores en un arreglo, puede ser distinto ya con bd
+          // revisar que imprime , regresa el nombre y los datos faciales
+          return new faceapi.LabeledFaceDescriptors(`Inspeccion: ${res.No_Inspeccion} ${res.src}`, descriptions) 
+        })
+      )
     }
 
     //Esta funcion busca las caras parecidas de entre el banco de datos
     const buscarParecidos = async (e) =>{
         let cincoDistancias = [];
+        let distanciasInspecciones = [];
         const labeledFaceDescriptors = await loadLabeledImages()
-
+        const labeledFaceDescriptorsInspecciones = await loadLabeledImagesInspecciones()
+        // estas son de remisiones
         labeledFaceDescriptors.forEach( element =>{
              const distance = faceapi.euclideanDistance(element.descriptors[0], CaraSubida[0][0].descriptor) //en resized viene la cara que ando buscando
              element.distance = distance;
@@ -126,8 +146,20 @@ export const BuscadorFacial = () => {
 
           const arrayUniqueByKey = [...new Map(cincoDistancias.map(item =>
             [item[key], item])).values()];
-          
-          setParecidos(arrayUniqueByKey)
+        // estas son de inspecciones 
+        labeledFaceDescriptorsInspecciones.forEach( element =>{
+          const distance = faceapi.euclideanDistance(element.descriptors[0], CaraSubida[0][0].descriptor) //en resized viene la cara que ando buscando
+          element.distance = distance;
+          distanciasInspecciones.push(element);
+        })
+        distanciasInspecciones.sort((a, b) => a.distance > b.distance ? 1 : -1)
+        distanciasInspecciones=distanciasInspecciones.slice(0,10)
+
+        const arrayUniqueByKeyInsp = [...new Map(distanciasInspecciones.map(item =>
+          [item[key], item])).values()];
+        //seteo de resultados
+        setParecidos(arrayUniqueByKey)
+        setParecidosInspecciones(arrayUniqueByKeyInsp)
     }
       
 
@@ -139,7 +171,7 @@ export const BuscadorFacial = () => {
             <div className="row">
                 <div className="col-md-6">
                     <div className="row indicador">
-                        <p>Se cuenta con: {Data.length}  registros</p>
+                        <p>Se cuenta con: {Data.length}  registros de Remisiones y con: {DataInspecciones.length} de Inspecciones</p>
                     </div>
                     {
                     IsLoadingFace ? <></> :
@@ -173,13 +205,30 @@ export const BuscadorFacial = () => {
                     
                 </div>
                 <div className="col-md-6">
-                    <div className="row row-cols-2 d-flex justify-content-around">
-                        { 
-                            Parecidos.map(parecido => {
-                                return <CardReconocimientoFacial key={parecido._label} parecido={parecido}/>
-                            })
-                        }
+                    <div className="row ">
+                        <div className="col-md-12">
+                            <div className="row mt-3"><h3>Resultados Remisiones: </h3></div>
+                            <div className="row row-cols-2 d-flex justify-content-around">
+                                { 
+                                    Parecidos.map(parecido => {
+                                        return <CardReconocimientoFacial key={parecido._label} parecido={parecido}/>
+                                    })
+                                }
+                            </div>
+                        </div>
                     </div>    
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="row mt-3"><h3>Resultados Inspecciones: </h3></div>
+                            <div className="row row-cols-2 d-flex justify-content-around">
+                                { 
+                                    ParecidosInspecciones.map(parecido => {
+                                        return <CardReconocimientoFacialInsp key={parecido._label} parecido={parecido}/>
+                                    })
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
