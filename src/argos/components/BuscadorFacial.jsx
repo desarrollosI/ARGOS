@@ -16,7 +16,7 @@ export const BuscadorFacial = () => {
     const [ParecidosInspecciones, setParecidosInspecciones] = useState([]);
     const [CaraSubida, setCaraSubida] = useState([]);
     const [files, setFiles] = useState([]);
-    const [images, setImages] = useState(['./assets/silueta.jpg']);
+    const [images, setImages] = useState([import.meta.env.VITE_PUBLIC_ROUTE+'/assets/silueta.jpg']);
     const [IsLoadingData, setIsLoadinData] = useState(true);
     const [IsLoadingFace, setIsLoadingFace] = useState(false);
     const [Message, setMessage] = useState(['Paciencia se esta cargando tu imagen','warning']);

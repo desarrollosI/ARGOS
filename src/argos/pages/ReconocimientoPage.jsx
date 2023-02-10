@@ -10,7 +10,7 @@ export const ReconocimientoPage = () => {
   useEffect(() => {
     const loadModels = async () => {
       try {
-        const MODEL_URL = "/models";
+        const MODEL_URL = import.meta.env.VITE_PUBLIC_ROUTE+"models";
         setInitializing(true);
         Promise.all([
           faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
