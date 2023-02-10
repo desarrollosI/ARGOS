@@ -18,6 +18,7 @@ const separarFichaInspeccion = ({ _label }) => {
 };
 
 export const CardReconocimientoFacialInsp = ({ parecido }) => {
+  console.log(parecido)
   const [zoomFlag, setZoomFlag] = useState(false);
 
   const handleSetFlag = () => {
@@ -48,7 +49,7 @@ export const CardReconocimientoFacialInsp = ({ parecido }) => {
         onClick={handleSetFlag}
       />
       <div className="card-body">
-        <p className="card-text">Inspeccion {guardar}</p>
+        <p className="card-text">Inspeccion {guardar}, Procentaje: {parecido.distance}</p>
       </div>
     </div>
   );

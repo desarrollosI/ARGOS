@@ -143,7 +143,7 @@ export const BuscadorFacial = () => {
           })
           cincoDistancias.sort((a, b) => a.distance > b.distance ? 1 : -1)
           cincoDistancias=cincoDistancias.slice(0,10)
-
+          //console.log('buscando la dif: ',cincoDistancias);
           const key = '_label';
 
           const arrayUniqueByKey = [...new Map(cincoDistancias.map(item =>
@@ -162,6 +162,7 @@ export const BuscadorFacial = () => {
         //seteo de resultados
         setParecidos(arrayUniqueByKey)
         setParecidosInspecciones(arrayUniqueByKeyInsp)
+        //console.log('ya con resultados: ',arrayUniqueByKey);
     }
       
 

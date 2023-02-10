@@ -46,7 +46,7 @@ export const CardReconocimientoFacial = ({ parecido }) => {
         onClick={handleSetFlag}
       />
       <div className="card-body">
-        <p className="card-text">{parecido._label}</p>
+        <p className="card-text">{parecido._label}, Procentaje: {parecido.distance}</p>
       </div>
     </div>
   );
