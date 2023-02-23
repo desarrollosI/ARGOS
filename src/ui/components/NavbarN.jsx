@@ -5,6 +5,7 @@ import {
   ReconocimientoPage,
   GeoanalisisPage,
   InicioPage,
+  RemisionPage
 } from "../../argos/pages";
 import { AuthContext } from "../../auth/context/AuthContext";
 
@@ -103,9 +104,9 @@ export const NavbarN = () => {
               <Route path="inicio" element={<InicioPage />} />
               <Route path="buscador" element={<BuscadorPage />} />
               <Route path="reconocimiento" element={<ReconocimientoPage />} />
+              <Route path="remision/:remision" element={<RemisionPage />} /> 
               
               <Route path="geoanalisis" element={<GeoanalisisPage />} />
-              {/* <Route path="hero/:id" element={<HeroPage />} /> */}
               <Route path="/" element={<Navigate to="/inicio" />} />
 
           </Routes>

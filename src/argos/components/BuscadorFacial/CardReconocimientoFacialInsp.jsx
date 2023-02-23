@@ -4,7 +4,7 @@ import "../css/BuscadorFacial/card.css";
 let guardar
 const separarFichaInspeccion = ({ _label }) => {
     let newLabel = _label.split(" ");
-    console.log(newLabel);
+    //console.log(newLabel);
     guardar = newLabel[1]
     newLabel.shift()
     newLabel.shift()
@@ -18,7 +18,7 @@ const separarFichaInspeccion = ({ _label }) => {
 };
 
 export const CardReconocimientoFacialInsp = ({ parecido }) => {
-  console.log(parecido)
+  //console.log(parecido)
   const [zoomFlag, setZoomFlag] = useState(false);
 
   const handleSetFlag = () => {

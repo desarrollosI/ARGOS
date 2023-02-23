@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import "../css/BuscadorFacial/card.css";
 
@@ -13,17 +14,19 @@ const separarFichaRemision = ({ _label }) => {
     "/FotosHuellas/" +
     newLabel[1][1] +
     "/rostro_frente.jpeg";
-  return url;
+    
+  return {url,remision:newLabel[1][1]};
 };
 
 export const CardReconocimientoFacial = ({ parecido }) => {
+  console.log('llego a tarjeta',parecido)
   const [zoomFlag, setZoomFlag] = useState(false);
 
   const handleSetFlag = () => {
     setZoomFlag(!zoomFlag);
   };
 
-  let separado = separarFichaRemision(parecido);
+  const{url,remision} = separarFichaRemision(parecido);
 
   return (
     <div className="card mt-2 ms-2" style={{ width: "20rem" }}>
@@ -41,12 +44,19 @@ export const CardReconocimientoFacial = ({ parecido }) => {
       )}
       <img
         className="card-img-top mt-2"
-        src={separado}
+        src={url}
         alt="Card image cap"
         onClick={handleSetFlag}
       />
       <div className="card-body">
-        <p className="card-text">{parecido._label}, Procentaje: {parecido.distance}</p>
+        <div className="row">
+          <p className="card-text">{parecido._label}, Porcentaje: {100-(parecido.distance*100)} %</p>
+        </div>
+        <div className="row">
+          <Link to={`/remision/${remision}`}>
+            Ver mas...
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ export const ReconocimientoPage = () => {
 
   return (
     <>
-      <div className="container">
+      <div className="container-fluid ms-3 me-3">
         <div className="row">
           <div className="col">
             <h1 className="titulo">

@@ -9,8 +9,8 @@
     margin: 0 auto; 
     background: black; 
     position:relative; 
-    border:5px solid black; 
-    border-radius: 10px; 
+    /* //border:5px solid black;  */
+    /* border-radius: 10px;  */
     box-shadow: 0 5px 50px #333;
     text-align: center !important;
     align-items: center !important;
@@ -31,4 +31,8 @@ canvas {
     font-size: large;
     font-weight: 600;
 }
-  
+
+.vh100{
+    min-height: 85vh;
+    max-height: 100vh;
+}

@@ -14,9 +14,53 @@ import {useFetch} from '../../../hooks/useFetch'
 //archivos css
 import '../css/BuscadorFacial/BuscadorFacial.css';
 
+//Se crea un componente no exportable para el manejo de resultados
+
+const ResultadosReconocimiento =({parecidos,lugar}) =>{
+	console.log('lugar: ',lugar,'data: ',parecidos);
+  switch(lugar){
+    case 'remisiones':
+      return(
+        <>
+          	<div className="row ">
+                <div className="col-md-12">
+					<div className="row mt-3"><h3>Resultados Remisiones: </h3></div>
+					<div className="row row-cols-2 d-flex justify-content-around">
+						{ 
+							parecidos.map(parecido => {
+								console.log(parecido);
+								<CardReconocimientoFacial key={parecido._label} parecido={parecido}/>
+							})
+						}
+					</div>
+                </div>
+            </div>    
+        </>
+      )
+    case 'inspecciones':
+		return (
+			<>
+				<div className="row">
+					<div className="col-md-12">
+						<div className="row mt-3"><h3>Resultados Inspecciones: </h3></div>
+						<div className="row row-cols-2 d-flex justify-content-around">
+							{ 
+								parecidos.map(parecido => {
+									return <CardReconocimientoFacialInsp key={parecido._label} parecido={parecido}/>
+								})
+							}
+						</div>
+					</div>
+				</div>
+			</>
+		)
+
+  }
+}
+
 export const BuscadorFacial = () => {
 
-    const [Parecidos, setParecidos] = useState([]);
+    const [ParecidosRemisiones, setParecidos] = useState([]);
     const [ParecidosInspecciones, setParecidosInspecciones] = useState([]);
     const [CaraSubida, setCaraSubida] = useState([]);
     const [files, setFiles] = useState([]);
@@ -102,10 +146,10 @@ export const BuscadorFacial = () => {
     
     <>
     {isLoading ? <LoadingSpinner /> : 
-        <div className="container">
+        <div className="container-fluid">
             <div className="row">
-                <div className="col-md-6">
-                    <div className="row indicador">
+                <div className="col-md-5 shadow vh100 me-2">
+                    <div className="row indicador mt-5">
                         <p>Se cuenta con: {RemisionesData.length}  registros de Remisiones y con: {InspeccionesData.length} de Inspecciones</p>
                     </div>
                     {
@@ -126,11 +170,11 @@ export const BuscadorFacial = () => {
                         </div>
                     </div>
                     {IsLoadingFace ? <LoadingFace message={Message} /> : <></>}  
-                    <div className="row mt-4" >
+                    <div className="row mt-4 contendor" >
                         {images.map((images, i) => {
 
                             return (
-                                <div  className="d-flex justify-content-center" key={i} id="contenedorimg">
+                                <div  className="d-flex justify-content-center mb-5" key={i} id="contenedorimg">
                                     <img type="url" style={{ width: "80%" }} src={images} alt="a" id="imgmuestra"/>
                                 </div>
                             );
@@ -139,31 +183,11 @@ export const BuscadorFacial = () => {
                     
                     
                 </div>
-                <div className="col-md-6">
-                    <div className="row ">
-                        <div className="col-md-12">
-                            <div className="row mt-3"><h3>Resultados Remisiones: </h3></div>
-                            <div className="row row-cols-2 d-flex justify-content-around">
-                                { 
-                                    Parecidos.map(parecido => {
-                                        return <CardReconocimientoFacial key={parecido._label} parecido={parecido}/>
-                                    })
-                                }
-                            </div>
-                        </div>
-                    </div>    
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="row mt-3"><h3>Resultados Inspecciones: </h3></div>
-                            <div className="row row-cols-2 d-flex justify-content-around">
-                                { 
-                                    ParecidosInspecciones.map(parecido => {
-                                        return <CardReconocimientoFacialInsp key={parecido._label} parecido={parecido}/>
-                                    })
-                                }
-                            </div>
-                        </div>
-                    </div>
+    
+                <div className="col-md-6 shadow">
+                    
+                    <ResultadosReconocimiento parecidos={ParecidosRemisiones} lugar={'remisiones'}/>
+                    <ResultadosReconocimiento parecidos={ParecidosInspecciones} lugar={'inspecciones'}/>
                 </div>
             </div>
         </div>
