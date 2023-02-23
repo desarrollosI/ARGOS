@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useMemo} from 'react';
 import * as faceapi from 'face-api.js';
 
 import '../css/BuscadorFacial/BuscadorFacial.css';
@@ -8,10 +8,10 @@ import {CardReconocimientoFacialInsp} from './CardReconocimientoFacialInsp';
 import LoadingSpinner from '../Shared/LoadingSpiner';
 import LoadingFace from './LoadingFace';
 
+import {useFetch} from '../../../hooks/useFetch'
+
 export const BuscadorFacial = () => {
 
-    const [Data, setData] = useState([]);
-    const [DataInspecciones, setDataInspecciones] = useState([]);
     const [Parecidos, setParecidos] = useState([]);
     const [ParecidosInspecciones, setParecidosInspecciones] = useState([]);
     const [CaraSubida, setCaraSubida] = useState([]);
@@ -21,30 +21,14 @@ export const BuscadorFacial = () => {
     const [IsLoadingFace, setIsLoadingFace] = useState(false);
     const [Message, setMessage] = useState(['Paciencia se esta cargando tu imagen','warning']);
 
-    //Esta funcion obtiene de la base de datos, todas las caras
-    useEffect(() => {
-
-       const buscarRegistros = async() => {
-            try{
-                const response = await fetch('http://172.18.10.71:2687/api/caras',{
-                  method: 'POST',
-                })
-                //console.log(response.json())
-                let json =  await response.json();
-                //console.log('Respuesta del fetch', json.data.Remisiones);
-                setData(json.data.Remisiones);
-                setDataInspecciones(json.data.Inspecciones);
-                setIsLoadinData(false)
-            }catch (error) {
-                console.error(error)
-                setIsLoadinData(false)
-                
-              }
-          }
-        buscarRegistros();
-
-      }, [])
-
+    let RemisionesData,InspeccionesData;
+    const { data, isLoading, hasError } = useFetch(`http://172.18.10.71:2687/api/caras`,`POST`);
+    if(isLoading === false){
+      const {Remisiones,Inspecciones} = data.data;
+      RemisionesData = Remisiones
+      InspeccionesData =Inspecciones
+    }
+ 
     // Esta funcion maneja el input de la imagen, la muestra y le detecta la cara 
       const handleImageChange = async (e) => {
         setIsLoadingFace(true);
@@ -171,12 +155,12 @@ export const BuscadorFacial = () => {
   return (
     
     <>
-    {IsLoadingData ? <LoadingSpinner /> : 
+    {isLoading ? <LoadingSpinner /> : 
         <div className="container">
             <div className="row">
                 <div className="col-md-6">
                     <div className="row indicador">
-                        <p>Se cuenta con: {Data.length}  registros de Remisiones y con: {DataInspecciones.length} de Inspecciones</p>
+                        <p>Se cuenta con: {RemisionesData.length}  registros de Remisiones y con: {InspeccionesData.length} de Inspecciones</p>
                     </div>
                     {
                     IsLoadingFace ? <></> :
