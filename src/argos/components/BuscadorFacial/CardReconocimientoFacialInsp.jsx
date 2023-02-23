@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import "./css/card.css";
+import "../css/BuscadorFacial/card.css";
 let guardar
 const separarFichaInspeccion = ({ _label }) => {
     let newLabel = _label.split(" ");

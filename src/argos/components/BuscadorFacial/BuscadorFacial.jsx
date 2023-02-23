@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useRef} from 'react';
 import * as faceapi from 'face-api.js';
 
-import './css/BuscadorFacial.css';
+import '../css/BuscadorFacial/BuscadorFacial.css';
 
 import {CardReconocimientoFacial}  from './CardReconocimientoFacial';
 import {CardReconocimientoFacialInsp} from './CardReconocimientoFacialInsp';
-import LoadingSpinner from './Shared/LoadingSpiner';
+import LoadingSpinner from '../Shared/LoadingSpiner';
 import LoadingFace from './LoadingFace';
 
 export const BuscadorFacial = () => {
