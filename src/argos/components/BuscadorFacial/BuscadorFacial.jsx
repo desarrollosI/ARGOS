@@ -1,14 +1,18 @@
+//bibliotecas de react o bibliotecas especializadas para react
 import React, {useState, useEffect, useRef, useMemo} from 'react';
+//bibliotecas de terceros necesarias
 import * as faceapi from 'face-api.js';
-
-import '../css/BuscadorFacial/BuscadorFacial.css';
-
+//componentes personalizados necesarios
 import {CardReconocimientoFacial}  from './CardReconocimientoFacial';
 import {CardReconocimientoFacialInsp} from './CardReconocimientoFacialInsp';
 import LoadingSpinner from '../Shared/LoadingSpiner';
 import LoadingFace from './LoadingFace';
-
+//helpers necesarios
+import {findBestMatches} from '../../helpers'
+//hooks personalizados
 import {useFetch} from '../../../hooks/useFetch'
+//archivos css
+import '../css/BuscadorFacial/BuscadorFacial.css';
 
 export const BuscadorFacial = () => {
 
@@ -17,10 +21,10 @@ export const BuscadorFacial = () => {
     const [CaraSubida, setCaraSubida] = useState([]);
     const [files, setFiles] = useState([]);
     const [images, setImages] = useState([import.meta.env.VITE_PUBLIC_ROUTE+'/assets/silueta.jpg']);
-    const [IsLoadingData, setIsLoadinData] = useState(true);
     const [IsLoadingFace, setIsLoadingFace] = useState(false);
     const [Message, setMessage] = useState(['Paciencia se esta cargando tu imagen','warning']);
 
+    /*se lanza el hook use Fetch para obtener toda la data necesaria*/
     let RemisionesData,InspeccionesData;
     const { data, isLoading, hasError } = useFetch(`http://172.18.10.71:2687/api/caras`,`POST`);
     if(isLoading === false){
@@ -82,72 +86,13 @@ export const BuscadorFacial = () => {
         });
       };
 
-    //Esta funcion toma el estado de la Data y la transforma en informacion manejable para la comparativa
-    const loadLabeledImages = async () => {
-    
-    return Promise.all(
-        Data.map(async res => { //una a  una 
-        const descriptions = []
-         // una imagen de muestra
-         var arrayDesc = res.descriptor.split('_');
-         arrayDesc.pop();
-          descriptions.push(Float32Array.from(arrayDesc)) // guardo los descriptores en un arreglo, puede ser distinto ya con bd
-        // revisar que imprime , regresa el nombre y los datos faciales
-        return new faceapi.LabeledFaceDescriptors(`Ficha: ${res.No_Ficha}, Remisión: ${res.No_Remision}`, descriptions) 
-        
-        })
-      )
-    }
 
-    const loadLabeledImagesInspecciones = async () => {
-      return Promise.all(
-        DataInspecciones.map(async res => {
-          const descriptions = []
-           // una imagen de muestra
-           var arrayDesc = res.descriptor.split('_');
-           arrayDesc.pop();
-            descriptions.push(Float32Array.from(arrayDesc)) // guardo los descriptores en un arreglo, puede ser distinto ya con bd
-          // revisar que imprime , regresa el nombre y los datos faciales
-          return new faceapi.LabeledFaceDescriptors(`Inspeccion: ${res.No_inspeccion} ${res.src}`, descriptions) 
-        })
-      )
-    }
 
     //Esta funcion busca las caras parecidas de entre el banco de datos
     const buscarParecidos = async (e) =>{
-        let cincoDistancias = [];
-        let distanciasInspecciones = [];
-        const labeledFaceDescriptors = await loadLabeledImages()
-        const labeledFaceDescriptorsInspecciones = await loadLabeledImagesInspecciones()
-        // estas son de remisiones
-        console.log('COPIAR: ',CaraSubida[0][0].descriptor)
-        labeledFaceDescriptors.forEach( element =>{
-            //console.log('TRUENA',element.descriptors[0])
-             const distance = faceapi.euclideanDistance(element.descriptors[0], CaraSubida[0][0].descriptor) //en resized viene la cara que ando buscando
-             element.distance = distance;
-             cincoDistancias.push(element);
-          })
-          cincoDistancias.sort((a, b) => a.distance > b.distance ? 1 : -1)
-          cincoDistancias=cincoDistancias.slice(0,10)
-          //console.log('buscando la dif: ',cincoDistancias);
-          const key = '_label';
-
-          const arrayUniqueByKey = [...new Map(cincoDistancias.map(item =>
-            [item[key], item])).values()];
-        // estas son de inspecciones 
-        labeledFaceDescriptorsInspecciones.forEach( element =>{
-          const distance = faceapi.euclideanDistance(element.descriptors[0], CaraSubida[0][0].descriptor) //en resized viene la cara que ando buscando
-          element.distance = distance;
-          distanciasInspecciones.push(element);
-        })
-        distanciasInspecciones.sort((a, b) => a.distance > b.distance ? 1 : -1)
-        distanciasInspecciones=distanciasInspecciones.slice(0,10)
-
-        const arrayUniqueByKeyInsp = [...new Map(distanciasInspecciones.map(item =>
-          [item[key], item])).values()];
-        //seteo de resultados
-        setParecidos(arrayUniqueByKey)
-        setParecidosInspecciones(arrayUniqueByKeyInsp)
+        const {arrayUniqueByKeyRemisiones, arrayUniqueByKeyInspecciones} = await findBestMatches(CaraSubida,RemisionesData,InspeccionesData)
+        setParecidos(arrayUniqueByKeyRemisiones)
+        setParecidosInspecciones(arrayUniqueByKeyInspecciones)
         //console.log('ya con resultados: ',arrayUniqueByKey);
     }
       
