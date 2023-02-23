@@ -45,6 +45,7 @@ export const BuscadorFacial = () => {
           let reader = new FileReader();
     
           reader.onloadend = () => {
+            console.log('que hay aca?',reader.result);
             setFiles(prevFiles => [ files]);
             setImages(prevImages => [ reader.result]);
           };
