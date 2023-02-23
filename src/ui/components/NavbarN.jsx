@@ -1,6 +1,5 @@
 import { useContext } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes ,Link, NavLink, useNavigate} from "react-router-dom";
 import {
   BuscadorPage,
   ReconocimientoPage,
@@ -26,7 +25,7 @@ export const NavbarN = () => {
   return (
     <>
       <header className="navbar navbar-dark sticky-top bg-dark Rhino flex-md-nowrap p-0 shadow">
-        <NavLink ro="/" className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6">
+        <NavLink to="/" className="navbar-brand col-md-3 col-lg-1 me-0 px-3 fs-6">
           A.R.G.O.S
         </NavLink>
         <button
@@ -54,7 +53,7 @@ export const NavbarN = () => {
         <div className="row">
           <nav
             id="sidebarMenu"
-            className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
+            className="col-md-3 col-lg-1 d-md-block bg-light sidebar collapse"
           >
             <div className="position-sticky pt-3 sidebar-sticky">
               <ul className="nav flex-column">
@@ -99,7 +98,7 @@ export const NavbarN = () => {
             </div>
           </nav>
 
-          <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <main className="col-md-9 ms-sm-auto col-lg-11 px-md-4">
             <Routes>
               <Route path="inicio" element={<InicioPage />} />
               <Route path="buscador" element={<BuscadorPage />} />
@@ -107,8 +106,6 @@ export const NavbarN = () => {
               
               <Route path="geoanalisis" element={<GeoanalisisPage />} />
               {/* <Route path="hero/:id" element={<HeroPage />} /> */}
-                              
-
               <Route path="/" element={<Navigate to="/inicio" />} />
 
           </Routes>

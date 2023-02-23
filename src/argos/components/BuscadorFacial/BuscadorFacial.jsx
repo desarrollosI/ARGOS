@@ -5,7 +5,7 @@ import './css/BuscadorFacial.css';
 
 import {CardReconocimientoFacial}  from './CardReconocimientoFacial';
 import {CardReconocimientoFacialInsp} from './CardReconocimientoFacialInsp';
-import LoadingSpinner from './LoadingSpiner';
+import LoadingSpinner from './Shared/LoadingSpiner';
 import LoadingFace from './LoadingFace';
 
 export const BuscadorFacial = () => {

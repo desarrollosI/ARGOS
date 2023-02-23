@@ -6,9 +6,9 @@ import { ArgosApp } from './ArgosApp';
 import './styles.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <ArgosApp />
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

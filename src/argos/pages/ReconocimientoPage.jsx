@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as faceapi from "face-api.js";
 import { BuscadorFacial } from "../components/BuscadorFacial";
-import LoadingSpinner from "../components/LoadingSpiner";
+import LoadingSpinner from "../components/Shared/LoadingSpiner";
 import "./css/ReconocimientoPage.css";
 
 export const ReconocimientoPage = () => {
