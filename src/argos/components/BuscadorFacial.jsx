@@ -136,7 +136,9 @@ export const BuscadorFacial = () => {
         const labeledFaceDescriptors = await loadLabeledImages()
         const labeledFaceDescriptorsInspecciones = await loadLabeledImagesInspecciones()
         // estas son de remisiones
+        console.log('COPIAR: ',CaraSubida[0][0].descriptor)
         labeledFaceDescriptors.forEach( element =>{
+            //console.log('TRUENA',element.descriptors[0])
              const distance = faceapi.euclideanDistance(element.descriptors[0], CaraSubida[0][0].descriptor) //en resized viene la cara que ando buscando
              element.distance = distance;
              cincoDistancias.push(element);
