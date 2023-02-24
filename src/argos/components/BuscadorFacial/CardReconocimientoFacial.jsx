@@ -19,7 +19,7 @@ const separarFichaRemision = ({ _label }) => {
 };
 
 export const CardReconocimientoFacial = ({ parecido }) => {
-  console.log('llego a tarjeta',parecido)
+  console.log('ENTRO A LA TARJETA')
   const [zoomFlag, setZoomFlag] = useState(false);
 
   const handleSetFlag = () => {

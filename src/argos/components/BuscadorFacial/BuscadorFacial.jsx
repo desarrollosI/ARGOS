@@ -3,8 +3,7 @@ import React, {useState, useEffect, useRef, useMemo} from 'react';
 //bibliotecas de terceros necesarias
 import * as faceapi from 'face-api.js';
 //componentes personalizados necesarios
-import {CardReconocimientoFacial}  from './CardReconocimientoFacial';
-import {CardReconocimientoFacialInsp} from './CardReconocimientoFacialInsp';
+import {ResultadosReconocimiento}  from '../BuscadorFacial';
 import LoadingSpinner from '../Shared/LoadingSpiner';
 import LoadingFace from './LoadingFace';
 //helpers necesarios
@@ -16,47 +15,45 @@ import '../css/BuscadorFacial/BuscadorFacial.css';
 
 //Se crea un componente no exportable para el manejo de resultados
 
-const ResultadosReconocimiento =({parecidos,lugar}) =>{
-	console.log('lugar: ',lugar,'data: ',parecidos);
-  switch(lugar){
-    case 'remisiones':
-      return(
-        <>
-          	<div className="row ">
-                <div className="col-md-12">
-					<div className="row mt-3"><h3>Resultados Remisiones: </h3></div>
-					<div className="row row-cols-2 d-flex justify-content-around">
-						{ 
-							parecidos.map(parecido => {
-								console.log(parecido);
-								<CardReconocimientoFacial key={parecido._label} parecido={parecido}/>
-							})
-						}
-					</div>
-                </div>
-            </div>    
-        </>
-      )
-    case 'inspecciones':
-		return (
-			<>
-				<div className="row">
-					<div className="col-md-12">
-						<div className="row mt-3"><h3>Resultados Inspecciones: </h3></div>
-						<div className="row row-cols-2 d-flex justify-content-around">
-							{ 
-								parecidos.map(parecido => {
-									return <CardReconocimientoFacialInsp key={parecido._label} parecido={parecido}/>
-								})
-							}
-						</div>
-					</div>
-				</div>
-			</>
-		)
+// const ResultadosReconocimiento =({parecidos,lugar}) =>{
+//   switch(lugar){
+//     case 'remisiones':
+//       	return(
+// 			<>
+// 				<div className="row">
+// 					<div className="col-md-12">
+// 						<div className="row mt-3"><h3>Resultados Remisiones: </h3></div>
+// 						<div className="row row-cols-2 d-flex justify-content-around">
+// 							{ 
+// 								parecidos.map(parecido => {
+// 									return <CardReconocimientoFacial key={parecido._label} parecido={parecido}/>
+// 								})
+// 							}
+// 						</div>
+// 					</div>
+// 				</div>
+// 			</>
+//       )
+//     case 'inspecciones':
+// 		return (
+// 			<>
+// 				<div className="row">
+// 					<div className="col-md-12">
+// 						<div className="row mt-3"><h3>Resultados Inspecciones: </h3></div>
+// 						<div className="row row-cols-2 d-flex justify-content-around">
+// 							{ 
+// 								parecidos.map(parecido => {
+// 									return <CardReconocimientoFacialInsp key={parecido._label} parecido={parecido}/>
+// 								})
+// 							}
+// 						</div>
+// 					</div>
+// 				</div>
+// 			</>
+// 		)
 
-  }
-}
+//   }
+// }
 
 export const BuscadorFacial = () => {
 
@@ -185,9 +182,8 @@ export const BuscadorFacial = () => {
                 </div>
     
                 <div className="col-md-6 shadow">
-                    
-                    <ResultadosReconocimiento parecidos={ParecidosRemisiones} lugar={'remisiones'}/>
-                    <ResultadosReconocimiento parecidos={ParecidosInspecciones} lugar={'inspecciones'}/>
+                    { (ParecidosRemisiones.length !=0) && <ResultadosReconocimiento parecidos={ParecidosRemisiones} lugar={'remisiones'}/>}
+                    { (ParecidosInspecciones.length !=0) && <ResultadosReconocimiento parecidos={ParecidosInspecciones} lugar={'inspecciones'}/> }
                 </div>
             </div>
         </div>
