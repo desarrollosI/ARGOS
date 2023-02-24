@@ -1,6 +1,6 @@
 import "../css/Shared/spinner.css";
 
-export default function LoadingSpinner() {
+export const LoadingSpinner =() => {
   return (
     <div className="spinner-container">
       <div className="loading-spinner"></div>

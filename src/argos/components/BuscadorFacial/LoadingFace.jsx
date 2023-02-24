@@ -1,5 +1,5 @@
 
-export default function LoadingFace({message}) {
+export const LoadingFace = ({message}) => {
     return (
       <>
         <div className="row ms-2 mt-2">

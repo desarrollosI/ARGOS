@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 
-export const useFetch = ( url, metodo ) => {
+export const useFetch = ( url, metodo, body ) => {
 
     const [state, setState] = useState({
         data: null,
@@ -11,15 +11,22 @@ export const useFetch = ( url, metodo ) => {
 
 
     const getFetch = async () => {
-
+        let resp;
         setState({
             ...state,
             isLoading: true,
         });
-
-        const resp = await fetch(url,{
-            method: metodo,
-          });
+      
+        if(metodo == 'POST'){
+            resp = await fetch(url,{
+                method: metodo,
+                body: body,
+              });
+        }else {
+            resp = await fetch(url,{
+                method: metodo,
+              });
+        }
         const data = await resp.json();
 
         setState({

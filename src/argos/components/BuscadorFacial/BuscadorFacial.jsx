@@ -3,9 +3,7 @@ import React, {useState, useEffect, useRef, useMemo} from 'react';
 //bibliotecas de terceros necesarias
 import * as faceapi from 'face-api.js';
 //componentes personalizados necesarios
-import {ResultadosReconocimiento}  from '../BuscadorFacial';
-import LoadingSpinner from '../Shared/LoadingSpiner';
-import LoadingFace from './LoadingFace';
+import { LoadingFace, LoadingSpinner, ResultadosReconocimiento } from '../../components';
 //helpers necesarios
 import {findBestMatches} from '../../helpers'
 //hooks personalizados

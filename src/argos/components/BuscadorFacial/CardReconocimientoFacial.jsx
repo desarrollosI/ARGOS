@@ -35,7 +35,7 @@ export const CardReconocimientoFacial = ({ parecido }) => {
           <div className="borde">
             <img
               className="card-img-top mt-2 show_image "
-              src={separado}
+              src={url}
               alt="Card image cap"
               onClick={handleSetFlag}
             />
