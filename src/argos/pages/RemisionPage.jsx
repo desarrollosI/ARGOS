@@ -7,8 +7,9 @@ export const RemisionPage = () => {
 
     const navigate = useNavigate();
     const {remision} = useParams();
-    const { data, isLoading, hasError } = useFetch(`http://172.18.10.71:9090/api/base/remision`,`POST`,JSON.stringify({remision:remision}));
-    // console.log(data.data.Remisiones[0])
+    console.log('Params: ',remision)
+    const { data, isLoading, hasError } = useFetch(`http://172.18.10.71:9090/api/base/remision`,`POST`,JSON.stringify({remision:remision.trim()}));
+     console.log('despues del fetch: ',data)
 
     const goBack = () => {
       navigate(-1);
@@ -25,7 +26,6 @@ export const RemisionPage = () => {
        (isLoading) 
        ? <LoadingSpinner/>
        : <Detenido data={data.data.Remisiones[0]}/>    
-
       }
     
     </>
