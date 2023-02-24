@@ -53,7 +53,7 @@ export const CardReconocimientoFacial = ({ parecido }) => {
           <p className="card-text">{parecido._label}, Porcentaje: {100-(parecido.distance*100)} %</p>
         </div>
         <div className="row">
-          <Link to={`/remision/${remision}`}>
+          <Link to={`/remision/${remision}`} target="_blank">
             Ver mas...
           </Link>
         </div>
