@@ -7,7 +7,7 @@ export const RemisionPage = () => {
 
     const navigate = useNavigate();
     const {remision} = useParams();
-    const { data, isLoading, hasError } = useFetch(`http://172.18.10.71:9090/api/base/remision`,`POST`,{remision: remision});
+    const { data, isLoading, hasError } = useFetch(`http://172.18.10.71:9090/api/base/remision`,`POST`,JSON.stringify({remision:remision}));
     // console.log(data.data.Remisiones[0])
 
     const goBack = () => {
