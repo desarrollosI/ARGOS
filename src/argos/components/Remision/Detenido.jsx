@@ -87,6 +87,12 @@ export const Detenido = ({data}) => {
 					</div>
 
 					<div className="row">
+						<div className="col-md-3">
+							<p className='parrafo'><b>FECHA-HORA: </b>	{`${data.Fecha_Hora}`}</p>
+						</div>
+						<div className="col-md-6">
+							<p className='parrafo'><b>FALTAS/DELITOS: </b>	{`${data.Faltas_Delitos_Detenido}`}</p>
+						</div>
 						<div className="col-md-6">
 							<p className='parrafo'><b>UBICACIÓN: </b>	{`${data.Ubicacion_Hechos}`}</p>
 						</div>

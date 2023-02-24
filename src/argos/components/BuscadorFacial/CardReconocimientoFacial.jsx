@@ -15,7 +15,7 @@ const separarFichaRemision = ({ _label }) => {
     newLabel[1][1] +
     "/rostro_frente.jpeg";
     
-  return {url,remision:newLabel[1][1]};
+  return {url,remision:newLabel[1][1],ficha:newLabel[0][1]};
 };
 
 export const CardReconocimientoFacial = ({ parecido }) => {

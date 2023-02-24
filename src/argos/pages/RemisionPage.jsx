@@ -25,9 +25,10 @@ export const RemisionPage = () => {
        
        (isLoading) 
        ? <LoadingSpinner/>
-       : <Detenido data={data.data.Remisiones[0]}/>    
+       : <Detenido data={data.data.Remisiones[0]}/> 
+
       }
-    
+      
     </>
 
 
