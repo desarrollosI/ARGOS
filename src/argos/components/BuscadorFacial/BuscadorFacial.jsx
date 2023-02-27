@@ -65,7 +65,7 @@ export const BuscadorFacial = () => {
 
     /*se lanza el hook use Fetch para obtener toda la data necesaria*/
     let RemisionesData,InspeccionesData;
-    const { data, isLoading, hasError } = useFetch(`http://172.18.10.71:2687/api/caras`,`POST`);
+    const { data, isLoading, hasError } = useFetch('http://172.18.10.71:9090/api/base/facialRecognition',`POST`);
     if(isLoading === false){
       const {Remisiones,Inspecciones} = data.data;
       RemisionesData = Remisiones
