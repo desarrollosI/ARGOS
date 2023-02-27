@@ -78,6 +78,9 @@ export const Detenido = ({data}) => {
 						<div className="col-md-4">
 							<p className='parrafo'><b>PROCEDENCIA: </b>	{`${data.Lugar_Origen}`}</p>
 						</div>
+						<div className="col-md-12">
+							<p className='parrafo'><b>DOMICILIO: </b>	{`${data.Domicilio_Detenido}`}</p>
+						</div>
 					</div>
 
 					<div className="row mt-3">
@@ -98,6 +101,39 @@ export const Detenido = ({data}) => {
 						</div>
 					</div>
 
+				</div>
+			</div>
+			
+			<div className="row">
+				<div className="col d-flex justify-content-center mb-2">
+				<a className="btn btn-info" data-bs-toggle="collapse" href={`#rem-${data.No_Remision}`} role="button" aria-expanded="false" aria-controls={`rem-${data.No_Remision}`}>
+    				VER MÁS...
+  				</a>
+				</div>
+			</div>
+
+			<div className="row collapse" id={`rem-${data.No_Remision}`}>
+				<div className="col-md-8">
+					<div className="row">
+						<div className="col-md-12">
+							<p className="parrafo"><b>ARMAS DETENIDO: </b> {data.Armas_Detenido}</p>
+						</div>
+						<div className="col-md-12">
+							<p className="parrafo"><b>DROGAS DETENIDO: </b> {data.Drogas_Detenido}</p>
+						</div>
+						<div className="col-md-12">
+							<p className="parrafo"><b>OBJETOS DETENIDO: </b> {data.Objetos_Detenido}</p>
+						</div>
+						<div className="col-md-12">
+							<p className="parrafo"><b>VEHICULOS DETENIDO: </b> {data.Vehiculos_Detenido}</p>
+						</div>
+					</div>
+				</div>
+				
+				<div className="col-md-4">
+					<img src={`http://172.18.0.25/sarai/public/files/Remisiones/${data.Ficha}/ObjRecuperados/${data.Ficha}_obj.jpeg`} 
+						  alt="Objetos Asegurados"
+						  className=" img-thumbnail ms-2 mb-3" style={{width: '600px'}}/>
 				</div>
 			</div>
 		</div>
