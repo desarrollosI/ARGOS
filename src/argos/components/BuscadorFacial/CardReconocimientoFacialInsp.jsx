@@ -1,6 +1,11 @@
 import { useState } from "react";
 
+import Zoom from 'react-medium-image-zoom'
+
 import "../css/BuscadorFacial/card.css";
+import 'animate.css';
+import 'react-medium-image-zoom/dist/styles.css';
+
 let guardar
 const separarFichaInspeccion = ({ _label }) => {
     let newLabel = _label.split(" ");
@@ -28,26 +33,14 @@ export const CardReconocimientoFacialInsp = ({ parecido }) => {
   let separado = separarFichaInspeccion(parecido);
 
   return (
-    <div className="card mt-2 ms-2" style={{ width: "20rem"}}>
-      {zoomFlag && (
-        <div className="lightbox show">
-          <div className="borde">
-            <img
-              className="card-img-top mt-2  show_image2 "
-              src={separado}
-              alt="Persona Inspeccionada"
-              style={{ width: "10rem"}}
-              onClick={handleSetFlag}
-            />
-          </div>
-        </div>
-      )}
-      <img
-        className="card-img-top mt-2"
-        src={separado}
-        alt="Persona Inspeccionada"
-        onClick={handleSetFlag}
-      />
+    <div className="card mt-2 ms-2 animate__animated animate__fadeIn" style={{ width: "20rem"}}>
+      <Zoom>
+        <img
+          className="card-img-top mt-2"
+          src={separado}
+          alt="Persona Inspeccionada"
+        />
+      </Zoom>
       <div className="card-body">
         <p className="card-text">Inspeccion {guardar}, Procentaje: {parecido.distance}</p>
       </div>

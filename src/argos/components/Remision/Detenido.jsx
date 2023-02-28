@@ -1,11 +1,11 @@
 import '../css/Remision/detenido.css'
-
+import 'animate.css';
 export const Detenido = ({data}) => {
   console.log('RECIBI LA REMISION:',data)
   const imgUrl = `http://172.18.0.25/sarai/public/files/Remisiones/${data.Ficha}/FotosHuellas/${data.No_Remision}/rostro_frente.jpeg`;
   return (
     <>
-		<div className="container-fluid shadow mt-5">
+		<div className="container-fluid shadow mt-5 animate__animated animate__fadeIn">
 
 			<div className="row">
 				<div className="col">
@@ -69,6 +69,9 @@ export const Detenido = ({data}) => {
 						<div className="col-md-2">
 							<p className='parrafo'><b>EDAD: </b>	{`${data.Edad}`}</p>
 						</div>
+						<div className="col-md-3">
+							<p className='parrafo'><b>ALIAS: </b>	{`${data.Alias}`}</p>
+						</div>
 						<div className="col-md-4">
 							<p className='parrafo'><b>TÉLEFONO: </b>	{`${data.Telefono}`}</p>
 						</div>
@@ -126,6 +129,9 @@ export const Detenido = ({data}) => {
 						</div>
 						<div className="col-md-12">
 							<p className="parrafo"><b>VEHICULOS DETENIDO: </b> {data.Vehiculos_Detenido}</p>
+						</div>
+						<div className="col-md-12">
+							<p className="parrafo"><b>VINCULACIONES: </b> {data.Grupo_Vinculado}</p>
 						</div>
 					</div>
 				</div>

@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import Zoom from 'react-medium-image-zoom'
+
 import "../css/BuscadorFacial/card.css";
+import 'animate.css';
+import 'react-medium-image-zoom/dist/styles.css'
 
 const separarFichaRemision = ({ _label }) => {
   let newLabel = _label.split(",");
@@ -29,25 +33,14 @@ export const CardReconocimientoFacial = ({ parecido }) => {
   const{url,remision} = separarFichaRemision(parecido);
 
   return (
-    <div className="card mt-2 ms-2" style={{ width: "20rem" }}>
-      {zoomFlag && (
-        <div className="lightbox show">
-          <div className="borde">
-            <img
-              className="card-img-top mt-2 show_image "
-              src={url}
-              alt="Card image cap"
-              onClick={handleSetFlag}
-            />
-          </div>
-        </div>
-      )}
-      <img
-        className="card-img-top mt-2"
-        src={url}
-        alt="Card image cap"
-        onClick={handleSetFlag}
-      />
+    <div className="card mt-2 ms-2 animate__animated animate__fadeIn" style={{ width: "20rem" }}>
+       <Zoom>
+        <img
+          className="card-img-top mt-2"
+          src={url}
+          alt="Card image cap"
+        />
+       </Zoom>
       <div className="card-body">
         <div className="row">
           <p className="card-text">{parecido._label}, Porcentaje: {100-(parecido.distance*100)} %</p>
