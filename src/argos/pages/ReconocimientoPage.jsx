@@ -1,34 +1,20 @@
+//propio de react
 import React, { useState, useEffect, useRef } from "react";
-import * as faceapi from "face-api.js";
+//helpers
+import { loadModels } from "../helpers";
+//hooks
+
+//componentes
 import { BuscadorFacial, LoadingSpinner } from "../components/";
 
-import "./css/ReconocimientoPage.css";
 
 export const ReconocimientoPage = () => {
   const [initializing, setInitializing] = useState(true);
 
-  useEffect(() => {
-    const loadModels = async () => {
-      try {
-        const MODEL_URL = import.meta.env.VITE_PUBLIC_ROUTE+"models";
-        setInitializing(true);
-        Promise.all([
-          faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-          faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-          faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL),
-        ]).then(start);
-      } catch (error) {
-        setInitializing(false);
-        console.error(error);
-      }
-    };
-    loadModels();
-  }, []);
-
-  const start = () => {
+  useEffect(() => {  
+    loadModels()
     setInitializing(false);
-    console.log("Modelos cargados");
-  };
+  }, []);
 
   return (
     <>
