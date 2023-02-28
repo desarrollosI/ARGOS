@@ -1,4 +1,3 @@
-import { useState } from "react";
 
 import Zoom from 'react-medium-image-zoom'
 
@@ -24,11 +23,6 @@ const separarFichaInspeccion = ({ _label }) => {
 
 export const CardReconocimientoFacialInsp = ({ parecido }) => {
   //console.log(parecido)
-  const [zoomFlag, setZoomFlag] = useState(false);
-
-  const handleSetFlag = () => {
-    setZoomFlag(!zoomFlag);
-  };
 
   let separado = separarFichaInspeccion(parecido);
 

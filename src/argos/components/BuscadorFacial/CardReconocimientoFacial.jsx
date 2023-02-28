@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { Link } from "react-router-dom";
 
 import Zoom from 'react-medium-image-zoom'
@@ -24,11 +24,6 @@ const separarFichaRemision = ({ _label }) => {
 
 export const CardReconocimientoFacial = ({ parecido }) => {
   console.log('ENTRO A LA TARJETA')
-  const [zoomFlag, setZoomFlag] = useState(false);
-
-  const handleSetFlag = () => {
-    setZoomFlag(!zoomFlag);
-  };
 
   const{url,remision} = separarFichaRemision(parecido);
 
