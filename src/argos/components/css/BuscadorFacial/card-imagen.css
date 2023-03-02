@@ -1,0 +1,49 @@
+/* .App {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  .centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } */
+  
+  .watermarked {
+    position: relative;
+    overflow: hidden;
+    width: 200%;
+    height: 200%;
+  }
+  
+  .watermarked::before {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    display: block;
+    width: 1920px;
+    height: 1080px;
+    content: attr(data-watermark);
+    opacity: 0.3;
+    line-height: 3em;
+    letter-spacing: 2px;
+    color: #fff;
+    user-select: none;
+  }
+
+  .zoom-caption--loaded{
+    position: absolute;
+    top: -75%;
+    left: -75%;
+    display: block;
+    width: 200%;
+    height: 200%;
+    transform: rotate(-45deg);
+    content: attr(data-watermark);
+    opacity: 0.3;
+    line-height: 3em;
+    letter-spacing: 2px;
+    color: #fff;
+    user-select: none;
+  }
