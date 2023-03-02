@@ -1,8 +1,10 @@
 import '../css/Remision/detenido.css'
 import 'animate.css';
+import { ImageZoom } from '../Shared/ImageZoom';
 export const Detenido = ({data}) => {
   console.log('RECIBI LA REMISION:',data)
   const imgUrl = `http://172.18.0.25/sarai/public/files/Remisiones/${data.Ficha}/FotosHuellas/${data.No_Remision}/rostro_frente.jpeg`;
+
   return (
     <>
 		<div className="container-fluid shadow mt-5 animate__animated animate__fadeIn">
@@ -15,10 +17,7 @@ export const Detenido = ({data}) => {
 
 			<div className="row">
 				<div className="col-md-4">
-					<img src={imgUrl} 
-						alt={`${data.Nombre} ${data.Ap_Paterno} ${data.Ap_Materno}`} 
-						className="img-thumbnail ms-2 mb-3"
-					/>
+					<ImageZoom url={`http://172.18.0.25/sarai/public/files/Remisiones/${data.Ficha}/FotosHuellas/${data.No_Remision}/rostro_frente.jpeg`} width={'450'} height={'350'} ml={'20'}/>
 				</div>
 				<div className="col-md-8">
 					
@@ -137,9 +136,7 @@ export const Detenido = ({data}) => {
 				</div>
 				
 				<div className="col-md-4">
-					<img src={`http://172.18.0.25/sarai/public/files/Remisiones/${data.Ficha}/ObjRecuperados/${data.Ficha}_obj.jpeg`} 
-						  alt="Objetos Asegurados"
-						  className=" img-thumbnail ms-2 mb-3" style={{width: '600px'}}/>
+					<ImageZoom url={`http://172.18.0.25/sarai/public/files/Remisiones/${data.Ficha}/ObjRecuperados/${data.Ficha}_obj.jpeg`} width={'600'} height={'450'}/>
 				</div>
 			</div>
 		</div>
