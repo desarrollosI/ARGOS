@@ -4,6 +4,7 @@ import Zoom from 'react-medium-image-zoom'
 import "../css/BuscadorFacial/card.css";
 import 'animate.css';
 import 'react-medium-image-zoom/dist/styles.css';
+import { Link } from 'react-router-dom';
 
 let guardar
 const separarFichaInspeccion = ({ _label }) => {
@@ -18,25 +19,30 @@ const separarFichaInspeccion = ({ _label }) => {
         guardar+
         "/"+
         file;
-  return url;
+  return {url,inspeccion:guardar};
 };
 
 export const CardReconocimientoFacialInsp = ({ parecido }) => {
   //console.log(parecido)
 
-  let separado = separarFichaInspeccion(parecido);
+  const {url,inspeccion} = separarFichaInspeccion(parecido);
 
   return (
     <div className="card mt-2 ms-2 animate__animated animate__fadeIn" style={{ width: "20rem"}}>
       <Zoom>
         <img
           className="card-img-top mt-2"
-          src={separado}
+          src={url}
           alt="Persona Inspeccionada"
         />
       </Zoom>
       <div className="card-body">
-        <p className="card-text">Inspeccion {guardar}, Procentaje: {parecido.distance}</p>
+        <p className="card-text">Inspeccion {guardar}, Procentaje: {100-(parecido.distance*100)} %</p>
+      </div>
+      <div className="row">
+        <Link to={`/inspeccion/${inspeccion}`} target="_blank">
+          Ver mas...
+        </Link>
       </div>
     </div>
   );

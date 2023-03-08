@@ -2,7 +2,7 @@ import '../css/Shared/FichaInformativa.css'
 import 'animate.css';
 import { ImageZoom } from '../Shared/ImageZoom';
 export const Detenido = ({data}) => {
-  console.log('RECIBI LA REMISION:',data)
+  console.log('RECIBI LA INSPECCION:',data)
   const imgUrl = `http://172.18.0.25/sarai/public/files/Remisiones/${data.Ficha}/FotosHuellas/${data.No_Remision}/rostro_frente.jpeg`;
 
   return (
