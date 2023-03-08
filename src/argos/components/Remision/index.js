@@ -1,1 +1,1 @@
-export * from './Detenido'
+export * from './Detenido';
