@@ -13,7 +13,14 @@ export const InspeccionPage = () => {
 
 
 
-  return (
-    <div>InspeccionPage Works {inspeccion}</div>
-  )
+    return (
+      <>
+        {/* recuerda, el is loading debe de ir en las condicionales, o react se sigue como secuencial */}
+        {
+          (isLoading)
+            ? <LoadingSpinner />
+            : <Inspeccion data={data.data.Inspeccion}/>
+        }
+      </>
+    )
 }
