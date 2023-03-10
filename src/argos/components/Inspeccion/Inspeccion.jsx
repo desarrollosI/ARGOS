@@ -7,6 +7,7 @@ export const Inspeccion = ({data}) => {
   console.log(generales, fotos, personas)
 
   var date = new Date(generales[0].Fecha_Hora_Inspeccion);
+  const baseURLF='http://172.18.0.25/sarai/public/files/inspecciones/images/'
 
   return (
     <>
@@ -39,11 +40,43 @@ export const Inspeccion = ({data}) => {
 							<p className="parrafo"><b>MOTIVO: </b> {generales[0].Motivo_Inspeccion}</p>
 						</div>
 						<div className="col-md-4">
-							<p className="parrafo"><b>FEHA:</b> {date.toLocaleString()}</p>
+							<p className="parrafo"><b>FEHA/HORA:</b> {date.toLocaleString()}</p>
+						</div>
+						<div className="col-md-3">
+							<p className="parrafo"><b>SOLICITA:</b> {generales[0].Quien_Solicita}</p>
+						</div>
+						<div className="col-md-3">
+							<p className="parrafo"><b>UNIDAD:</b> {generales[0].Unidad}</p>
+						</div>
+						<div className="col-md-3">
+							<p className="parrafo"><b>RESULTADO:</b> {generales[0].Resultado_Inspeccion}</p>
 						</div>
 					</div>
 				</div>
 					
+				<div className="row mt-3">
+					<div className="col">
+						<h3 className='text-center titulo'> UBICACIÓN DE LA INSPECCIÓN: </h3>
+					</div>
+				</div>
+				<div className="row mt-3">
+					<div className="col-md-4">
+						<p className='parrafo'><b>COLONIA: </b> {`${generales[0].Colonia}`}</p>
+					</div>
+					<div className="col-md-4">
+						<p className='parrafo'><b>CALLE 1: </b> {`${generales[0].Calle_1}`}</p>
+					</div>
+					<div className="col-md-4">
+						<p className='parrafo'><b>CALLE 2: </b> {`${generales[0].Calle_2}`}</p>
+					</div>
+					<div className="col-md-2">
+						<p className='parrafo'><b>NO. EXT.: </b> {`${generales[0].No_Ext}`}</p>
+					</div>
+					<div className="col-md-2">
+						<p className='parrafo'><b>NO. INT.: </b> {`${generales[0].No_Int}`}</p>
+					</div>
+				</div>
+
 				<div className="row mt-3">
 					<div className="col">
 						<h3 className='text-center titulo'> PERSONAS INSPECCIONADAS: </h3>
@@ -88,6 +121,31 @@ export const Inspeccion = ({data}) => {
 						<p className='parrafo'><b>NIV: </b>	{`${generales[0].NIV}`}</p>
 					</div>
 				</div>
+
+				<div className="row">
+					<div className="col d-flex justify-content-center mb-2">
+						<a className="btn btn-info" data-bs-toggle="collapse" href={`#insp-${generales[0].Id_Inspeccion}`} role="button" aria-expanded="false" aria-controls={`insp-${generales[0].Id_Inspeccion}`}>
+    					VER FOTOS...
+  					</a>
+				</div>
+
+				<div className="row collapse" id={`insp-${generales[0].Id_Inspeccion}`}>
+					<div className="row mb-4">
+						{
+							fotos.map(foto => (
+								<div className="col-md-4">
+									<ImageZoom url={`${baseURLF}${generales[0].Id_Inspeccion}/${foto.Path_Imagen}`} width={'600'} height={'450'}/>
+								</div>
+							))
+						}
+					</div>
+				
+				
+					
+			</div>
+
+			</div>
+
 			</div>
 		</div>
     </>
