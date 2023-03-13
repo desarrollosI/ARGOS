@@ -129,25 +129,3 @@ export const CardReconocimientoFacial = ({ parecido }) => {
 
  
 };
-/*
-return (
-  <div className="card mt-2 ms-2 animate__animated animate__fadeIn" style={{ width: "20rem" }}>
-     <Zoom>
-      <img
-        className="card-img-top mt-2"
-        src={url}
-        alt="Card image cap"
-      />
-     </Zoom>
-    <div className="card-body">
-      <div className="row">
-        <p className="card-text">{parecido._label}, Porcentaje: {100-(parecido.distance*100)} %</p>
-      </div>
-      <div className="row">
-        <Link to={`/remision/${remision}`} target="_blank">
-          Ver mas...
-        </Link>
-      </div>
-    </div>
-  </div>
-);*/
