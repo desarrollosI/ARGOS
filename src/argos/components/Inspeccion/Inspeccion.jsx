@@ -131,10 +131,14 @@ export const Inspeccion = ({data}) => {
 
 				<div className="row collapse" id={`insp-${generales[0].Id_Inspeccion}`}>
 					<div className="row mb-4">
+						{/* {
+							fotos.map(foto => console.log('AQUI: ',`${baseURLF}${generales[0].Id_Inspeccion}/${foto.Path_Imagen}`))
+						} */}
 						{
 							fotos.map(foto => (
-								<div className="col-md-4">
-									<ImageZoom url={`${baseURLF}${generales[0].Id_Inspeccion}/${foto.Path_Imagen.replaceAll(' ', '%20')}`} width={'580'} height={'450'}/>
+								
+								<div className="col-md-4" key={foto.Path_Imagen}>
+									<ImageZoom  url={`${baseURLF}${generales[0].Id_Inspeccion}/${foto.Path_Imagen}`} width={'580'} height={'450'}/>
 								</div>
 							))
 						}

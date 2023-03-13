@@ -56,7 +56,6 @@ export const ImageZoom = ({url,width=0,height=0,ml=0}) => {
   
     useEffect(() => {
       const imgContainerSelector = imgContainerRef.current.querySelector(".watermarked");
-  
       if (watermark) {
         imgContainerSelector.dataset.watermark = (
           imgContainerSelector.dataset.watermark + "   "
@@ -72,7 +71,7 @@ export const ImageZoom = ({url,width=0,height=0,ml=0}) => {
     return (
         <>
             <ControlledZoom isZoomed={isZoomed} onZoomChange={handleZoomChange} ZoomContent={CustomZoomContent}>
-                <div ref={imgContainerRef}>
+                <div ref={imgContainerRef} id={url}>
                         <div
                         className="watermarked" data-watermark="A.R.G.O.S."
                         aria-label="hongo"

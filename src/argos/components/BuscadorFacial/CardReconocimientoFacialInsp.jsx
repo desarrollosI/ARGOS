@@ -13,13 +13,14 @@ import 'animate.css';
 let guardar
 const separarFichaInspeccion = ({ _label }) => {
     let newLabel = _label.split(" ");
-    //console.log(newLabel);
+    console.log(newLabel);
     guardar = newLabel[1]
-    guardar = guardar.replace(' ', '%20')
     newLabel.shift()
     newLabel.shift()
+    
     let file = newLabel.join(' ');
-    file = file.replaceAll(' ', '%20')
+    console.log('FILE: ', file);
+    file = file.replaceAll(' ','%20')
     let url =
         "http://172.18.0.25/sarai/public/files/inspecciones/images/" +
         guardar+
@@ -64,10 +65,8 @@ const CustomZoomContent = ({buttonUnzoom,modalState,img}) => {
 }
 
 export const CardReconocimientoFacialInsp = ({ parecido }) => {
-  //console.log(parecido)
 
   const {url,inspeccion} = separarFichaInspeccion(parecido);
-  console.log('URL: ', url)
   const imgContainerRef = useRef(null);
   const [watermark, setWatermark] = useState("watermarked");
 
@@ -93,7 +92,7 @@ export const CardReconocimientoFacialInsp = ({ parecido }) => {
 
   return (
 
-        <ControlledZoom isZoomed={isZoomed} onZoomChange={handleZoomChange} ZoomContent={CustomZoomContent}>
+        <ControlledZoom isZoomed={isZoomed} onZoomChange={handleZoomChange} ZoomContent={CustomZoomContent} key={url}>
               <div className="card" style={{width: '25rem'}} ref={imgContainerRef}>
                       <div
                       className="watermarked" data-watermark="A.R.G.O.S."
