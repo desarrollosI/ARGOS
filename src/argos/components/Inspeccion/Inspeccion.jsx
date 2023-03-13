@@ -134,7 +134,7 @@ export const Inspeccion = ({data}) => {
 						{
 							fotos.map(foto => (
 								<div className="col-md-4">
-									<ImageZoom url={`${baseURLF}${generales[0].Id_Inspeccion}/${foto.Path_Imagen}`} width={'600'} height={'450'}/>
+									<ImageZoom url={`${baseURLF}${generales[0].Id_Inspeccion}/${foto.Path_Imagen.replaceAll(' ', '%20')}`} width={'580'} height={'450'}/>
 								</div>
 							))
 						}
