@@ -4,3 +4,4 @@ export * from './ReconocimientoPage';
 export * from './GeoanalisisPage';
 export * from './RemisionPage';
 export * from './InspeccionPage';
+export * from './HistoricoPage';

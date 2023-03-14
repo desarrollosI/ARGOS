@@ -22,12 +22,13 @@ export const BuscadorFacial = () => {
     const [Message, setMessage] = useState(['Paciencia se esta cargando tu imagen','warning']);
 
     /*se lanza el hook use Fetch para obtener toda la data necesaria*/
-    let RemisionesData,InspeccionesData;
+    let RemisionesData,InspeccionesData,HistoricosData;
     const { data, isLoading, hasError } = useFetch('http://172.18.10.71:9090/api/base/facialRecognition',`POST`);
     if(isLoading === false){
-      const {Remisiones,Inspecciones} = data.data;
+      const {Remisiones,Inspecciones,Historicos} = data.data;
       RemisionesData = Remisiones
       InspeccionesData =Inspecciones
+      HistoricosData = Historicos
     }
  
     // Esta funcion maneja el input de la imagen, la muestra y le detecta la cara 
@@ -103,7 +104,8 @@ export const BuscadorFacial = () => {
             <div className="row">
                 <div className="col-md-5 shadow vh100 me-2">
                     <div className="row indicador mt-5">
-                        <p>Se cuenta con: {RemisionesData.length}  registros de Remisiones y con: {InspeccionesData.length} de Inspecciones</p>
+                        <p>Se cuenta con: {RemisionesData.length}  registros de Remisiones, con: {InspeccionesData.length} de Inspecciones 
+                        y con {HistoricosData.length} de Historicos</p>
                     </div>
                     {
                     IsLoadingFace ? <></> :

@@ -29,3 +29,17 @@
             })
         )
     }
+
+    export const loadLabeledImagesHistoricos = async (HistoricosData) => {
+        return Promise.all(
+            HistoricosData.map(async res => {
+                const descriptions = []
+                // una imagen de muestra
+                var arrayDesc = res.descriptor.split('_');
+                arrayDesc.pop();
+                descriptions.push(Float32Array.from(arrayDesc)) // guardo los descriptores en un arreglo, puede ser distinto ya con bd
+                // revisar que imprime , regresa el nombre y los datos faciales
+                return new faceapi.LabeledFaceDescriptors(`Historico: ${res.Folio} ${res.src}`, descriptions) 
+            })
+        )
+    }
