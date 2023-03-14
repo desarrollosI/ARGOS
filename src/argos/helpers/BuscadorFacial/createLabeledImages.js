@@ -31,6 +31,7 @@
     }
 
     export const loadLabeledImagesHistoricos = async (HistoricosData) => {
+        console.log(HistoricosData)
         return Promise.all(
             HistoricosData.map(async res => {
                 const descriptions = []

@@ -15,6 +15,7 @@ export const BuscadorFacial = () => {
 
     const [ParecidosRemisiones, setParecidos] = useState([]);
     const [ParecidosInspecciones, setParecidosInspecciones] = useState([]);
+    const [ParecidosHistoricos, setParecidosHistoricos] = useState([]);
     const [CaraSubida, setCaraSubida] = useState([]);
     const [files, setFiles] = useState([]);
     const [images, setImages] = useState([import.meta.env.VITE_PUBLIC_ROUTE+'silueta.jpg']);
@@ -89,9 +90,10 @@ export const BuscadorFacial = () => {
 
     //Esta funcion busca las caras parecidas de entre el banco de datos
     const buscarParecidos = async (e) =>{
-        const {arrayUniqueByKeyRemisiones, arrayUniqueByKeyInspecciones} = await findBestMatches(CaraSubida,RemisionesData,InspeccionesData)
+        const {arrayUniqueByKeyRemisiones, arrayUniqueByKeyInspecciones, arrayUniqueByKeyHistoricos} = await findBestMatches(CaraSubida,RemisionesData,InspeccionesData, HistoricosData)
         setParecidos(arrayUniqueByKeyRemisiones)
         setParecidosInspecciones(arrayUniqueByKeyInspecciones)
+        setParecidosHistoricos(arrayUniqueByKeyHistoricos)
         //console.log('ya con resultados: ',arrayUniqueByKey);
     }
       
@@ -142,6 +144,7 @@ export const BuscadorFacial = () => {
                 <div className="col-md-6 shadow">
                     { (ParecidosRemisiones.length !=0) && <ResultadosReconocimiento parecidos={ParecidosRemisiones} lugar={'remisiones'}/>}
                     { (ParecidosInspecciones.length !=0) && <ResultadosReconocimiento parecidos={ParecidosInspecciones} lugar={'inspecciones'}/> }
+                    { (ParecidosHistoricos.length !=0) && <ResultadosReconocimiento parecidos={ParecidosHistoricos} lugar={'historicos'}/> }
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@ import * as faceapi from 'face-api.js';
 import { element } from 'prop-types';
 import { loadLabeledImagesInspecciones, loadLabeledImagesRemisiones, loadLabeledImagesHistoricos } from "./createLabeledImages";
 
-export const findBestMatches = async(CaraSubida,RemisionesData,InspeccionesData) => {
+export const findBestMatches = async(CaraSubida,RemisionesData,InspeccionesData,HistoricosData) => {
     let cincoDistancias = [];
         let distanciasInspecciones = [];
         let distanciasHistoricos = [];
@@ -46,6 +46,10 @@ export const findBestMatches = async(CaraSubida,RemisionesData,InspeccionesData)
         distanciasHistoricos.sort((a, b) => a.distance > b.distance ? 1 : -1)
         distanciasHistoricos = distanciasHistoricos.slice(0,10)
 
+         const arrayUniqueByKeyHistoricos = [...new Map(distanciasHistoricos.map(item =>
+          [item[key], item])).values()];
+
         //seteo de resultados
+        
         return {arrayUniqueByKeyRemisiones,arrayUniqueByKeyInspecciones,arrayUniqueByKeyHistoricos}
 }
