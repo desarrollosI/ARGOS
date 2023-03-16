@@ -28,6 +28,9 @@ export const BuscadorPage = () => {
         <div className="row">
           <SelectBaseComponent base={'SARAI REMISIONES'} /> 
         </div>
+        <div className="row">
+          <SelectBaseComponent base={'SARAI INSPECCIONES'} /> 
+        </div>
       </div>
     </>
   );

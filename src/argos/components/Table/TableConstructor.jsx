@@ -468,6 +468,54 @@ export const TableConstructor = ({lugar, datos}) => {
         return (
           <Table columns={columns} data={data} />
         )
+
+      case 'Inspecciones: Datos Generales':
+        columns = React.useMemo(
+          () => [
+                {
+                  Header:'FECHA',
+                  accessor:'Fecha_Hora_Inspeccion',
+                  Filter: DateRangeColumnFilter,
+                  filter: dateBetweenFilterFn
+                },
+                {
+                  Header:'ID INSPECCIÓN',
+                  accessor:'Id_Inspeccion',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'SOLICITA',
+                  accessor:'Quien_Solicita',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'ZONA',
+                  accessor:'Zona_Sector',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'UNIDAD',
+                  accessor:'Unidad',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'MOTIVO',
+                  accessor:'Motivo_Inspeccion',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                }
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos.Inspeccion.generales
+        , [])
+        
+        
+        return (
+          <Table columns={columns} data={data} />
+        )
     
       default:
         break;
