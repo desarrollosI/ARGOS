@@ -1,10 +1,11 @@
 import React from "react";
 import { BuscadorInformacion } from "../components/BuscadorInformacion";
+import { SelectBaseComponent } from "../components/Table/SelectBaseComponent";
 
 export const BuscadorPage = () => {
   return (
     <>
-      <div className="container">
+      <div className="container-fluid">
         <div className="row">
           <div className="col">
             <h1 className="titulo">
@@ -25,7 +26,7 @@ export const BuscadorPage = () => {
           <hr />
         </div>
         <div className="row">
-          <BuscadorInformacion/>
+          <SelectBaseComponent base={'SARAI REMISIONES'} /> 
         </div>
       </div>
     </>

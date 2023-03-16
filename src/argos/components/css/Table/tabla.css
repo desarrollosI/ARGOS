@@ -1,0 +1,70 @@
+:root {
+    --nav-color: #0D2758;
+    --active_color: #0D2758;
+    --primary_opacity: rgba(245, 45, 134, 0.25);
+    --primary_opacity2: rgba(245, 45, 134, 0.8);
+    /* Colores importantes de la aplicación */
+    --bg_body: #fafafa;
+    --button-color: #7094B0;
+    --h-color: rgb(245, 45, 134);
+    --icon-color: #31a2d3;
+    --table-color: #0D2758;
+    --span-rem: #31a2d3;
+    --hover-color: #ede7f6
+  }
+
+.outer-wrapper {
+    margin: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+    max-width: fit-content;
+    max-height: fit-content;
+}
+.table-wrapper {
+
+    overflow-x: scroll;
+    height: fit-content;
+    /* margin: 15px;
+    margin-top: 22px; */
+    /* //padding-bottom: 5px; */
+    
+}
+
+table>thead>tr>th{
+
+    min-width: 130px !important;
+    background-color: var(--icon-color) !important;
+    color: #fff;
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.btn-export-csv{
+    background-color: #17530b !important;
+    color: #fff;
+    font-weight: 700;
+    font-size: large;
+    font-size: 1.3rem;
+    border-radius: 3px;
+}
+.btn-export-csv:hover{
+    color: #ffffffc2;
+}
+.btn-export-csv > svg{
+    margin-right: 10px;
+}
+
+.btn-pagination{
+    background-color: var(--h-color) !important;
+    color: #fff;
+    font-weight: 700;
+    font-size: large;
+    font-size: 1.3rem;
+    border-radius: 3px;
+}
+.btn-pagination:hover{
+    color: #ffffffc2;
+}
+.btn-pagination:disabled{
+    border: none !important;
+}
