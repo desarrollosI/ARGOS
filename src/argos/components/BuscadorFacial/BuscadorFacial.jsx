@@ -3,13 +3,28 @@ import React, {useState, useEffect, useRef, useMemo} from 'react';
 //bibliotecas de terceros necesarias
 import * as faceapi from 'face-api.js';
 //componentes personalizados necesarios
-import { LoadingFace, LoadingSpinner, ResultadosReconocimiento } from '../../components';
+import { LoadingFace, LoadingSpinner, MyLoader, ResultadosReconocimiento } from '../../components';
 //helpers necesarios
 import {findBestMatches} from '../../helpers'
 //hooks personalizados
 import {useFetch} from '../../../hooks/useFetch'
 //archivos css
 import '../css/BuscadorFacial/BuscadorFacial.css';
+
+
+const buscarCoincidenciasEnBase = async (caraInput) => {
+  console.log('CARA INPUT', caraInput[0][0]);
+  const resp = await fetch('http://172.18.10.71:9090/api/base/buscar-coincidencia',{
+  method: 'POST',
+  body: JSON.stringify({descriptorInput: caraInput}),
+  headers: { 'Content-Type': 'application/json' }
+ });
+ let data = await resp.json()
+ return data.data
+
+}
+
+
 
 export const BuscadorFacial = () => {
 
@@ -20,17 +35,8 @@ export const BuscadorFacial = () => {
     const [files, setFiles] = useState([]);
     const [images, setImages] = useState([import.meta.env.VITE_PUBLIC_ROUTE+'silueta.jpg']);
     const [IsLoadingFace, setIsLoadingFace] = useState(false);
+    const [isLoadingResults, setIsLoadingResults] = useState(false);
     const [Message, setMessage] = useState(['Paciencia se esta cargando tu imagen','warning']);
-
-    /*se lanza el hook use Fetch para obtener toda la data necesaria*/
-    let RemisionesData,InspeccionesData,HistoricosData;
-    const { data, isLoading, hasError } = useFetch('http://172.18.10.71:9090/api/base/facialRecognition',`POST`);
-    if(isLoading === false){
-      const {Remisiones,Inspecciones,Historicos} = data.data;
-      RemisionesData = Remisiones
-      InspeccionesData =Inspecciones
-      HistoricosData = Historicos
-    }
  
     // Esta funcion maneja el input de la imagen, la muestra y le detecta la cara 
       const handleImageChange = async (e) => {
@@ -79,6 +85,15 @@ export const BuscadorFacial = () => {
               faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
               setMessage(['Cara localizada y mapeada','success'])
               setCaraSubida([resizedDetections]);
+              // console.log('CARA SUBIDA STATE: ', CaraSubida[0][0].descriptor )
+              setIsLoadingResults(true)
+              let mejoresResultados =  await buscarCoincidenciasEnBase([resizedDetections])
+              const {Remisiones,Inspecciones,Historicos} = mejoresResultados;
+              setParecidos(Remisiones)
+              setParecidosInspecciones(Inspecciones)
+              setParecidosHistoricos(Historicos)
+              console.log('extraido:',{Remisiones,Inspecciones,Historicos})
+              setIsLoadingResults(false)
               setIsLoadingFace(false);
           }else{
             setMessage(['No se puede detectar un rostro en la fotografía','info'])
@@ -86,39 +101,18 @@ export const BuscadorFacial = () => {
         });
       };
 
-
-
-    //Esta funcion busca las caras parecidas de entre el banco de datos
-    const buscarParecidos = async (e) =>{
-        const {arrayUniqueByKeyRemisiones, arrayUniqueByKeyInspecciones, arrayUniqueByKeyHistoricos} = await findBestMatches(CaraSubida,RemisionesData,InspeccionesData, HistoricosData)
-        setParecidos(arrayUniqueByKeyRemisiones)
-        setParecidosInspecciones(arrayUniqueByKeyInspecciones)
-        setParecidosHistoricos(arrayUniqueByKeyHistoricos)
-        //console.log('ya con resultados: ',arrayUniqueByKey);
-    }
-      
-
   return (
     
     <>
-    {isLoading ? <LoadingSpinner /> : 
+   
         <div className="container-fluid">
             <div className="row">
                 <div className="col-md-5 shadow vh100 me-2">
                     <div className="row indicador mt-5">
-                        <p>Se cuenta con: {RemisionesData.length}  registros de Remisiones, con: {InspeccionesData.length} de Inspecciones 
-                        y con {HistoricosData.length} de Historicos</p>
+                        {/* <p>Se cuenta con: {RemisionesData.length}  registros de Remisiones, con: {InspeccionesData.length} de Inspecciones 
+                       </p> */}
+                       {/*  y con {HistoricosData.length} de Historicos */}
                     </div>
-                    {
-                    IsLoadingFace ? <></> :
-                    <div className="row mt-2">
-                        <div className="col-md-12">
-                            <button className='btn btn-success btn-lg float-end' onClick={buscarParecidos}> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-binoculars-fill" viewBox="0 0 16 16">
-                            <path d="M4.5 1A1.5 1.5 0 0 0 3 2.5V3h4v-.5A1.5 1.5 0 0 0 5.5 1h-1zM7 4v1h2V4h4v.882a.5.5 0 0 0 .276.447l.895.447A1.5 1.5 0 0 1 15 7.118V13H9v-1.5a.5.5 0 0 1 .146-.354l.854-.853V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v.793l.854.853A.5.5 0 0 1 7 11.5V13H1V7.118a1.5 1.5 0 0 1 .83-1.342l.894-.447A.5.5 0 0 0 3 4.882V4h4zM1 14v.5A1.5 1.5 0 0 0 2.5 16h3A1.5 1.5 0 0 0 7 14.5V14H1zm8 0v.5a1.5 1.5 0 0 0 1.5 1.5h3a1.5 1.5 0 0 0 1.5-1.5V14H9zm4-11H9v-.5A1.5 1.5 0 0 1 10.5 1h1A1.5 1.5 0 0 1 13 2.5V3z"/>
-                            </svg>  Buscar</button>
-                        </div>
-                    </div>
-                    }       
                     <div className="row mt-2">
                         <div className="col-md-10 d-flex justify-content-center">
                             <div className="form-group mt-4">
@@ -142,13 +136,23 @@ export const BuscadorFacial = () => {
                 </div>
     
                 <div className="col-md-6 shadow">
-                    { (ParecidosRemisiones.length !=0) && <ResultadosReconocimiento parecidos={ParecidosRemisiones} lugar={'remisiones'}/>}
-                    { (ParecidosInspecciones.length !=0) && <ResultadosReconocimiento parecidos={ParecidosInspecciones} lugar={'inspecciones'}/> }
-                    { (ParecidosHistoricos.length !=0) && <ResultadosReconocimiento parecidos={ParecidosHistoricos} lugar={'historicos'}/> }
+                  {
+                     (isLoadingResults) 
+                      ? <><MyLoader/><MyLoader/><MyLoader/><MyLoader/><MyLoader/><MyLoader/><MyLoader/><MyLoader/></>
+                      : <>
+
+                        {ParecidosRemisiones.length>0 &&  <ResultadosReconocimiento parecidos={ParecidosRemisiones} lugar={'remisiones'}/> }
+                        {ParecidosInspecciones.length>0 && <ResultadosReconocimiento parecidos={ParecidosInspecciones} lugar={'inspecciones'}/> }
+                        {ParecidosHistoricos.length>0  && <ResultadosReconocimiento parecidos={ParecidosHistoricos} lugar={'historicos'}/>}
+                        
+                        </>
+      
+                  }
+                   
                 </div>
             </div>
         </div>
-    }
+    
     </>
   )
 }

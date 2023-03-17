@@ -13,13 +13,13 @@ import 'animate.css';
 let guardar
 const separarFichaInspeccion = ({ _label }) => {
     let newLabel = _label.split(" ");
-    console.log(newLabel);
+    //console.log(newLabel);
     guardar = newLabel[1]
     newLabel.shift()
     newLabel.shift()
     
     let file = newLabel.join(' ');
-    console.log('FILE: ', file);
+    //console.log('FILE: ', file);
     file = file.replaceAll(' ','%20')
     let url =
         "http://172.18.0.25/sarai/public/files/inspecciones/images/" +

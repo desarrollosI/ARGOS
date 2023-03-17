@@ -1,6 +1,7 @@
 import * as faceapi from 'face-api.js';
-import { element } from 'prop-types';
-import { loadLabeledImagesInspecciones, loadLabeledImagesRemisiones, loadLabeledImagesHistoricos } from "./createLabeledImages";
+
+//loadLabeledImagesHistoricos
+import { loadLabeledImagesInspecciones, loadLabeledImagesRemisiones } from "./createLabeledImages";
 
 export const findBestMatches = async(CaraSubida,RemisionesData,InspeccionesData,HistoricosData) => {
     let cincoDistancias = [];
@@ -8,7 +9,7 @@ export const findBestMatches = async(CaraSubida,RemisionesData,InspeccionesData,
         let distanciasHistoricos = [];
         const labeledFaceDescriptors = await loadLabeledImagesRemisiones(RemisionesData)
         const labeledFaceDescriptorsInspecciones = await loadLabeledImagesInspecciones(InspeccionesData)
-        const labeledFaceDescriptorsHistoricos = await loadLabeledImagesHistoricos(HistoricosData)
+        //const labeledFaceDescriptorsHistoricos = await loadLabeledImagesHistoricos(HistoricosData)
         // estas son de remisiones
         console.log('COPIAR: ',CaraSubida[0][0].descriptor)
         labeledFaceDescriptors.forEach( element =>{
@@ -38,18 +39,18 @@ export const findBestMatches = async(CaraSubida,RemisionesData,InspeccionesData,
         
 
         //estas son las de historico
-        labeledFaceDescriptorsHistoricos.forEach( element => {
-          const distance = faceapi.euclideanDistance(element.descriptors[0], CaraSubida[0][0].descriptor) // 
-          element.distance = distance;
-          distanciasHistoricos.push(element);
-        })
-        distanciasHistoricos.sort((a, b) => a.distance > b.distance ? 1 : -1)
-        distanciasHistoricos = distanciasHistoricos.slice(0,10)
+        // labeledFaceDescriptorsHistoricos.forEach( element => {
+        //   const distance = faceapi.euclideanDistance(element.descriptors[0], CaraSubida[0][0].descriptor) // 
+        //   element.distance = distance;
+        //   distanciasHistoricos.push(element);
+        // })
+        // distanciasHistoricos.sort((a, b) => a.distance > b.distance ? 1 : -1)
+        // distanciasHistoricos = distanciasHistoricos.slice(0,10)
 
-         const arrayUniqueByKeyHistoricos = [...new Map(distanciasHistoricos.map(item =>
-          [item[key], item])).values()];
-
+        //  const arrayUniqueByKeyHistoricos = [...new Map(distanciasHistoricos.map(item =>
+        //   [item[key], item])).values()];
+          //,arrayUniqueByKeyHistoricos
         //seteo de resultados
         
-        return {arrayUniqueByKeyRemisiones,arrayUniqueByKeyInspecciones,arrayUniqueByKeyHistoricos}
+        return {arrayUniqueByKeyRemisiones,arrayUniqueByKeyInspecciones}
 }
