@@ -3,6 +3,7 @@
 import { useEffect, useState,useCallback } from 'react';
 //hooks
 import { useFetch } from '../../../hooks';
+import { TableLoader } from '../Shared';
 //import { TableConFiltro } from './TableConFiltro';
 import { TableConstructor } from './TableConstructor';
 //bliotecas y/o componentes de terceros
@@ -56,7 +57,15 @@ export const TableDecider = ({lugar}) => {
                         <div className="col-md-12">
         
                         {
-                            (!isLoading) && <TableConstructor lugar={lugar} datos={data.data}/>
+                            (isLoading) 
+                                ? <>
+                                     {Array(10)
+                                        .fill("")
+                                        .map((e, i) => (
+                                            <TableLoader key={i} style={{ opacity: Number(2 / i).toFixed(1) }} />
+                                        ))}
+                                    </>
+                                : <TableConstructor lugar={lugar} datos={data.data}/>
                         }
                             
                         </div>
