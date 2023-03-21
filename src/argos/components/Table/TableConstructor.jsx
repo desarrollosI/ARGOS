@@ -895,7 +895,7 @@ export const TableConstructor = ({lugar, datos}) => {
           () => [
                 {
                   Header:'FECHA',
-                  accessor:'Fecha_Rem',
+                  accessor:'Fecha_Hora',
                   Filter: DateRangeColumnFilter,
                   filter: dateBetweenFilterFn
                 },
@@ -903,6 +903,63 @@ export const TableConstructor = ({lugar, datos}) => {
                   Header:'FOLIO',
                   accessor:'Folio',
                   Cell: props =>  <Link to={`/historico/${props.value}`} target="_blank">{props.value}</Link>,
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NOMBRE D',
+                  accessor:'Nombre_de',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP PATERNO D',
+                  accessor:'Ap_paterno_de',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP MATERNO D',
+                  accessor:'Ap_materno_de',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'GÉNERO D',
+                  accessor:'Sexo_d',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'EDAD DE: ',
+                  accessor: 'Edad_d',
+                  Filter: NumberRangeColumnFilter,
+                  filter: 'between',
+                },
+                {
+                  Header:'DOMICILIO D',
+                  accessor:'Dom_d',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NO. D',
+                  accessor:'No_d',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'COLONIA D',
+                  accessor:'Col_d',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'LUGAR ORIGEN D',
+                  accessor:'Lugar_Origen_d',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'ESCOLARIDAD D',
+                  accessor:'Escolaridad_d',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'PERTENENCIAS D',
+                  accessor:'Pertenencias_d',
                   filter: 'fuzzyText',
                 },
           ],[]
