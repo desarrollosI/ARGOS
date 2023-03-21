@@ -4,6 +4,7 @@ import { Table } from './Table';
 
 import "babel-polyfill";
 import { GlobalFilter, DefaultColumnFilter, SelectColumnFilter, SliderColumnFilter, NumberRangeColumnFilter, fuzzyTextFilterFn,DateRangeColumnFilter, dateBetweenFilterFn } from '../../helpers'
+import { Link } from 'react-router-dom';
 
     // Define a custom filter filter function!
   function filterGreaterThan(rows, id, filterValue) {
@@ -42,6 +43,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'NUM. REMISIÓN',
                   accessor:'No_Remision',
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -139,7 +141,12 @@ export const TableConstructor = ({lugar, datos}) => {
       case 'Detenido: Media Filiacion':
           columns = React.useMemo(
             () => [
-    
+                  {
+                    Header:'FECHA',
+                    accessor:'Fecha_Hora',
+                    Filter: DateRangeColumnFilter,
+                    filter: dateBetweenFilterFn
+                  },
                   {
                     Header:'FICHA',
                     accessor:'Ficha',
@@ -148,6 +155,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   {
                     Header:'NUM. REMISIÓN',
                     accessor:'No_Remision',
+                    Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
                     filter: 'fuzzyText',
                   },
                   {
@@ -354,7 +362,7 @@ export const TableConstructor = ({lugar, datos}) => {
           
           return (
             <Table columns={columns} data={data} />
-          )
+        )
       
       case 'Detenido: Contactos':
         columns = React.useMemo(
@@ -373,6 +381,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'NUM. REMISIÓN',
                   accessor:'No_Remision',
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -465,6 +474,107 @@ export const TableConstructor = ({lugar, datos}) => {
         , [])
         
         
+        return (
+          <Table columns={columns} data={data} />
+        )
+
+      case 'Detenido: Senas Particulares':
+        console.log('llego al table constructor')
+        columns = React.useMemo(
+          () => [
+                {
+                  Header:'FECHA',
+                  accessor:'Fecha_Hora',
+                  Filter: DateRangeColumnFilter,
+                  filter: dateBetweenFilterFn
+                },
+                {
+                  Header:'FICHA',
+                  accessor:'Ficha',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NUM. REMISIÓN',
+                  accessor:'No_Remision',
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'STATUS REMISIÓN',
+                  accessor:'Status_Remision',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'NOMBRE DETENIDO',
+                  accessor:'Nombre',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP PATERNO DETENIDO',
+                  accessor:'Ap_Paterno',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP MATERNO DETENIDO',
+                  accessor:'Ap_Materno',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'GÉNERO DETENIDO',
+                  accessor:'Genero',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'EDAD DETENIDO DE: ',
+                  accessor: 'Edad',
+                  Filter: NumberRangeColumnFilter,
+                  filter: 'between',
+                },
+                {
+                  Header:'TIPO DE SEÑA',
+                  accessor:'Tipo_Senia_Particular',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'PERFIL',
+                  accessor:'Perfil',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'UBICACION CORPORAL',
+                  accessor:'Ubicacion_Corporal',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'CLASIFICACION',
+                  accessor:'Clasificacion',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'COLOR',
+                  accessor:'Color',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'DESCRIPCIÓN',
+                  accessor:'Descripcion',
+                  filter: 'fuzzyText',
+                },
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos.Remisiones
+        , [])
+        
+        console.log('ANTES DE LA CREACION DE LA TABLA',data)
         return (
           <Table columns={columns} data={data} />
         )

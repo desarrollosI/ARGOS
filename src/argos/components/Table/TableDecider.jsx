@@ -27,6 +27,10 @@ export const TableDecider = ({lugar}) => {
             url = `http://172.18.10.71:9090/api/base/detenido-contactos`;
 
             break;
+        case 'Detenido: Senas Particulares':
+            url = `http://172.18.10.71:9090/api/base/detenido-senas`;
+            console.log('llego a la gen del url')
+            break;
 
         case 'Inspecciones: Datos Generales':
             url = `http://172.18.10.71:9090/api/base/inspecciones`;

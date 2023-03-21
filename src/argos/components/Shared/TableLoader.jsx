@@ -8,8 +8,8 @@ export const TableLoader = props => {
         height={40}
         width={1800}
         speed={2}
-        primaryColor="#d9d9d9"
-        secondaryColor="#ecebeb"
+        primarycolor="#d9d9d9"
+        secondarycolor="#ecebeb"
         {...props}
       >
         <rect x="30" y="15" rx="4" ry="4" width="6" height="6.4" />

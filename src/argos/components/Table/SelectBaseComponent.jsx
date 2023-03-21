@@ -29,6 +29,7 @@ export const SelectBaseComponent = ({base}) => {
                                 <option value="Detenido: Datos Personales">DETENIDO: DATOS PERSONALES</option>
                                 <option value="Detenido: Media Filiacion">DETENIDO: MEDIA FILIACION</option>
                                 <option value="Detenido: Contactos">DETENIDO: CONTACTOS</option>
+                                <option value="Detenido: Senas Particulares">DETENIDO: SEÑAS PARTICULARES</option>
                             </select>
                         </div>
                     </div>
