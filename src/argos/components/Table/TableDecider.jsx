@@ -48,6 +48,11 @@ export const TableDecider = ({lugar}) => {
             url = `http://172.18.10.71:9090/api/base/inspecciones`;
 
             break;
+        //casos de historico
+        case 'Historico: Datos Generales':
+            url = `http://172.18.10.71:9090/api/base/all-historico`;
+
+            break;
         default:
             break;
 

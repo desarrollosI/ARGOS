@@ -31,6 +31,9 @@ export const BuscadorPage = () => {
         <div className="row">
           <SelectBaseComponent base={'SARAI INSPECCIONES'} /> 
         </div>
+        <div className="row">
+          <SelectBaseComponent base={'SARAI HISTORICO'} /> 
+        </div>
       </div>
     </>
   );

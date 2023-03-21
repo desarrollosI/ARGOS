@@ -889,6 +889,33 @@ export const TableConstructor = ({lugar, datos}) => {
           <Table columns={columns} data={data} />
         )
 
+      //opciones de historico
+      case 'Historico: Datos Generales':
+        columns = React.useMemo(
+          () => [
+                {
+                  Header:'FECHA',
+                  accessor:'Fecha_Rem',
+                  Filter: DateRangeColumnFilter,
+                  filter: dateBetweenFilterFn
+                },
+                {
+                  Header:'FOLIO',
+                  accessor:'Folio',
+                  Cell: props =>  <Link to={`/historico/${props.value}`} target="_blank">{props.value}</Link>,
+                  filter: 'fuzzyText',
+                },
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos.Historico
+        , [])
+        
+        
+        return (
+          <Table columns={columns} data={data} />
+        )
       default:
         break;
     }
