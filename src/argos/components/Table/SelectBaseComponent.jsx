@@ -58,6 +58,9 @@ export const SelectBaseComponent = ({base}) => {
                             >
                                 <option value=" ">SELECCIONE UNA OPCIÓN</option>
                                 <option value="Inspecciones: Datos Generales">INSPECCIONES: DATOS GENERALES</option>
+                                <option value="Inspecciones: Personas Inspeccionadas">INSPECCIONES: PERSONAS INSPECCIONADAS</option>
+                                <option value="Inspecciones: Vehiculos Inspeccionados">INSPECCIONES: VEHICULOS INSPECCIONADOS</option>
+                                <option value="Inspecciones: Ubicaciones">INSPECCIONES: UBICACIONES</option>
                             </select>
                         </div>
                     </div>

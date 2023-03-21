@@ -235,7 +235,7 @@ export function fuzzyTextFilterFn(rows, id, filterValue) {
         min = rowDate <= min ? rowDate : min;
         max = rowDate >= max ? rowDate : max;
       });
-      console.log({min,max})
+      //console.log({min,max})
       return [min, max];
     }, [id, preFilteredRows]);
   

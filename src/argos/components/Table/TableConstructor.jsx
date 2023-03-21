@@ -578,7 +578,7 @@ export const TableConstructor = ({lugar, datos}) => {
         return (
           <Table columns={columns} data={data} />
         )
-
+      //opciones de inspecciones
       case 'Inspecciones: Datos Generales':
         columns = React.useMemo(
           () => [
@@ -591,12 +591,19 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'ID INSPECCIÓN',
                   accessor:'Id_Inspeccion',
+                  Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank">{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
                   Header:'SOLICITA',
                   accessor:'Quien_Solicita',
                   filter: 'fuzzyText',
+                },
+                {
+                  Header:'GRUPO',
+                  accessor:'Grupo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
                 },
                 {
                   Header:'ZONA',
@@ -614,6 +621,11 @@ export const TableConstructor = ({lugar, datos}) => {
                   accessor:'Motivo_Inspeccion',
                   Filter: SelectColumnFilter,
                   filter: 'equals',
+                },
+                {
+                  Header:'RESULTADO INSPECCIÓN',
+                  accessor:'Resultado_Inspeccion',
+                  filter: 'fuzzyText',
                 }
           ],[]
         )
@@ -626,7 +638,257 @@ export const TableConstructor = ({lugar, datos}) => {
         return (
           <Table columns={columns} data={data} />
         )
-    
+
+      case 'Inspecciones: Personas Inspeccionadas':
+        columns = React.useMemo(
+          () => [
+                {
+                  Header:'FECHA',
+                  accessor:'Fecha_Hora_Inspeccion',
+                  Filter: DateRangeColumnFilter,
+                  filter: dateBetweenFilterFn
+                },
+                {
+                  Header:'ID INSPECCIÓN',
+                  accessor:'Id_Inspeccion',
+                  Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank">{props.value}</Link>,
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'SOLICITA',
+                  accessor:'Quien_Solicita',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'GRUPO',
+                  accessor:'Grupo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'ZONA',
+                  accessor:'Zona_Sector',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'UNIDAD',
+                  accessor:'Unidad',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'MOTIVO',
+                  accessor:'Motivo_Inspeccion',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'RESULTADO INSPECCIÓN',
+                  accessor:'Resultado_Inspeccion',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NOMBRE',
+                  accessor:'Nombre',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'APELLIDO PATERNO',
+                  accessor:'Ap_Paterno',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'APELLIDO MATERNO',
+                  accessor:'Ap_Materno',
+                  filter: 'fuzzyText',
+                }
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos.Inspeccion.generales
+        , [])
+        
+        
+        return (
+          <Table columns={columns} data={data} />
+        )
+
+      case 'Inspecciones: Vehiculos Inspeccionados':
+        columns = React.useMemo(
+          () => [
+                {
+                  Header:'FECHA',
+                  accessor:'Fecha_Hora_Inspeccion',
+                  Filter: DateRangeColumnFilter,
+                  filter: dateBetweenFilterFn
+                },
+                {
+                  Header:'ID INSPECCIÓN',
+                  accessor:'Id_Inspeccion',
+                  Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank">{props.value}</Link>,
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'SOLICITA',
+                  accessor:'Quien_Solicita',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'GRUPO',
+                  accessor:'Grupo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'ZONA',
+                  accessor:'Zona_Sector',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'UNIDAD',
+                  accessor:'Unidad',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'MOTIVO',
+                  accessor:'Motivo_Inspeccion',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'RESULTADO INSPECCIÓN',
+                  accessor:'Resultado_Inspeccion',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NIV',
+                  accessor:'NIV',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'PLACA',
+                  accessor:'Placa',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'MARCA',
+                  accessor:'Marca',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'SUBMARCA',
+                  accessor:'Submarca',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'MODELO',
+                  accessor:'Modelo',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'COLOR',
+                  accessor:'Color',
+                  filter: 'fuzzyText',
+                }
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos.Inspeccion.generales
+        , [])
+        
+        
+        return (
+          <Table columns={columns} data={data} />
+        )
+      
+      case 'Inspecciones: Ubicaciones':
+        columns = React.useMemo(
+          () => [
+                {
+                  Header:'FECHA',
+                  accessor:'Fecha_Hora_Inspeccion',
+                  Filter: DateRangeColumnFilter,
+                  filter: dateBetweenFilterFn
+                },
+                {
+                  Header:'ID INSPECCIÓN',
+                  accessor:'Id_Inspeccion',
+                  Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank">{props.value}</Link>,
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'SOLICITA',
+                  accessor:'Quien_Solicita',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'GRUPO',
+                  accessor:'Grupo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'ZONA',
+                  accessor:'Zona_Sector',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'UNIDAD',
+                  accessor:'Unidad',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'MOTIVO',
+                  accessor:'Motivo_Inspeccion',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'CALLE 1',
+                  accessor:'Calle_1',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'CALLE 2',
+                  accessor:'Calle_2',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'COLONIA',
+                  accessor:'Colonia',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NO. EXT.',
+                  accessor:'No_Ext',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NO. INT.',
+                  accessor:'No_Int',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'RESULTADO INSPECCIÓN',
+                  accessor:'Resultado_Inspeccion',
+                  filter: 'fuzzyText',
+                }
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos.Inspeccion.generales
+        , [])
+        
+        
+        return (
+          <Table columns={columns} data={data} />
+        )
+
       default:
         break;
     }
