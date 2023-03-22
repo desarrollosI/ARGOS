@@ -32,7 +32,7 @@
 
 table>thead>tr>th{
 
-    min-width: 130px !important;
+    /* //min-width: 130px !important; */
     background-color: var(--icon-color) !important;
     color: #fff;
     font-weight: 500;
@@ -51,6 +51,21 @@ table>thead>tr>th{
     color: #ffffffc2;
 }
 .btn-export-csv > svg{
+    margin-right: 10px;
+}
+
+.btn-reset-filters{
+    background-color: #C42189 !important;
+    color: #fff;
+    font-weight: 700;
+    font-size: large;
+    font-size: 1.3rem;
+    border-radius: 3px;
+}
+.btn-reset-filters:hover{
+    color: #ffffffc2;
+}
+.btn-reset-filters > svg{
     margin-right: 10px;
 }
 

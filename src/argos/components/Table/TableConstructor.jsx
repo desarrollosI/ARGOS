@@ -33,7 +33,8 @@ export const TableConstructor = ({lugar, datos}) => {
                   Header:'FECHA',
                   accessor:'Fecha_Hora',
                   Filter: DateRangeColumnFilter,
-                  filter: dateBetweenFilterFn
+                  filter: dateBetweenFilterFn,
+                  
                 },
                 {
                   Header:'FICHA',
@@ -906,6 +907,30 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'fuzzyText',
                 },
                 {
+                  Header:'FALTA/DELITO',
+                  accessor:'Falta_Delito',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'SECTOR',
+                  accessor:'Zona',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'CIA',
+                  accessor:'CIA',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'REMITIDO A',
+                  accessor:'Remitido_a',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
                   Header:'NOMBRE D',
                   accessor:'Nombre_de',
                   filter: 'fuzzyText',
@@ -960,6 +985,104 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'PERTENENCIAS D',
                   accessor:'Pertenencias_d',
+                  filter: 'fuzzyText',
+                  width: 300
+                },
+                {
+                  Header:'NOMBRE P',
+                  accessor:'Nombre_P',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP PATERNO P',
+                  accessor:'Ap_paterno_P',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP MATERNO P',
+                  accessor:'Ap_Materno_P',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'GÉNERO P',
+                  accessor:'Sexo_P',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'EDAD P DE: ',
+                  accessor: 'Edad_P',
+                  Filter: NumberRangeColumnFilter,
+                  filter: 'between',
+                },
+                {
+                  Header:'DOMICILIO P',
+                  accessor:'Dom_P',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NO. P',
+                  accessor:'No_p',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'COLONIA P',
+                  accessor:'Col_P',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'LUGAR ORIGEN P',
+                  accessor:'Lugar_Origen_P',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'ESCOLARIDAD P',
+                  accessor:'Escolaridad_P',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'DOM HECHOS',
+                  accessor:'Dom_Hechos',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'CALLE 2 HECHOS',
+                  accessor:'Calle_2',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NO. HECHOS',
+                  accessor:'No_h',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'MOTIVO',
+                  accessor:'Tipo_Motivo',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'DESCRIPCION',
+                  accessor:'Descripcion',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'CANTIDAD MOTIVO',
+                  accessor:'Cantidad Motivo',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'CARACTERISTICAS',
+                  accessor:'Caracteristicas_Motivo',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'MODALIDAD',
+                  accessor:'Modalidad_Motivo',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'OBJETOS ADJUNTOS',
+                  accessor:'Obj_Adjuntan',
                   filter: 'fuzzyText',
                 },
           ],[]
