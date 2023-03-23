@@ -655,6 +655,92 @@ export const TableConstructor = ({lugar, datos}) => {
         return (
           <Table columns={columns} data={data} />
         )
+      case 'Remisiones: Armas Aseguradas':
+        columns = React.useMemo(
+          () => [
+                {
+                  Header:'FECHA',
+                  accessor:'Fecha_Hora',
+                  Filter: DateRangeColumnFilter,
+                  filter: dateBetweenFilterFn,
+                  
+                },
+                {
+                  Header:'FICHA',
+                  accessor:'Ficha',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NUM. REMISIÓN',
+                  accessor:'No_Remision',
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'STATUS REMISIÓN',
+                  accessor:'Status_Remision',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'FOLIO 911',
+                  accessor:'Folio_911',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NOMBRE',
+                  accessor:'Nombre',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP PATERNO',
+                  accessor:'Ap_Paterno',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP MATERNO',
+                  accessor:'Ap_Materno',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'GÉNERO',
+                  accessor:'Genero',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'EDAD DE: ',
+                  accessor: 'Edad',
+                  Filter: NumberRangeColumnFilter,
+                  filter: 'between',
+                },
+                {
+                  Header:'TIPO ARMA',
+                  accessor:'Tipo_Arma',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'CANTIDAD',
+                  accessor: 'Cantidad',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'DESCRIPCIÓN ARMA',
+                  accessor:'Descripcion_Arma',
+                  filter: 'fuzzyText',
+                },
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos.Remisiones
+        , [])
+        
+        
+        return (
+          <Table columns={columns} data={data} />
+        )
       //opciones de inspecciones
       case 'Inspecciones: Datos Generales':
         columns = React.useMemo(
