@@ -655,6 +655,7 @@ export const TableConstructor = ({lugar, datos}) => {
         return (
           <Table columns={columns} data={data} />
         )
+
       case 'Remisiones: Armas Aseguradas':
         columns = React.useMemo(
           () => [
@@ -741,6 +742,7 @@ export const TableConstructor = ({lugar, datos}) => {
         return (
           <Table columns={columns} data={data} />
         )
+        
       case 'Remisiones: Drogas Aseguradas':
         columns = React.useMemo(
           () => [
@@ -812,8 +814,135 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'fuzzyText',
                 },
                 {
+                  Header:'UNIDAD',
+                  accessor: 'Unidad',
+                  filter: 'fuzzyText',
+                },
+                {
                   Header:'DESCRIPCIÓN DROGA',
                   accessor:'Descripcion_Droga',
+                  filter: 'fuzzyText',
+                },
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos.Remisiones
+        , [])
+        
+        
+        return (
+          <Table columns={columns} data={data} />
+        )
+        
+      case 'Remisiones: Vehiculos Asegurados':
+        columns = React.useMemo(
+          () => [
+                {
+                  Header:'FECHA',
+                  accessor:'Fecha_Hora',
+                  Filter: DateRangeColumnFilter,
+                  filter: dateBetweenFilterFn,
+                  
+                },
+                {
+                  Header:'FICHA',
+                  accessor:'Ficha',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NUM. REMISIÓN',
+                  accessor:'No_Remision',
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'STATUS REMISIÓN',
+                  accessor:'Status_Remision',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'FOLIO 911',
+                  accessor:'Folio_911',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NOMBRE',
+                  accessor:'Nombre',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP PATERNO',
+                  accessor:'Ap_Paterno',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP MATERNO',
+                  accessor:'Ap_Materno',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'GÉNERO',
+                  accessor:'Genero',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'EDAD DE: ',
+                  accessor: 'Edad',
+                  Filter: NumberRangeColumnFilter,
+                  filter: 'between',
+                },
+                {
+                  Header:'PLACA',
+                  accessor:'Placa_Vehiculo',
+                  filter: 'equals',
+                },
+                {
+                  Header:'NIV',
+                  accessor:'No_Serie',
+                  filter: 'equals',
+                },
+                {
+                  Header:'MARCA',
+                  accessor: 'Marca',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'SUBMARCA',
+                  accessor:'Submarca',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'TIPO VEHICULO',
+                  accessor:'Tipo_Vehiculo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'MODELO',
+                  accessor:'Modelo',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'COLOR',
+                  accessor:'Color',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'SEÑA PARTICULAR',
+                  accessor:'Senia_Particular',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'PROCEDENCIA',
+                  accessor:'Procedencia_Vehiculo',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'OBSERVACION',
+                  accessor:'Observacion_Vehiculo',
                   filter: 'fuzzyText',
                 },
           ],[]
