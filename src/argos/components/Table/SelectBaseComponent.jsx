@@ -106,6 +106,34 @@ export const SelectBaseComponent = ({base}) => {
             </>
             
         )
+        case 'SARAI INCIDENCIA DELICTIVA':
+       
+        return (
+            <>
+                <div className="container-fluid">
+                    <div className="row mt-5 mb-5">
+                        <div className="col-md-12">
+                            <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
+                        </div>
+                        <div className="col-md-12">
+                            <select className="form-select" aria-label="Default select example"
+                                onChange={handleChange}
+                            >
+                                <option value=" ">SELECCIONE UNA OPCIÓN</option>
+                                <option value="Incidencia Delictiva: Datos Generales">INCIDENCIA DELICTIVA: DATOS GENERALES</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {
+                    ( baseSelect != " " ) 
+                        ? <TableDecider lugar={baseSelect}/>
+                        : <TableHolder />
+                }
+            </>
+            
+        )
     
         default:
             break;

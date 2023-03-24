@@ -1,0 +1,38 @@
+:root {
+    --nav-color: #0D2758;
+    --active_color: #0D2758;
+    --primary_opacity: rgba(245, 45, 134, 0.25);
+    --primary_opacity2: rgba(245, 45, 134, 0.8);
+    /* Colores importantes de la aplicación */
+    --bg_body: #fafafa;
+    --button-color: #7094B0;
+    --button-color2:rgb(86, 115, 138);
+    --h-color: rgb(245, 45, 134);
+    --icon-color: #2586AE;
+    --table-color: #0D2758;
+    --span-rem: #2586AE;
+    --hover-color: #ede7f6
+  }
+  
+/*establece el grueso de las barras width solo aplica a la vertical, height solo a la horizontal*/
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  
+  /*los estilos del cmaino o contenedor de barra de scroll*/
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+  /*mas detalles para el schollbar*/
+  ::-webkit-scrollbar-thumb {
+    background: var(--h-color); 
+    border-radius: 15px;
+  }
+  
+  /*Estilos para cuando se manipula el scrollbar*/
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--h-color) 
+  }

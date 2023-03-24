@@ -26,6 +26,7 @@ export const TableConstructor = ({lugar, datos}) => {
     let columns,data;
 
     switch (lugar) {
+      //opciones de remisiones
       case 'Detenido: Datos Personales':
         columns = React.useMemo(
           () => [
@@ -834,7 +835,7 @@ export const TableConstructor = ({lugar, datos}) => {
         return (
           <Table columns={columns} data={data} />
         )
-        
+
       case 'Remisiones: Vehiculos Asegurados':
         columns = React.useMemo(
           () => [
@@ -1467,6 +1468,180 @@ export const TableConstructor = ({lugar, datos}) => {
 
         data = React.useMemo(() =>
         datos.Historico
+        , [])
+        
+        
+        return (
+          <Table columns={columns} data={data} />
+        )
+      //incidencia delictiva
+      case 'Incidencia Delictiva: Datos Generales':
+        columns = React.useMemo(
+          () => [
+                {
+                  Header:'FECHA',
+                  accessor:'Fecha_Hora',
+                  Filter: DateRangeColumnFilter,
+                  filter: dateBetweenFilterFn
+                },
+                {
+                  Header:'FOLIO',
+                  accessor:'Folio',
+                  // Cell: props =>  <Link to={`/historico/${props.value}`} target="_blank">{props.value}</Link>,
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'DIA',
+                  accessor:'Dia',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'TIPO DE ROBO',
+                  accessor:'TipodeRobo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'GIRO',
+                  accessor:'Giro',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'CARACTERISTICA',
+                  accessor:'CaracteristicadelRobo',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'MODUS OPERANDI',
+                  accessor:'ModusOperandi',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'MODO DE FUGRA',
+                  accessor:'MododeFuga',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'VIOLENCIA',
+                  accessor:'Violencia',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'TIPO DE ARMA',
+                  accessor:'TipoArma',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'OBJETOS RECUPERADOS',
+                  accessor:'Obj_Recuperados',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'OBSERVACIONES',
+                  accessor:'Observaciones',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'SITUACION',
+                  accessor:'Situacion',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'CIA',
+                  accessor:'Cia',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'DETENIDOS',
+                  accessor:'CantidadDetenidos',
+                  Filter: NumberRangeColumnFilter,
+                  filter: 'between',
+                },
+                {
+                  Header:'RESPONSABLES',
+                  accessor:'No_Resp',
+                  Filter: NumberRangeColumnFilter,
+                  filter: 'between',
+                },
+                {
+                  Header:'HOMBRES',
+                  accessor:'Hombres',
+                  Filter: NumberRangeColumnFilter,
+                  filter: 'between',
+                },
+                {
+                  Header:'MUJERES',
+                  accessor:'Mujeres',
+                  Filter: NumberRangeColumnFilter,
+                  filter: 'between',
+                },
+                {
+                  Header:'CALLE 1',
+                  accessor:'Calle_1',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'CALLE 2',
+                  accessor:'Calle_2',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NO. EXT',
+                  accessor:'No_Ext',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NO. INT',
+                  accessor:'No_Int',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'TIPO COLONIA',
+                  accessor:'TipoColonia',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'COLONIA',
+                  accessor:'Colonia',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'ZONA',
+                  accessor:'Zona',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'VECTOR',
+                  accessor:'Vector',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'SECTOR',
+                  accessor:'Sector',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'OBJETOS',
+                  accessor:'Objetos',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'RESPONSABLES',
+                  accessor:'Responsables',
+                  filter: 'fuzzyText',
+                },
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos.Incidencia
         , [])
         
         
