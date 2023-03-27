@@ -55,6 +55,12 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                  Header:'FALTA/DELITO',
+                  accessor:'Falta_Delito_Tipo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
                   Header:'FALTAS DELITOS',
                   accessor:'Faltas_Delitos_Detenido',
                   filter: 'fuzzyText',
@@ -163,6 +169,12 @@ export const TableConstructor = ({lugar, datos}) => {
                   {
                     Header:'STATUS REMISIÓN',
                     accessor:'Status_Remision',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',
+                  },
+                  {
+                    Header:'FALTA/DELITO',
+                    accessor:'Falta_Delito_Tipo',
                     Filter: SelectColumnFilter,
                     filter: 'equals',
                   },
@@ -393,6 +405,12 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                  Header:'FALTA/DELITO',
+                  accessor:'Falta_Delito_Tipo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
                   Header:'FALTAS DELITOS',
                   accessor:'Faltas_Delitos_Detenido',
                   filter: 'fuzzyText',
@@ -508,6 +526,12 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                  Header:'FALTA/DELITO',
+                  accessor:'Falta_Delito_Tipo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
                   Header:'NOMBRE DETENIDO',
                   accessor:'Nombre',
                   filter: 'fuzzyText',
@@ -609,6 +633,12 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                  Header:'FALTA/DELITO',
+                  accessor:'Falta_Delito_Tipo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
                   Header:'NOMBRE',
                   accessor:'Nombre',
                   filter: 'fuzzyText',
@@ -670,6 +700,7 @@ export const TableConstructor = ({lugar, datos}) => {
         return (
           <Table columns={columns} data={data} />
         )
+
       case 'Remisiones: Objetos Asegurados':
         columns = React.useMemo(
           () => [
@@ -694,6 +725,12 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'STATUS REMISIÓN',
                   accessor:'Status_Remision',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'FALTA/DELITO',
+                  accessor:'Falta_Delito_Tipo',
                   Filter: SelectColumnFilter,
                   filter: 'equals',
                 },
@@ -861,6 +898,12 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                  Header:'FALTA/DELITO',
+                  accessor:'Falta_Delito_Tipo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
                   Header:'FOLIO 911',
                   accessor:'Folio_911',
                   filter: 'fuzzyText',
@@ -949,6 +992,12 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'STATUS REMISIÓN',
                   accessor:'Status_Remision',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'FALTA/DELITO',
+                  accessor:'Falta_Delito_Tipo',
                   Filter: SelectColumnFilter,
                   filter: 'equals',
                 },

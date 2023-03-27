@@ -123,6 +123,11 @@ export function Table({ columns, data }) {
                         ELIMINAR FILTROS
                     </button>
                 </div>
+                <div className="col-md-4">
+                    <h5>
+                        { `${preGlobalFilteredRows.length} REGISTROS ENCONTRADOS` }
+                    </h5>
+                </div>
                </div>
             </div>
          </div>
@@ -148,10 +153,10 @@ export function Table({ columns, data }) {
                     {headerGroups.map(headerGroup => (
                         
                         <tr {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map(column => {console.log(column)})}
+                        {/* {headerGroup.headers.map(column => {console.log(column)})} */}
                         {headerGroup.headers.map(column => (
                             <th  className="align-middle"{...column.getHeaderProps({
-                                style: {minWidth: column.minWidth }
+                                style: {minWidth: column.minWidth } //de esta forma se sobreescribe el tamaño de las celdas, si viene la propiedad en el Table Constructor
                                })}>
                             {column.render('Header')}
                             {/* Render the columns filter UI */}
