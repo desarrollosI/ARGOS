@@ -35,6 +35,7 @@ export const SelectBaseComponent = ({base}) => {
                                 {/* <option value="Remisiones: Armas Aseguradas">REMISION: ARMAS ASEGURADAS</option> */}
                                 <option value="Remisiones: Drogas Aseguradas">REMISION: DROGAS ASEGURADAS</option>
                                 <option value="Remisiones: Vehiculos Asegurados">REMISION: VEHICULOS ASEGURADOS</option>
+                                <option value="Remisiones: Ubicación de Hechos">REMISION: UBICACIÓN HECHOS</option>
                             </select>
                         </div>
                     </div>

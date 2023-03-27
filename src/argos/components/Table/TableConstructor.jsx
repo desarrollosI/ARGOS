@@ -701,6 +701,111 @@ export const TableConstructor = ({lugar, datos}) => {
           <Table columns={columns} data={data} />
         )
 
+      case 'Remisiones: Ubicación de Hechos':
+        columns = React.useMemo(
+          () => [
+                {
+                  Header:'FECHA',
+                  accessor:'Fecha_Hora',
+                  Filter: DateRangeColumnFilter,
+                  filter: dateBetweenFilterFn,
+                  
+                },
+                {
+                  Header:'FICHA',
+                  accessor:'Ficha',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NUM. REMISIÓN',
+                  accessor:'No_Remision',
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'STATUS REMISIÓN',
+                  accessor:'Status_Remision',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'FALTA/DELITO',
+                  accessor:'Falta_Delito_Tipo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'NOMBRE',
+                  accessor:'Nombre',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP PATERNO',
+                  accessor:'Ap_Paterno',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP MATERNO',
+                  accessor:'Ap_Materno',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'GÉNERO',
+                  accessor:'Genero',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'EDAD DE: ',
+                  accessor: 'Edad',
+                  Filter: NumberRangeColumnFilter,
+                  filter: 'between',
+                },
+                {
+                  Header:'ESCOLARIDAD',
+                  accessor:'Escolaridad',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'TIPO',
+                  accessor:'Tipo',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'COLONIA',
+                  accessor:'Colonia',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'CALLE 1',
+                  accessor:'Calle_1',
+                  filter: 'fuzzyText',
+                  minWidth: 200
+                },
+                {
+                  Header:'NO. EXT',
+                  accessor:'No_Ext',
+                  filter: 'fuzzyText',
+                  minWidth: 100
+                },
+                {
+                  Header:'C.P.',
+                  accessor:'CP',
+                  filter: 'fuzzyText',
+                  minWidth: 100
+                },
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos.Remisiones
+        , [])
+        
+        
+        return (
+          <Table columns={columns} data={data} />
+        )
+
       case 'Remisiones: Objetos Asegurados':
         columns = React.useMemo(
           () => [
