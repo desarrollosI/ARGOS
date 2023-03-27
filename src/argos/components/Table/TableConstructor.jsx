@@ -605,7 +605,7 @@ export const TableConstructor = ({lugar, datos}) => {
           <Table columns={columns} data={data} />
         )
 
-      case 'Remisiones: Datos Generales':
+      case 'Remisiones: Narrativas':
         columns = React.useMemo(
           () => [
                 {
