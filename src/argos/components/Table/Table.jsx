@@ -17,6 +17,8 @@ export function Table({ columns, data }) {
 
     }
 
+
+
     const filterTypes = React.useMemo(
         () => ({
         // Add a new fuzzyTextFilterFn filter type.
@@ -39,6 +41,7 @@ export function Table({ columns, data }) {
 
     const defaultColumn = React.useMemo(
         () => ({
+        width: 150,
         // Let's set up our default Filter UI
         Filter: DefaultColumnFilter,
         }),
@@ -132,6 +135,7 @@ export function Table({ columns, data }) {
                             colSpan={visibleColumns.length}
                             style={{
                                 textAlign: 'left',
+                                
                             }}
                             >
                             <GlobalFilter
@@ -142,9 +146,13 @@ export function Table({ columns, data }) {
                             </th>
                         </tr>
                     {headerGroups.map(headerGroup => (
+                        
                         <tr {...headerGroup.getHeaderGroupProps()}>
+                        {headerGroup.headers.map(column => {console.log(column)})}
                         {headerGroup.headers.map(column => (
-                            <th  className="align-middle"{...column.getHeaderProps()}>
+                            <th  className="align-middle"{...column.getHeaderProps({
+                                style: {minWidth: column.minWidth }
+                               })}>
                             {column.render('Header')}
                             {/* Render the columns filter UI */}
                             <div>{column.canFilter ? column.render('Filter') : null}</div>

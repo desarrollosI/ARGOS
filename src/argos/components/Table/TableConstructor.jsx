@@ -581,6 +581,95 @@ export const TableConstructor = ({lugar, datos}) => {
           <Table columns={columns} data={data} />
         )
 
+      case 'Remisiones: Datos Generales':
+        columns = React.useMemo(
+          () => [
+                {
+                  Header:'FECHA',
+                  accessor:'Fecha_Hora',
+                  Filter: DateRangeColumnFilter,
+                  filter: dateBetweenFilterFn,
+                  
+                },
+                {
+                  Header:'FICHA',
+                  accessor:'Ficha',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NUM. REMISIÓN',
+                  accessor:'No_Remision',
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'STATUS REMISIÓN',
+                  accessor:'Status_Remision',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'NOMBRE',
+                  accessor:'Nombre',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP PATERNO',
+                  accessor:'Ap_Paterno',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'AP MATERNO',
+                  accessor:'Ap_Materno',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'GÉNERO',
+                  accessor:'Genero',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'EDAD DE: ',
+                  accessor: 'Edad',
+                  Filter: NumberRangeColumnFilter,
+                  filter: 'between',
+                },
+                {
+                  Header:'ESCOLARIDAD',
+                  accessor:'Escolaridad',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'EXTRACTO IPH',
+                  accessor:'Extracto_IPH',
+                  minWidth: 1680,
+                  filter: 'fuzzyText',
+                  
+                },
+                {
+                  Header:'NARRATIVA DETENIDO',
+                  accessor:'Narrativa_Detenido',
+                  minWidth: 500,
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'NARRATIVA PETICIONARIO',
+                  accessor:'Narrativa_Peticionario',
+                  minWidth: 1000,
+                  filter: 'fuzzyText',
+                },
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos.Remisiones
+        , [])
+        
+        
+        return (
+          <Table columns={columns} data={data} />
+        )
       case 'Remisiones: Objetos Asegurados':
         columns = React.useMemo(
           () => [
