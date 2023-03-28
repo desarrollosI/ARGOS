@@ -55,6 +55,14 @@ export const TableDecider = ({lugar}) => {
             url = `http://172.18.10.71:9090/api/base/ubicacion-hechos`;
 
             break;
+        case 'Remisiones: Ubicación de Detencion':
+            url = `http://172.18.10.71:9090/api/base/ubicacion-detencion`;
+
+            break;
+        case 'Remisiones: Ubicación Domicilio Detenido':
+            url = `http://172.18.10.71:9090/api/base/ubicacion-domicilio-detenido`;
+
+            break;
         //casos de inspecciones
         case 'Inspecciones: Datos Generales':
             url = `http://172.18.10.71:9090/api/base/inspecciones`;
