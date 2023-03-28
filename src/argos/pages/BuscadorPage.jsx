@@ -14,8 +14,8 @@ export const BuscadorPage = () => {
               {" "}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="96"
-                height="96"
+                width="48"
+                height="48"
                 fill="currentColor"
                 className="bi bi-search"
                 viewBox="0 0 16 16"
