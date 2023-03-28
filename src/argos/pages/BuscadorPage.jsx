@@ -1,4 +1,5 @@
 import React from "react";
+import { BaseMultiplier } from "../components";
 import { BuscadorInformacion } from "../components/BuscadorInformacion";
 import { SelectBaseComponent } from "../components/Table/SelectBaseComponent";
 
@@ -25,7 +26,7 @@ export const BuscadorPage = () => {
           </div>
           <hr />
         </div>
-        <div className="row">
+        {/* <div className="row">
           <SelectBaseComponent base={'SARAI REMISIONES'} /> 
         </div>
         <div className="row">
@@ -36,7 +37,8 @@ export const BuscadorPage = () => {
         </div>
         <div className="row">
           <SelectBaseComponent base={'SARAI INCIDENCIA DELICTIVA'} /> 
-        </div>
+        </div> */}
+        <BaseMultiplier/>
       </div>
     </>
   );
