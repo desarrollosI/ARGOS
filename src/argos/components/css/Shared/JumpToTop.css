@@ -1,0 +1,12 @@
+.bot-toTop {
+    position: fixed !important; 
+    width: 100% !important;
+    left: 1000px !important;
+    bottom: 50px !important;
+    height: 20px !important;
+    font-size: 3em !important;
+    font-weight: 800;
+    z-index: 1 !important;
+    cursor: pointer !important;
+    color: #C42189  !important;
+}

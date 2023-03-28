@@ -1,6 +1,7 @@
 import React from "react";
 import { BaseMultiplier } from "../components";
 import { BuscadorInformacion } from "../components/BuscadorInformacion";
+import { JumpToTop } from "../components/Shared/JumpToTop";
 import { SelectBaseComponent } from "../components/Table/SelectBaseComponent";
 
 export const BuscadorPage = () => {
@@ -13,8 +14,8 @@ export const BuscadorPage = () => {
               {" "}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
+                width="96"
+                height="96"
                 fill="currentColor"
                 className="bi bi-search"
                 viewBox="0 0 16 16"
@@ -39,6 +40,7 @@ export const BuscadorPage = () => {
           <SelectBaseComponent base={'SARAI INCIDENCIA DELICTIVA'} /> 
         </div> */}
         <BaseMultiplier/>
+        <JumpToTop/>
       </div>
     </>
   );
