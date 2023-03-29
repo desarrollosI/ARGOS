@@ -13,6 +13,7 @@ export const useAuthStore = () => {
         try {
             const { data } = await authApi.post('/login',{ email, password });
             console.log('respuesta: ',{data})
+            localStorage.setItem('user',JSON.stringify(data.usuario))
             localStorage.setItem('token', data.token );
             localStorage.setItem('token-init-date', new Date().getTime() );
             dispatch( onLogin({ name: data.usuario.nombre, uid: data.usuario.uid }) );
@@ -44,14 +45,17 @@ export const useAuthStore = () => {
 
     const checkAuthToken = async() => {
         const token = localStorage.getItem('token');
+       
         if ( !token ) return dispatch( onLogout() );
 
         try {
             const { data } = await authApi.get('/renew');
+            console.log('desde el chekAuthToken:',{data})
             localStorage.setItem('token', data.token );
             localStorage.setItem('token-init-date', new Date().getTime() );
-            dispatch( onLogin({ name: data.usuario.name, uid: data.usuario.uid }) );
+            dispatch( onLogin({ name: data.name, uid: data.uid }) );
         } catch (error) {
+            console.log('error del check auth', error)
             localStorage.clear();
             dispatch( onLogout() );
         }
