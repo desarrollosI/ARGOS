@@ -10,20 +10,16 @@ import {
   HistoricoPage
 } from "../../argos/pages";
 import { AuthContext } from "../../auth/context/AuthContext";
+import { useAuthStore } from "../../hooks";
 
 import "./dashboard.css";
 
 export const NavbarN = () => {
-  const { user, logout } = useContext(AuthContext);
+  // // const { user, logout } = useContext(AuthContext);
+  const { status, user } = useAuthStore();
+
 
   const navigate = useNavigate();
-
-  const onLogout = () => {
-    logout();
-    navigate("/login", {
-      replace: true,
-    });
-  };
 
   return (
     <>
@@ -45,7 +41,8 @@ export const NavbarN = () => {
 
         <div className="navbar-nav">
           <div className="nav-item text-nowrap">
-            <button className="px-3 me-5 btn btn-primary Red-Violet" onClick={ onLogout }>
+            <span>{user.name}</span>
+            <button className="px-3 me-5 btn btn-primary Red-Violet"> {/* onClick={ onLogout } */}
               Cerrar Sesión
             </button>
           </div>
@@ -102,7 +99,10 @@ export const NavbarN = () => {
           </nav>
 
           <main className="col-md-9 ms-sm-auto col-lg-11 px-md-4">
-            <Routes>
+          {/* <Routes>
+            <Route path="inicio" element={<InicioPage />} />
+          </Routes> */}
+           <Routes>
               <Route path="inicio" element={<InicioPage />} />
               <Route path="buscador" element={<BuscadorPage />} />
               <Route path="reconocimiento" element={<ReconocimientoPage />} />
@@ -110,8 +110,8 @@ export const NavbarN = () => {
               <Route path="inspeccion/:inspeccion" element={<InspeccionPage />} /> 
               <Route path="historico/:folio" element={<HistoricoPage />} /> 
               
-              <Route path="geoanalisis" element={<GeoanalisisPage />} />
-              <Route path="/" element={<Navigate to="/inicio" />} />
+              {/* <Route path="geoanalisis" element={<GeoanalisisPage />} />
+              <Route path="/" element={<Navigate to="/inicio" />} /> */}
 
           </Routes>
           </main>

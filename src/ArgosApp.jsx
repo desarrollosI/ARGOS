@@ -1,13 +1,16 @@
-import { AuthProvider } from './auth';
+import { Provider } from 'react-redux'
+//import { AuthProvider } from './auth';
 import { AppRouter } from './router/AppRouter';
+
+import { store } from './store'
 
 
 export const ArgosApp = () => {
   return (
-    <AuthProvider>
+    <Provider store={store}>
         
         <AppRouter />
         
-    </AuthProvider>
+    </Provider>
   )
 }

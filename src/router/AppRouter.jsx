@@ -1,21 +1,53 @@
-import { Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { ArgosRoutes } from '../argos';
+import { ArgosRoutes, BuscadorPage } from '../argos';
 import { LoginPage } from '../auth';
+import { useAuthStore } from '../hooks/useAuthStore';
+import { NavbarN } from '../ui';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 
 
 
 export const AppRouter = () => {
+
+  const { status, checkAuthToken } = useAuthStore();
+
+
+  useEffect(() => {
+      checkAuthToken();
+  }, [])
+
+  if ( status === 'checking' ) {
+     return (
+         <h3>Cargando...</h3>
+     )
+   }
+
+
   return (
     <>
 
         <Routes>
+            {
+             ( status === 'not-authenticated')  
+              ? ( 
+              <>
+                  <Route path="/auth/*" element={ <LoginPage /> } />
+                  <Route path="/*" element={ <Navigate to="/auth/login" /> } />
+              </>
+              )
+              : (
+                <>
+                    <Route path="/*" element={ <ArgosRoutes /> } />
+                    <Route path="*" element={ <Navigate to="/" /> } />
+                </>
+            )
+          } 
             
-            <Route path="login/*" element={
+            {/* <Route path="login/*" element={
                 <PublicRoute>
-                  {/* <LoginPage /> */}
                   <Routes>
                     <Route path="/*" element={<LoginPage />} />
                   </Routes>
@@ -28,12 +60,8 @@ export const AppRouter = () => {
               <PrivateRoute>
                 <ArgosRoutes />
               </PrivateRoute>
-            } />
+            } /> */}
 
-            {/* <Route path="login" element={<LoginPage />} /> */}
-            {/* <Route path="/*" element={ <HeroesRoutes />} /> */}
-            
-            
 
         </Routes>
     
