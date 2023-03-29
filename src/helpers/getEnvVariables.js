@@ -2,10 +2,11 @@
 
 export const getEnvVariables = () => {
 
-    import.meta.env;
+    //import.meta.env;
 
     return {
-        ...import.meta.env
+        VITE_BACKEND_SERVER_BASES: import.meta.env.VITE_BACKEND_SERVER_BASES
+        //...import.meta.env
     }
 }
 

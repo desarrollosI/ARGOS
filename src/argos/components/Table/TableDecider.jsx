@@ -1,93 +1,82 @@
 //primero de react
 
-import { useEffect, useState,useCallback } from 'react';
+import { useEffect, useState } from 'react';
+import { basesApi } from '../../../api';
 //hooks
-import { useFetch } from '../../../hooks';
 import { TableLoader } from '../Shared';
-//import { TableConFiltro } from './TableConFiltro';
 import { TableConstructor } from './TableConstructor';
 //bliotecas y/o componentes de terceros
 
-
 export const TableDecider = ({lugar}) => {
 
-    let url = '';
+    const [isLoadingData, setIsLoadingData] = useState(true)
+    const [fetchedData, setFetchedData] = useState();
+
+    const fetchData = async(endpont) => {
+        setIsLoadingData(true);
+        const {data} =  await basesApi.post(endpont);
+        setFetchedData(data);
+        setIsLoadingData(false);
+    }
+
+    let endpoint ='';
    
-    //llamar la data con un el hook useFetch
     switch (lugar) {
         case 'Detenido: Datos Personales':
-            url = `http://172.18.10.71:9090/api/base/datos-personales-detenidos`;
-           
+            endpoint = '/datos-personales-detenidos';
             break;
         case 'Detenido: Media Filiacion':
-            url = `http://172.18.10.71:9090/api/base/detenido-media-filiacion`;
-
+            endpoint = '/detenido-media-filiacion';
             break;
         case 'Detenido: Contactos':
-            url = `http://172.18.10.71:9090/api/base/detenido-contactos`;
-
+            endpoint = '/detenido-contactos';
             break;
         case 'Detenido: Senas Particulares':
-            url = `http://172.18.10.71:9090/api/base/detenido-senas`;
-            console.log('llego a la gen del url')
+            endpoint = '/detenido-senas';
             break;
         case 'Remisiones: Narrativas':
-            url = `http://172.18.10.71:9090/api/base/remision-generales`;
-
+            endpoint = '/remision-generales';
             break;
         case 'Remisiones: Objetos Asegurados':
-            url = `http://172.18.10.71:9090/api/base/objetos-asegurados`;
-
+            endpoint = '/objetos-asegurados';
             break;
         case 'Remisiones: Armas Aseguradas':
-            url = `http://172.18.10.71:9090/api/base/armas-aseguradas`;
-
+            endpoint = '/armas-aseguradas';
             break;
         case 'Remisiones: Drogas Aseguradas':
-            url = `http://172.18.10.71:9090/api/base/drogas-aseguradas`;
-
+            endpoint = '/drogas-aseguradas';
             break;
         case 'Remisiones: Vehiculos Asegurados':
-            url = `http://172.18.10.71:9090/api/base/vehiculos-asegurados`;
-
+            endpoint = '/vehiculos-asegurados';
             break;
         case 'Remisiones: Ubicación de Hechos':
-            url = `http://172.18.10.71:9090/api/base/ubicacion-hechos`;
-
+            endpoint = '/ubicacion-hechos';
             break;
         case 'Remisiones: Ubicación de Detencion':
-            url = `http://172.18.10.71:9090/api/base/ubicacion-detencion`;
-
+            endpoint = '/ubicacion-detencion';
             break;
         case 'Remisiones: Ubicación Domicilio Detenido':
-            url = `http://172.18.10.71:9090/api/base/ubicacion-domicilio-detenido`;
-
+            endpoint = '/ubicacion-domicilio-detenido';
             break;
         //casos de inspecciones
         case 'Inspecciones: Datos Generales':
-            url = `http://172.18.10.71:9090/api/base/inspecciones`;
-
+            endpoint = '/inspecciones';
             break;
         case 'Inspecciones: Personas Inspeccionadas':
-            url = `http://172.18.10.71:9090/api/base/personas-inspeccionadas`;
-
+            endpoint = '/personas-inspeccionadas';
             break;
         case 'Inspecciones: Vehiculos Inspeccionados':
-            url = `http://172.18.10.71:9090/api/base/inspecciones`;
-
+            endpoint = '/inspecciones';
             break;
         case 'Inspecciones: Ubicaciones':
-            url = `http://172.18.10.71:9090/api/base/inspecciones`;
-
+            endpoint = '/inspecciones';
             break;
         //casos de historico
         case 'Historico: Datos Generales':
-            url = `http://172.18.10.71:9090/api/base/all-historico`;
-
+            endpoint = '/all-historico';
             break;
         case 'Incidencia Delictiva: Datos Generales':
-            url = `http://172.18.10.71:9090/api/base/incidencia-general`;
-
+            endpoint = '/incidencia-general';
             break;
         default:
             break;
@@ -95,8 +84,10 @@ export const TableDecider = ({lugar}) => {
     }
 
 
-    const { data, isLoading, hasError } = useFetch(url,'POST')
-    console.log({data,isLoading,hasError});
+    useEffect(() => { 
+        fetchData(endpoint)
+      }, [lugar])
+
     return (
         <>  
             <div className="container-fluid">
@@ -112,9 +103,9 @@ export const TableDecider = ({lugar}) => {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
-        
+
                         {
-                            (isLoading) 
+                            (isLoadingData) 
                                 ? <>
                                      {Array(10)
                                         .fill("")
@@ -122,7 +113,7 @@ export const TableDecider = ({lugar}) => {
                                             <TableLoader key={i} style={{ opacity: Number(2 / i).toFixed(1) }} />
                                         ))}
                                     </>
-                                : <TableConstructor lugar={lugar} datos={data.data}/>
+                                : <TableConstructor lugar={lugar} datos={fetchedData.data}/>
                         }
                             
                         </div>

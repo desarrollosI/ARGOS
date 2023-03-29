@@ -3,10 +3,7 @@ import { getEnvVariables } from '../helpers';
 
 const { VITE_BACKEND_SERVER_BASES } = getEnvVariables()
 
-
-
-
-const basesApi = axios.create({
+export const basesApi = axios.create({
     baseURL: VITE_BACKEND_SERVER_BASES
 });
 
@@ -20,9 +17,3 @@ const basesApi = axios.create({
 
     return config;
 })*/
-
-
-export default basesApi;
-
-
-
