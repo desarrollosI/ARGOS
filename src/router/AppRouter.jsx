@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { ArgosRoutes, BuscadorPage } from '../argos';
+import { ArgosRoutes } from '../argos';
 import { LoginPage } from '../auth';
 import { useAuthStore } from '../hooks/useAuthStore';
 import { NavbarN } from '../ui';
-import { PrivateRoute } from './PrivateRoute';
-import { PublicRoute } from './PublicRoute';
+
 
 
 

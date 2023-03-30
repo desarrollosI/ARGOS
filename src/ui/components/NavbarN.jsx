@@ -1,4 +1,4 @@
-import { useContext } from "react";
+
 import { Navigate, Route, Routes ,Link, NavLink, useNavigate} from "react-router-dom";
 import {
   BuscadorPage,
@@ -9,14 +9,14 @@ import {
   InspeccionPage,
   HistoricoPage
 } from "../../argos/pages";
-import { AuthContext } from "../../auth/context/AuthContext";
+
 import { useAuthStore } from "../../hooks";
 
 import "./dashboard.css";
 
 export const NavbarN = () => {
-  // // const { user, logout } = useContext(AuthContext);
-  const { status, user } = useAuthStore();
+
+  const { status, user, startLogout } = useAuthStore();
 
 
   const navigate = useNavigate();
@@ -41,8 +41,10 @@ export const NavbarN = () => {
 
         <div className="navbar-nav">
           <div className="nav-item text-nowrap">
-            <span>{user.name}</span>
-            <button className="px-3 me-5 btn btn-primary Red-Violet"> {/* onClick={ onLogout } */}
+            <span className="me-3 text-white">{user.name}</span>
+            <button className="px-3 me-5 btn btn-primary Red-Violet" 
+               onClick={ startLogout }
+            > 
               Cerrar Sesión
             </button>
           </div>
