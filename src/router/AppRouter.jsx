@@ -30,7 +30,7 @@ export const AppRouter = () => {
 
         <Routes>
             {
-             ( status === 'not-authenticated')  
+             ( status === 'not-authenticated' && !localStorage.getItem('token'))  
               ? ( 
               <>
                   <Route path="/auth/*" element={ <LoginPage /> } />
@@ -40,11 +40,11 @@ export const AppRouter = () => {
               : (
                 <>
                     <Route path="/*" element={ <ArgosRoutes /> } />
-                    <Route path="*" element={ <Navigate to="/" /> } />
+                    <Route path="/*" element={ <Navigate to="/" /> } />
                 </>
             )
           } 
-            
+            {/* <Route path="/*" element={ <Navigate to="/auth/login" /> } />  */}
             {/* <Route path="login/*" element={
                 <PublicRoute>
                   <Routes>

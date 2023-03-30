@@ -4,12 +4,10 @@ import React, {useState, useEffect, useRef, useMemo} from 'react';
 import * as faceapi from 'face-api.js';
 //componentes personalizados necesarios
 import { LoadingFace, LoadingSpinner, MyLoader, ResultadosReconocimiento } from '../../components';
-//helpers necesarios
-import {findBestMatches} from '../../helpers'
-//hooks personalizados
-import {useFetch} from '../../../hooks/useFetch'
 //archivos css
 import '../css/BuscadorFacial/BuscadorFacial.css';
+import { useAuthStore } from '../../../hooks';
+import { insertHistorial } from '../../../helpers/insertHistorial';
 
 
 const buscarCoincidenciasEnBase = async (caraInput) => {
@@ -50,7 +48,8 @@ export const BuscadorFacial = () => {
           let reader = new FileReader();
     
           reader.onloadend = () => {
-            console.log('que hay aca?',reader.result);
+            //console.log('que hay aca?',reader.result);
+            insertHistorial({lugar:'Reconocimiento Facial',tipo: 'Subida de Foto',imagen: reader.result})
             setFiles(prevFiles => [ files]);
             setImages(prevImages => [ reader.result]);
           };

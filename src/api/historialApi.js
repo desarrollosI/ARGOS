@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { getEnvVariables } from '../helpers';
 
-const { VITE_BACKEND_SERVER_BASES } = getEnvVariables()
+const { VITE_BACKEND_SERVER_HISTORIAL } = getEnvVariables()
 
-export const basesApi = axios.create({
-    baseURL: VITE_BACKEND_SERVER_BASES
+export const historialApi = axios.create({
+    baseURL: VITE_BACKEND_SERVER_HISTORIAL
 });
 
 
-basesApi.interceptors.request.use( config => {
+historialApi.interceptors.request.use( config => {
 
     config.headers = {
         ...config.headers,

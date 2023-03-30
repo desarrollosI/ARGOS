@@ -112,8 +112,8 @@ export const NavbarN = () => {
               <Route path="inspeccion/:inspeccion" element={<InspeccionPage />} /> 
               <Route path="historico/:folio" element={<HistoricoPage />} /> 
               
-              {/* <Route path="geoanalisis" element={<GeoanalisisPage />} />
-              <Route path="/" element={<Navigate to="/inicio" />} /> */}
+              <Route path="geoanalisis" element={<GeoanalisisPage />} />
+              <Route path="/" element={<Navigate to="/inicio" />} /> 
 
           </Routes>
           </main>

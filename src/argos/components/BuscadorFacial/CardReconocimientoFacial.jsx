@@ -8,6 +8,7 @@ import '../css/BuscadorFacial/card-imagen.css'
 
 import "../css/BuscadorFacial/card.css";
 import 'animate.css';
+import { insertHistorial } from "../../../helpers/insertHistorial";
 
 const separarFichaRemision = ({ _label }) => {
   let newLabel = _label.split(",");
@@ -70,6 +71,11 @@ export const CardReconocimientoFacial = ({ parecido }) => {
 
   const [isZoomed, setIsZoomed] = useState(false)
 
+  const registrarMovimiento = () => {
+    insertHistorial({lugar:'Reconocimiento Facial',tipo: 'Mas detalles',folio: remision,base: 'Remisiones'})
+  }
+
+
   const handleZoomChange = useCallback(shouldZoom => {
     setIsZoomed(shouldZoom)
   }, [])
@@ -116,7 +122,7 @@ export const CardReconocimientoFacial = ({ parecido }) => {
                       <p className="card-text">{parecido._label}, Porcentaje: {100-(parecido.distance*100)} %</p>
                     </div>
                     <div className="row">
-                      <Link to={`/remision/${remision}`} target="_blank">
+                      <Link to={`/remision/${remision}`} target="_blank"  onClick={registrarMovimiento}>
                         Ver mas...
                       </Link>
                     </div>

@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { authApi } from '../api';
+import { insertHistorial } from '../helpers/insertHistorial';
 import { clearErrorMessage, onChecking, onLogin, onLogout } from '../store'; //onLogoutCalendar
 
 
@@ -16,6 +17,7 @@ export const useAuthStore = () => {
             localStorage.setItem('user',JSON.stringify(data.usuario))
             localStorage.setItem('token', data.token );
             localStorage.setItem('token-init-date', new Date().getTime() );
+            insertHistorial({ tipo:'Inicio de Sesión' })
             dispatch( onLogin({ name: data.usuario.nombre, uid: data.usuario.uid }) );
             
         } catch (error) {
@@ -62,7 +64,7 @@ export const useAuthStore = () => {
     }
 
     const startLogout = () => {
-        //localStorage.clear();
+        localStorage.clear();
         // dispatch( onLogoutCalendar() );
         dispatch( onLogout() );
     }

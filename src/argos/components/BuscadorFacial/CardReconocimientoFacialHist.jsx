@@ -9,14 +9,15 @@ import '../css/BuscadorFacial/card-imagen.css'
 
 import "../css/BuscadorFacial/card.css";
 import 'animate.css';
+import { insertHistorial } from "../../../helpers/insertHistorial";
 
 let guardar
 const separarFolioHistorico = ({ _label }) => {
     let newLabel = _label.split(" ");
-    console.log(newLabel);
+    //console.log(newLabel);
     guardar = newLabel[1]
 
-    console.log('FILE: ', guardar);
+    //console.log('FILE: ', guardar);
 
     let url =
         "http://172.18.10.13/planeacion-recuperadas/Historicos/" +
@@ -63,13 +64,17 @@ const CustomZoomContent = ({buttonUnzoom,modalState,img}) => {
 }
 
 export const CardReconocimientoFacialHist = ({ parecido }) => {
-  console.log('PARECIDO',parecido)
+  //console.log('PARECIDO',parecido)
 
   const {url,folio} = separarFolioHistorico(parecido);
   const imgContainerRef = useRef(null);
   const [watermark, setWatermark] = useState("watermarked");
 
   const [isZoomed, setIsZoomed] = useState(false)
+
+  const registrarMovimiento = () => {
+    insertHistorial({lugar:'Reconocimiento Facial',tipo: 'Mas detalles',folio: folio,base: 'Historico'})
+  }
 
   const handleZoomChange = useCallback(shouldZoom => {
     setIsZoomed(shouldZoom)
@@ -115,7 +120,7 @@ export const CardReconocimientoFacialHist = ({ parecido }) => {
                       <p className="card-text">Folio: {folio}, Porcentaje: {100-(parecido.distance*100)} %</p>
                     </div>
                     <div className="row">
-                      <Link to={`/historico/${folio}`} target="_blank">
+                      <Link to={`/historico/${folio}`} target="_blank" onClick={registrarMovimiento}>
                         Ver mas...
                       </Link>
                     </div>

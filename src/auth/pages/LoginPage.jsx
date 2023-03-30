@@ -9,9 +9,6 @@ const loginFormFields = {
 }
 
 
-
-
-
 export const LoginPage = () => {
 
     const { startLogin, errorMessage, startRegister } = useAuthStore();
