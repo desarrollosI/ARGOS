@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Table } from './Table';
 
 import "babel-polyfill";
 import { GlobalFilter, DefaultColumnFilter, SelectColumnFilter, SliderColumnFilter, NumberRangeColumnFilter, fuzzyTextFilterFn,DateRangeColumnFilter, dateBetweenFilterFn } from '../../helpers'
 import { Link } from 'react-router-dom';
+import { insertHistorial } from '../../../helpers/insertHistorial';
+
+  const registrarMovimiento = (dataHistorial) => {
+    //console.log('desde table constructor: ', dataHistorial)
+    insertHistorial(dataHistorial)
+  }
 
     // Define a custom filter filter function!
   function filterGreaterThan(rows, id, filterValue) {
@@ -24,7 +30,7 @@ export const TableConstructor = ({lugar, datos}) => {
   console.log('LUGAR: ',lugar,'DATOS: ',datos);
     
     let columns,data;
-
+    const [filtros, setFiltros] = useState()
     switch (lugar) {
       //opciones de remisiones
       case 'Detenido: Datos Personales':
@@ -45,7 +51,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'NUM. REMISIÓN',
                   accessor:'No_Remision',
-                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Detenido: Datos Personales'})} >{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -143,7 +149,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} base={'Detenido: Datos Personales'} />
+          <Table columns={columns} data={data} base={'Detenido: Datos Personales'} setFiltros={setFiltros}/>
         )
 
       case 'Detenido: Media Filiacion':
@@ -163,7 +169,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   {
                     Header:'NUM. REMISIÓN',
                     accessor:'No_Remision',
-                    Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                    Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Detenido: Media Filiacion'})}>{props.value}</Link>,
                     filter: 'fuzzyText',
                   },
                   {
@@ -395,7 +401,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'NUM. REMISIÓN',
                   accessor:'No_Remision',
-                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Detenido: Contactos'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -516,7 +522,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'NUM. REMISIÓN',
                   accessor:'No_Remision',
-                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Detenido: Senas Particulares'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -622,7 +628,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'NUM. REMISIÓN',
                   accessor:'No_Remision',
-                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Remisiones: Narrativas'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -718,7 +724,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'NUM. REMISIÓN',
                   accessor:'No_Remision',
-                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Remisiones: Ubicación de Hechos'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -829,7 +835,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'NUM. REMISIÓN',
                   accessor:'No_Remision',
-                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Remisiones: Ubicación de Detencion'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -935,7 +941,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'NUM. REMISIÓN',
                   accessor:'No_Remision',
-                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Remisiones: Ubicación Domicilio Detenido'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -1035,7 +1041,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'NUM. REMISIÓN',
                   accessor:'No_Remision',
-                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Remisiones: Objetos Asegurados'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -1117,7 +1123,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'NUM. REMISIÓN',
                   accessor:'No_Remision',
-                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Remisiones: Armas Aseguradas'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -1204,7 +1210,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'NUM. REMISIÓN',
                   accessor:'No_Remision',
-                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Remisiones: Drogas Aaseguradas'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -1302,7 +1308,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'NUM. REMISIÓN',
                   accessor:'No_Remision',
-                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/remision/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Remisiones: Vehiculos Asegurados'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -1424,7 +1430,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'ID INSPECCIÓN',
                   accessor:'Id_Inspeccion',
-                  Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Inspecciones: Datos Generales'})} >{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -1484,7 +1490,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'ID INSPECCIÓN',
                   accessor:'Id_Inspeccion',
-                  Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Inspecciones: Personas Inspeccionadas'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -1559,7 +1565,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'ID INSPECCIÓN',
                   accessor:'Id_Inspeccion',
-                  Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Inspecciones: Vehiculos Inspeccionados'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -1649,7 +1655,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'ID INSPECCIÓN',
                   accessor:'Id_Inspeccion',
-                  Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Inspecciones: Ubicaciones'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -1735,7 +1741,7 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'FOLIO',
                   accessor:'Folio',
-                  Cell: props =>  <Link to={`/historico/${props.value}`} target="_blank">{props.value}</Link>,
+                  Cell: props =>  <Link to={`/historico/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Historico: Datos Generales'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {

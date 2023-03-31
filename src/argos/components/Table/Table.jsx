@@ -1,5 +1,5 @@
 // Our table component
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTable, useFilters, useGlobalFilter, usePagination,useResizeColumns } from 'react-table'
 
 import { GlobalFilter, DefaultColumnFilter, SelectColumnFilter, SliderColumnFilter, NumberRangeColumnFilter, fuzzyTextFilterFn, dataToExcel } from '../../helpers'
@@ -9,7 +9,7 @@ import '../css/Table/tabla.css';
 
 
 
-export function Table({ columns, data, base='' }) {
+export function Table({ columns, data, base='', setFiltros }) {
 
     const exportExcel = (data,base) => {
         console.log('data a excel',data)
@@ -101,6 +101,11 @@ export function Table({ columns, data, base='' }) {
      -----------------------------------------------------------------------------------------------*/
   let remisiones = preGlobalFilteredRows.map(row => row.values)
   //console.log('previa a excel :', remisiones)
+    //TODO Como pasar el filtro al padre para el historial ?
+//   useEffect(() => {
+//     setFiltros(state.filters)
+//   }, [state.filters])
+  
   return (
         <>
          <div className="row">
