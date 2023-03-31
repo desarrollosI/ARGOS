@@ -2108,6 +2108,48 @@ export const TableConstructor = ({lugar, datos}) => {
         return (
           <Table columns={columns} data={data} base={'Incidencia Delictiva: Datos Generales'}/>
         )
+
+        case 'Reconocimiento Facial: Fotos Subidas':
+        columns = React.useMemo(
+          () => [
+            {
+              Header:'ID',
+              accessor:'_id',
+              filter: 'fuzzyText',
+            }, 
+            {
+              Header:'USUARIO',
+              accessor:'user.nombre',
+              filter: 'fuzzyText',
+            }, 
+            {
+              Header:'LUGAR',
+              accessor:'extra.lugar',
+              Filter: SelectColumnFilter,
+              filter: 'equals',
+            }, 
+            {
+              Header:'TIPO',
+              accessor:'extra.tipo',
+              Filter: SelectColumnFilter,
+              filter: 'equals',
+            }, 
+            {
+              Header:'IMAGEN',
+              accessor:'extra.imagen',
+              Cell: props =>  (<img src={props.value} width={100} />),
+            }, 
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos
+        , [])
+        
+        
+        return (
+          <Table columns={columns} data={data} base={'Reconocimiento Facial: Fotos Subidas'} setFiltros={setFiltros}/>
+        )
       default:
         break;
     }
