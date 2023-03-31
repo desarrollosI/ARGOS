@@ -143,7 +143,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Detenido: Datos Personales'} />
         )
 
       case 'Detenido: Media Filiacion':
@@ -375,7 +375,7 @@ export const TableConstructor = ({lugar, datos}) => {
           
           
           return (
-            <Table columns={columns} data={data} />
+            <Table columns={columns} data={data} base={'Detenido: Media Filiacion'}/>
         )
       
       case 'Detenido: Contactos':
@@ -495,7 +495,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Detenido: Contactos'} />
         )
 
       case 'Detenido: Senas Particulares':
@@ -600,9 +600,8 @@ export const TableConstructor = ({lugar, datos}) => {
         datos.Remisiones
         , [])
         
-        console.log('ANTES DE LA CREACION DE LA TABLA',data)
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Detenido: Senas Particulares'}/>
         )
 
       case 'Remisiones: Narrativas':
@@ -698,7 +697,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Remisiones: Narrativas'}/>
         )
 
       case 'Remisiones: Ubicación de Hechos':
@@ -809,7 +808,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Remisiones: Ubicación de Hechos'}/>
         )
 
       case 'Remisiones: Ubicación de Detencion':
@@ -915,7 +914,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Remisiones: Ubicación de Detencion'}/>
         )
 
       case 'Remisiones: Ubicación Domicilio Detenido':
@@ -1015,7 +1014,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Remisiones: Ubicación Domicilio Detenido'}/>
         )
 
       case 'Remisiones: Objetos Asegurados':
@@ -1097,7 +1096,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Remisiones: Objetos Asegurados'}/>
         )
 
       case 'Remisiones: Armas Aseguradas':
@@ -1184,7 +1183,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Remisiones: Armas Aseguradas'}/>
         )
         
       case 'Remisiones: Drogas Aseguradas':
@@ -1282,7 +1281,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Remisiones: Drogas Aseguradas'}/>
         )
 
       case 'Remisiones: Vehiculos Asegurados':
@@ -1410,7 +1409,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Remisiones: Vehiculos Asegurados'}/>
         )
       //opciones de inspecciones
       case 'Inspecciones: Datos Generales':
@@ -1470,7 +1469,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Inspecciones: Datos Generales'}/>
         )
 
       case 'Inspecciones: Personas Inspeccionadas':
@@ -1545,7 +1544,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Inspecciones: Personas Inspeccionadas'}/>
         )
 
       case 'Inspecciones: Vehiculos Inspeccionados':
@@ -1635,7 +1634,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Inspecciones: Vehiculos Inspeccionados'}/>
         )
       
       case 'Inspecciones: Ubicaciones':
@@ -1720,7 +1719,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Inspecciones: Ubicaciones'}/>
         )
 
       //opciones de historico
@@ -1927,7 +1926,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Historico: Datos Generales'}/>
         )
       //incidencia delictiva
       case 'Incidencia Delictiva: Datos Generales':
@@ -2101,7 +2100,7 @@ export const TableConstructor = ({lugar, datos}) => {
         
         
         return (
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} base={'Incidencia Delictiva: Datos Generales'}/>
         )
       default:
         break;

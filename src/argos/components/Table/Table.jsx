@@ -9,11 +9,11 @@ import '../css/Table/tabla.css';
 
 
 
-export function Table({ columns, data }) {
+export function Table({ columns, data, base='' }) {
 
-    const exportExcel = (data) => {
+    const exportExcel = (data,base) => {
         console.log('data a excel',data)
-        dataToExcel(data);
+        dataToExcel(data,  {lugar:'Buscador',tipo: 'Exportación Excel', base: base, filtros: state.filters} );
 
     }
 
@@ -108,7 +108,7 @@ export function Table({ columns, data }) {
                <div className="row ms-5 ">
                 <div className="col-md-8">
                     <button
-                        onClick={() => exportExcel(remisiones)}
+                        onClick={() => exportExcel(remisiones,base)}
                         className='btn btn-export-csv'
                     >
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-filetype-csv" viewBox="0 0 16 16">
@@ -244,12 +244,13 @@ export function Table({ columns, data }) {
 
         <br />
         {/* se comenta sive para debugear que filtros se estan aplicando */}
-        {/* <div>
+        <div>
             <pre>
                 <br />
+                {console.log(state.filters)}
                 <code>{JSON.stringify(state.filters, null, 2)}</code>
             </pre>
-        </div> */}
+        </div>
         </>
     )
 }

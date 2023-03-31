@@ -65,6 +65,8 @@ export const NavbarN = () => {
                     Inicio
                   </NavLink>
                 </li>
+                {console.log(user.rol)}
+    
                 <li className="nav-item">
                   <NavLink to="/buscador" className="nav-link">
                     <span data-feather="file" className="align-text-bottom"></span>
@@ -80,13 +82,25 @@ export const NavbarN = () => {
                     Reconocimiento Facial
                   </NavLink>
                 </li>
-                <li className="nav-item">
+                {
+                  (user.rol === 'ADMIN_ROLE' ) && (
+
+                    <li className="nav-item">
+                      <NavLink to="/historial" className="nav-link">
+                        <span data-feather="file" className="align-text-bottom"></span>
+                        Historial
+                      </NavLink>
+                    </li>
+                    )
+                }
+                
+                {/* <li className="nav-item">
                   <NavLink to="/geoanalisis" className="nav-link">
                     <span data-feather="users" className="align-text-bottom"></span>
                     Geoanálisis
                   </NavLink>
-                </li>
-                <li className="nav-item">
+                </li> */}
+                {/* <li className="nav-item">
                   <a className="nav-link">
                     <span
                       data-feather="bar-chart-2"
@@ -94,7 +108,7 @@ export const NavbarN = () => {
                     ></span>
                     Estadística
                   </a>
-                </li>
+                </li> */}
                 
               </ul>
             </div>

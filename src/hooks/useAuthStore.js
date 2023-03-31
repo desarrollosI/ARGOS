@@ -18,7 +18,7 @@ export const useAuthStore = () => {
             localStorage.setItem('token', data.token );
             localStorage.setItem('token-init-date', new Date().getTime() );
             insertHistorial({ tipo:'Inicio de Sesión' })
-            dispatch( onLogin({ name: data.usuario.nombre, uid: data.usuario.uid }) );
+            dispatch( onLogin({ name: data.usuario.nombre, uid: data.usuario.uid, rol: data.usuario.rol }) );
             
         } catch (error) {
             dispatch( onLogout('Credenciales incorrectas') );
@@ -55,7 +55,8 @@ export const useAuthStore = () => {
             console.log('desde el chekAuthToken:',{data})
             localStorage.setItem('token', data.token );
             localStorage.setItem('token-init-date', new Date().getTime() );
-            dispatch( onLogin({ name: data.name, uid: data.uid }) );
+            insertHistorial({ tipo:'Renovación de Token' })
+            dispatch( onLogin({ name: data.name, uid: data.uid , rol: data.rol }) );
         } catch (error) {
             console.log('error del check auth', error)
             localStorage.clear();
