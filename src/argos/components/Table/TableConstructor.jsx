@@ -2118,6 +2118,12 @@ export const TableConstructor = ({lugar, datos}) => {
               filter: 'fuzzyText',
             }, 
             {
+              Header:'FECHA',
+              accessor:'extra.hora',
+              Filter: DateRangeColumnFilter,
+              filter: dateBetweenFilterFn
+            },
+            {
               Header:'USUARIO',
               accessor:'user.nombre',
               filter: 'fuzzyText',
