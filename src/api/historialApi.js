@@ -17,3 +17,11 @@ historialApi.interceptors.request.use( config => {
 
     return config;
 })
+
+historialApi.interceptors.response.use(
+    response => response,
+    error => {
+      if (error.response.status === 401) {
+        window.location.href = '/';
+      }
+    });
