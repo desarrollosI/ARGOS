@@ -1,7 +1,7 @@
 .container-fondo{
     width: 100vw;
     height: 100vh;
-    background-image: url('../../../public/login-bg-2.svg');
+    background-image: url('../public/login-bg-2.svg');
     background-repeat: no-repeat;
     background-size: cover;
     /* Setup */

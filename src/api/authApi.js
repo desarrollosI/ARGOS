@@ -10,10 +10,10 @@ export const authApi = axios.create({
 // Todo: configurar interceptores
 authApi.interceptors.request.use( config => {
 
-    // config.headers = {
-    //     ...config.headers,
-    //     'x-token': localStorage.getItem('token')
-    // }
+     config.headers = {
+         ...config.headers,
+         'x-token': localStorage.getItem('token')
+     }
 
     return config;
 })

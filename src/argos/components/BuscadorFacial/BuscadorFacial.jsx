@@ -8,16 +8,20 @@ import { LoadingFace, LoadingSpinner, MyLoader, ResultadosReconocimiento } from 
 import '../css/BuscadorFacial/BuscadorFacial.css';
 import { useAuthStore } from '../../../hooks';
 import { insertHistorial } from '../../../helpers/insertHistorial';
+import { basesApi } from '../../../api';
 
 
 const buscarCoincidenciasEnBase = async (caraInput) => {
   console.log('CARA INPUT', caraInput[0][0]);
-  const resp = await fetch('http://172.18.10.71:9090/api/base/buscar-coincidencia',{
-  method: 'POST',
-  body: JSON.stringify({descriptorInput: caraInput}),
-  headers: { 'Content-Type': 'application/json' }
- });
- let data = await resp.json()
+//   const resp = await fetch('http://172.18.10.71:9090/api/base/buscar-coincidencia',{
+//   method: 'POST',
+//   body: JSON.stringify({descriptorInput: caraInput}),
+//   headers: { 'Content-Type': 'application/json' }
+//  });
+//  let data = await resp.json()
+const {data} = await basesApi.post('buscar-coincidencia',{descriptorInput: caraInput})
+console.log('con axios',data)
+
  return data.data
 
 }
