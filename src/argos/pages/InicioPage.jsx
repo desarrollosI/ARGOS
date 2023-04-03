@@ -25,7 +25,10 @@ export const InicioPage = () => {
             </div>
             <hr />
           </div>
-          <div className="row"></div>
+          <div className="row">
+            <h3>A.R.G.O.S. V 0.7.0 </h3>
+
+          </div>
         </div>
       </>
     </>

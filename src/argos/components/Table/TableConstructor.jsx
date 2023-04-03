@@ -2108,7 +2108,7 @@ export const TableConstructor = ({lugar, datos}) => {
         return (
           <Table columns={columns} data={data} base={'Incidencia Delictiva: Datos Generales'}/>
         )
-
+      // ARGOS HISTORIAL
         case 'Reconocimiento Facial: Fotos Subidas':
         columns = React.useMemo(
           () => [

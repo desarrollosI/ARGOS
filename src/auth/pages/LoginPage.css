@@ -1,0 +1,43 @@
+.container-fondo{
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../../../public/login-bg-2.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* Setup */
+    overflow: hidden !important;
+
+}
+
+.container-center {
+    font-family: arial;
+    font-size: 24px;
+    margin: auto !important;
+    margin-top: 20% !important;
+    width: 500px;
+    height: 400px;
+    /* Center vertically and horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 5px;
+    
+  }
+
+  .btnSubmit{
+    background-color: var(--icon-color);
+    color:#fff;
+    border-radius: 5px;
+    outline: none !important;
+  }
+
+  
+  .btnSubmit:hover{
+    background-color: var(--table-color);
+    color:#fff;
+    border-radius: 5px;
+    outline: none !important;
+  }
+  
+  
