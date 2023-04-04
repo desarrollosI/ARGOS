@@ -154,6 +154,9 @@ export const SelectBaseComponent = ({base}) => {
                                 onChange={handleChange}
                             >
                                 <option value=" ">SELECCIONE UNA OPCIÓN</option>
+                                <option value="Inicio de Sesion">INICIO DE SESIÓN</option>
+                                <option value="Buscador: Exportacion a Excel">BUSCADOR: EXPORTACION A EXCEL</option>
+                                <option value="Vista de Ficha: Mas Detalles">VISTA DE FICHA: MAS DETALLES</option>
                                 <option value="Reconocimiento Facial: Fotos Subidas">RECONOCIMIENTO FACIAL: FOTOS SUBIDAS</option>
                             </select>
                         </div>

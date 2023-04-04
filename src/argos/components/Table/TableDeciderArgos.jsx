@@ -26,6 +26,15 @@ export const TableDeciderArgos = ({lugar}) => {
         case 'Reconocimiento Facial: Fotos Subidas':
             endpoint = '/subida-facial';
             break;
+        case 'Inicio de Sesion':
+            endpoint = '/inicio-sesion';
+            break;
+        case 'Buscador: Exportacion a Excel':
+            endpoint = '/buscador-excel';
+            break;
+        case 'Vista de Ficha: Mas Detalles':
+            endpoint = '/mas-detalles';
+            break;
         default:
             break;
 
