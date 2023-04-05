@@ -14,6 +14,7 @@ import {
 import { useAuthStore } from "../../hooks";
 
 import "./dashboard.css";
+import { BuscadorOficialPage } from "../../argos/pages/BuscadorOficialPage";
 
 export const NavbarN = () => {
 
@@ -75,6 +76,12 @@ export const NavbarN = () => {
                   </NavLink>
                 </li>
                 <li className="nav-item">
+                  <NavLink to="/personas" className="nav-link">
+                    <span data-feather="file" className="align-text-bottom"></span>
+                    Buscador Oficial
+                  </NavLink>
+                </li>
+                <li className="nav-item">
                   <NavLink to="/reconocimiento" className="nav-link">
                     <span
                       data-feather="shopping-cart"
@@ -124,6 +131,7 @@ export const NavbarN = () => {
               <Route path="buscador" element={<BuscadorPage />} />
               <Route path="reconocimiento" element={<ReconocimientoPage />} />
               <Route path="historial" element={<HistorialPage/>} />
+              <Route path="personas" element={<BuscadorOficialPage />} /> 
               <Route path="remision/:remision" element={<RemisionPage />} /> 
               <Route path="inspeccion/:inspeccion" element={<InspeccionPage />} /> 
               <Route path="historico/:folio" element={<HistoricoPage />} /> 

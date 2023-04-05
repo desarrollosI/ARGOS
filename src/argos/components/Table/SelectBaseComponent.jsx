@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { TableDecider } from './TableDecider';
 import { TableHolder } from './TableHolder';
 import { TableDeciderArgos } from './TableDeciderArgos';
+import { TableDeciderPersona } from './TableDeciderPersona';
  
 export const SelectBaseComponent = ({base}) => {
 
@@ -134,6 +135,34 @@ export const SelectBaseComponent = ({base}) => {
                 {
                     ( baseSelect != " " ) 
                         ? <TableDecider lugar={baseSelect}/>
+                        : <TableHolder />
+                }
+            </>
+            
+        )
+        case 'PERSONAS':
+       
+        return (
+            <>
+                <div className="container-fluid">
+                    <div className="row mt-5 mb-5">
+                        <div className="col-md-12">
+                            <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
+                        </div>
+                        <div className="col-md-12">
+                            <select className="form-select" aria-label="Default select example"
+                                onChange={handleChange}
+                            >
+                                <option value=" ">SELECCIONE UNA OPCIÓN</option>
+                                <option value="Personas: Puebla">PERSONAS: PUEBLA</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {
+                    ( baseSelect != " " ) 
+                        ? <TableDeciderPersona lugar={baseSelect}/>
                         : <TableHolder />
                 }
             </>
