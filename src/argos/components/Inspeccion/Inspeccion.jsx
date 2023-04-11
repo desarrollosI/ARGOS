@@ -86,10 +86,10 @@ export const Inspeccion = ({data}) => {
 				personas.map( persona => (
 					<div className="row mt-3" key={persona.Id_Persona_Inspeccion}>
 						<div className="col-md-5">
-							<p className='parrafo'><b>NOMBRE: </b> {`${personas[0].Nombre} ${personas[0].Ap_Paterno} ${personas[0].Ap_Materno}`}</p>
+							<p className='parrafo'><b>NOMBRE: </b> {`${persona.Nombre} ${persona.Ap_Paterno} ${persona.Ap_Materno}`}</p>
 						</div>
 						<div className="col-md-3">
-							<p className='parrafo'><b>NACIMIENTO: </b>	{`${personas[0].Fecha_Nacimiento}`}</p>
+							<p className='parrafo'><b>NACIMIENTO: </b>	{`${persona.Fecha_Nacimiento}`}</p>
 						</div>
 					</div>
 				))
