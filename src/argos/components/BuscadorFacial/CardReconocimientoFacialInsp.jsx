@@ -1,4 +1,6 @@
-
+/*
+  El componente es similar al componente <CardReconociminetoFacial /> revisarlo para documentacion
+*/
 
 import { Link } from "react-router-dom";
 

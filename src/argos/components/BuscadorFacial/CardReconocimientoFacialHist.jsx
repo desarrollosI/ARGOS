@@ -1,5 +1,7 @@
 
-
+/*
+  El componente es similar al componente <CardReconociminetoFacial /> revisarlo para documentacion
+*/
 import { Link } from "react-router-dom";
 
 import { useEffect, useRef, useState, useCallback,useLayoutEffect } from 'react'

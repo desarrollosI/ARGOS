@@ -1,6 +1,15 @@
+/*
+    Este componente se puede considerar un HOC, su tarea es encapsular el componente <SelectBaseComponent />
+    para que se puedan generar multiples instancias del mismo de acuerdo a las búsquedas que sean necesarias
+*/
+
+/*Importaciones necesarias, estado y componente*/ 
 import  { useState } from 'react'
 import { SelectBaseComponent } from '../Table';
-
+/*
+    Funciones que estan fuera de el componente para que no se les asigne otro espacio en  memoria al llamarlas
+    o en su defecto cuando el componente <BaseMultiplier /> sea redibujado, cada funcion hace referencia a una base de datos
+*/ 
 const NuevaInstanciasRemisiones = () => {
     return   <SelectBaseComponent  base={'SARAI REMISIONES'} />
   };
@@ -14,13 +23,18 @@ const NuevaInstanciasIncidencia = () => {
     return   <SelectBaseComponent  base={'SARAI INCIDENCIA DELICTIVA'} />
   };
 
+/*
+  Componente que multiplica las instancias de las bases de datos al realizar un click en el boton para cada base de datos
+  para poder saber cuantas instancias tenemos el componente usa estados que funcionan a manera similar a un contador.
+*/
 export const BaseMultiplier = () => {
-
+    //Se crean cada uno de los estados que alamacenaran las instancias
     const [InstanciasRemisiones, setInstanciasRemisiones] = useState([]);
     const [InstanciasInspecciones, setInstanciasInspecciones] = useState([]);
     const [InstanciasHistorico, setInstanciasHistorico] = useState([]);
     const [InstanciasEventosDelictivos, setInstanciasEventosDelictivos] = useState([]);
-
+    //Se añaden las funciones de modificacion del estado especifico para cada base datos,
+    //El stado es un arreglo, simplemente se le agrega otra instancia de la base de datos al estado para mantenerindependencia
     const onAddInstanciaRemisiones = event => {
         setInstanciasRemisiones(InstanciasRemisiones.concat(<NuevaInstanciasRemisiones key={InstanciasRemisiones.length} />));
     };
@@ -33,13 +47,18 @@ export const BaseMultiplier = () => {
     const onAddInstanciaEventosDelictivos = event => {
         setInstanciasEventosDelictivos(InstanciasEventosDelictivos.concat(<NuevaInstanciasIncidencia key={InstanciasEventosDelictivos.length} />));
     };
+    //Esta funcion regresa los estados a su estado incial, es decir sin instancias extra cuando ya no se requieran.
     const onClearAll = event => {
         setInstanciasRemisiones([]);
         setInstanciasInspecciones([]);
         setInstanciasHistorico([]);
         setInstanciasEventosDelictivos([]);
     };
-
+    /*
+        Retorno del componente, es autoexplicativo, por defecto el componente devuelve los botones y para agregar instancias,
+        así como tambien regresa una instancia de cada base de datos, que no es alamacenada en los estados del mismo, de esta manera
+        aunque se eliminen las instancias siempre harba una de cada base de datos para realizar búsquedas.
+    */
   return (
     <>
     <div>
@@ -90,7 +109,7 @@ export const BaseMultiplier = () => {
     <div className="row mt-3">
         <div className="col">
             <SelectBaseComponent  base={'SARAI REMISIONES'} />
-            {InstanciasRemisiones}
+            {InstanciasRemisiones}  {/*En esta parte se esta inyectando el estado de esas instancias,  para poder multiplicarlas*/}
         </div>
     </div>
     <div className="row mt-3">

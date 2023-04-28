@@ -1,46 +1,48 @@
-//bibliotecas de react o bibliotecas especializadas para react
+//Bibliotecas de react o bibliotecas especializadas para react
 import React, {useState, useEffect, useRef, useMemo} from 'react';
-//bibliotecas de terceros necesarias
+//Bibliotecas de terceros necesarias
 import * as faceapi from 'face-api.js';
-//componentes personalizados necesarios
+//Componentes personalizados necesarios, la importacion es corta, pues se jala de un archivo de barril.
 import { LoadingFace, LoadingSpinner, MyLoader, ResultadosReconocimiento } from '../../components';
-//archivos css
+//Archivos css
 import '../css/BuscadorFacial/BuscadorFacial.css';
+//Importacion de hooks
 import { useAuthStore } from '../../../hooks';
+//Importacion de helpers
 import { insertHistorial } from '../../../helpers/insertHistorial';
+//Importacion de interceptores hacia el backedn.
 import { basesApi } from '../../../api';
 
-
+/*
+  Esta funcion externa, realiza la peticion al backend , recibe como parametro
+  la información de la cara que se ha ingresado al sistema, y regresa los resultados
+  de las mejores coincidencias, para mas detalles consultar en el backend  
+*/
 const buscarCoincidenciasEnBase = async (caraInput) => {
   console.log('CARA INPUT', caraInput[0][0]);
-//   const resp = await fetch('http://172.18.10.71:9090/api/base/buscar-coincidencia',{
-//   method: 'POST',
-//   body: JSON.stringify({descriptorInput: caraInput}),
-//   headers: { 'Content-Type': 'application/json' }
-//  });
-//  let data = await resp.json()
-const {data} = await basesApi.post('buscar-coincidencia',{descriptorInput: caraInput})
-console.log('con axios',data)
-
- return data.data
-
+  const {data} = await basesApi.post('buscar-coincidencia',{descriptorInput: caraInput})
+  return data.data
 }
-
-
-
+/*
+  El componente principal de reconocimiento facual, se encarga de recibir un archivo foto de entrada,
+  mapear su cara y mostrar si si fue reconocible o no, con dicho mapeo realiza la peticion al backend
+  con los resultados se llaman a los componentes que representan los resultados.
+*/ 
 export const BuscadorFacial = () => {
-
-    const [ParecidosRemisiones, setParecidos] = useState([]);
-    const [ParecidosInspecciones, setParecidosInspecciones] = useState([]);
-    const [ParecidosHistoricos, setParecidosHistoricos] = useState([]);
-    const [CaraSubida, setCaraSubida] = useState([]);
-    const [files, setFiles] = useState([]);
-    const [images, setImages] = useState([import.meta.env.VITE_PUBLIC_ROUTE+'silueta.jpg']);
-    const [IsLoadingFace, setIsLoadingFace] = useState(false);
-    const [isLoadingResults, setIsLoadingResults] = useState(false);
-    const [Message, setMessage] = useState(['Paciencia se esta cargando tu imagen','warning']);
+    // Inicializacion de los estados
+    const [ParecidosRemisiones, setParecidos] = useState([]);//Resultados de Remisiones
+    const [ParecidosInspecciones, setParecidosInspecciones] = useState([]);//Resultados de Inspecciones
+    const [ParecidosHistoricos, setParecidosHistoricos] = useState([]);///Resultados de Historicos
+    const [CaraSubida, setCaraSubida] = useState([]);//Cara que se sube al sistema
+    const [files, setFiles] = useState([]);//sub estado para detectar cuando se carga un archivo
+    const [images, setImages] = useState([import.meta.env.VITE_PUBLIC_ROUTE+'silueta.jpg']);//Estado para manejar la imagen placeholder cuando recien se incia el sistema
+    const [IsLoadingFace, setIsLoadingFace] = useState(false);//Estado bandera para saber si la cara fue mapeada con exito, si se esta procesado o si no se pudo procesar
+    const [isLoadingResults, setIsLoadingResults] = useState(false);// Estado bandera para saber si se siguen solicitando los resultados al backend
+    const [Message, setMessage] = useState(['Paciencia se esta cargando tu imagen','warning']);//Estado que maneja los mensajes informativos cuando se carga una imagen
  
-    // Esta funcion maneja el input de la imagen, la muestra y le detecta la cara 
+    // Esta funcion maneja el input de la imagen, la muestra y le detecta la cara
+    //Su funcion es leer la imagen(base64), y guardarla en el hsitorial, independientemente si se mapea o no
+    //Los helpers del hsitorial revisarlos en su modulo correspondiente
       const handleImageChange = async (e) => {
         setIsLoadingFace(true);
         console.log("handleImageChange");
@@ -50,22 +52,19 @@ export const BuscadorFacial = () => {
         // File Reader for Each file and and update state arrays
         fileList.forEach(async (files, i) => {
           let reader = new FileReader();
-    
+          
           reader.onloadend = () => {
-            //console.log('que hay aca?',reader.result);
             insertHistorial({lugar:'Reconocimiento Facial',tipo: 'Subida de Foto',imagen: reader.result})
             setFiles(prevFiles => [ files]);
             setImages(prevImages => [ reader.result]);
           };
-    
+          //Se muestra la imagen en pantalla, si existiese una imagen ya mostrada se elimina.
           reader.readAsDataURL(files);
-         
           let image
           let canvas
           let containerimg = document.querySelector('#contenedorimg');
           if (canvas) canvas.remove()
           console.log(containerimg.childNodes)
-        //   console.log(containerimg.ChildNodes().length);
           let anteriores = document.querySelectorAll('canvas');
           console.log(anteriores)
           if(anteriores.length>0){
@@ -73,22 +72,24 @@ export const BuscadorFacial = () => {
                 anterior.remove();
             })
           }
-
+        
           console.log(containerimg.childNodes[0].width);
-          if (canvas) canvas.remove() // si ya existe se elimina
+          if (canvas) canvas.remove() 
+          //Con la imagen mostrada se comienza el proceso de deteccion de la cara en la misma
+          //se recomienda estudiar el repositorio de la biblioteca faceapi,  para comprender el funcionamiento
+          //de las funciones y como se realiza la deteccion.
           image = await faceapi.bufferToImage(fileList[0])
           canvas = faceapi.createCanvasFromMedia(image)
-          containerimg.append(canvas) //
+          containerimg.append(canvas)
           const displaySize = { width: containerimg.childNodes[0].width, height: containerimg.childNodes[0].height } // se alinean canvas e imagen
           faceapi.matchDimensions(canvas, displaySize) // se alinean
           const detections = await faceapi.detectAllFaces(image).withFaceLandmarks().withFaceDescriptors() // se sacan todas las caras de la imagen en la cual debo de buscar contra la base
           if(detections.length>0){
-
-              const resizedDetections = faceapi.resizeResults(detections, displaySize) // se ajustan los resultados
-              faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
+              //si se detectan caras se realiza la peticion al backend
+              const resizedDetections = faceapi.resizeResults(detections, displaySize) // se ajustan en tamaño los resultados
+              faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)// se dibujan los resultados de las caras detectadas
               setMessage(['Cara localizada y mapeada','success'])
               setCaraSubida([resizedDetections]);
-              // console.log('CARA SUBIDA STATE: ', CaraSubida[0][0].descriptor )
               setIsLoadingResults(true)
               let mejoresResultados =  await buscarCoincidenciasEnBase([resizedDetections])
               const {Remisiones,Inspecciones,Historicos} = mejoresResultados;
@@ -103,7 +104,12 @@ export const BuscadorFacial = () => {
           }
         });
       };
-
+    /*
+      El retorno del componente, es el input de tipo file para que se puedan subir las fotos, requiere de mas componentes como el que muestra
+      los mensajes de carga de las fotos que se ingresan, asi mismo cuando se estan solicitando resultados se invoca el componente <MyLoader/>
+      el cual es un Skeleton Loader, por último si el backend regresa resultados encontrados se invoca el componente que imprime los resultados
+      <ResultadosReconocimiento /> 
+    */
   return (
     
     <>
@@ -112,9 +118,6 @@ export const BuscadorFacial = () => {
             <div className="row">
                 <div className="col-md-5 shadow vh100 me-2">
                     <div className="row indicador mt-5">
-                        {/* <p>Se cuenta con: {RemisionesData.length}  registros de Remisiones, con: {InspeccionesData.length} de Inspecciones 
-                       </p> */}
-                       {/*  y con {HistoricosData.length} de Historicos */}
                     </div>
                     <div className="row mt-2">
                         <div className="col-md-10 d-flex justify-content-center">
