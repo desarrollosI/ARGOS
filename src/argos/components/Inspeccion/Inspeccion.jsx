@@ -1,6 +1,10 @@
+//Es un componente cuya finalidad es refejar mas informacion sobre un registro en este caso de Inspecciones
+//importacion de los componnentes necesarios
+import { ImageZoom } from '../Shared/ImageZoom';
+//importacion de las hojas de estilo requeridas
 import '../css/Shared/FichaInformativa.css'
 import 'animate.css';
-import { ImageZoom } from '../Shared/ImageZoom';
+//El componente es sencillo solo es la maquetacion en jsx de la información y como debe de ser mostrada
 export const Inspeccion = ({data}) => {
 
   const { generales, fotos, personas } = data;
