@@ -1,6 +1,20 @@
+/* 
+  Este componente se le conoce como un skeleton loader
+  su funcion es la de ocupar el espacio y forma de el componente
+  que se esta previo a renderizar pero que requiere de informacón proveeida por el backend
+  para dar la sensación de que se esta realizando una acción
+*/
+//Se importan los componentes propios de react
 import React from "react"
+//Se importan los componentes de react-content-loader
 import ContentLoader from "react-content-loader"
-
+/*
+  Se crea el componente personalizado el cual toma el componente propio de la biblioteca
+  utilizando sus funciones y parametros se pueden crear las formas necesarias y adecuarlas
+  al tipo de componente que se quiere dar forma en este caso es para las tarjetas de 
+  reconocimiento facial, para mas información buscar el repositorio de la biblioteca
+*/
+//Lo que termina de exportar la funcón no es mas que un svg animado.
 export const MyLoader = (props) => (
   <ContentLoader 
     speed={2}

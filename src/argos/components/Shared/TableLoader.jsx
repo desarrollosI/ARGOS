@@ -1,3 +1,7 @@
+/*
+  Este componente es exactamente igual que <MyLoader /> Sin embargo este se han dado las
+  propiedades necesarias para que adquiera la forma de una tabla
+*/
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 

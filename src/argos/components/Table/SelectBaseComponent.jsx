@@ -1,7 +1,14 @@
+/*
+    La funcionalidad de este componente es la de tener un selector con los diferentes filtros 
+    habilitados de las diferentes bases de datos, seleccionado el filtro el compoente se encarga
+    de requerir el SkeletonLoader y al contar con la información mostrar la tabla correspondiente
+*/
+//Se importan los componentes Propios de react
 import React, { useState } from 'react'
-import { TableDecider } from './TableDecider';
-import { TableHolder } from './TableHolder';
-import { TableDeciderArgos } from './TableDeciderArgos';
+//Se importan los componentes que requiere este componente
+import { TableDecider } from './TableDecider'; //En el table decider hace referencia  a filtros de bases de datos oficiales
+import { TableHolder } from './TableHolder'; //Este componente encapsula el Skeleton Loader
+import { TableDeciderArgos } from './TableDeciderArgos'; //Este componente encapsula las tablas en este caso del historial
  
 export const SelectBaseComponent = ({base}) => {
 
@@ -52,6 +59,7 @@ export const SelectBaseComponent = ({base}) => {
             </>
             
         )
+
         case 'SARAI INSPECCIONES':
        
         return (
@@ -83,6 +91,7 @@ export const SelectBaseComponent = ({base}) => {
             </>
             
         )
+
         case 'SARAI HISTORICO':
        
         return (
@@ -111,6 +120,7 @@ export const SelectBaseComponent = ({base}) => {
             </>
             
         )
+
         case 'SARAI INCIDENCIA DELICTIVA':
        
         return (
