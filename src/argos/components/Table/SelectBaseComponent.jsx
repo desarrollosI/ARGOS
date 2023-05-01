@@ -9,7 +9,11 @@ import React, { useState } from 'react'
 import { TableDecider } from './TableDecider'; //En el table decider hace referencia  a filtros de bases de datos oficiales
 import { TableHolder } from './TableHolder'; //Este componente encapsula el Skeleton Loader
 import { TableDeciderArgos } from './TableDeciderArgos'; //Este componente encapsula las tablas en este caso del historial
- 
+
+/* 
+    El componente recibe la base de la que se quieren acceder los filtros del que se quiere obtener la información
+    tiene que ser un estado para poder detectar cambios en la selección.
+*/
 export const SelectBaseComponent = ({base}) => {
 
     const [baseSelect, setBaseSelect] = useState(' ')
@@ -53,7 +57,7 @@ export const SelectBaseComponent = ({base}) => {
 
                 {
                     ( baseSelect != " " ) 
-                        ? <TableDecider lugar={baseSelect}/>
+                        ? <TableDecider lugar={baseSelect}/> //Si hay algun cambio en el estado se invoca al componente TableDecider con el filtro que se desa como parametro de entrada
                         : <TableHolder />
                 }
             </>

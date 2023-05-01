@@ -1,4 +1,7 @@
-
+/* 
+  Este componente solo es un mensaje de alerta para indicar cuando el usuario ha 
+  o no seleccionado un filtro.
+*/
 
 export const TableHolder = () => {
   return (

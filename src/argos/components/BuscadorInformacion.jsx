@@ -1,3 +1,7 @@
+/* 
+  Este componente esta en desuso, TODO eliminar a posterior
+*/
+
 
 import React, { useCallback, useRef, useState } from 'react'
 

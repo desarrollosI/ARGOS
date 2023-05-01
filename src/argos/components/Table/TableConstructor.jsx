@@ -1,17 +1,22 @@
+//Se importan los componentes propios de react
 import React, { useState } from 'react'
-
+//Se importan los componentes personalizados necesarios
 import { Table } from './Table';
-
-import "babel-polyfill";
 import { GlobalFilter, DefaultColumnFilter, SelectColumnFilter, SliderColumnFilter, NumberRangeColumnFilter, fuzzyTextFilterFn,DateRangeColumnFilter, dateBetweenFilterFn } from '../../helpers'
+//Se importan los componentes  de react router
 import { Link } from 'react-router-dom';
+//Se importa el babel-polyfill, es necesario para que funcionen las tablas de react. Es un traductor a hacia javascript mas simple
+import "babel-polyfill";
+//Se importan los helpers para el manejo del historial
 import { insertHistorial } from '../../../helpers/insertHistorial';
 
+  //Se crea la funcion que ayuda a realizar las insersiones en el historial
   const registrarMovimiento = (dataHistorial) => {
-    //console.log('desde table constructor: ', dataHistorial)
     insertHistorial(dataHistorial)
   }
-
+  /*
+    Este filtro es necesario mantenerlo en este archivo para poder eliminar los filtros posteriores
+  */
     // Define a custom filter filter function!
   function filterGreaterThan(rows, id, filterValue) {
     return rows.filter(row => {
@@ -26,13 +31,25 @@ import { insertHistorial } from '../../../helpers/insertHistorial';
 // check, but here, we want to remove the filter if it's not a number
 filterGreaterThan.autoRemove = val => typeof val !== 'number'
 
+/*
+  El componente exportado <TableConstructor /> recibe como parametros, de donde proviene la data que es su segundo parametro
+  con esa informacion, se declaran dos variables columas y data, el objetivo de este componente es crear dos objetos, las columas
+  y la data que contendra la tabla que se va a visualizar
+*/
 export const TableConstructor = ({lugar, datos}) => {
   console.log('LUGAR: ',lugar,'DATOS: ',datos);
     
     let columns,data;
-    const [filtros, setFiltros] = useState()
+    const [filtros, setFiltros] = useState() // se alacena en un estado los filtros aplicados, deberian retornar desde el hijo. No ha habido exito se requiere para el historial
     switch (lugar) {
       //opciones de remisiones
+      /*
+        El coponente requiere de un switch, para poder decirir como tratar la informacion dependiendo de cada filtro, como ya se menciono el switch tiene el objetivo de crear las columas
+        y la data que requerira la tabla posterior, el elemnto de columnas es un arreglo de objetos, cada objeto corresponde a una columna, con parametros cambiantes, los dos minimos
+        son el Header, que es el titulo de la columna, y el accesor que indica a la tabla, que informacion de la data se va a renderizar, las columnas pueden tener campos extas
+        en el cual se le indica el tipo de filtro que se quiere inyectar a la columna, es algo complejo se recomienda visitar la documentacion de react table, son en si minicomponentes.
+        Hay diferentes propiedades diferentes, pudiendo inyercar jsx en determinaadas columnas, como en las que se quiere generar enlaces para obtener mas informacion.       
+        */
       case 'Detenido: Datos Personales':
         columns = React.useMemo(
           () => [
@@ -142,12 +159,21 @@ export const TableConstructor = ({lugar, datos}) => {
                 },
           ],[]
         )
-
+        /*
+          Se requiere que la data sea especificamente lo que va a renderizar la posterior tabla, si bien se puede desestructurar, de esta forma se sabe exatamente que informacion
+          se esta enviando.
+          Como comentario adicional, tanto las columnas y los datos usan el Hook useMemo, el use memo ayuda a react a no pedir nuevamente informacion si no ha habido cambios significativos
+          esto con el objetivo de tratar de no perder rendimiento por la gran cantidad de datos.
+        */ 
         data = React.useMemo(() =>
         datos.Remisiones
         , [])
         
-        
+        /*
+          El retornar del componente es otro componente <Table /> recibe toda la información y las columnas, ligadas a dicha información, junto con que filtro
+          se va a renderizar y utilizar par esa tabla
+          Este componente sirve para cualquier tipo de tabla, pues tambien es usado para el historial del sistema argos.   
+        */
         return (
           <Table columns={columns} data={data} base={'Detenido: Datos Personales'} setFiltros={setFiltros}/>
         )

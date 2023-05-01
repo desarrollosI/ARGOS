@@ -1,17 +1,23 @@
-//primero de react
-
+//Se importan los componentes Propios de react
 import { useEffect, useState } from 'react';
+//Se importa nuestro adaptador hacia el backend
 import { basesApi } from '../../../api';
-//hooks
+//Se importan los componentes personalizados 
 import { TableLoader } from '../Shared';
 import { TableConstructor } from './TableConstructor';
 //bliotecas y/o componentes de terceros
-
+ /* 
+    La funcion de este compoenente es recibir el nombre del filtro que se requiere,
+    con ese nombre se sabe hacia que endpoint del backend dirigir la petición para 
+    obtener la información desea.
+ */
 export const TableDecider = ({lugar}) => {
 
-    const [isLoadingData, setIsLoadingData] = useState(true)
-    const [fetchedData, setFetchedData] = useState();
-
+    const [isLoadingData, setIsLoadingData] = useState(true) //Estado bandera para saber cuando se sigue esperando una respuesta del backend
+    const [fetchedData, setFetchedData] = useState();// En este estado se va a almacenar la información proveeida por el backend
+    //Esta función se dispara gracias al efecto, pone en estado de carga de infotmacion
+    //hace la peticion al adaptador por la información y espera la informacion
+    //cuando la informacion es recibida, se guarda la informacion en el estado y se sale del estdio de carga 
     const fetchData = async(endpont) => {
         setIsLoadingData(true);
         const {data} =  await basesApi.post(endpont);
@@ -83,11 +89,14 @@ export const TableDecider = ({lugar}) => {
 
     }
 
-
+    //Efecto que se dispara cuando hay un cambio en el filtro, su funcion es relizar la peticion de la infromacion al backend
     useEffect(() => { 
         fetchData(endpoint)
       }, [lugar])
-
+    
+    //El retorno del componente es el placeholder, <TableLoader /> mientas la petición siga cargando
+    //cuando la información deja de cargar , se invoca al componente <TableConstructor /> con el filtro, y la información
+    //obtenida del backend  
     return (
         <>  
             <div className="container-fluid">
