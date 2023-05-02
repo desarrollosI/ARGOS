@@ -1,3 +1,4 @@
+//archivo de barril para facilitar la importacion de las paginas
 export * from './InicioPage';
 export * from './BuscadorPage';
 export * from './ReconocimientoPage';

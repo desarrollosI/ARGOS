@@ -1,3 +1,13 @@
+/*
+  Los compoenentes presentados en la carpeta de pages pueden calificar como componentes hoc,
+  puesto que su funcion general es ser la vista que muestra en las paginas, y a su vez
+  renderizan los componentes mencionados en la carpeta components
+
+  No es algo mas complejo que una  maquetación de la estructura de como se debe de ver determianda pagina
+  adoc al nombre
+*/
+
+//Se realizan las importaciones de react
 import React from "react";
 
 export const GeoanalisisPage = () => {

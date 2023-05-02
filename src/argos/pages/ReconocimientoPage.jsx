@@ -1,16 +1,27 @@
-//propio de react
-import React, { useState, useEffect, useRef } from "react";
-//helpers
-import { loadModels } from "../helpers";
-//hooks
+/*
+  Los compoenentes presentados en la carpeta de pages pueden calificar como componentes hoc,
+  puesto que su funcion general es ser la vista que muestra en las paginas, y a su vez
+  renderizan los componentes mencionados en la carpeta components
 
-//componentes
+  No es algo mas complejo que una  maquetación de la estructura de como se debe de ver determianda pagina
+  adoc al nombre
+*/
+
+//Se realizan las importaciones de react
+import React, { useState, useEffect, useRef } from "react";
+//se importan los helpers necesarios
+import { loadModels } from "../helpers";
+
+//se importan los componentes necesarios 
 import { BuscadorFacial, LoadingSpinner } from "../components/";
 
-
+/* 
+  Esta pagina es un poco diferente, puesto que tiene un estado propio, este estado es necesario
+  para poder saber cuando se cargarn los modulos de inteligencia artificial
+*/
 export const ReconocimientoPage = () => {
   const [initializing, setInitializing] = useState(true);
-
+// Este efecto lo que hace es disparar apenas se cargue el componente, los modelos de IA, cuando se terminan de cargar se vuelve a un estado sin cargar
   useEffect(() => {  
     loadModels()
     setInitializing(false);
