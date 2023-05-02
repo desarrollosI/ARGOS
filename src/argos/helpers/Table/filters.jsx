@@ -1,9 +1,17 @@
-
+/*
+  En este archivo se encuentran diferentes mini componentes, son inpunts , que ayudan a definir
+  los filtros de la informacion conforme se vaya necesitando, asi mismo dentro de cada filtro
+  se tiene la logica que los controla.
+*/
+//Se importan los componentes propios de react
 import React from 'react'
+//se importan los componentes propios de react table
 import { useAsyncDebounce } from 'react-table'
-import "babel-polyfill";
+// se importa la bibliotecha de match sorterm es la encargada de buscar informacion dado un texto de entrada
 import {matchSorter} from 'match-sorter'
-
+// se importa traductor hacia javascript
+import "babel-polyfill";
+// Este componente es el que se encarga de realizar el filtrado global en todas las columnas de la tabla
 export function GlobalFilter({
     preGlobalFilteredRows,
     globalFilter,
@@ -35,6 +43,7 @@ export function GlobalFilter({
     )
   }
   
+  //esta funcion devuelve la interfaz del filtro general
   // Define a default UI for filtering
 export function DefaultColumnFilter({
     column: { filterValue, preFilteredRows, setFilter },
@@ -178,6 +187,7 @@ export function NumberRangeColumnFilter({
       )
   }
   
+  //Este es el filtro que se encarga de obtener la información basado en un texto de entrada.
 export function fuzzyTextFilterFn(rows, id, filterValue) {
       return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
   }
@@ -185,6 +195,8 @@ export function fuzzyTextFilterFn(rows, id, filterValue) {
   // Let the table remove the filter if the string is empty
   fuzzyTextFilterFn.autoRemove = val => !val
 
+  // Esta funcion realiza la busqueda entre dos rangos de fehcas,
+  //hace los ajustes necesarios y la reconversion de los mismos para empatar las horas
   export function dateBetweenFilterFn(rows, id, filterValues) {
     
     const sd = filterValues[0] ? new Date(filterValues[0]) : undefined;
@@ -218,6 +230,8 @@ export function fuzzyTextFilterFn(rows, id, filterValue) {
     }
   }
   
+  // esta funcion realiza el renderizado de los dos inputs para establecer las fechas
+  //minima y maxima para el filtrado
   export function DateRangeColumnFilter({
     column: { filterValue = [], preFilteredRows, setFilter, id }
   }) {
