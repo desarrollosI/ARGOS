@@ -1,23 +1,33 @@
-// Our table component
+/*
+    Este componente es muy muy complejo, recordatorio todo lo que inicie con useXXXXXX por norma general se trata de un hook
+    la biblioteca de react table nos facilita muchos hooks para poder manipular la tabla y extender o acortar funcionalidad
+    no es necesaio saber que es lo que contienen solo lo que regresan o como se pueden utilizar, nuevamente en el repositorio
+    de github, la pagina del paquete npm o su página oficial se encuentra mas documentacion al respecto
+
+    Para hacer la tabla deseada se requieren determinados hooks con nombres adoc a lo que se quiere lograr se quieren filtros
+    se llama el useFilters, se quiere paginacion se usa el usePagination, etc. 
+*/
+
+// Se importan los componentes propios de react 
 import React, { useEffect } from 'react'
-import { useTable, useFilters, useGlobalFilter, usePagination,useResizeColumns } from 'react-table'
-
+// Se importan los componente de react table
+import { useTable, useFilters, useGlobalFilter, usePagination, useResizeColumns } from 'react-table'
+// Se importan los componentes personalizados, estos componentes son los filtros e inputs de los mismos
+// Se importan algunos aunque aun no se usan por si son necesarios en un futuro.
 import { GlobalFilter, DefaultColumnFilter, SelectColumnFilter, SliderColumnFilter, NumberRangeColumnFilter, fuzzyTextFilterFn, dataToExcel } from '../../helpers'
-// import { dataToExcel } from './helpers/dataToExcel';
-
+// Se importan las hojas de estilo del componente
 import '../css/Table/tabla.css';
 
-
-
-export function Table({ columns, data, base='', setFiltros }) {
+/*
+    El componente final es la tabla con paginacion, , columnas con filtros y la posibilidad de exportarlo a excel
+*/
+export function Table({ columns, data, base='' }) {
 
     const exportExcel = (data,base) => {
         console.log('data a excel',data)
         dataToExcel(data,  {lugar:'Buscador',tipo: 'Exportación Excel', base: base, filtros: state.filters} );
 
     }
-
-
 
     const filterTypes = React.useMemo(
         () => ({
@@ -102,9 +112,6 @@ export function Table({ columns, data, base='', setFiltros }) {
   let remisiones = preGlobalFilteredRows.map(row => row.values)
   //console.log('previa a excel :', remisiones)
     //TODO Como pasar el filtro al padre para el historial ?
-//   useEffect(() => {
-//     setFiltros(state.filters)
-//   }, [state.filters])
   
   return (
         <>
@@ -249,13 +256,13 @@ export function Table({ columns, data, base='', setFiltros }) {
 
         <br />
         {/* se comenta sive para debugear que filtros se estan aplicando */}
-        <div>
+        {/* <div>
             <pre>
                 <br />
                 {console.log(state.filters)}
                 <code>{JSON.stringify(state.filters, null, 2)}</code>
             </pre>
-        </div>
+        </div> */}
         </>
     )
 }

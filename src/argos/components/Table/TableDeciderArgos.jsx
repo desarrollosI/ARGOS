@@ -1,11 +1,14 @@
-//primero de react
-
+/*
+    Este componente es exactmente igual al table decider, simplemente se decidio fraccionar en este las peticiones 
+    que van hacia los endpoint propios del sistema argos, es decir el historial.
+*/
+//Se importan los componentes propios de react
 import { useEffect, useState } from 'react';
+//se importan los helpers necesarios para el historial
 import { historialApi } from '../../../api';
-//hooks
+//se importan los componentes personalizados 
 import { TableLoader } from '../Shared';
 import { TableConstructor } from './TableConstructor';
-//bliotecas y/o componentes de terceros
 
 export const TableDeciderArgos = ({lugar}) => {
 

@@ -1,8 +1,6 @@
 import React from "react";
 import { BaseMultiplier } from "../components";
-import { BuscadorInformacion } from "../components/BuscadorInformacion";
 import { JumpToTop } from "../components/Shared/JumpToTop";
-import { SelectBaseComponent } from "../components/Table/SelectBaseComponent";
 
 export const BuscadorPage = () => {
   return (
@@ -27,18 +25,6 @@ export const BuscadorPage = () => {
           </div>
           <hr />
         </div>
-        {/* <div className="row">
-          <SelectBaseComponent base={'SARAI REMISIONES'} /> 
-        </div>
-        <div className="row">
-          <SelectBaseComponent base={'SARAI INSPECCIONES'} /> 
-        </div>
-        <div className="row">
-          <SelectBaseComponent base={'SARAI HISTORICO'} /> 
-        </div>
-        <div className="row">
-          <SelectBaseComponent base={'SARAI INCIDENCIA DELICTIVA'} /> 
-        </div> */}
         <BaseMultiplier/>
         <JumpToTop/>
       </div>

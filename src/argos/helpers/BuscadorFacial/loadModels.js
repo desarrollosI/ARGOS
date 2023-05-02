@@ -1,3 +1,8 @@
+/*
+  El objetivo de este helper es la carga de los modelos de reconocimiento facial, para 
+  poder proceder a utulizar sus funciones.
+*/
+
 import * as faceapi from "face-api.js";
 
 export const loadModels = async () => {

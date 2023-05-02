@@ -1,3 +1,2 @@
+//Archivo de barril para facilitar las importaciones del reconocimiento facial
 export * from './loadModels';
-export * from './createLabeledImages';
-export * from './findBestMatches';
