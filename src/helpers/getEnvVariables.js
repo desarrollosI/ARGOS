@@ -1,4 +1,14 @@
+/* 
+    La funcion de este helper es poder exponer las variables de entorno solamente en determinadas piezas de codigo
+    el "compilador" de vite, presenta dificultades para utilizar las variables de entorno, sin embargo son necesarias
+    para almacenar informacion como alguna contraseña del servidor
 
+    Recordatorio importante todas las viariables de entorno que se requieran exponer deben de compenzar con el 
+    prefijo VITE_ 
+    
+    Lo que hace esta funcion es tomar las variables de entorno y almacenarlas en un objeto de javascript, al cual es 
+    mas facil acceder.
+*/
 
 export const getEnvVariables = () => {
 
