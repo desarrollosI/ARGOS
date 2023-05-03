@@ -1,5 +1,11 @@
-
+/*
+  La carpeta ui se puede considerar un tercer modulo
+  ui hace referencia uiser interface, componentes que pueden considerarse superglobales que no cambian mucho
+  y siempre seran necesario ser mostrados al usuario en este caso es la barra de navegacion
+*/
+//Se importan los componentes necesarios de react router
 import { Navigate, Route, Routes ,Link, NavLink, useNavigate} from "react-router-dom";
+//Se improtan los componentes hoc, paginas para la barra de navegacion
 import {
   BuscadorPage,
   ReconocimientoPage,
@@ -10,16 +16,15 @@ import {
   HistoricoPage,
   HistorialPage
 } from "../../argos/pages";
-
+//Se importa el store 
 import { useAuthStore } from "../../hooks";
-
+//se improtan los estilos necesarios para el componente
 import "./dashboard.css";
-
+//El componente resultante es la barra de navegacion
 export const NavbarN = () => {
-
+  //se extrae del store el usuario y la funcion de logout, se deja tambien el status de ser necesario a futuro
   const { status, user, startLogout } = useAuthStore();
-
-
+  // se deja el navigate del router antes se usaba para redirigir al usuario en caso de ser necesario
   const navigate = useNavigate();
 
   return (
