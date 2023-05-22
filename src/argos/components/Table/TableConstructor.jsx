@@ -89,6 +89,11 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'fuzzyText',
                 },
                 {
+                  Header:'COMERCIO AFECTADO',
+                  accessor:'Negocio_Afectado',
+                  filter: 'fuzzyText',
+                },
+                {
                   Header:'NOMBRE',
                   accessor:'Nombre',
                   filter: 'fuzzyText',
@@ -157,6 +162,22 @@ export const TableConstructor = ({lugar, datos}) => {
                   accessor:'Ocupacion',
                   filter: 'fuzzyText',
                 },
+                {
+                  Header:'ALIAS',
+                  accessor:'Alias_Detenido',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header: 'ZONA',
+                  accessor: 'Zona',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'VECTOR',
+                  accessor: 'Vector',
+                  filter: 'fuzzyText',
+                }
           ],[]
         )
         /*
@@ -209,6 +230,16 @@ export const TableConstructor = ({lugar, datos}) => {
                     accessor:'Falta_Delito_Tipo',
                     Filter: SelectColumnFilter,
                     filter: 'equals',
+                  },
+                  {
+                    Header:'FALTAS DELITOS',
+                    accessor:'Faltas_Delitos_Detenido',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'COMERCIO AFECTADO',
+                    accessor:'Negocio_Afectado',
+                    filter: 'fuzzyText',
                   },
                   {
                     Header:'NOMBRE',
@@ -398,6 +429,22 @@ export const TableConstructor = ({lugar, datos}) => {
                     Filter: SelectColumnFilter,
                     filter: 'equals',
                   },
+                  {
+                    Header:'ALIAS',
+                    accessor:'Alias_Detenido',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header: 'ZONA',
+                    accessor: 'Zona',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',
+                  },
+                  {
+                    Header: 'VECTOR',
+                    accessor: 'Vector',
+                    filter: 'fuzzyText',
+                  }
             ],[]
           )
   
@@ -445,6 +492,11 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'FALTAS DELITOS',
                   accessor:'Faltas_Delitos_Detenido',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'COMERCIO AFECTADO',
+                  accessor:'Negocio_Afectado',
                   filter: 'fuzzyText',
                 },
                 {
@@ -516,6 +568,22 @@ export const TableConstructor = ({lugar, datos}) => {
                   accessor:'Genero_Contacto',
                   Filter: SelectColumnFilter,
                   filter: 'equals',
+                },
+                {
+                  Header:'ALIAS',
+                  accessor:'Alias_Detenido',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header: 'ZONA',
+                  accessor: 'Zona',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'VECTOR',
+                  accessor: 'Vector',
+                  filter: 'fuzzyText',
                 }
                 
           ],[]
@@ -562,6 +630,16 @@ export const TableConstructor = ({lugar, datos}) => {
                   accessor:'Falta_Delito_Tipo',
                   Filter: SelectColumnFilter,
                   filter: 'equals',
+                },
+                {
+                  Header:'FALTAS DELITOS',
+                  accessor:'Faltas_Delitos_Detenido',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'COMERCIO AFECTADO',
+                  accessor:'Negocio_Afectado',
+                  filter: 'fuzzyText',
                 },
                 {
                   Header:'NOMBRE DETENIDO',
@@ -625,6 +703,22 @@ export const TableConstructor = ({lugar, datos}) => {
                   accessor:'Descripcion',
                   filter: 'fuzzyText',
                 },
+                {
+                  Header:'ALIAS',
+                  accessor:'Alias_Detenido',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header: 'ZONA',
+                  accessor: 'Zona',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'VECTOR',
+                  accessor: 'Vector',
+                  filter: 'fuzzyText',
+                }
           ],[]
         )
 
@@ -636,7 +730,7 @@ export const TableConstructor = ({lugar, datos}) => {
           <Table columns={columns} data={data} base={'Detenido: Senas Particulares'}/>
         )
 
-      case 'Remisiones: Narrativas':
+      case 'Remisiones: Narrativas': // queda pendiente añadir los campos de alias, 
         columns = React.useMemo(
           () => [
                 {
@@ -772,6 +866,11 @@ export const TableConstructor = ({lugar, datos}) => {
                   minWidth: 200
                 },
                 {
+                  Header:'COMERCIO AFECTADO',
+                  accessor:'Negocio_Afectado',
+                  filter: 'fuzzyText',
+                },
+                {
                   Header:'NOMBRE',
                   accessor:'Nombre',
                   filter: 'fuzzyText',
@@ -831,6 +930,22 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'fuzzyText',
                   minWidth: 100
                 },
+                {
+                  Header:'ALIAS',
+                  accessor:'Alias_Detenido',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header: 'ZONA',
+                  accessor: 'Zona',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'VECTOR',
+                  accessor: 'Vector',
+                  filter: 'fuzzyText',
+                }
           ],[]
         )
 
@@ -1083,6 +1198,17 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                Header:'FALTAS DELITOS',
+                accessor:'Faltas_Delitos_Detenido',
+                filter: 'fuzzyText',
+                minWidth: 200
+                },
+                {
+                Header:'COMERCIO AFECTADO',
+                accessor:'Negocio_Afectado',
+                filter: 'fuzzyText',
+                },
+                {
                   Header:'FOLIO 911',
                   accessor:'Folio_911',
                   filter: 'fuzzyText',
@@ -1119,6 +1245,22 @@ export const TableConstructor = ({lugar, datos}) => {
                   accessor:'Descripcion_Objeto',
                   filter: 'fuzzyText',
                 },
+                {
+                  Header:'ALIAS',
+                  accessor:'Alias_Detenido',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header: 'ZONA',
+                  accessor: 'Zona',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'VECTOR',
+                  accessor: 'Vector',
+                  filter: 'fuzzyText',
+                }
           ],[]
         )
 
@@ -1252,6 +1394,17 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                  Header:'FALTAS DELITOS',
+                  accessor:'Faltas_Delitos_Detenido',
+                  filter: 'fuzzyText',
+                  minWidth: 200
+                },
+                {
+                  Header:'COMERCIO AFECTADO',
+                  accessor:'Negocio_Afectado',
+                  filter: 'fuzzyText',
+                },
+                {
                   Header:'FOLIO 911',
                   accessor:'Folio_911',
                   filter: 'fuzzyText',
@@ -1304,6 +1457,22 @@ export const TableConstructor = ({lugar, datos}) => {
                   accessor:'Descripcion_Droga',
                   filter: 'fuzzyText',
                 },
+                {
+                  Header:'ALIAS',
+                  accessor:'Alias_Detenido',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header: 'ZONA',
+                  accessor: 'Zona',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'VECTOR',
+                  accessor: 'Vector',
+                  filter: 'fuzzyText',
+                }
           ],[]
         )
 
