@@ -84,6 +84,12 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                  Header:'INSTANCIA',
+                  accessor:'Instancia',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
                   Header:'FALTAS DELITOS',
                   accessor:'Faltas_Delitos_Detenido',
                   filter: 'fuzzyText',
@@ -230,6 +236,12 @@ export const TableConstructor = ({lugar, datos}) => {
                     accessor:'Falta_Delito_Tipo',
                     Filter: SelectColumnFilter,
                     filter: 'equals',
+                  },
+                  {
+                  Header:'INSTANCIA',
+                  accessor:'Instancia',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
                   },
                   {
                     Header:'FALTAS DELITOS',
@@ -490,6 +502,12 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                  Header:'INSTANCIA',
+                  accessor:'Instancia',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
                   Header:'FALTAS DELITOS',
                   accessor:'Faltas_Delitos_Detenido',
                   filter: 'fuzzyText',
@@ -628,6 +646,12 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'FALTA/DELITO',
                   accessor:'Falta_Delito_Tipo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'INSTANCIA',
+                  accessor:'Instancia',
                   Filter: SelectColumnFilter,
                   filter: 'equals',
                 },
@@ -860,6 +884,12 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                  Header:'INSTANCIA',
+                  accessor:'Instancia',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
                   Header:'FALTAS DELITOS',
                   accessor:'Faltas_Delitos_Detenido',
                   filter: 'fuzzyText',
@@ -992,10 +1022,21 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                  Header:'INSTANCIA',
+                  accessor:'Instancia',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
                   Header:'FALTAS DELITOS',
                   accessor:'Faltas_Delitos_Detenido',
                   filter: 'fuzzyText',
                   minWidth: 200
+                },
+                {
+                  Header:'COMERCIO AFECTADO',
+                  accessor:'Negocio_Afectado',
+                  filter: 'fuzzyText',
                 },
                 {
                   Header:'NOMBRE',
@@ -1052,6 +1093,22 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'fuzzyText',
                   minWidth: 100
                 },
+                {
+                  Header:'ALIAS',
+                  accessor:'Alias_Detenido',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header: 'ZONA',
+                  accessor: 'Zona',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'VECTOR',
+                  accessor: 'Vector',
+                  filter: 'fuzzyText',
+                }
           ],[]
         )
 
@@ -1098,10 +1155,21 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                  Header:'INSTANCIA',
+                  accessor:'Instancia',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
                   Header:'FALTAS DELITOS',
                   accessor:'Faltas_Delitos_Detenido',
                   filter: 'fuzzyText',
                   minWidth: 200
+                },
+                {
+                  Header:'COMERCIO AFECTADO',
+                  accessor:'Negocio_Afectado',
+                  filter: 'fuzzyText',
                 },
                 {
                   Header:'NOMBRE',
@@ -1152,6 +1220,22 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'fuzzyText',
                   minWidth: 100
                 },
+                                {
+                  Header:'ALIAS',
+                  accessor:'Alias_Detenido',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header: 'ZONA',
+                  accessor: 'Zona',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'VECTOR',
+                  accessor: 'Vector',
+                  filter: 'fuzzyText',
+                }
           ],[]
         )
 
@@ -1194,6 +1278,12 @@ export const TableConstructor = ({lugar, datos}) => {
                 {
                   Header:'FALTA/DELITO',
                   accessor:'Falta_Delito_Tipo',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'INSTANCIA',
+                  accessor:'Instancia',
                   Filter: SelectColumnFilter,
                   filter: 'equals',
                 },
@@ -1394,6 +1484,12 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                  Header:'INSTANCIA',
+                  accessor:'Instancia',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
                   Header:'FALTAS DELITOS',
                   accessor:'Faltas_Delitos_Detenido',
                   filter: 'fuzzyText',
@@ -1519,6 +1615,23 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
+                  Header:'INSTANCIA',
+                  accessor:'Instancia',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header:'FALTAS DELITOS',
+                  accessor:'Faltas_Delitos_Detenido',
+                  filter: 'fuzzyText',
+                  minWidth: 200
+                },
+                {
+                  Header:'COMERCIO AFECTADO',
+                  accessor:'Negocio_Afectado',
+                  filter: 'fuzzyText',
+                },
+                {
                   Header:'FOLIO 911',
                   accessor:'Folio_911',
                   filter: 'fuzzyText',
@@ -1601,6 +1714,22 @@ export const TableConstructor = ({lugar, datos}) => {
                   accessor:'Observacion_Vehiculo',
                   filter: 'fuzzyText',
                 },
+                {
+                  Header:'ALIAS',
+                  accessor:'Alias_Detenido',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header: 'ZONA',
+                  accessor: 'Zona',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'VECTOR',
+                  accessor: 'Vector',
+                  filter: 'fuzzyText',
+                }
           ],[]
         )
 
