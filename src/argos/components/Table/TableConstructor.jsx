@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import "babel-polyfill";
 //Se importan los helpers para el manejo del historial
 import { insertHistorial } from '../../../helpers/insertHistorial';
+import { MyPopover } from '../Popover';
 
   //Se crea la funcion que ayuda a realizar las insersiones en el historial
   const registrarMovimiento = (dataHistorial) => {
@@ -2446,6 +2447,7 @@ export const TableConstructor = ({lugar, datos}) => {
               Header:'ID',
               accessor:'_id',
               filter: 'fuzzyText',
+              id: 'id'
             }, 
             {
               Header:'FECHA',
@@ -2472,8 +2474,9 @@ export const TableConstructor = ({lugar, datos}) => {
             }, 
             {
               Header:'IMAGEN',
-              accessor:'extra.imagen',
-              Cell: props =>  (<img src={props.value} width={100} />),
+              accessor:'_id',
+              Cell: props =>  (<MyPopover id={props.value} width={100} />),
+              id: 'foto'
             }, 
           ],[]
         )
