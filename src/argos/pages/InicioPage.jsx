@@ -36,8 +36,8 @@ export const InicioPage = () => {
             <hr />
           </div>
           <div className="row">
-            <h3>A.R.G.O.S. V 0.7.0 </h3>
-
+            <h3>A.R.G.O.S. V 0.7.1 </h3>
+            {/* comentario de prueba solo en dev */}
           </div>
         </div>
       </>
