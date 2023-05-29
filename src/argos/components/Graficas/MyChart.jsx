@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
 //Se importa nuestro adaptador hacia el backend
-import { basesApi } from '../../../api';
+import { graficasApi } from '../../../api';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -35,17 +35,40 @@ const options = {
     },
   };
 
-const data = {
-  datasets: [
-    {
-      label: 'CANTIDAD',
-      data: {'SIN CLASIFICAR':'16', 'ADOLESCENTES I.':'292', 'JUEZ DE JUSTICIA CÍVICA':'1552', 'M.P. FEDERAL':'306', 'M.P. FUERO COMÚN':'6946'},
-      backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(150, 120, 132, 0.5)', 'rgba(114, 186, 98, 0.5)', 'rgba(221, 170, 45, 0.5)', 'rgba(100, 120, 220, 0.5)'],
-    }
-  ],
-};
+const getRandomColor = () =>  {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+  const alpha = 0.5; // Valor fijo para la transparencia
 
-export function MyChart({endpoint,titulo}) {
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+const tratarInformacion = (data,label,x,y) => {
+  // console.log('VALORES: ',Object.values(data),'KEYS: ',Object.values(data))
+  let etiqueta = x;
+  let sets = y.split(',')
+  let datasetsGenerados = [];
+  datasetsGenerados = sets.map(set => {
+    console.log(set)
+    let newDataSet = {
+      label: label,
+      data: data.map(item => item[set]),
+      backgroundColor: data.map(item => getRandomColor())
+    }
+    console.log('antes de hacer el push del set generado: ', newDataSet);
+    return newDataSet;
+  })
+  console.log('asi luce el consumible: ',datasetsGenerados)
+  const dataResultado = {
+    labels: data.map(item => item[etiqueta]),
+    datasets: datasetsGenerados.map(dataSet => dataSet)
+  }
+  console.log('el resultado casi final: ', dataResultado);
+  return dataResultado;
+}
+
+export function MyChart({endpoint,titulo,x,y}) {
 
     const [isLoadingData, setIsLoadingData] = useState(true) //Estado bandera para saber cuando se sigue esperando una respuesta del backend
     const [fetchedData, setFetchedData] = useState();// En este estado se va a almacenar la información proveeida por el backend
@@ -57,17 +80,16 @@ export function MyChart({endpoint,titulo}) {
 
     const fetchData = async(endpont) => {
         setIsLoadingData(true);
-        const {data} =  await basesApi.post(endpont);
-        console.log('llego hasta el data')
-        setFetchedData(data);
+        const {data} =  await graficasApi.post(endpont);
+        console.log(data);
+        setFetchedData(data.data.Remisiones);
         setIsLoadingData(false);
     }
 
     useEffect(() => {
         fetchData(endpoint)
-        console.log(fetchedData)
+        console.log('al final',fetchedData)
     }, [])
 
-    return;
-    // return <Bar options={{ ...options, plugins: { ...options.plugins, title: { ...options.plugins.title, text: titulo } } }} data={data} />;
+    return !isLoadingData && <Bar options={{ ...options, plugins: { ...options.plugins, title: { ...options.plugins.title, text: titulo } } }} data={tratarInformacion(fetchedData,'CANTIDAD DE REMSIONES',x,y)} />;
 }
