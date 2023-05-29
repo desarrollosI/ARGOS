@@ -1,6 +1,9 @@
 import React, { useEffect,useState } from 'react';
 //Se importa nuestro adaptador hacia el backend
 import { graficasApi } from '../../../api';
+//Se importan los helpers necesarios
+import { getRandomColor } from '../../helpers/Graficas/getRandomColor';
+//Se importan las bibliotecas y componentes de terceros
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,7 +14,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-
+//Se inicializa la grafica diciendole que elementos va a tener
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -21,7 +24,7 @@ ChartJS.register(
   Legend
 );
 
-
+//Se inicializa una constante con opciones especificas para la grafica.
 const options = {
     responsive: true,
     plugins: {
@@ -34,37 +37,31 @@ const options = {
       },
     },
   };
-
-const getRandomColor = () =>  {
-  const r = Math.floor(Math.random() * 256);
-  const g = Math.floor(Math.random() * 256);
-  const b = Math.floor(Math.random() * 256);
-  const alpha = 0.5; // Valor fijo para la transparencia
-
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
-
+/* 
+  Esta funcion tiene de objetivo de recibir la informacion obtenida de de la base de datos,
+  especificar de dicha informacion que campos van a ser los ejes de la grafca, con dichos ejes tratar y pasar la informacion
+  para poder crear los dataSets, con los data sets se generan las graficas.
+*/
 const tratarInformacion = (data,label,x,y) => {
-  // console.log('VALORES: ',Object.values(data),'KEYS: ',Object.values(data))
+  
   let etiqueta = x;
   let sets = y.split(',')
   let datasetsGenerados = [];
+
   datasetsGenerados = sets.map(set => {
-    console.log(set)
     let newDataSet = {
       label: label,
       data: data.map(item => item[set]),
       backgroundColor: data.map(item => getRandomColor())
     }
-    console.log('antes de hacer el push del set generado: ', newDataSet);
     return newDataSet;
   })
-  console.log('asi luce el consumible: ',datasetsGenerados)
+  
   const dataResultado = {
     labels: data.map(item => item[etiqueta]),
     datasets: datasetsGenerados.map(dataSet => dataSet)
   }
-  console.log('el resultado casi final: ', dataResultado);
+
   return dataResultado;
 }
 
@@ -76,19 +73,16 @@ export function MyChart({endpoint,titulo,x,y}) {
     //hace la peticion al adaptador por la información y espera la informacion
     //cuando la informacion es recibida, se guarda la informacion en el estado y se sale del estdio de carga 
 
-    console.log(endpoint)
 
     const fetchData = async(endpont) => {
         setIsLoadingData(true);
         const {data} =  await graficasApi.post(endpont);
-        console.log(data);
         setFetchedData(data.data.Remisiones);
         setIsLoadingData(false);
     }
 
     useEffect(() => {
         fetchData(endpoint)
-        console.log('al final',fetchedData)
     }, [])
 
     return !isLoadingData && <Bar options={{ ...options, plugins: { ...options.plugins, title: { ...options.plugins.title, text: titulo } } }} data={tratarInformacion(fetchedData,'CANTIDAD DE REMSIONES',x,y)} />;
