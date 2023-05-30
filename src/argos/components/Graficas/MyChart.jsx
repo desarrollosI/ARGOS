@@ -66,24 +66,76 @@ const tratarInformacion = (data,label,x,y) => {
 }
 
 export function MyChart({endpoint,titulo,x,y}) {
-
+    // console.log('inicio: ', fechaInicio, 'final: ', fechaFin);
     const [isLoadingData, setIsLoadingData] = useState(true) //Estado bandera para saber cuando se sigue esperando una respuesta del backend
     const [fetchedData, setFetchedData] = useState();// En este estado se va a almacenar la información proveeida por el backend
+    const [fechaInicio, setFechaInicio] = useState('2021-06-24')
+    const [fechaFin, setFechaFin] = useState((new Date()).toISOString().split('T')[0])
     //Esta función se dispara gracias al efecto, pone en estado de carga de infotmacion
     //hace la peticion al adaptador por la información y espera la informacion
     //cuando la informacion es recibida, se guarda la informacion en el estado y se sale del estdio de carga 
 
 
+    const handleStartDateChange = (event) => {
+      setFechaInicio(event.target.value);
+    };
+
+    const handleEndDateChange = (event) => {
+      setFechaFin(event.target.value);
+    };
+
     const fetchData = async(endpont) => {
         setIsLoadingData(true);
-        const {data} =  await graficasApi.post(endpont);
+        const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin});
+        console.log(data.data.Remisiones)
         setFetchedData(data.data.Remisiones);
         setIsLoadingData(false);
     }
 
     useEffect(() => {
         fetchData(endpoint)
-    }, [])
+    }, [fechaInicio,fechaFin])
 
-    return !isLoadingData && <Bar options={{ ...options, plugins: { ...options.plugins, title: { ...options.plugins.title, text: titulo } } }} data={tratarInformacion(fetchedData,'CANTIDAD DE REMSIONES',x,y)} />;
+    return (
+      <>
+        {!isLoadingData && (
+          <Bar
+            options={{
+              ...options,
+              plugins: {
+                ...options.plugins,
+                title: {
+                  ...options.plugins.title,
+                  text: `${titulo} - REGISTROS: ${fetchedData.length}`
+                }
+              }
+            }}
+            data={tratarInformacion(fetchedData, 'CANTIDAD DE REMSIONES', x, y)}
+          />
+        )}
+    
+        <label htmlFor="start">Fecha inicio:</label>
+    
+        <input
+          type="date"
+          id="start"
+          name="trip-start"
+          defaultValue={fechaInicio}
+          min={fechaInicio}
+          max={(new Date()).toISOString().split('T')[0]}
+          onChange={handleStartDateChange}
+        />
+
+        <label htmlFor="end">Fecha Fin:</label>
+            
+        <input
+          type="date"
+          id="end"
+          name="trip-end"
+          defaultValue={fechaFin}
+          onChange={handleEndDateChange}
+        />
+      </>
+    );
+    
 }

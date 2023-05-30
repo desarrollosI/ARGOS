@@ -42,7 +42,7 @@ export const EstadisticaPage = () => {
           <MyChart endpoint={'remisiones-por-instancia'} titulo={'REMISIONES POR INSTANCIA'} x={'Instancia'} y={'total'}/>
         </div>
         <div className="col-md-6">
-          <MyChart endpoint={'remisiones-por-instancia-genero'} titulo={'REMISIONES POR INSTANCIA POR GÉNERO'} x={'Instancia'}  y={'suma_hombres,suma_mujeres'}/>
+          <MyChart endpoint={'remisiones-por-instancia-genero'} titulo={'REMISIONES POR INSTANCIA POR GÉNERO'} x={'Instancia'}  y={'suma_hombres,suma_mujeres'} />
         </div>
       </div>
     </>
