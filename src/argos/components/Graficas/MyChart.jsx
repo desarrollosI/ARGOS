@@ -8,17 +8,25 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  RadialLinearScale,
   BarElement,
+  PointElement,
+  LineElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Bar,Line,Radar,Doughnut } from 'react-chartjs-2';
 //Se inicializa la grafica diciendole que elementos va a tener
 ChartJS.register(
   CategoryScale,
   LinearScale,
+  RadialLinearScale,
   BarElement,
+  PointElement,
+  LineElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend
@@ -42,17 +50,19 @@ const options = {
   especificar de dicha informacion que campos van a ser los ejes de la grafca, con dichos ejes tratar y pasar la informacion
   para poder crear los dataSets, con los data sets se generan las graficas.
 */
-const tratarInformacion = (data,label,x,y) => {
+const tratarInformacion = (tipo,data,label,x,y) => {
   
   let etiqueta = x;
   let sets = y.split(',')
   let datasetsGenerados = [];
-
+  
   datasetsGenerados = sets.map(set => {
+    let colores = (sets.length > 1) ? getRandomColor() : data.map(item => getRandomColor())
     let newDataSet = {
-      label: label,
+      label: set,
       data: data.map(item => item[set]),
-      backgroundColor: data.map(item => getRandomColor())
+      borderColor: colores,
+      backgroundColor: colores//si solo hay un data set, generame un color random c/u cols, si no solo un color para cada dataset 
     }
     return newDataSet;
   })
@@ -65,7 +75,7 @@ const tratarInformacion = (data,label,x,y) => {
   return dataResultado;
 }
 
-export function MyChart({endpoint,titulo,x,y}) {
+export function MyChart({tipo,endpoint,titulo,x,y}) {
     // console.log('inicio: ', fechaInicio, 'final: ', fechaFin);
     const [isLoadingData, setIsLoadingData] = useState(true) //Estado bandera para saber cuando se sigue esperando una respuesta del backend
     const [fetchedData, setFetchedData] = useState();// En este estado se va a almacenar la información proveeida por el backend
@@ -97,23 +107,81 @@ export function MyChart({endpoint,titulo,x,y}) {
     }, [fechaInicio,fechaFin])
 
     return (
-      <>
-        {!isLoadingData && (
-          <Bar
-            options={{
-              ...options,
-              plugins: {
-                ...options.plugins,
-                title: {
-                  ...options.plugins.title,
-                  text: `${titulo} - REGISTROS: ${fetchedData.length}`
+        <>
+
+        {
+          tipo === 'barra' && !isLoadingData && (
+            <Bar
+              options={{
+                ...options,
+                plugins: {
+                  ...options.plugins,
+                  title: {
+                    ...options.plugins.title,
+                    text: `${titulo} - REGISTROS: ${fetchedData.length}`
+                  }
                 }
-              }
-            }}
-            data={tratarInformacion(fetchedData, 'CANTIDAD DE REMSIONES', x, y)}
-          />
-        )}
-    
+              }}
+              data={tratarInformacion(tipo,fetchedData, 'CANTIDAD DE REMSIONES', x, y)}
+            />
+          )
+        }
+
+        { 
+          tipo === 'area' && !isLoadingData && (
+            <Line
+              options={{
+                ...options,
+                plugins: {
+                  ...options.plugins,
+                  title: {
+                    ...options.plugins.title,
+                    text: `${titulo} - REGISTROS: ${fetchedData.length}`
+                  }
+                }
+              }}
+              data={tratarInformacion(tipo,fetchedData, 'CANTIDAD DE REMSIONES', x, y)}
+            />
+          )
+        }
+
+        { 
+          tipo === 'radar' && !isLoadingData && (
+            <Radar
+              options={{
+                ...options,
+                plugins: {
+                  ...options.plugins,
+                  title: {
+                    ...options.plugins.title,
+                    text: `${titulo} - REGISTROS: ${fetchedData.length}`
+                  }
+                }
+              }}
+              data={tratarInformacion(tipo,fetchedData, 'CANTIDAD DE REMSIONES', x, y)}
+            />
+          )
+        }
+
+        { 
+          tipo === 'dona' && !isLoadingData && (
+            <Doughnut
+              options={{
+                ...options,
+                plugins: {
+                  ...options.plugins,
+                  title: {
+                    ...options.plugins.title,
+                    text: `${titulo} - REGISTROS: ${fetchedData.length}`
+                  }
+                }
+              }}
+              data={tratarInformacion(tipo, fetchedData, 'CANTIDAD DE REMSIONES', x, y)}
+            />
+          )
+        }
+        
+      
         <label htmlFor="start">Fecha inicio:</label>
     
         <input
