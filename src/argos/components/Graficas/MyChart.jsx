@@ -57,18 +57,18 @@ const tratarInformacion = (tipo,data,label,x,y) => {
   let datasetsGenerados = [];
   
   datasetsGenerados = sets.map(set => {
-    let colores = (sets.length > 1) ? getRandomColor() : data.map(item => getRandomColor())
+    let colores = (sets.length > 1) ? getRandomColor() : data.map(item => getRandomColor())//si solo hay un data set, generame un color random c/u cols, si no solo un color para cada dataset 
     let newDataSet = {
       label: set,
       data: data.map(item => item[set]),
       borderColor: colores,
-      backgroundColor: colores//si solo hay un data set, generame un color random c/u cols, si no solo un color para cada dataset 
+      backgroundColor: colores
     }
     return newDataSet;
   })
   
   const dataResultado = {
-    labels: data.map(item => item[etiqueta]),
+    labels:  (data.length > 1) ? data.map(item => item[etiqueta]): ['Remisiones totales'],
     datasets: datasetsGenerados.map(dataSet => dataSet)
   }
 
@@ -81,6 +81,7 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
     const [fetchedData, setFetchedData] = useState();// En este estado se va a almacenar la información proveeida por el backend
     const [fechaInicio, setFechaInicio] = useState('2021-06-24')
     const [fechaFin, setFechaFin] = useState((new Date()).toISOString().split('T')[0])
+    const [agrupacion, setAgrupacion] = useState(true)
     //Esta función se dispara gracias al efecto, pone en estado de carga de infotmacion
     //hace la peticion al adaptador por la información y espera la informacion
     //cuando la informacion es recibida, se guarda la informacion en el estado y se sale del estdio de carga 
@@ -94,9 +95,13 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
       setFechaFin(event.target.value);
     };
 
+    const handleAgrupacionChange = (event) => {
+      setAgrupacion(!agrupacion);
+    };
+
     const fetchData = async(endpont) => {
         setIsLoadingData(true);
-        const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin});
+        const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin,agrupacion});
         console.log(data.data.Remisiones)
         setFetchedData(data.data.Remisiones);
         setIsLoadingData(false);
@@ -104,7 +109,7 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
 
     useEffect(() => {
         fetchData(endpoint)
-    }, [fechaInicio,fechaFin])
+    }, [fechaInicio,fechaFin,agrupacion])
 
     return (
         <>
@@ -202,6 +207,17 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
           name="trip-end"
           defaultValue={fechaFin}
           onChange={handleEndDateChange}
+        />
+
+        <label htmlFor="end">Agrupar por Instancia:</label>
+            
+        <input
+          type="checkbox"
+          id="agrupar"
+          name="agrupar"
+          defaultValue={agrupacion}
+          checked={agrupacion}
+          onChange={handleAgrupacionChange}
         />
       </>
     );
