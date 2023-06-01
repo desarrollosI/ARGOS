@@ -50,8 +50,8 @@ const options = {
   especificar de dicha informacion que campos van a ser los ejes de la grafca, con dichos ejes tratar y pasar la informacion
   para poder crear los dataSets, con los data sets se generan las graficas.
 */
-const tratarInformacion = (tipo,data,label,x,y) => {
-  
+const tratarInformacion = (tipo,data,label,x,y,agrupacion) => {
+  console.log('agrupado por :', x)
   let etiqueta = x;
   let sets = y.split(',')
   let datasetsGenerados = [];
@@ -67,8 +67,9 @@ const tratarInformacion = (tipo,data,label,x,y) => {
     return newDataSet;
   })
   
+
   const dataResultado = {
-    labels:  (data.length > 1) ? data.map(item => item[etiqueta]): ['Remisiones totales'],
+    labels:  (data.length > 1) ? data.map(item => item[agrupacion]): ['Remisiones totales'],
     datasets: datasetsGenerados.map(dataSet => dataSet)
   }
 
@@ -81,7 +82,7 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
     const [fetchedData, setFetchedData] = useState();// En este estado se va a almacenar la información proveeida por el backend
     const [fechaInicio, setFechaInicio] = useState('2021-06-24')
     const [fechaFin, setFechaFin] = useState((new Date()).toISOString().split('T')[0])
-    const [agrupacion, setAgrupacion] = useState(true)
+    const [agrupacion, setAgrupacion] = useState()
     //Esta función se dispara gracias al efecto, pone en estado de carga de infotmacion
     //hace la peticion al adaptador por la información y espera la informacion
     //cuando la informacion es recibida, se guarda la informacion en el estado y se sale del estdio de carga 
@@ -96,7 +97,7 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
     };
 
     const handleAgrupacionChange = (event) => {
-      setAgrupacion(!agrupacion);
+      setAgrupacion(event.target.value);
     };
 
     const fetchData = async(endpont) => {
@@ -127,7 +128,7 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
                   }
                 }
               }}
-              data={tratarInformacion(tipo,fetchedData, 'CANTIDAD DE REMSIONES', x, y)}
+              data={tratarInformacion(tipo,fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacion)}
             />
           )
         }
@@ -145,7 +146,7 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
                   }
                 }
               }}
-              data={tratarInformacion(tipo,fetchedData, 'CANTIDAD DE REMSIONES', x, y)}
+              data={tratarInformacion(tipo,fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacion)}
             />
           )
         }
@@ -163,7 +164,7 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
                   }
                 }
               }}
-              data={tratarInformacion(tipo,fetchedData, 'CANTIDAD DE REMSIONES', x, y)}
+              data={tratarInformacion(tipo,fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacion)}
             />
           )
         }
@@ -181,44 +182,62 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
                   }
                 }
               }}
-              data={tratarInformacion(tipo, fetchedData, 'CANTIDAD DE REMSIONES', x, y)}
+              data={tratarInformacion(tipo, fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacion)}
             />
           )
         }
         
+      <div className="row">
+        <div className="col-md-6">
+          <div class="form-group">
+            <label htmlFor="start">Fecha inicio:</label>
+            <input
+              className="form-control"
+              type="date"
+              id="start"
+              name="trip-start"
+              defaultValue={fechaInicio}
+              min={fechaInicio}
+              max={(new Date()).toISOString().split('T')[0]}
+              onChange={handleStartDateChange}
+            />
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div class="form-group">
+            <label htmlFor="end">Fecha Fin:</label>
+            <input
+              className="form-control"
+              type="date"
+              id="end"
+              name="trip-end"
+              defaultValue={fechaFin}
+              onChange={handleEndDateChange}
+            />
+          </div>
+        </div>
+      </div>
       
-        <label htmlFor="start">Fecha inicio:</label>
-    
-        <input
-          type="date"
-          id="start"
-          name="trip-start"
-          defaultValue={fechaInicio}
-          min={fechaInicio}
-          max={(new Date()).toISOString().split('T')[0]}
-          onChange={handleStartDateChange}
-        />
 
-        <label htmlFor="end">Fecha Fin:</label>
-            
-        <input
-          type="date"
-          id="end"
-          name="trip-end"
-          defaultValue={fechaFin}
-          onChange={handleEndDateChange}
-        />
-
-        <label htmlFor="end">Agrupar por Instancia:</label>
-            
-        <input
-          type="checkbox"
-          id="agrupar"
-          name="agrupar"
-          defaultValue={agrupacion}
-          checked={agrupacion}
-          onChange={handleAgrupacionChange}
-        />
+      <div className="row mt-2">
+        <div className="col-md-12">
+          <div className="form-group">
+            <label htmlFor="agrupar">Agrupar por :</label>
+            <div onChange={handleAgrupacionChange} className='form-check form-check-inline'>
+              <input className="form-check-input" type="radio" value="Instancia" name="agrupar" />
+              <label className="form-check-label" >Instancia</label>
+            </div>
+            <div onChange={handleAgrupacionChange} className='form-check form-check-inline'>
+              <input className="form-check-input" type="radio" value="Zona" name="agrupar" />
+              <label className="form-check-label" >Zona</label>
+            </div>
+            <div onChange={handleAgrupacionChange} className='form-check form-check-inline'>
+              <input className="form-check-input" type="radio" value="SD" name="agrupar" />
+              <label className="form-check-label" >Sin Agrupar</label>
+            </div>
+          </div>
+        </div>
+      </div>
       </>
     );
     

@@ -38,13 +38,13 @@ export const EstadisticaPage = () => {
       </div>
 
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-md-6 mb-3">
           <MyChart tipo={'barra'} endpoint={'remisiones-por-instancia'} titulo={'REMISIONES POR INSTANCIA'} x={'Instancia'} y={'total'}/>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-6  mb-3">
           <MyChart tipo={'barra'} endpoint={'remisiones-por-instancia-genero'} titulo={'REMISIONES POR INSTANCIA POR GÉNERO'} x={'Instancia'}  y={'suma_hombres,suma_mujeres'} />
         </div>
-        <div className="col-md-12">
+        <div className="col-md-12  mb-3">
           <MyChart tipo={'barra'} endpoint={'remisiones-por-instancia-edad'} titulo={'REMISIONES POR INSTANCIA POR EDAD'} x={'Instancia'}  y={'0-5,6-10,11-15,16-20,21-25,26-30,31-35,36-40,41-45,46-50,51-55,56-60,61-65,66-70,71-75,76-80,81-85,86-90,91-95,96-100'} />
         </div>
       </div>
