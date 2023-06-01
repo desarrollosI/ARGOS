@@ -1,8 +1,10 @@
 import React, { useEffect,useState } from 'react';
+//Se importan los componentes personalizados
+import { DateRangePicker, GroupBySelector } from './';
 //Se importa nuestro adaptador hacia el backend
 import { graficasApi } from '../../../api';
 //Se importan los helpers necesarios
-import { getRandomColor } from '../../helpers/Graficas/getRandomColor';
+import { tratarInformacion } from '../../helpers';
 //Se importan las bibliotecas y componentes de terceros
 import {
   Chart as ChartJS,
@@ -32,8 +34,15 @@ ChartJS.register(
   Legend
 );
 
+const chartComponents = {
+  barra: Bar,
+  area: Line,
+  radar: Radar,
+  dona: Doughnut,
+};
+
 //Se inicializa una constante con opciones especificas para la grafica.
-const options = {
+const chartOptions = {
     responsive: true,
     plugins: {
       legend: {
@@ -45,36 +54,7 @@ const options = {
       },
     },
   };
-/* 
-  Esta funcion tiene de objetivo de recibir la informacion obtenida de de la base de datos,
-  especificar de dicha informacion que campos van a ser los ejes de la grafca, con dichos ejes tratar y pasar la informacion
-  para poder crear los dataSets, con los data sets se generan las graficas.
-*/
-const tratarInformacion = (tipo,data,label,x,y,agrupacion) => {
-  console.log('agrupado por :', x)
-  let etiqueta = x;
-  let sets = y.split(',')
-  let datasetsGenerados = [];
-  
-  datasetsGenerados = sets.map(set => {
-    let colores = (sets.length > 1) ? getRandomColor() : data.map(item => getRandomColor())//si solo hay un data set, generame un color random c/u cols, si no solo un color para cada dataset 
-    let newDataSet = {
-      label: set,
-      data: data.map(item => item[set]),
-      borderColor: colores,
-      backgroundColor: colores
-    }
-    return newDataSet;
-  })
-  
 
-  const dataResultado = {
-    labels:  (data.length > 1) ? data.map(item => item[agrupacion]): ['Remisiones totales'],
-    datasets: datasetsGenerados.map(dataSet => dataSet)
-  }
-
-  return dataResultado;
-}
 
 export function MyChart({tipo,endpoint,titulo,x,y}) {
     // console.log('inicio: ', fechaInicio, 'final: ', fechaFin);
@@ -112,132 +92,37 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
         fetchData(endpoint)
     }, [fechaInicio,fechaFin,agrupacion])
 
+    const ChartComponent = chartComponents[tipo];
     return (
         <>
 
-        {
-          tipo === 'barra' && !isLoadingData && (
-            <Bar
-              options={{
-                ...options,
-                plugins: {
-                  ...options.plugins,
-                  title: {
-                    ...options.plugins.title,
-                    text: `${titulo} - REGISTROS: ${fetchedData.length}`
-                  }
-                }
-              }}
-              data={tratarInformacion(tipo,fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacion)}
-            />
-          )
-        }
+        {ChartComponent && !isLoadingData && (
 
-        { 
-          tipo === 'area' && !isLoadingData && (
-            <Line
-              options={{
-                ...options,
-                plugins: {
-                  ...options.plugins,
-                  title: {
-                    ...options.plugins.title,
-                    text: `${titulo} - REGISTROS: ${fetchedData.length}`
-                  }
-                }
-              }}
-              data={tratarInformacion(tipo,fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacion)}
-            />
-          )
-        }
+          <ChartComponent
+            options={{
+              ...chartOptions,
+              plugins: {
+                ...chartOptions.plugins,
+                title: {
+                  ...chartOptions.plugins.title,
+                  text: `${titulo} - REGISTROS: ${fetchedData.length}`,
+                },
+              },
+            }}
+            data={tratarInformacion(tipo, fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacion)}
+          />
+        )}
 
-        { 
-          tipo === 'radar' && !isLoadingData && (
-            <Radar
-              options={{
-                ...options,
-                plugins: {
-                  ...options.plugins,
-                  title: {
-                    ...options.plugins.title,
-                    text: `${titulo} - REGISTROS: ${fetchedData.length}`
-                  }
-                }
-              }}
-              data={tratarInformacion(tipo,fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacion)}
-            />
-          )
-        }
-
-        { 
-          tipo === 'dona' && !isLoadingData && (
-            <Doughnut
-              options={{
-                ...options,
-                plugins: {
-                  ...options.plugins,
-                  title: {
-                    ...options.plugins.title,
-                    text: `${titulo} - REGISTROS: ${fetchedData.length}`
-                  }
-                }
-              }}
-              data={tratarInformacion(tipo, fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacion)}
-            />
-          )
-        }
         
-      <div className="row">
-        <div className="col-md-6">
-          <div class="form-group">
-            <label htmlFor="start">Fecha inicio:</label>
-            <input
-              className="form-control"
-              type="date"
-              id="start"
-              name="trip-start"
-              defaultValue={fechaInicio}
-              min={fechaInicio}
-              max={(new Date()).toISOString().split('T')[0]}
-              onChange={handleStartDateChange}
-            />
-          </div>
-        </div>
-        <div className="col-md-6">
-          <div class="form-group">
-            <label htmlFor="end">Fecha Fin:</label>
-            <input
-              className="form-control"
-              type="date"
-              id="end"
-              name="trip-end"
-              defaultValue={fechaFin}
-              onChange={handleEndDateChange}
-            />
-          </div>
-        </div>
-      </div>
+        <DateRangePicker
+        fechaInicio={fechaInicio}
+        fechaFin={fechaFin}
+        handleStartDateChange={handleStartDateChange}
+        handleEndDateChange={handleEndDateChange}
+        />
       
 
-      <div className="row mt-2">
-        <div className="col-md-12">
-          <div className="form-group">
-            <label htmlFor="agrupar">Agrupar por :</label>
-            <div onChange={handleAgrupacionChange} className='form-check form-check-inline'>
-              <input className="form-check-input" type="radio" value="Instancia" name="agrupar" />
-              <label className="form-check-label" >Instancia</label>
-            </div>
-            <div onChange={handleAgrupacionChange} className='form-check form-check-inline'>
-              <input className="form-check-input" type="radio" value="Zona" name="agrupar" />
-              <label className="form-check-label" >Zona</label>
-            </div>
-            <div onChange={handleAgrupacionChange} className='form-check form-check-inline'>
-              <input className="form-check-input" type="radio" value="SD" name="agrupar" />
-              <label className="form-check-label" >Sin Agrupar</label>
-            </div>
-          </div>
-        </div>
-      </div>
+        <GroupBySelector handleAgrupacionChange={handleAgrupacionChange} />
       </>
     );
     
