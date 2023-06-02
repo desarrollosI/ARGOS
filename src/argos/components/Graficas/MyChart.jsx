@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
 //Se importan los componentes personalizados
-import { DateRangePicker, GroupBySelector } from './';
+import { DateRangePicker, GroupBySelector, SpecifyGroupBySelector } from './';
 //Se importa nuestro adaptador hacia el backend
 import { graficasApi } from '../../../api';
 //Se importan los helpers necesarios
@@ -62,7 +62,8 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
     const [fetchedData, setFetchedData] = useState();// En este estado se va a almacenar la información proveeida por el backend
     const [fechaInicio, setFechaInicio] = useState('2021-06-24')
     const [fechaFin, setFechaFin] = useState((new Date()).toISOString().split('T')[0])
-    const [agrupacion, setAgrupacion] = useState()
+    const [agrupacion, setAgrupacion] = useState('Instancia')
+    const [SpecifyAgrupacion, setSpecifyAgrupacion] = useState('todas')
     //Esta función se dispara gracias al efecto, pone en estado de carga de infotmacion
     //hace la peticion al adaptador por la información y espera la informacion
     //cuando la informacion es recibida, se guarda la informacion en el estado y se sale del estdio de carga 
@@ -80,9 +81,13 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
       setAgrupacion(event.target.value);
     };
 
+    const handleSpecifyAgrupacionChange = (event) => {
+      setSpecifyAgrupacion(event.target.value);
+    };
+
     const fetchData = async(endpont) => {
         setIsLoadingData(true);
-        const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin,agrupacion});
+        const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin,agrupacion,SpecifyAgrupacion});
         console.log(data.data.Remisiones)
         setFetchedData(data.data.Remisiones);
         setIsLoadingData(false);
@@ -90,7 +95,11 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
 
     useEffect(() => {
         fetchData(endpoint)
-    }, [fechaInicio,fechaFin,agrupacion])
+    }, [fechaInicio,fechaFin,agrupacion,SpecifyAgrupacion])
+
+    useEffect(() => {
+        setSpecifyAgrupacion('todas')
+    },[agrupacion])
 
     const ChartComponent = chartComponents[tipo];
     return (
@@ -105,11 +114,11 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
                 ...chartOptions.plugins,
                 title: {
                   ...chartOptions.plugins.title,
-                  text: `${titulo} - REGISTROS: ${fetchedData.length}`,
+                  text: `${titulo}`,
                 },
               },
             }}
-            data={tratarInformacion(tipo, fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacion)}
+            data={tratarInformacion(tipo, fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacion,SpecifyAgrupacion)}
           />
         )}
 
@@ -122,7 +131,12 @@ export function MyChart({tipo,endpoint,titulo,x,y}) {
         />
       
 
-        <GroupBySelector handleAgrupacionChange={handleAgrupacionChange} />
+        <GroupBySelector agrupacion={agrupacion} handleAgrupacionChange={handleAgrupacionChange} />
+
+        {
+          agrupacion!='SD' && !isLoadingData &&<SpecifyGroupBySelector handleSpecifyAgrupacionChange={handleSpecifyAgrupacionChange} opciones={fetchedData.map(item => item[agrupacion])}/>
+        }
+
       </>
     );
     

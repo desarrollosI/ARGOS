@@ -4,7 +4,7 @@ export function DateRangePicker({ fechaInicio, fechaFin, handleStartDateChange, 
   return (
     <div className="row">
       <div className="col-md-6">
-        <div class="form-group">
+        <div className="form-group">
           <label htmlFor="start">Fecha inicio:</label>
           <input
             className="form-control"
@@ -17,7 +17,7 @@ export function DateRangePicker({ fechaInicio, fechaFin, handleStartDateChange, 
         </div>
       </div>
       <div className="col-md-6">
-        <div class="form-group">
+        <div className="form-group">
           <label htmlFor="end">Fecha Fin:</label>
           <input
             className="form-control"
