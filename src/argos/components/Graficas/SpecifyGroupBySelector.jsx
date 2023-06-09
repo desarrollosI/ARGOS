@@ -1,7 +1,7 @@
 import React from 'react';
 
 export function SpecifyGroupBySelector({ handleSpecifyAgrupacionChange,opciones = [] }) {
-  console.log(opciones)
+  opciones = [...new Set(opciones)]
   return (
     <div className="row mt-2">
       <div className="col-md-12">

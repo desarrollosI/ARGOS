@@ -39,13 +39,60 @@ export const EstadisticaPage = () => {
 
       <div className="row">
         <div className="col-md-6 mb-3">
-          <MyChart tipo={'barra'} endpoint={'remisiones-por-instancia'} titulo={'TOTAL DE REMISIONES'} x={'Instancia'} y={'total'}/>
+          <MyChart configuracion={
+            {
+              tipo:'barra',
+              endpoint:'remisiones-por-instancia',
+              titulo:'TOTAL DE REMISIONES',
+              x:'Instancia', 
+              y:'total',
+              agrupacion:'Instancia',
+              etiqueta:'',
+              avanzada: true
+            }}
+          />
         </div>
         <div className="col-md-6  mb-3">
-          <MyChart tipo={'barra'} endpoint={'remisiones-por-instancia-genero'} titulo={'TOTAL DE REMISIONES POR GÉNERO'} x={'Instancia'}  y={'suma_hombres,suma_mujeres'} />
+          <MyChart configuracion={
+            {
+              tipo:'barra',
+              endpoint:'remisiones-por-instancia-genero',
+              titulo:'TOTAL DE REMISIONES POR GÉNERO',
+              x:'Instancia', 
+              y:'suma_hombres,suma_mujeres',
+              agrupacion:'Instancia',
+              etiqueta:'',
+              avanzada: true
+            }}
+          />
         </div>
         <div className="col-md-12  mb-3">
-          <MyChart tipo={'barra'} endpoint={'remisiones-por-instancia-edad'} titulo={'TOTAL DE REMISIONES POR POR EDAD'} x={'Instancia'}  y={'0-5,6-10,11-15,16-20,21-25,26-30,31-35,36-40,41-45,46-50,51-55,56-60,61-65,66-70,71-75,76-80,81-85,86-90,91-95,96-100'} />
+          <MyChart configuracion={
+            {
+              tipo:'barra',
+              endpoint:'remisiones-por-instancia-edad',
+              titulo:'TOTAL DE REMISIONES POR POR EDAD',
+              x:'Instancia', 
+              y:'0-5,6-10,11-15,16-20,21-25,26-30,31-35,36-40,41-45,46-50,51-55,56-60,61-65,66-70,71-75,76-80,81-85,86-90,91-95,96-100',
+              agrupacion:'Instancia',
+              etiqueta:'',
+              avanzada: true
+            }}
+          />
+        </div>
+        <div className="col-md-12  mb-3">
+          <MyChart configuracion={
+            {
+              tipo:'barra',
+              endpoint:'remisiones-por-primer-respondiente',
+              titulo:'TOTAL DE REMISIONES POR PRIMER RESPONDIENTE',
+              x:'Sector_Area', 
+              y:'total',
+              agrupacion:'Sector_Area',
+              etiqueta:'Sector_Area',
+              avanzada: false
+            }}
+          />
         </div>
       </div>
     </>

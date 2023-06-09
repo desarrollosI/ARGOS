@@ -5,9 +5,10 @@ import { getRandomColor } from "./getRandomColor";
   especificar de dicha informacion que campos van a ser los ejes de la grafca, con dichos ejes tratar y pasar la informacion
   para poder crear los dataSets, con los data sets se generan las graficas.
 */
-export const tratarInformacion = (tipo,data,label,x,y,agrupacion,SpecifyAgrupacion) => {
+export const tratarInformacion = (tipo,data,label,x,y,agrupacion,SpecifyAgrupacion,etiquetaSeleccionada) => {
     console.log('agrupado por :', x)
-    let etiqueta = x;
+    console.log('etiqueta seleccionada', etiquetaSeleccionada)
+    let etiqueta = (etiquetaSeleccionada != '') ? etiquetaSeleccionada: x;
     let sets = y.split(',')
     let datasetsGenerados = [];
     
@@ -26,7 +27,12 @@ export const tratarInformacion = (tipo,data,label,x,y,agrupacion,SpecifyAgrupaci
 
     let etiquetas = ['Remisiones totales']
     if(data.length > 1){      
-      etiquetas = data.map(item => item[agrupacion])
+      if(etiquetaSeleccionada != ''){
+        etiquetas = data.map(item => item[etiquetaSeleccionada])
+        console.log('if de etiqueta seleccionada, ',etiquetas )
+      }else{
+        etiquetas = data.map(item => item[agrupacion])
+      }
     }else{
       etiquetas = ['Remisiones totales']
       if(SpecifyAgrupacion != 'todas'){
