@@ -48,6 +48,7 @@ export const EstadisticaPage = () => {
               y:'total',
               agrupacion:'Instancia',
               etiqueta:'',
+              indexAxis:'x',
               avanzada: true
             }}
           />
@@ -62,6 +63,7 @@ export const EstadisticaPage = () => {
               y:'suma_hombres,suma_mujeres',
               agrupacion:'Instancia',
               etiqueta:'',
+              indexAxis:'x',
               avanzada: true
             }}
           />
@@ -76,6 +78,7 @@ export const EstadisticaPage = () => {
               y:'0-5,6-10,11-15,16-20,21-25,26-30,31-35,36-40,41-45,46-50,51-55,56-60,61-65,66-70,71-75,76-80,81-85,86-90,91-95,96-100',
               agrupacion:'Instancia',
               etiqueta:'',
+              indexAxis:'x',
               avanzada: true
             }}
           />
@@ -90,6 +93,22 @@ export const EstadisticaPage = () => {
               y:'total',
               agrupacion:'Sector_Area',
               etiqueta:'Sector_Area',
+              indexAxis:'y',
+              avanzada: false
+            }}
+          />
+        </div>
+        <div className="col-md-12  mb-3">
+          <MyChart configuracion={
+            {
+              tipo:'barra',
+              endpoint:'remisiones-por-colonia-domicilio',
+              titulo:'TOTAL DE REMISIONES POR COLONIA DOMICILIO DETENIDO - TOP 100',
+              x:'Colonia', 
+              y:'total',
+              agrupacion:'Colonia',
+              etiqueta:'Colonia',
+              indexAxis:'y',
               avanzada: false
             }}
           />

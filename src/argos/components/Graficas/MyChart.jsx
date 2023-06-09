@@ -43,6 +43,7 @@ const chartComponents = {
 
 //Se inicializa una constante con opciones especificas para la grafica.
 const chartOptions = {
+    indexAxis: 'x',
     responsive: true,
     plugins: {
       legend: {
@@ -58,7 +59,7 @@ const chartOptions = {
 
 export function MyChart({configuracion}) {
     //Des estructuro de la propiedad de configuracion como quiero que luzca la grafica   
-    const {tipo,endpoint,titulo,x,y,agrupacion,etiqueta,avanzada} = configuracion;
+    const {tipo,endpoint,titulo,x,y,agrupacion,etiqueta,indexAxis,avanzada} = configuracion;
     console.log({tipo,endpoint,titulo,x,y,agrupacion,etiqueta,avanzada})
 
     //Estados por defecto, no requeridos en primera insancia como propiedad para poder iniciar la grafica
@@ -130,6 +131,7 @@ export function MyChart({configuracion}) {
           <ChartComponent
             options={{
               ...chartOptions,
+              indexAxis:indexAxis,
               plugins: {
                 ...chartOptions.plugins,
                 title: {
