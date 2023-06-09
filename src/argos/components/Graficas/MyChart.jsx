@@ -1,6 +1,13 @@
+/*
+  Tipos de graficas:
+  1- controles de agrupacion, ver uno en especifico
+  2. sin controles de agrupacion, ver uno en especifico, asendente o desendente
+  3. sin controles, solo rango de fechas
+*/ 
+
 import React, { useEffect,useState } from 'react';
 //Se importan los componentes personalizados
-import { DateRangePicker, GroupBySelector, SpecifyGroupBySelector } from './';
+import { DateRangePicker, GroupBySelector, SpecifyGroupBySelector, SpecifyOrderBySelector } from './';
 //Se importa nuestro adaptador hacia el backend
 import { graficasApi } from '../../../api';
 //Se importan los helpers necesarios
@@ -73,6 +80,7 @@ export function MyChart({configuracion}) {
     const [agrupacionData, setAgrupacion] = useState(agrupacion)
     const [etiquetaEjeX, setEtiquetaEjeX] = useState(etiqueta); //este estado va  a manejar los label de las columnas del eje x en el caso de que se requiera algo mas que lo generico
     const [SpecifyAgrupacion, setSpecifyAgrupacion] = useState('todas')//aunque este no se pide como prop, se pone aca pues es un estado que muta la grafica
+    const [SpecifyOrderBy, setSpecifyOrderBy] = useState('desc')
     //las demas props no  es necesario almacenarlas en estado puesto que no suelen mutar demasiado con respecto a la data de la grafica
 
     //Esta función se dispara gracias al efecto, pone en estado de carga de infotmacion
@@ -96,11 +104,15 @@ export function MyChart({configuracion}) {
       setSpecifyAgrupacion(event.target.value);
     };
 
+    const  handeSpecifyOrderByChange = (event) => {
+      setSpecifyOrderBy(event.target.value);
+    }
+
     const fetchData = async(endpont) => {
         setIsLoadingData(true);
         // setAgrupacion(agrupacion);
         console.log('LINEA 101: ',endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion})
-        const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion});
+        const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,SpecifyOrderBy});
         console.log(data.data.Remisiones)
         setFetchedData(data.data.Remisiones);
         // setEtiquetaEjeX(etiqueta);
@@ -117,7 +129,7 @@ export function MyChart({configuracion}) {
 
     useEffect(() => {
         fetchData(endpoint)
-    }, [fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion])
+    }, [fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,SpecifyOrderBy])
 
 
     //TODO realizar el useEffect necesario para altenar entre tipo de grafica
@@ -151,17 +163,20 @@ export function MyChart({configuracion}) {
         handleStartDateChange={handleStartDateChange}
         handleEndDateChange={handleEndDateChange}
         />
-
+        {/* Controles personalizados para cada tipo de grafica  
+          /*
+          Tipos de graficas:
+          1- controles de agrupacion, ver uno en especifico
+          2. sin controles de agrupacion, ver uno en especifico, asendente o desendente
+          3. sin controles, solo rango de fechas
+        */}
         {
-          avanzada && <GroupBySelector agrupacion={agrupacionData} handleAgrupacionChange={handleAgrupacionChange} />
+          avanzada == 1 && <GroupBySelector agrupacion={agrupacionData} handleAgrupacionChange={handleAgrupacionChange} />
         }
-
-        
-
         {
-          agrupacion!='SD' && 
-          !isLoadingData && 
-          avanzada &&
+          (agrupacion!='SD') && 
+          (!isLoadingData) && 
+          (avanzada == 1) &&
                         <SpecifyGroupBySelector 
                         handleSpecifyAgrupacionChange={handleSpecifyAgrupacionChange} 
                         opciones={
@@ -170,6 +185,13 @@ export function MyChart({configuracion}) {
                             : fetchedData.map(item => item[agrupacionData])
                           }
                           />
+        }
+        {
+          (!isLoadingData) &&
+          (avanzada == 2) &&
+                        <SpecifyOrderBySelector
+                        handeSpecifyOrderByChange={handeSpecifyOrderByChange}
+                        />
         }
 
       </>

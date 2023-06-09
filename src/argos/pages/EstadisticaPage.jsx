@@ -6,6 +6,12 @@
   No es algo mas complejo que una  maquetación de la estructura de como se debe de ver determianda pagina
   adoc al nombre
 */
+/*
+  Tipos de graficas:
+  1- controles de agrupacion, ver uno en especifico
+  2. sin controles de agrupacion, ver uno en especifico, asendente o desendente
+  3. sin controles, solo rango de fechas
+*/ 
 //Se realizan las importaciones de react
 import React from "react";
 import { MyChart } from "../components";
@@ -49,7 +55,7 @@ export const EstadisticaPage = () => {
               agrupacion:'Instancia',
               etiqueta:'',
               indexAxis:'x',
-              avanzada: true
+              avanzada: 1
             }}
           />
         </div>
@@ -64,7 +70,7 @@ export const EstadisticaPage = () => {
               agrupacion:'Instancia',
               etiqueta:'',
               indexAxis:'x',
-              avanzada: true
+              avanzada: 1
             }}
           />
         </div>
@@ -79,7 +85,7 @@ export const EstadisticaPage = () => {
               agrupacion:'Instancia',
               etiqueta:'',
               indexAxis:'x',
-              avanzada: true
+              avanzada: 1
             }}
           />
         </div>
@@ -94,7 +100,7 @@ export const EstadisticaPage = () => {
               agrupacion:'Sector_Area',
               etiqueta:'Sector_Area',
               indexAxis:'y',
-              avanzada: false
+              avanzada: 3
             }}
           />
         </div>
@@ -109,7 +115,7 @@ export const EstadisticaPage = () => {
               agrupacion:'Colonia',
               etiqueta:'Colonia',
               indexAxis:'y',
-              avanzada: false
+              avanzada: 2
             }}
           />
         </div>
