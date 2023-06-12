@@ -106,6 +106,12 @@ export const NavbarN = () => {
                     Estadistica
                   </NavLink>
                 </li> 
+                 <li className="nav-item">
+                  <NavLink to="/geoanalisis" className="nav-link">
+                    <span data-feather="users" className="align-text-bottom"></span>
+                    Geoanalisis
+                  </NavLink>
+                </li> 
                 {/* <li className="nav-item">
                   <a className="nav-link">
                     <span
