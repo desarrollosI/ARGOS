@@ -2,7 +2,7 @@
     height: 820px;
     }
      
-    .overlaymap {
+.overlaymap {
     background-color: rgba(35, 55, 75, 0.9);
     color: #fff;
     padding: 6px 12px;
@@ -13,17 +13,21 @@
     left: 15%;
     margin: 12px;
     border-radius: 4px;
-    }
+}
 
-    .custom-popup {
-        /* Estilos personalizados para el popup */
-        background-color: #ffffff;
-        border: 1px solid #cccccc;
-        padding: 10px;
-        font-size: 14px;
-        /* Otros estilos... */
-        z-index: 999;
-        position: absolute;
-        top: 10%;
-        left: 10%;
-      }
+.custom-popup {
+    /* Estilos personalizados para el popup */
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    padding: 10px;
+    font-size: 14px;
+    /* Otros estilos... */
+    z-index: 999;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    }
+.mapboxgl-ctrl-top-right {
+    z-index: 9999 !important; /* Asegura que el control se muestre en el frente */
+}
+    
