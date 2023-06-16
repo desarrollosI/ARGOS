@@ -24,7 +24,8 @@ export function Mapa() {
   const [fechaInicio, setFechaInicio] = useState('2021-06-24')
   const [fechaFin, setFechaFin] = useState((new Date()).toISOString().split('T')[0])
 
-  const [showUbiHLayer, setShowUbiHLayer] = useState(false);
+  const [showUbiHechosLayer, setShowUbiHechosLayer] = useState(true);
+  const [showUbiHechosHeatLayer, setShowUbiHechosHeatLayer] = useState(false);
   const [showZonasLayer, setShowZonasLayer] = useState(true);
   const [FaltaDelito, setFaltaDelito] = useState('todas')
 
@@ -71,8 +72,11 @@ export function Mapa() {
     setFechaFin(event.target.value);
   };
 
-  const handleCheckboxUbiHLayer = () => {
-    setShowUbiHLayer(!showUbiHLayer);
+  const handleCheckboxUbiHechosLayer = () => {
+    setShowUbiHechosLayer(!showUbiHechosLayer);
+  };
+  const handleCheckboxUbiHechosHeatLayer = () => {
+    setShowUbiHechosHeatLayer(!showUbiHechosHeatLayer);
   };
   const handleCheckboxZonasLayer = () => {
     setShowZonasLayer(!showZonasLayer);
@@ -164,10 +168,12 @@ export function Mapa() {
     }
   },[isLoadingData,showZonasLayer])
 
-   //EFECTO PARA MANEJAR LA CAPA DE HECHOS
-   useEffect(() => {
+  //EFECTO PARA MANEJAR LA CAPA DE HECHOS
+  useEffect(() => {
     if (!map.current || isLoadingData) return;
 
+    if (showUbiHechosLayer) {
+     
       if (map.current.getLayer("ubicaciones-hechos2")) {
         map.current.removeLayer("ubicaciones-hechos2");
       }
@@ -176,8 +182,66 @@ export function Mapa() {
         map.current.removeSource('ubicaciones-hechos2');
       }
 
+      map.current.addSource("ubicaciones-hechos2", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: fetchedData2.map((item) => {
+            return {
+              type: "Feature",
+              geometry: {
+                type: "Point",
+                coordinates: [
+                  isNaN(parseFloat(item.Coordenada_X))
+                    ? -0.0
+                    : parseFloat(item.Coordenada_X),
+                  isNaN(parseFloat(item.Coordenada_Y))
+                    ? 0.0
+                    : parseFloat(item.Coordenada_Y),
+                ],
+              },
+              properties: {
+                No_Remision: item.No_Remision,
+                Nombre: item.Nombre,
+                Ap_Paterno: item.Ap_Paterno,
+                Ap_Materno: item.Ap_Materno,
+              },
+            };
+          }),
+        },
+      });
 
-      if (!showUbiHLayer) {
+      map.current.addLayer({
+        id: "ubicaciones-hechos2",
+        type: "circle",
+        source: "ubicaciones-hechos2",
+        paint: {
+          "circle-color": "red",
+          "circle-radius": 5,
+        },
+      });
+
+      map.current.on("mouseenter", "ubicaciones-hechos2", handleMouseEnter);
+      map.current.on("mouseleave", "ubicaciones-hechos2", handleMouseLeave);
+      map.current.on("click", "ubicaciones-hechos2", handleMouseClick);
+
+
+    } else {
+      if (map.current.getLayer("ubicaciones-hechos2")) {
+        map.current.removeLayer("ubicaciones-hechos2");
+      }
+
+      if (map.current.getSource('ubicaciones-hechos2')) {
+        map.current.removeSource('ubicaciones-hechos2');
+      }
+    }
+  },[isLoadingData,showUbiHechosLayer])
+
+   //EFECTO PARA MANEJAR LA CAPA DE CALOR DE HECHOS HECHOS
+   useEffect(() => {
+    if (!map.current || isLoadingData) return;
+
+      if (showUbiHechosHeatLayer) {
 
         // Remover la capa de calor si está presente
         if (map.current.getLayer("heatmap")) {
@@ -188,7 +252,73 @@ export function Mapa() {
         if (map.current.getSource("heatmap")) {
           map.current.removeSource("heatmap");
         }
-        map.current.addSource("ubicaciones-hechos2", {
+
+                // Agregar la capa de calor
+                map.current.addSource("heatmap", {
+                  type: "geojson",
+                  data: {
+                    type: "FeatureCollection",
+                    features: fetchedData2.map((item) => {
+                      return {
+                        type: "Feature",
+                        geometry: {
+                          type: "Point",
+                          coordinates: [
+                            isNaN(parseFloat(item.Coordenada_X)) ? -0.0 : parseFloat(item.Coordenada_X),
+                            isNaN(parseFloat(item.Coordenada_Y)) ? 0.0 : parseFloat(item.Coordenada_Y),
+                          ],
+                        },
+                      };
+                    }),
+                  },
+                });
+        
+                map.current.addLayer(
+                  {
+                    id: "heatmap",
+                    type: "heatmap",
+                    source: "heatmap",
+                    paint: {
+                      "heatmap-weight": {
+                        property: "mag",
+                        type: "exponential",
+                        stops: [
+                          [0, 0],
+                          [6, 1],
+                        ],
+                      },
+                      "heatmap-color": [
+                        "interpolate",
+                        ["linear"],
+                        ["heatmap-density"],
+                        0,
+                        "rgba(33,102,172,0)",
+                        0.2,
+                        "rgb(103,169,207)",
+                        0.4,
+                        "rgb(209,229,240)",
+                        0.6,
+                        "rgb(253,219,199)",
+                        0.8,
+                        "rgb(239,138,98)",
+                        1,
+                        "rgb(178,24,43)",
+                      ],
+                      "heatmap-radius": {
+                        property: "mag",
+                        type: "exponential",
+                        stops: [
+                          [0, 2],
+                          [6, 20],
+                        ],
+                      },
+                      "heatmap-opacity": 1, // Establecer la opacidad en 1
+                    },
+                  },
+                  "waterway-label"
+                );
+        
+        /*map.current.addSource("ubicaciones-hechos2", {
           type: "geojson",
           data: {
             type: "FeatureCollection",
@@ -225,102 +355,42 @@ export function Mapa() {
             "circle-color": "red",
             "circle-radius": 5,
           },
-        });
+        });*/
 
-        map.current.on("mouseenter", "ubicaciones-hechos2", handleMouseEnter);
-        map.current.on("mouseleave", "ubicaciones-hechos2", handleMouseLeave);
-        map.current.on("click", "ubicaciones-hechos2", handleMouseClick);
+        // map.current.on("mouseenter", "ubicaciones-hechos2", handleMouseEnter);
+        // map.current.on("mouseleave", "ubicaciones-hechos2", handleMouseLeave);
+        // map.current.on("click", "ubicaciones-hechos2", handleMouseClick);
 
-        return () => {
-          map.current.off("mouseenter", "ubicaciones-hechos2", handleMouseEnter);
-          map.current.off("mouseleave", "ubicaciones-hechos2", handleMouseLeave);
-          map.current.off("click", "ubicaciones-hechos2", handleMouseClick);
-        };
+        // return () => {
+        //   map.current.off("mouseenter", "ubicaciones-hechos2", handleMouseEnter);
+        //   map.current.off("mouseleave", "ubicaciones-hechos2", handleMouseLeave);
+        //   map.current.off("click", "ubicaciones-hechos2", handleMouseClick);
+        // };
       }else {
-        // Remover la capa de polígonos si está presente
-        if (map.current.getLayer("ubicaciones-hechos2")) {
-          map.current.removeLayer("ubicaciones-hechos2");
+         // Remover la capa de calor si está presente
+        if (map.current.getLayer("heatmap")) {
+          map.current.removeLayer("heatmap");
         }
 
-        // Remover la fuente de datos de la capa de polígonos si está presente
-        if (map.current.getSource("ubicaciones-hechos2")) {
-          map.current.removeSource("ubicaciones-hechos2");
+        // Remover la fuente de datos de calor si está presente
+        if (map.current.getSource("heatmap")) {
+          map.current.removeSource("heatmap");
         }
-
-        // Agregar la capa de calor
-        map.current.addSource("heatmap", {
-          type: "geojson",
-          data: {
-            type: "FeatureCollection",
-            features: fetchedData2.map((item) => {
-              return {
-                type: "Feature",
-                geometry: {
-                  type: "Point",
-                  coordinates: [
-                    isNaN(parseFloat(item.Coordenada_X)) ? -0.0 : parseFloat(item.Coordenada_X),
-                    isNaN(parseFloat(item.Coordenada_Y)) ? 0.0 : parseFloat(item.Coordenada_Y),
-                  ],
-                },
-              };
-            }),
-          },
-        });
-
-        map.current.addLayer(
-          {
-            id: "heatmap",
-            type: "heatmap",
-            source: "heatmap",
-            paint: {
-              "heatmap-weight": {
-                property: "mag",
-                type: "exponential",
-                stops: [
-                  [0, 0],
-                  [6, 1],
-                ],
-              },
-              "heatmap-color": [
-                "interpolate",
-                ["linear"],
-                ["heatmap-density"],
-                0,
-                "rgba(33,102,172,0)",
-                0.2,
-                "rgb(103,169,207)",
-                0.4,
-                "rgb(209,229,240)",
-                0.6,
-                "rgb(253,219,199)",
-                0.8,
-                "rgb(239,138,98)",
-                1,
-                "rgb(178,24,43)",
-              ],
-              "heatmap-radius": {
-                property: "mag",
-                type: "exponential",
-                stops: [
-                  [0, 2],
-                  [6, 20],
-                ],
-              },
-              "heatmap-opacity": 1, // Establecer la opacidad en 1
-            },
-          },
-          "waterway-label"
-        );
-
       }
 
-  }, [isLoadingData, fetchedData2,showUbiHLayer]);
+  }, [isLoadingData, fetchedData2,showUbiHechosHeatLayer]);
 
   return (
     <>  
 
       <div className="row">
-        <MapControls handleCheckboxUbiHLayer={handleCheckboxUbiHLayer} showUbiHLayer={showUbiHLayer} handleCheckboxZonasLayer={handleCheckboxZonasLayer} showZonasLayer={showZonasLayer}/>
+        <MapControls
+          handleCheckboxUbiHechosLayer={handleCheckboxUbiHechosLayer} 
+          showUbiHechosLayer={showUbiHechosLayer}  
+          handleCheckboxUbiHechosHeatLayer={handleCheckboxUbiHechosHeatLayer} 
+          showUbiHechosHeatLayer={showUbiHechosHeatLayer} 
+          handleCheckboxZonasLayer={handleCheckboxZonasLayer} 
+          showZonasLayer={showZonasLayer}/>
       </div>
       
       <div className="row mb-3">

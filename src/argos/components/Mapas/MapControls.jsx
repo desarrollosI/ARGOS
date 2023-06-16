@@ -1,13 +1,21 @@
 import React from 'react'
 
-export const MapControls = ({handleCheckboxUbiHLayer,showUbiHLayer,handleCheckboxZonasLayer,showZonasLayer}) => {
+export const MapControls = ({handleCheckboxUbiHechosLayer,showUbiHechosLayer,handleCheckboxUbiHechosHeatLayer,showUbiHechosHeatLayer,handleCheckboxZonasLayer,showZonasLayer}) => {
   return (
     <div className="row">
         <div className="col-md-3">
             <input
                 type="checkbox"
-                checked={showUbiHLayer}
-                onChange={handleCheckboxUbiHLayer}
+                checked={showUbiHechosLayer}
+                onChange={handleCheckboxUbiHechosLayer}
+            />
+            <label>Mostrar Ubicacion de Hechos</label>
+        </div>
+        <div className="col-md-3">
+            <input
+                type="checkbox"
+                checked={showUbiHechosHeatLayer}
+                onChange={handleCheckboxUbiHechosHeatLayer}
             />
             <label>Mostrar capa de calor Ubicacion de Hechos</label>
         </div>
