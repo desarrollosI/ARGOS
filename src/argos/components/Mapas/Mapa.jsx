@@ -5,6 +5,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "../css/Mapa/mapa.css";
 import { MapControls } from "./MapControls";
 import { DateRangePicker } from "../Graficas/DateRangePicker";
+import { FaltaDelitoPicker } from "./FaltaDelitoPicker";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg";
@@ -25,10 +26,11 @@ export function Mapa() {
 
   const [showUbiHLayer, setShowUbiHLayer] = useState(false);
   const [showZonasLayer, setShowZonasLayer] = useState(true);
+  const [FaltaDelito, setFaltaDelito] = useState('todas')
 
   const fetchData = async (endpoint) => {
     setIsLoadingData(true);
-    const { data } = await mapasApi.post(endpoint,{fechaInicio,fechaFin});
+    const { data } = await mapasApi.post(endpoint,{fechaInicio,fechaFin,FaltaDelito});
     console.log(data.data.Remisiones2);
     setFetchedData(data.data.Remisiones);
     setFetchedData2(data.data.Remisiones2);
@@ -75,6 +77,11 @@ export function Mapa() {
   const handleCheckboxZonasLayer = () => {
     setShowZonasLayer(!showZonasLayer);
   };
+
+  const handleFaltaDelito = (event) => {
+    console.log(event.target.value)
+    setFaltaDelito(event.target.value)
+  }
  /* este efecto es para cargar el mapa y su estado por defecto  */
   useEffect(() => {
     const loadMap = async () => {
@@ -104,7 +111,7 @@ export function Mapa() {
   /* EFECTO PARA CARGAR LA DATA DE ACUERDO A UN RANGO DE FECHAS */
   useEffect(() => {
     fetchData("ubicacion-hechos");
-  }, [fechaInicio,fechaFin])
+  }, [fechaInicio,fechaFin,FaltaDelito])
   
  
   //EFECTO PARA MANEJAR LA CAPA DE VECTORES
@@ -310,22 +317,33 @@ export function Mapa() {
   }, [isLoadingData, fetchedData2,showUbiHLayer]);
 
   return (
-    <>
-      <MapControls handleCheckboxUbiHLayer={handleCheckboxUbiHLayer} showUbiHLayer={showUbiHLayer} handleCheckboxZonasLayer={handleCheckboxZonasLayer} showZonasLayer={showZonasLayer}/>
-      
+    <>  
+
       <div className="row">
-      <DateRangePicker
-        fechaInicio={fechaInicio}
-        fechaFin={fechaFin}
-        handleStartDateChange={handleStartDateChange}
-        handleEndDateChange={handleEndDateChange}
-        />
+        <MapControls handleCheckboxUbiHLayer={handleCheckboxUbiHLayer} showUbiHLayer={showUbiHLayer} handleCheckboxZonasLayer={handleCheckboxZonasLayer} showZonasLayer={showZonasLayer}/>
       </div>
-      <div>
+      
+      <div className="row mb-3">
+        <div className="col-md-6">
+          <DateRangePicker
+            fechaInicio={fechaInicio}
+            fechaFin={fechaFin}
+            handleStartDateChange={handleStartDateChange}
+            handleEndDateChange={handleEndDateChange}
+          />
+        </div>
+        <div className="col-md-6">
+          <FaltaDelitoPicker
+          handleFaltaDelito={handleFaltaDelito}
+          />
+        </div>
+      </div>
+
+      <div >
         <div className="overlaymap">
           Longitud: {lng} | Latitud: {lat} | Zoom: {zoom}
         </div>
-        <div ref={mapContainer} className="map-container" />
+        <div ref={mapContainer} className="map-container mt-3" />
       </div>
 
     </>
