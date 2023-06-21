@@ -8,6 +8,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "../css/Mapa/mapa.css";
 import { LayerHechosControls } from "./LayerHechosControls";
 import { LayerDomicilioDetControls } from "./LayerDomicilioDetControls";
+import { LayerUbicacionDetencionControls } from "./LayerUbicacionDetencionControls";
 import { GeneralControls } from "./GeneralControls";
 
 mapboxgl.accessToken =
@@ -22,8 +23,10 @@ export function Mapa() {
   const [zoom, setZoom] = useState(9);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isLoadingDataDomicilioDet, setIsLoadingDataDomicilioDet] = useState(true);
+  const [isLoadingDataUbicacionDetencion, setIsLoadingDataUbicacionDetencion] = useState(true);
   const [fetchedData3, setFetchedData3] = useState();//DomiciliosDetenido
   const [fetchedData2, setFetchedData2] = useState();//Hechos
+  const [fetchedData4, setFetchedData4] = useState();//Ubicacion Detencion
 // Estados para la capa de Hechos
   const [fechaInicio, setFechaInicio] = useState('2021-06-24')
   const [fechaFin, setFechaFin] = useState((new Date()).toISOString().split('T')[0])
@@ -36,6 +39,12 @@ export function Mapa() {
   const [showDomicilioDetLayer, setShowDomicilioDetLayer] = useState(true);
   const [showDomicilioDetHeatLayer, setShowDomicilioDetHeatLayer] = useState(false);
   const [FaltaDelitoDomicilioDet, setFaltaDelitoDomicilioDet] = useState('todas')
+  //Estados para la capa de DomicilioDetenido
+  const [fechaInicioUbicacionDetencion, setFechaInicioUbicacionDetencion] = useState('2021-06-24')
+  const [fechaFinUbicacionDetencion, setFechaFinUbicacionDetencion] = useState((new Date()).toISOString().split('T')[0])
+  const [showUbicacionDetencionLayer, setShowUbicacionDetencionLayer] = useState(true);
+  const [showUbicacionDetencionHeatLayer, setShowUbicacionDetencionHeatLayer] = useState(false);
+  const [FaltaDelitoUbicacionDetencion, setFaltaDelitoUbicacionDetencion] = useState('todas')
   //Capas Generales
   const [showVectoresLayer, setShowVectoresLayer] = useState(true);
   //estados para el panel lateral fotos
@@ -61,6 +70,13 @@ export function Mapa() {
         console.log('domicilio detenido: ',response.data.data.Remisiones2)
         setFetchedData3(response.data.data.Remisiones2);
         setIsLoadingDataDomicilioDet(false);
+        break;
+      case 'ubicacion-detencion':
+        setIsLoadingDataUbicacionDetencion(true);
+        response = await mapasApi.post(endpoint,{fechaInicioUbicacionDetencion,fechaFinUbicacionDetencion,FaltaDelitoUbicacionDetencion});
+        console.log('ubicacion detencion: ',response.data.data.Remisiones2)
+        setFetchedData4(response.data.data.Remisiones2);
+        setIsLoadingDataUbicacionDetencion(false);
         break;
     
       default:
@@ -109,6 +125,26 @@ export function Mapa() {
   const handleFaltaDelitoDomicilioDet = (event) => {
     setFaltaDelitoDomicilioDet(event.target.value)
   }
+  //Funciones de Ubicacion Detencion
+  const handleStartDateChangeUbicacionDetencion = (event) => {
+    setFechaInicioUbicacionDetencion(event.target.value);
+  };
+
+  const handleEndDateChangeUbicacionDetencion = (event) => {
+    setFechaFinUbicacionDetencion(event.target.value);
+  };
+
+  const handleCheckboxUbicacionDetencionLayer = () => {
+    setShowUbicacionDetencionLayer(!showUbicacionDetencionLayer);
+  };
+
+  const handleCheckboxUbicacionDetencionHeatLayer = () => {
+    setShowUbicacionDetencionHeatLayer(!showUbicacionDetencionHeatLayer);
+  };
+  
+  const handleFaltaDelitoUbicacionDetencion = (event) => {
+    setFaltaDelitoUbicacionDetencion(event.target.value)
+  }
   //Funciones Generales
   const handleCheckboxVectoresLayer = () => {
     setShowVectoresLayer(!showVectoresLayer);
@@ -147,7 +183,11 @@ export function Mapa() {
   useEffect(() => {
     fetchData("domicilio-detenido");
   }, [fechaInicioDomicilioDet,fechaFinDomicilioDet,FaltaDelitoDomicilioDet])
-  
+    /* EFECTO PARA CARGAR LA DATA DE ACUERDO A UN RANGO DE FECHAS */
+    useEffect(() => {
+      fetchData("ubicacion-detencion");
+    }, [fechaInicioUbicacionDetencion,fechaFinUbicacionDetencion,FaltaDelitoUbicacionDetencion])
+    
  
   //EFECTO PARA MANEJAR LA CAPA DE VECTORES
   useEffect(() => {
@@ -552,41 +592,181 @@ export function Mapa() {
   
     }, [isLoadingDataDomicilioDet, fetchedData3,showDomicilioDetHeatLayer]);
   
-    // useEffect(() => {
+     //EFECTO PARA MANEJAR LA CAPA DE UBICACION DETENCION
+  useEffect(() => {
+    if (!map.current || isLoadingDataUbicacionDetencion) return;
 
-    //   const headers = new Headers();
-    //   headers.append('Content-Type', 'application/json');
+    if (showUbicacionDetencionLayer) {
+     
+      if (map.current.getLayer("ubicacion-detencion")) {
+        map.current.removeLayer("ubicacion-detencion");
+      }
 
-    //   fetch(`http://172.18.0.25/sarai/public/files/Remisiones/1232312311/FotosHuellas/${Remision}/rostro_frente.jpeg`,
-    //     { 
-    //       headers: headers,
-    //       method: 'POST'
-    //     }
-    //   )
-    //   .then(response => {
-    //     // Verificar si la solicitud fue exitosa (código de estado 200)
-    //     console.log(response);
-    //     if (response.ok) {
-    //       // Devolver la respuesta en formato de imagen
-    //       return response.json();
-    //     } else {
-    //       // En caso de error, lanzar una excepción
-    //       throw new Error('Error en la solicitud');
-    //     }
-    //   })
-    //   .then(response => {
-    //     // Hacer algo con la imagen recibida, por ejemplo, mostrarla en una etiqueta img
-    //     console.log(response)
-    //     // const imgElement = document.createElement('img');
-    //     // imgElement.src = URL.createObjectURL(blob);
-    //     // document.body.appendChild(imgElement);
-    //   })
-    //   .catch(error => {
-    //     // Capturar y manejar cualquier error ocurrido durante la solicitud
-    //     console.log('Error:', error);
-    //   });
-    // }, [Remision])
-    
+      if (map.current.getSource('ubicacion-detencion')) {
+        map.current.removeSource('ubicacion-detencion');
+      }
+
+      map.current.addSource("ubicacion-detencion", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: fetchedData4.map((item) => {
+            return {
+              type: "Feature",
+              geometry: {
+                type: "Point",
+                coordinates: [
+                  isNaN(parseFloat(item.Coordenada_X))
+                    ? -0.0
+                    : parseFloat(item.Coordenada_X),
+                  isNaN(parseFloat(item.Coordenada_Y))
+                    ? 0.0
+                    : parseFloat(item.Coordenada_Y),
+                ],
+              },
+              properties: {
+                Ficha: item.Ficha,
+                No_Remision: item.No_Remision,
+                Nombre: item.Nombre,
+                Ap_Paterno: item.Ap_Paterno,
+                Ap_Materno: item.Ap_Materno,
+              },
+            };
+          }),
+        },
+      });
+
+      map.current.addLayer({
+        id: "ubicacion-detencion",
+        type: "circle",
+        source: "ubicacion-detencion",
+        paint: {
+          "circle-color": "green",
+          "circle-radius": 5,
+        },
+      });
+
+      map.current.on('click', 'ubicacion-detencion', (e) => {
+        // Copy coordinates array.
+        const coordinates = e.features[0].geometry.coordinates.slice();
+        const description = `Remision: ${e.features[0].properties.No_Remision} Nombre: ${ e.features[0].properties.Nombre }  ${e.features[0].properties.Ap_Paterno} ${e.features[0].properties.Ap_Materno}`;
+        
+        setFicha(e.features[0].properties.Ficha)
+        setRemision(e.features[0].properties.No_Remision)
+        setNombre(`${ e.features[0].properties.Nombre }  ${e.features[0].properties.Ap_Paterno} ${e.features[0].properties.Ap_Materno}`)
+        
+        new mapboxgl.Popup({className: "custom-popup"}) 
+        .setLngLat(e.lngLat)
+        .setHTML(description)
+        .addTo(map.current);
+        });
+
+    } else {
+      if (map.current.getLayer("ubicacion-detencion")) {
+        map.current.removeLayer("ubicacion-detencion");
+      }
+
+      if (map.current.getSource('ubicacion-detencion')) {
+        map.current.removeSource('ubicacion-detencion');
+      }
+    }
+  },[isLoadingDataUbicacionDetencion,showUbicacionDetencionLayer])
+
+   //EFECTO PARA MANEJAR LA CAPA DE CALOR DE UBICACION DETENCION
+   useEffect(() => {
+    if (!map.current || isLoadingDataUbicacionDetencion) return;
+      console.log('variable de calor de domicilio: ', showUbicacionDetencionHeatLayer)
+      if (showUbicacionDetencionHeatLayer) {
+
+        // Remover la capa de calor si está presente
+        if (map.current.getLayer("heatmap-ubicacion-detencion")) {
+          map.current.removeLayer("heatmap-ubicacion-detencion");
+        }
+
+        // Remover la fuente de datos de calor si está presente
+        if (map.current.getSource("heatmap-ubicacion-detencion")) {
+          map.current.removeSource("heatmap-ubicacion-detencion");
+        }
+              console.log('llego a antes del add source de heat detencioon')
+                // Agregar la capa de calor
+                map.current.addSource("heatmap-ubicacion-detencion", {
+                  type: "geojson",
+                  data: {
+                    type: "FeatureCollection",
+                    features: fetchedData4.map((item) => {
+                      return {
+                        type: "Feature",
+                        geometry: {
+                          type: "Point",
+                          coordinates: [
+                            isNaN(parseFloat(item.Coordenada_X)) ? -0.0 : parseFloat(item.Coordenada_X),
+                            isNaN(parseFloat(item.Coordenada_Y)) ? 0.0 : parseFloat(item.Coordenada_Y),
+                          ],
+                        },
+                      };
+                    }),
+                  },
+                });
+        
+                map.current.addLayer(
+                  {
+                    id: "heatmap-ubicacion-detencion",
+                    type: "heatmap",
+                    source: "heatmap-ubicacion-detencion",
+                    paint: {
+                      "heatmap-weight": {
+                        property: "mag",
+                        type: "exponential",
+                        stops: [
+                          [0, 0],
+                          [6, 1],
+                        ],
+                      },
+                      "heatmap-color": [
+                        "interpolate",
+                        ["linear"],
+                        ["heatmap-density"],
+                        0,
+                        "rgba(33,102,172,0)",
+                        0.2,
+                        "rgb(0,128,0)",
+                        0.4,
+                        "rgb(50,205,50)",
+                        0.6,
+                        "rgb(0,255,0)",
+                        0.8,
+                        "rgb(50,205,50)",
+                        1,
+                        "rgb(0,128,0)"
+                      ],
+                      "heatmap-radius": {
+                        property: "mag",
+                        type: "exponential",
+                        stops: [
+                          [0, 2],
+                          [6, 20],
+                        ],
+                      },
+                      "heatmap-opacity": 1, // Establecer la opacidad en 1
+                    },
+                  },
+                  "waterway-label"
+                );
+
+      }else {
+         // Remover la capa de calor si está presente
+        if (map.current.getLayer("heatmap-ubicacion-detencion")) {
+          map.current.removeLayer("heatmap-ubicacion-detencion");
+        }
+
+        // Remover la fuente de datos de calor si está presente
+        if (map.current.getSource("heatmap-ubicacion-detencion")) {
+          map.current.removeSource("heatmap-ubicacion-detencion");
+        }
+      }
+
+  }, [isLoadingDataUbicacionDetencion, fetchedData4,showUbicacionDetencionHeatLayer]);    
+
   return (
     <>
       <div className="row mb-3">
@@ -614,6 +794,19 @@ export function Mapa() {
             handleStartDateChangeDomicilioDet={handleStartDateChangeDomicilioDet}
             handleEndDateChangeDomicilioDet={handleEndDateChangeDomicilioDet} 
             handleFaltaDelitoDomicilioDet={handleFaltaDelitoDomicilioDet}
+          />
+        </div>
+        <div className="col-md-6">
+          <LayerUbicacionDetencionControls
+            handleCheckboxUbicacionDetencionLayer={handleCheckboxUbicacionDetencionLayer} 
+            showUbicacionDetencionLayer={showUbicacionDetencionLayer}  
+            handleCheckboxUbicacionDetencionHeatLayer={handleCheckboxUbicacionDetencionHeatLayer} 
+            showUbicacionDetencionHeatLayer={showUbicacionDetencionHeatLayer}
+            fechaInicioUbicacionDetencion={fechaInicioUbicacionDetencion}
+            fechaFinUbicacionDetencion={fechaFinUbicacionDetencion}
+            handleStartDateChangeUbicacionDetencion={handleStartDateChangeUbicacionDetencion}
+            handleEndDateChangeUbicacionDetencion={handleEndDateChangeUbicacionDetencion} 
+            handleFaltaDelitoUbicacionDetencion={handleFaltaDelitoUbicacionDetencion}
           />
         </div>
       </div>  
