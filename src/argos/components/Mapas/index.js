@@ -1,4 +1,6 @@
 export * from './Mapa'
 export * from './MapControls'
 export * from './FaltaDelitoPicker'
-export * from './CapaUbiHechos'
+export * from './LayerHechosControls'
+export * from './LayerCecksHechos'
+export * from './GeneralControls'
