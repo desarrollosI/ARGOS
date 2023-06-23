@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const GeneralControls = ({showVectoresLayer,handleCheckboxVectoresLayer}) => {
+export const GeneralControls = ({showVectoresLayer,handleCheckboxVectoresLayer,handleZonaGeneral}) => {
   return (
     <>
         <div className="row">

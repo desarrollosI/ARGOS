@@ -2,3 +2,4 @@
 export * from './BuscadorFacial'
 export * from './Table'
 export * from './Graficas'
+export * from './Mapa'

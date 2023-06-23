@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 
 import mapboxgl from "mapbox-gl";
+import * as turf from '@turf/turf';
 import { mapasApi } from "../../../api";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "../css/Mapa/mapa.css";
@@ -10,6 +11,7 @@ import { LayerHechosControls } from "./LayerHechosControls";
 import { LayerDomicilioDetControls } from "./LayerDomicilioDetControls";
 import { LayerUbicacionDetencionControls } from "./LayerUbicacionDetencionControls";
 import { GeneralControls } from "./GeneralControls";
+import { PuntosEnZona } from "../../helpers";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg";
@@ -27,6 +29,7 @@ export function Mapa() {
   const [fetchedData3, setFetchedData3] = useState();//DomiciliosDetenido
   const [fetchedData2, setFetchedData2] = useState();//Hechos
   const [fetchedData4, setFetchedData4] = useState();//Ubicacion Detencion
+  const [capaVectores, setCapaVectores] = useState();//Capa de vectores usada para el turf js
 // Estados para la capa de Hechos
   const [fechaInicio, setFechaInicio] = useState('2021-06-24')
   const [fechaFin, setFechaFin] = useState((new Date()).toISOString().split('T')[0])
@@ -47,6 +50,8 @@ export function Mapa() {
   const [FaltaDelitoUbicacionDetencion, setFaltaDelitoUbicacionDetencion] = useState('todas')
   //Capas Generales
   const [showVectoresLayer, setShowVectoresLayer] = useState(true);
+  const [ZonaGeneral, setZonaGeneral] = useState('todas')
+  const [resultadosTurf, setResultadosTurf] = useState()
   //estados para el panel lateral fotos
   const [Remision, setRemision] = useState(258086)
   const [Ficha, setFicha] = useState(14931)
@@ -149,6 +154,12 @@ export function Mapa() {
   const handleCheckboxVectoresLayer = () => {
     setShowVectoresLayer(!showVectoresLayer);
   };
+
+  const handleZonaGeneral = (event) => {
+    setZonaGeneral(event.target.value)
+    console.log(event.target.value)
+  }
+
  /* este efecto es para cargar el mapa y su estado por defecto  */
   useEffect(() => {
     const loadMap = async () => {
@@ -195,7 +206,23 @@ export function Mapa() {
 
     const sourceIDVectores = 'vectores-source';
     console.log('variable de zonas: ', showVectoresLayer)
-    if (showVectoresLayer) {
+      if (showVectoresLayer) {
+        // Supongamos que tienes el objeto GeoJSON almacenado en una variable llamada 'geojsonFile'
+        var geojsonFile = './195_VECTORES.geojson';
+        // Utilizamos el método fetch para cargar el archivo GeoJSON
+        fetch(geojsonFile)
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(geojson) {
+            console.log('Datos del objeto GeoJSON:', geojson);
+            setCapaVectores(geojson)
+
+          })
+          .catch(function(error) {
+            console.log('Error al cargar el archivo GeoJSON:', error);
+          });
+
       if (!map.current.getSource(sourceIDVectores)) {
         map.current.addSource(sourceIDVectores, {
           type: "geojson",
@@ -227,7 +254,7 @@ export function Mapa() {
         .setLngLat(e.lngLat)
         .setHTML(description)
         .addTo(map.current);
-        });
+        });      
     } else {
       if (map.current.getLayer("vectores-layer")) {
        map.current.removeLayer("vectores-layer");
@@ -237,6 +264,7 @@ export function Mapa() {
         map.current.removeSource(sourceIDVectores);
       }
     }
+    
   },[isLoadingData,showVectoresLayer])
 
   //EFECTO PARA MANEJAR LA CAPA DE HECHOS
@@ -317,7 +345,7 @@ export function Mapa() {
         map.current.removeSource('ubicaciones-hechos2');
       }
     }
-  },[isLoadingData,showUbiHechosLayer])
+  },[isLoadingData,fetchedData2,showUbiHechosLayer,resultadosTurf])
 
    //EFECTO PARA MANEJAR LA CAPA DE CALOR DE HECHOS HECHOS
    useEffect(() => {
@@ -495,7 +523,7 @@ export function Mapa() {
       }
 
   }
-  },[isLoadingDataDomicilioDet,showDomicilioDetLayer])
+  },[isLoadingDataDomicilioDet,showDomicilioDetLayer,resultadosTurf])
 
      //EFECTO PARA MANEJAR LA CAPA DE CALOR DE DOMICILIO DETENIDO
      useEffect(() => {
@@ -670,7 +698,7 @@ export function Mapa() {
         map.current.removeSource('ubicacion-detencion');
       }
     }
-  },[isLoadingDataUbicacionDetencion,showUbicacionDetencionLayer])
+  },[isLoadingDataUbicacionDetencion,showUbicacionDetencionLayer,resultadosTurf])
 
    //EFECTO PARA MANEJAR LA CAPA DE CALOR DE UBICACION DETENCION
    useEffect(() => {
@@ -765,8 +793,29 @@ export function Mapa() {
         }
       }
 
-  }, [isLoadingDataUbicacionDetencion, fetchedData4,showUbicacionDetencionHeatLayer]);    
-
+  }, [isLoadingDataUbicacionDetencion, fetchedData4,showUbicacionDetencionHeatLayer]);
+  
+  useEffect(() => {
+    setTimeout(async () => {
+      if (!isLoadingDataDomicilioDet && !isLoadingData && !isLoadingDataUbicacionDetencion && capaVectores) {
+        //const resultados = await PuntosEnZona(capaVectores, fetchedData2, fetchedData3, fetchedData4, ZonaGeneral);
+        setResultadosTurf(await PuntosEnZona(capaVectores, fetchedData2, fetchedData3, fetchedData4, ZonaGeneral));
+      }
+    }, 4000);
+  }, [ZonaGeneral]);  
+ 
+    useEffect(() => {
+      if (resultadosTurf){
+        setTimeout( () => {
+          console.log('antes de re set de los datos: ',resultadosTurf)
+          setFetchedData2(resultadosTurf.hechos);
+          setFetchedData3(resultadosTurf.domicilio);
+          setFetchedData4(resultadosTurf.detencion);
+          console.log(fetchedData2,fetchedData3,fetchedData4)
+        }, 4000);
+      }
+    }, [resultadosTurf]);
+ 
   return (
     <>
       <div className="row mb-3">
@@ -812,7 +861,7 @@ export function Mapa() {
       </div>  
       <div className="row">
         <div className="col mt-2">
-          <GeneralControls showVectoresLayer={showVectoresLayer} handleCheckboxVectoresLayer={handleCheckboxVectoresLayer}/>
+          <GeneralControls showVectoresLayer={showVectoresLayer} handleCheckboxVectoresLayer={handleCheckboxVectoresLayer} handleZonaGeneral={handleZonaGeneral}/>
         </div>
       </div>
       <div className="row">
@@ -827,7 +876,7 @@ export function Mapa() {
             <h4> Foto: </h4>
           </div>
           <div className="row">
-            <img src={`http://172.18.0.25/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} width="400px" alt="" srcset="" />
+            <img src={`http://172.18.0.25/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} width="400px" alt="Foto_Detenido"/>
           </div>
           <div className="row mt-3">
             <strong>Ficha: {Ficha}</strong>
