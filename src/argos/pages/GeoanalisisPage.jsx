@@ -9,11 +9,12 @@
 
 //Se realizan las importaciones de react
 import React from "react";
+import { Mapa } from "../components/Mapas/Mapa";
 
 export const GeoanalisisPage = () => {
   return (
     <>
-      <div className="container">
+      <div className="container-fluid">
         <div className="row">
           <div className="col">
             <h1 className="titulo">
@@ -32,7 +33,9 @@ export const GeoanalisisPage = () => {
           </div>
           <hr />
         </div>
-        <div className="row"></div>
+        <div className="container-fluid row">
+          <Mapa/>
+        </div>
       </div>
     </>
   );

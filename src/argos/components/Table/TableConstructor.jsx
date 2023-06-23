@@ -520,28 +520,28 @@ export const TableConstructor = ({lugar, datos}) => {
                 },
                 {
                   Header:'NOMBRE DETENIDO',
-                  accessor:'Nombre_Detenido',
+                  accessor:'Nombre',
                   filter: 'fuzzyText',
                 },
                 {
                   Header:'AP PATERNO DETENIDO',
-                  accessor:'Ap_Paterno_Detenido',
+                  accessor:'Ap_Paterno',
                   filter: 'fuzzyText',
                 },
                 {
                   Header:'AP MATERNO DETENIDO',
-                  accessor:'Ap_Materno_Detenido',
+                  accessor:'Ap_Materno',
                   filter: 'fuzzyText',
                 },
                 {
                   Header:'GÉNERO DETENIDO',
-                  accessor:'Genero_Detenido',
+                  accessor:'Genero',
                   Filter: SelectColumnFilter,
                   filter: 'equals',
                 },
                 {
                   Header: 'EDAD DETENIDO DE: ',
-                  accessor: 'Edad_Detenido',
+                  accessor: 'Edad',
                   Filter: NumberRangeColumnFilter,
                   filter: 'between',
                 },

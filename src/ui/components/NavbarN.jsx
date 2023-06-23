@@ -14,7 +14,8 @@ import {
   RemisionPage,
   InspeccionPage,
   HistoricoPage,
-  HistorialPage
+  HistorialPage,
+  EstadisticaPage
 } from "../../argos/pages";
 //Se importa el store 
 import { useAuthStore } from "../../hooks";
@@ -99,13 +100,18 @@ export const NavbarN = () => {
                     </li>
                     )
                 }
-                
-                {/* <li className="nav-item">
+                 <li className="nav-item">
+                  <NavLink to="/estadistica" className="nav-link">
+                    <span data-feather="users" className="align-text-bottom"></span>
+                    Estadistica
+                  </NavLink>
+                </li> 
+                 <li className="nav-item">
                   <NavLink to="/geoanalisis" className="nav-link">
                     <span data-feather="users" className="align-text-bottom"></span>
-                    Geoanálisis
+                    Geoanalisis
                   </NavLink>
-                </li> */}
+                </li> 
                 {/* <li className="nav-item">
                   <a className="nav-link">
                     <span
@@ -128,6 +134,7 @@ export const NavbarN = () => {
               <Route path="inicio" element={<InicioPage />} />
               <Route path="buscador" element={<BuscadorPage />} />
               <Route path="reconocimiento" element={<ReconocimientoPage />} />
+              <Route path="estadistica" element={<EstadisticaPage />} />
               <Route path="historial" element={<HistorialPage/>} />
 
               <Route path="remision/:remision" element={<RemisionPage />} /> 
