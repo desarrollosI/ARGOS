@@ -3,6 +3,7 @@ import { DateRangePicker } from '../Graficas/DateRangePicker'
 import { FaltaDelitoPicker } from './FaltaDelitoPicker'
 import { LayerChecksDomicilioDet } from './LayerChecksDomicilioDet'
 import { ZonasPicker } from './ZonasPicker'
+import { JuntaAuxiliarPicker } from './JuntaAuxiliarPicker'
 
 export const LayerDomicilioDetControls = ({
     handleCheckboxDomicilioDetLayer,
@@ -14,7 +15,8 @@ export const LayerDomicilioDetControls = ({
     handleStartDateChangeDomicilioDet,
     handleEndDateChangeDomicilioDet,
     handleFaltaDelitoDomicilioDet,
-    handleZonaDomicilioDet
+    handleZonaDomicilioDet,
+    handleJuntaAuxiliarDomicilioDet
 }) => {
   return (
     <>
@@ -48,6 +50,13 @@ export const LayerDomicilioDetControls = ({
             <div className="col-md-6">
                 <ZonasPicker
                     handleZona={handleZonaDomicilioDet}
+                />
+            </div>
+        </div>
+        <div className="row">
+            <div className="col-md-6">
+                <JuntaAuxiliarPicker
+                    handleJuntaAuxiliar={handleJuntaAuxiliarDomicilioDet}
                 />
             </div>
         </div>

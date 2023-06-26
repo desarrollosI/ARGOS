@@ -3,6 +3,7 @@ import { DateRangePicker } from '../Graficas/DateRangePicker'
 import { FaltaDelitoPicker } from './FaltaDelitoPicker'
 import { LayerChecksUbicacionDetencion } from './LayerChecksUbicacionDetencion'
 import { ZonasPicker } from './ZonasPicker'
+import { JuntaAuxiliarPicker } from './JuntaAuxiliarPicker'
 
 export const LayerUbicacionDetencionControls = ({
     handleCheckboxUbicacionDetencionLayer,
@@ -14,7 +15,8 @@ export const LayerUbicacionDetencionControls = ({
     handleStartDateChangeUbicacionDetencion,
     handleEndDateChangeUbicacionDetencion,
     handleFaltaDelitoUbicacionDetencion,
-    handleZonaUbicacionDetencion
+    handleZonaUbicacionDetencion,
+    handleJuntaAuxiliarUbicacionDetencion
 }) => {
   return (
     <>
@@ -48,6 +50,13 @@ export const LayerUbicacionDetencionControls = ({
             <div className="col-md-6">
                 <ZonasPicker
                     handleZona={handleZonaUbicacionDetencion}
+                />
+            </div>
+        </div>
+        <div className="row">
+            <div className="col-md-6">
+                <JuntaAuxiliarPicker
+                    handleJuntaAuxiliar={handleJuntaAuxiliarUbicacionDetencion}
                 />
             </div>
         </div>

@@ -11,7 +11,7 @@ import { LayerHechosControls } from "./LayerHechosControls";
 import { LayerDomicilioDetControls } from "./LayerDomicilioDetControls";
 import { LayerUbicacionDetencionControls } from "./LayerUbicacionDetencionControls";
 import { GeneralControls } from "./GeneralControls";
-import { PuntosEnZona } from "../../helpers";
+import { PuntosEnZona,PuntosEnJuntaAuxiliar } from "../../helpers";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg";
@@ -40,6 +40,7 @@ export function Mapa() {
   const [showUbiHechosHeatLayer, setShowUbiHechosHeatLayer] = useState(false);
   const [FaltaDelito, setFaltaDelito] = useState('todas')
   const [Zona, setZona] = useState('todas')
+  const [JuntaAuxiliar, setJuntaAuxiliar] = useState('todas')
   //Estados para la capa de DomicilioDetenido
   const [fechaInicioDomicilioDet, setFechaInicioDomicilioDet] = useState('2021-06-24')
   const [fechaFinDomicilioDet, setFechaFinDomicilioDet] = useState((new Date()).toISOString().split('T')[0])
@@ -47,6 +48,7 @@ export function Mapa() {
   const [showDomicilioDetHeatLayer, setShowDomicilioDetHeatLayer] = useState(false);
   const [FaltaDelitoDomicilioDet, setFaltaDelitoDomicilioDet] = useState('todas')
   const [ZonaDomicilioDet, setZonaDomicilioDet] = useState('todas')
+  const [JuntaAuxiliarDomicilioDet, setJuntaAuxiliarDomicilioDet] = useState('todas')
   //Estados para la capa de DomicilioDetenido
   const [fechaInicioUbicacionDetencion, setFechaInicioUbicacionDetencion] = useState('2021-06-24')
   const [fechaFinUbicacionDetencion, setFechaFinUbicacionDetencion] = useState((new Date()).toISOString().split('T')[0])
@@ -54,12 +56,16 @@ export function Mapa() {
   const [showUbicacionDetencionHeatLayer, setShowUbicacionDetencionHeatLayer] = useState(false);
   const [FaltaDelitoUbicacionDetencion, setFaltaDelitoUbicacionDetencion] = useState('todas')
   const [ZonaUbicacionDetencion, setZonaUbicacionDetencion] = useState('todas')
+  const [JuntaAuxiliarUbicacionDetencion, setJuntaAuxiliarUbicacionDetencion] = useState('todas')
   //Capas Generales
   const [showVectoresLayer, setShowVectoresLayer] = useState(true);
   const [ZonaGeneral, setZonaGeneral] = useState('todas')
   const [resultadosTurf, setResultadosTurf] = useState()
   const [resultadosTurfDomicilioDet, setResultadosTurfDomicilioDet] = useState()
   const [resultadosTurfUbicacionDetencion, setResultadosTurfUbicacionDetencion] = useState()
+  const [resultadosTurfHechosJuntaAuxiliar, setResultadosTurfHechosJuntaAuxiliar] = useState()
+  const [resultadosTurfDomicilioDetJuntaAuxiliar, setResultadosTurfDomicilioDetJuntaAuxiliar] = useState()
+  const [resultadosTurfUbicacionDetencionJuntaAuxiliar, setResultadosTurfUbicacionDetencionJuntaAuxiliar] = useState()
   //estados para el panel lateral fotos
   const [Remision, setRemision] = useState(258086)
   const [Ficha, setFicha] = useState(14931)
@@ -125,6 +131,16 @@ export function Mapa() {
   }
   const handleZonaUbicacionDetencion = (event) => {
     setZonaUbicacionDetencion(event.target.value)
+  }
+  //funciones de juntsa auxiliares
+  const handleJuntaAuxiliar = (event) => {
+    setJuntaAuxiliar(event.target.value)
+  }
+  const handleJuntaAuxiliarDomicilioDet = (event) => {
+    setJuntaAuxiliarDomicilioDet(event.target.value)
+  }
+  const handleJuntaAuxiliarUbicacionDetencion = (event) => {
+    setJuntaAuxiliarUbicacionDetencion(event.target.value)
   }
 
   //Funciones de Domicilio Detenido
@@ -912,6 +928,84 @@ useEffect(() => {
     console.log('fetchedData4 actualizado:', fetchedData4);
   }, [fetchedData4]);
   
+
+/*---------------------EFECTOS DE CAPA DE HECHOS JUNTSA AUXILIARES --------------------------------------------- */
+  //EFECTO PARA DISPARAR EL FILTRADO DE LOS PUNTOS CON BASE EN POLIGONO JUNTA AUXILIAR
+  useEffect(() => {
+    setTimeout(async () => {
+      if (!isLoadingDataDomicilioDet && !isLoadingData && !isLoadingDataUbicacionDetencion && capaVectores) {
+        if(JuntaAuxiliar === 'todas'){
+          setFetchedData2(fetchedData2Respaldo)
+        }else {
+          setFetchedData2Respaldo(fetchedData2)
+          setResultadosTurfHechosJuntaAuxiliar(await PuntosEnJuntaAuxiliar(JuntaAuxiliar, fetchedData2,'hechos'));
+
+        }
+          
+      }
+    }, 3000);
+  }, [JuntaAuxiliar]);  
+  //EFECTO PARA ACTUALIZAR LA INFORMACION FILTRADA Y SE PUEDA REFLEJAR EN EL MAPA 
+  useEffect(() => {
+    if (resultadosTurfHechosJuntaAuxiliar){
+      setTimeout( () => {
+        setFetchedData2(resultadosTurfHechosJuntaAuxiliar.resultados);
+      }, 3000);
+    }
+  }, [resultadosTurfHechosJuntaAuxiliar]);
+
+
+/*---------------------EFECTOS DE CAPA DE DOMICILIO DETENIDO JUNTSA AUXILIARES --------------------------------------------- */
+  //EFECTO PARA DISPARAR EL FILTRADO DE LOS PUNTOS CON BASE EN POLIGONO JUNTA AUXILIAR
+  useEffect(() => {
+    setTimeout(async () => {
+      if (!isLoadingDataDomicilioDet && !isLoadingData && !isLoadingDataUbicacionDetencion && capaVectores) {
+        if(JuntaAuxiliarDomicilioDet === 'todas'){
+          setFetchedData3(fetchedData3Respaldo)
+        }else {
+          setFetchedData3Respaldo(fetchedData3)
+          setResultadosTurfDomicilioDetJuntaAuxiliar(await PuntosEnJuntaAuxiliar(JuntaAuxiliarDomicilioDet, fetchedData3,'domicilio'));
+
+        }
+          
+      }
+    }, 3000);
+  }, [JuntaAuxiliarDomicilioDet]);  
+  //EFECTO PARA ACTUALIZAR LA INFORMACION FILTRADA Y SE PUEDA REFLEJAR EN EL MAPA 
+  useEffect(() => {
+    if (resultadosTurfDomicilioDetJuntaAuxiliar){
+      setTimeout( () => {
+        setFetchedData3(resultadosTurfDomicilioDetJuntaAuxiliar.resultados);
+      }, 3000);
+    }
+  }, [resultadosTurfDomicilioDetJuntaAuxiliar]);
+
+  /*---------------------EFECTOS DE CAPA DE UBICACION DETENCION JUNTSA AUXILIARES --------------------------------------------- */
+  //EFECTO PARA DISPARAR EL FILTRADO DE LOS PUNTOS CON BASE EN POLIGONO JUNTA AUXILIAR
+  useEffect(() => {
+    setTimeout(async () => {
+      if (!isLoadingDataUbicacionDetencion && !isLoadingData && capaVectores) {
+        if(JuntaAuxiliarUbicacionDetencion === 'todas'){
+          setFetchedData4(fetchedData4Respaldo)
+        }else {
+          setFetchedData4Respaldo(fetchedData4)
+          setResultadosTurfUbicacionDetencionJuntaAuxiliar(await PuntosEnJuntaAuxiliar(JuntaAuxiliarUbicacionDetencion, fetchedData4,'detencion'));
+
+        }
+          
+      }
+    }, 3000);
+  }, [JuntaAuxiliarUbicacionDetencion]);  
+  //EFECTO PARA ACTUALIZAR LA INFORMACION FILTRADA Y SE PUEDA REFLEJAR EN EL MAPA 
+  useEffect(() => {
+    if (resultadosTurfUbicacionDetencionJuntaAuxiliar){
+      setTimeout( () => {
+        setFetchedData4(resultadosTurfUbicacionDetencionJuntaAuxiliar.resultados);
+      }, 3000);
+    }
+  }, [resultadosTurfUbicacionDetencionJuntaAuxiliar]);
+
+
   return (
     <>
       <div className="row mb-3">
@@ -927,6 +1021,7 @@ useEffect(() => {
             handleEndDateChange={handleEndDateChange} 
             handleFaltaDelito={handleFaltaDelito}
             handleZona={handleZona}
+            handleJuntaAuxiliar={handleJuntaAuxiliar}
           />
         </div>
         <div className="col-md-6">
@@ -941,6 +1036,7 @@ useEffect(() => {
             handleEndDateChangeDomicilioDet={handleEndDateChangeDomicilioDet} 
             handleFaltaDelitoDomicilioDet={handleFaltaDelitoDomicilioDet}
             handleZonaDomicilioDet={handleZonaDomicilioDet}
+            handleJuntaAuxiliarDomicilioDet={handleJuntaAuxiliarDomicilioDet}
           />
         </div>
         <div className="col-md-6">
@@ -955,6 +1051,7 @@ useEffect(() => {
             handleEndDateChangeUbicacionDetencion={handleEndDateChangeUbicacionDetencion} 
             handleFaltaDelitoUbicacionDetencion={handleFaltaDelitoUbicacionDetencion}
             handleZonaUbicacionDetencion={handleZonaUbicacionDetencion}
+            handleJuntaAuxiliarUbicacionDetencion={handleJuntaAuxiliarUbicacionDetencion}
           />
         </div>
       </div>  

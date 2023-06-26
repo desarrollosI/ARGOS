@@ -3,6 +3,7 @@ import { LayerChecksHechos } from './LayerCecksHechos'
 import { DateRangePicker } from '../Graficas/DateRangePicker'
 import { FaltaDelitoPicker } from './FaltaDelitoPicker'
 import { ZonasPicker } from './ZonasPicker'
+import { JuntaAuxiliarPicker } from './JuntaAuxiliarPicker'
 
 export const LayerHechosControls = ({
     handleCheckboxUbiHechosLayer,
@@ -14,7 +15,8 @@ export const LayerHechosControls = ({
     handleStartDateChange,
     handleEndDateChange,
     handleFaltaDelito,
-    handleZona
+    handleZona,
+    handleJuntaAuxiliar
 }) => {
   return (
     <>
@@ -48,6 +50,13 @@ export const LayerHechosControls = ({
             <div className="col-md-6">
                 <ZonasPicker
                     handleZona={handleZona}
+                />
+            </div>
+        </div>
+        <div className="row">
+            <div className="col-md-6">
+                <JuntaAuxiliarPicker
+                    handleJuntaAuxiliar={handleJuntaAuxiliar}
                 />
             </div>
         </div>
