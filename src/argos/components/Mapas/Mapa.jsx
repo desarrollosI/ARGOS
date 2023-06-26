@@ -27,8 +27,11 @@ export function Mapa() {
   const [isLoadingDataDomicilioDet, setIsLoadingDataDomicilioDet] = useState(true);
   const [isLoadingDataUbicacionDetencion, setIsLoadingDataUbicacionDetencion] = useState(true);
   const [fetchedData3, setFetchedData3] = useState();//DomiciliosDetenido
+  const [fetchedData3Respaldo, setFetchedData3Respaldo] = useState();//DomiciliosDetenido
   const [fetchedData2, setFetchedData2] = useState();//Hechos
+  const [fetchedData2Respaldo, setFetchedData2Respaldo] = useState();//Hechos
   const [fetchedData4, setFetchedData4] = useState();//Ubicacion Detencion
+  const [fetchedData4Respaldo, setFetchedData4Respaldo] = useState();//Hechos
   const [capaVectores, setCapaVectores] = useState();//Capa de vectores usada para el turf js
 // Estados para la capa de Hechos
   const [fechaInicio, setFechaInicio] = useState('2021-06-24')
@@ -36,22 +39,27 @@ export function Mapa() {
   const [showUbiHechosLayer, setShowUbiHechosLayer] = useState(true);
   const [showUbiHechosHeatLayer, setShowUbiHechosHeatLayer] = useState(false);
   const [FaltaDelito, setFaltaDelito] = useState('todas')
+  const [Zona, setZona] = useState('todas')
   //Estados para la capa de DomicilioDetenido
   const [fechaInicioDomicilioDet, setFechaInicioDomicilioDet] = useState('2021-06-24')
   const [fechaFinDomicilioDet, setFechaFinDomicilioDet] = useState((new Date()).toISOString().split('T')[0])
   const [showDomicilioDetLayer, setShowDomicilioDetLayer] = useState(true);
   const [showDomicilioDetHeatLayer, setShowDomicilioDetHeatLayer] = useState(false);
   const [FaltaDelitoDomicilioDet, setFaltaDelitoDomicilioDet] = useState('todas')
+  const [ZonaDomicilioDet, setZonaDomicilioDet] = useState('todas')
   //Estados para la capa de DomicilioDetenido
   const [fechaInicioUbicacionDetencion, setFechaInicioUbicacionDetencion] = useState('2021-06-24')
   const [fechaFinUbicacionDetencion, setFechaFinUbicacionDetencion] = useState((new Date()).toISOString().split('T')[0])
   const [showUbicacionDetencionLayer, setShowUbicacionDetencionLayer] = useState(true);
   const [showUbicacionDetencionHeatLayer, setShowUbicacionDetencionHeatLayer] = useState(false);
   const [FaltaDelitoUbicacionDetencion, setFaltaDelitoUbicacionDetencion] = useState('todas')
+  const [ZonaUbicacionDetencion, setZonaUbicacionDetencion] = useState('todas')
   //Capas Generales
   const [showVectoresLayer, setShowVectoresLayer] = useState(true);
   const [ZonaGeneral, setZonaGeneral] = useState('todas')
   const [resultadosTurf, setResultadosTurf] = useState()
+  const [resultadosTurfDomicilioDet, setResultadosTurfDomicilioDet] = useState()
+  const [resultadosTurfUbicacionDetencion, setResultadosTurfUbicacionDetencion] = useState()
   //estados para el panel lateral fotos
   const [Remision, setRemision] = useState(258086)
   const [Ficha, setFicha] = useState(14931)
@@ -109,6 +117,15 @@ export function Mapa() {
   const handleFaltaDelito = (event) => {
     setFaltaDelito(event.target.value)
   }
+  const handleZona = (event) => {
+    setZona(event.target.value)
+  }
+  const handleZonaDomicilioDet = (event) => {
+    setZonaDomicilioDet(event.target.value)
+  }
+  const handleZonaUbicacionDetencion = (event) => {
+    setZonaUbicacionDetencion(event.target.value)
+  }
 
   //Funciones de Domicilio Detenido
   const handleStartDateChangeDomicilioDet = (event) => {
@@ -157,7 +174,6 @@ export function Mapa() {
 
   const handleZonaGeneral = (event) => {
     setZonaGeneral(event.target.value)
-    console.log(event.target.value)
   }
 
  /* este efecto es para cargar el mapa y su estado por defecto  */
@@ -205,7 +221,7 @@ export function Mapa() {
     if (!map.current || isLoadingData) return;
 
     const sourceIDVectores = 'vectores-source';
-    console.log('variable de zonas: ', showVectoresLayer)
+    
       if (showVectoresLayer) {
         // Supongamos que tienes el objeto GeoJSON almacenado en una variable llamada 'geojsonFile'
         var geojsonFile = './195_VECTORES.geojson';
@@ -215,7 +231,7 @@ export function Mapa() {
             return response.json();
           })
           .then(function(geojson) {
-            console.log('Datos del objeto GeoJSON:', geojson);
+    
             setCapaVectores(geojson)
 
           })
@@ -345,7 +361,7 @@ export function Mapa() {
         map.current.removeSource('ubicaciones-hechos2');
       }
     }
-  },[isLoadingData,fetchedData2,showUbiHechosLayer,resultadosTurf])
+  },[isLoadingData,fetchedData2,showUbiHechosLayer])
 
    //EFECTO PARA MANEJAR LA CAPA DE CALOR DE HECHOS HECHOS
    useEffect(() => {
@@ -523,12 +539,12 @@ export function Mapa() {
       }
 
   }
-  },[isLoadingDataDomicilioDet,showDomicilioDetLayer,resultadosTurf])
+  },[isLoadingDataDomicilioDet,fetchedData3,showDomicilioDetLayer])
 
      //EFECTO PARA MANEJAR LA CAPA DE CALOR DE DOMICILIO DETENIDO
      useEffect(() => {
       if (!map.current || isLoadingDataDomicilioDet) return;
-        console.log('variable de calor de domicilio: ', showDomicilioDetHeatLayer)
+       
         if (showDomicilioDetHeatLayer) {
   
           // Remover la capa de calor si está presente
@@ -540,7 +556,6 @@ export function Mapa() {
           if (map.current.getSource("heatmap-domicilio-detenido")) {
             map.current.removeSource("heatmap-domicilio-detenido");
           }
-                console.log('llego a antes del add source de heat det')
                   // Agregar la capa de calor
                   map.current.addSource("heatmap-domicilio-detenido", {
                     type: "geojson",
@@ -698,12 +713,11 @@ export function Mapa() {
         map.current.removeSource('ubicacion-detencion');
       }
     }
-  },[isLoadingDataUbicacionDetencion,showUbicacionDetencionLayer,resultadosTurf])
+  },[isLoadingDataUbicacionDetencion,fetchedData4,showUbicacionDetencionLayer])
 
    //EFECTO PARA MANEJAR LA CAPA DE CALOR DE UBICACION DETENCION
    useEffect(() => {
     if (!map.current || isLoadingDataUbicacionDetencion) return;
-      console.log('variable de calor de domicilio: ', showUbicacionDetencionHeatLayer)
       if (showUbicacionDetencionHeatLayer) {
 
         // Remover la capa de calor si está presente
@@ -715,7 +729,6 @@ export function Mapa() {
         if (map.current.getSource("heatmap-ubicacion-detencion")) {
           map.current.removeSource("heatmap-ubicacion-detencion");
         }
-              console.log('llego a antes del add source de heat detencioon')
                 // Agregar la capa de calor
                 map.current.addSource("heatmap-ubicacion-detencion", {
                   type: "geojson",
@@ -794,28 +807,111 @@ export function Mapa() {
       }
 
   }, [isLoadingDataUbicacionDetencion, fetchedData4,showUbicacionDetencionHeatLayer]);
-  
+
+/*---------------------EFECTOS DE CAPA DE HECHOS --------------------------------------------- */
+  //EFECTO PARA DISPARAR EL FILTRADO DE LOS PUNTOS CON BASE EN POLIGONO 
   useEffect(() => {
     setTimeout(async () => {
       if (!isLoadingDataDomicilioDet && !isLoadingData && !isLoadingDataUbicacionDetencion && capaVectores) {
-        //const resultados = await PuntosEnZona(capaVectores, fetchedData2, fetchedData3, fetchedData4, ZonaGeneral);
-        setResultadosTurf(await PuntosEnZona(capaVectores, fetchedData2, fetchedData3, fetchedData4, ZonaGeneral));
+        if(Zona === 'todas'){
+          setFetchedData2(fetchedData2Respaldo)
+        }else {
+          setFetchedData2Respaldo(fetchedData2)
+          setResultadosTurf(await PuntosEnZona(capaVectores, fetchedData2, Zona,'hechos'));
+
+        }
+          
       }
-    }, 4000);
-  }, [ZonaGeneral]);  
- 
-    useEffect(() => {
-      if (resultadosTurf){
-        setTimeout( () => {
-          console.log('antes de re set de los datos: ',resultadosTurf)
-          setFetchedData2(resultadosTurf.hechos);
-          setFetchedData3(resultadosTurf.domicilio);
-          setFetchedData4(resultadosTurf.detencion);
-          console.log(fetchedData2,fetchedData3,fetchedData4)
-        }, 4000);
+    }, 3000);
+  }, [Zona]);  
+  //EFECTO PARA ACTUALIZAR LA INFORMACION FILTRADA Y SE PUEDA REFLEJAR EN EL MAPA 
+  useEffect(() => {
+    if (resultadosTurf){
+      setTimeout( () => {
+        setFetchedData2(resultadosTurf.resultados);
+      }, 3000);
+    }
+  }, [resultadosTurf]);
+
+
+  /* ---------------------------- EFECTOS CAPA DE DOMICILIO DETENIDO -------------------------- */
+  //EFECTO PARA DISPARAR EL FILTRADO DE LOS PUNTOS CON BASE EN POLIGONO 
+ // Primer efecto
+useEffect(() => {
+  console.log('efecto de capa de domicilio detenido selector de zonas');
+  let isMounted = true; // Variable para evitar actualizaciones en componentes desmontados
+  
+  setTimeout(async () => {
+    if (!isLoadingDataDomicilioDet && !isLoadingData && !isLoadingDataUbicacionDetencion && capaVectores) {
+      if (ZonaDomicilioDet === 'todas') {
+        setFetchedData3(fetchedData3Respaldo);
+      } else {
+        setFetchedData3Respaldo(fetchedData3);
+        const results = await PuntosEnZona(capaVectores, fetchedData3, ZonaDomicilioDet, 'domicilio');
+        
+        if (isMounted) {
+          setResultadosTurfDomicilioDet(results);
+        }
       }
-    }, [resultadosTurf]);
- 
+    }
+  }, 3000);
+
+  return () => {
+    // Limpiar la variable al desmontar el componente para evitar actualizaciones
+    isMounted = false;
+  };
+}, [ZonaDomicilioDet]);
+
+// Segundo efecto
+useEffect(() => {
+  if (resultadosTurfDomicilioDet) {
+    setFetchedData3(resultadosTurfDomicilioDet.resultados);
+  }
+}, [resultadosTurfDomicilioDet]);
+
+  useEffect(() => {
+    console.log('fetchedData3 actualizado:', fetchedData3);
+  }, [fetchedData3]);
+
+  /* ---------------------------- EFECTOS CAPA DE UBICACION DETENCION -------------------------- */
+//EFECTO PARA DISPARAR EL FILTRADO DE LOS PUNTOS CON BASE EN POLIGONO 
+ // Primer efecto
+useEffect(() => {
+  console.log('efecto de capa de ubicacion detencion selector de zonas');
+  let isMounted = true; // Variable para evitar actualizaciones en componentes desmontados
+  
+  setTimeout(async () => {
+    if (!isLoadingDataUbicacionDetencion && !isLoadingData && capaVectores) {
+      if (ZonaUbicacionDetencion === 'todas') {
+        setFetchedData4(fetchedData4Respaldo);
+      } else {
+        setFetchedData4Respaldo(fetchedData4);
+        const results = await PuntosEnZona(capaVectores, fetchedData4, ZonaUbicacionDetencion, 'detencion');
+        
+        if (isMounted) {
+          setResultadosTurfUbicacionDetencion(results);
+        }
+      }
+    }
+  }, 3000);
+
+  return () => {
+    // Limpiar la variable al desmontar el componente para evitar actualizaciones
+    isMounted = false;
+  };
+}, [ZonaUbicacionDetencion]);
+
+// Segundo efecto
+useEffect(() => {
+  if (resultadosTurfUbicacionDetencion) {
+    setFetchedData4(resultadosTurfUbicacionDetencion.resultados);
+  }
+}, [resultadosTurfUbicacionDetencion]);
+
+  useEffect(() => {
+    console.log('fetchedData4 actualizado:', fetchedData4);
+  }, [fetchedData4]);
+  
   return (
     <>
       <div className="row mb-3">
@@ -830,6 +926,7 @@ export function Mapa() {
             handleStartDateChange={handleStartDateChange}
             handleEndDateChange={handleEndDateChange} 
             handleFaltaDelito={handleFaltaDelito}
+            handleZona={handleZona}
           />
         </div>
         <div className="col-md-6">
@@ -843,6 +940,7 @@ export function Mapa() {
             handleStartDateChangeDomicilioDet={handleStartDateChangeDomicilioDet}
             handleEndDateChangeDomicilioDet={handleEndDateChangeDomicilioDet} 
             handleFaltaDelitoDomicilioDet={handleFaltaDelitoDomicilioDet}
+            handleZonaDomicilioDet={handleZonaDomicilioDet}
           />
         </div>
         <div className="col-md-6">
@@ -856,6 +954,7 @@ export function Mapa() {
             handleStartDateChangeUbicacionDetencion={handleStartDateChangeUbicacionDetencion}
             handleEndDateChangeUbicacionDetencion={handleEndDateChangeUbicacionDetencion} 
             handleFaltaDelitoUbicacionDetencion={handleFaltaDelitoUbicacionDetencion}
+            handleZonaUbicacionDetencion={handleZonaUbicacionDetencion}
           />
         </div>
       </div>  

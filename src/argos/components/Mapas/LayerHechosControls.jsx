@@ -2,6 +2,7 @@ import React from 'react'
 import { LayerChecksHechos } from './LayerCecksHechos'
 import { DateRangePicker } from '../Graficas/DateRangePicker'
 import { FaltaDelitoPicker } from './FaltaDelitoPicker'
+import { ZonasPicker } from './ZonasPicker'
 
 export const LayerHechosControls = ({
     handleCheckboxUbiHechosLayer,
@@ -12,7 +13,8 @@ export const LayerHechosControls = ({
     fechaFin,
     handleStartDateChange,
     handleEndDateChange,
-    handleFaltaDelito
+    handleFaltaDelito,
+    handleZona
 }) => {
   return (
     <>
@@ -41,6 +43,11 @@ export const LayerHechosControls = ({
             <div className="col-md-6">
                 <FaltaDelitoPicker
                     handleFaltaDelito={handleFaltaDelito}
+                />
+            </div>
+            <div className="col-md-6">
+                <ZonasPicker
+                    handleZona={handleZona}
                 />
             </div>
         </div>
