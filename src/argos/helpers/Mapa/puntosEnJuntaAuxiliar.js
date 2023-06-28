@@ -61,12 +61,12 @@ export const PuntosEnJuntaAuxiliar = async (JuntaAuxiliar, dataBuscar, lugar ) =
         if (Array.isArray(puntosPorJuntaAuxiliar.resultados)) {
             const coincidencia = puntosPorJuntaAuxiliar.resultados.find((punto, index) => punto.properties && punto.properties.No_Remision === data.No_Remision);
             if (coincidencia) {
-              puntosPorJuntaAuxiliar.resultados.push(data);
+              puntosFiltrados.resultados.push(data);
             }
           }
       });
   
-    return puntosPorJuntaAuxiliar;
+    return puntosFiltrados;
   } catch (error) {
     console.error(error);
     throw error;

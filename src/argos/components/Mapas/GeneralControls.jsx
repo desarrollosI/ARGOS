@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const GeneralControls = ({showVectoresLayer,handleCheckboxVectoresLayer,handleZonaGeneral}) => {
+export const GeneralControls = ({showVectoresLayer,handleCheckboxVectoresLayer,handleZonaGeneral,handleCapasExcel}) => {
   return (
     <>
         <div className="row">
@@ -14,6 +14,16 @@ export const GeneralControls = ({showVectoresLayer,handleCheckboxVectoresLayer,h
                     onChange={handleCheckboxVectoresLayer}
                 />
                 <label>Mostrar capa de Vectores</label>
+            </div>
+
+            <div className="col-md-3">
+                <button
+                    className='btn btn-primary'
+                    type='button'
+                    onClick={handleCapasExcel}
+                >
+                    Exportar CSV
+                </button>
             </div>
         </div>
     </>
