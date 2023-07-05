@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import mapboxgl from "mapbox-gl";
 import * as turf from '@turf/turf';
-import { mapasApi } from "../../../api";
+import { catalogosApi, mapasApi } from "../../../api";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "../css/Mapa/mapa.css";
 import { LayerHechosControls } from "./LayerHechosControls";
@@ -24,9 +24,22 @@ export function Mapa() {
   const [zoom, setZoom] = useState(9);
 
   const [showVectoresLayer, setShowVectoresLayer] = useState(true);
-  // const [Remision, setRemision] = useState(258086);
-  // const [Ficha, setFicha] = useState(14931);
-  // const [Nombre, setNombre] = useState('');
+  const [Remision, setRemision] = useState(258086);
+  const [Ficha, setFicha] = useState(14931);
+  const [Nombre, setNombre] = useState('');
+
+  const [catalogoFD, setCatalogoFD] = useState()
+  const [isLoadingCatalogo, setIsLoadingCatalogo] = useState(true)
+
+  const [FaltaDelitoEspecifico,setFaltaDelitoEspecifico] = useState('')
+
+  const fetchDataCatalogo = async (endpoint) => {
+    setIsLoadingCatalogo(true);
+    let response = await catalogosApi.post(endpoint);
+    console.log('catalogo  ',response.data.data.catalogo)
+    setCatalogoFD(response.data.data.catalogo);
+    setIsLoadingCatalogo(false)
+};
 
   const {
     showLayer,
@@ -35,9 +48,6 @@ export function Mapa() {
     fechaFin,
     Zona,
     JuntaAuxiliar,
-    Remision,
-    Ficha,
-    Nombre,
     fetchedData2: datosUbicacionHechos,
     setMap,
     setMapContainer,
@@ -49,7 +59,7 @@ export function Mapa() {
     handleFaltaDelito,
     handleZona,
     handleJuntaAuxiliar
-  } = useMapLayerSARAI('ubicacion-hechos', 'red', 'ubicacion-hechos');
+  } = useMapLayerSARAI('ubicacion-hechos', 'red', 'ubicacion-hechos',setRemision,setFicha,setNombre,FaltaDelitoEspecifico);
 
   const {
     showLayer: showLayerDomicilioDetenido,
@@ -58,9 +68,6 @@ export function Mapa() {
     fechaFin: fechaFinDomicilioDetenido,
     Zona: ZonaDomicilioDetenido,
     JuntaAuxiliar: JuntaAuxiliarDomicilioDetenido,
-    Remision: RemisionDomicilioDetenido,
-    Ficha: FichaDomicilioDetenido,
-    Nombre:NombreDomicilioDetenido,
     fetchedData2: datosDomicilioDetenido,
     setMap: setMapDomicilioDetenido,
     setMapContainer: setMapContainerDomicilioDetenido,
@@ -72,7 +79,7 @@ export function Mapa() {
     handleFaltaDelito: handleFaltaDetlitoDomicilioDetenido,
     handleZona: handleZonaDomicilioDetenido,
     handleJuntaAuxiliar: handleJuntaAuxiliarDomicilioDetenido
-  } = useMapLayerSARAI('domicilio-detenido', 'blue', 'domicilio-detenido');
+  } = useMapLayerSARAI('domicilio-detenido', 'blue', 'domicilio-detenido', setRemision, setFicha, setNombre, FaltaDelitoEspecifico);
 
   const {
     showLayer: showLayerUbicacionDetencion,
@@ -81,9 +88,6 @@ export function Mapa() {
     fechaFin: fechaFinUbicacionDetencion,
     Zona: ZonaUbicacionDetencion,
     JuntaAuxiliar: JuntaAuxiliarUbicacionDetencion,
-    Remision: RemisionUbicacionDetencion,
-    Ficha: FichaUbicacionDetencion,
-    Nombre:NombreUbicacionDetencion,
     fetchedData2: datosUbicacionDetencion,
     setMap: setMapUbicacionDetencion,
     setMapContainer: setMapContainerUbicacionDetencion,
@@ -95,7 +99,7 @@ export function Mapa() {
     handleFaltaDelito: handleFaltaDetlitoUbicacionDetencion,
     handleZona: handleZonaUbicacionDetencion,
     handleJuntaAuxiliar: handleJuntaAuxiliarUbicacionDetencion
-  } = useMapLayerSARAI('ubicacion-detencion', 'green', 'ubicacion-detencion');
+  } = useMapLayerSARAI('ubicacion-detencion', 'green', 'ubicacion-detencion', setRemision, setFicha, setNombre, FaltaDelitoEspecifico);
 
   const handleCheckboxVectoresLayer = () => {
     setShowVectoresLayer(!showVectoresLayer);
@@ -107,6 +111,11 @@ export function Mapa() {
 
   const handleCapasExcel = (event) =>{
     capasToExcel({hechos:datosUbicacionHechos,domicilio:datosDomicilioDetenido,detencion:datosUbicacionDetencion})
+  }
+
+  const handleFaltaDelitoEspecifico = (delito) => {
+    console.log('delito',delito)
+    setFaltaDelitoEspecifico(delito.name)
   }
 
   useEffect(() => {
@@ -140,57 +149,82 @@ export function Mapa() {
 
     loadMap();
   }, []);
+
+
+  useEffect(() => {
+    fetchDataCatalogo('faltas-delitos');
+  }, []);
+
   return (
     <>
-      <div className="row mb-3">
-        <div className="col-md-6">
-          <LayerHechosControls 
-            handleCheckboxUbiHechosLayer={handleCheckboxLayer} 
-            showUbiHechosLayer={showLayer}  
-            handleCheckboxUbiHechosHeatLayer={handleCheckboxHeatLayer} 
-            showUbiHechosHeatLayer={showHeatLayer}
-            fechaInicio={fechaInicio}
-            fechaFin={fechaFin}
-            handleStartDateChange={handleStartDateChange}
-            handleEndDateChange={handleEndDateChange} 
-            handleFaltaDelito={handleFaltaDelito}
-            handleZona={handleZona}
-            handleJuntaAuxiliar={handleJuntaAuxiliar}
-          />
-        </div>
-       <div className="col-md-6">
-          <LayerDomicilioDetControls
-            handleCheckboxDomicilioDetLayer={handleCheckboxLayerDomicilioDetenido} 
-            showDomicilioDetLayer={showLayerDomicilioDetenido}  
-            handleCheckboxDomicilioDetHeatLayer={handleCheckboxHeatLayerDomicilioDetenido} 
-            showDomicilioDetHeatLayer={showHeatLayerDomiclioDetenido}
-            fechaInicioDomicilioDet={fechaInicioDomicilioDetenido}
-            fechaFinDomicilioDet={fechaFinDomicilioDetenido}
-            handleStartDateChangeDomicilioDet={handleStartDateChangeDomicilioDetenido}
-            handleEndDateChangeDomicilioDet={handleEndDateChangeDomicilioDetenido} 
-            handleFaltaDelitoDomicilioDet={handleFaltaDetlitoDomicilioDetenido}
-            handleZonaDomicilioDet={handleZonaDomicilioDetenido}
-            handleJuntaAuxiliarDomicilioDet={handleJuntaAuxiliarDomicilioDetenido}
-          />
-        </div>
-        <div className="col-md-6">
-          <LayerUbicacionDetencionControls
-            handleCheckboxUbicacionDetencionLayer={handleCheckboxLayerUbicacionDetencion} 
-            showUbicacionDetencionLayer={showLayerUbicacionDetencion}  
-            handleCheckboxUbicacionDetencionHeatLayer={handleCheckboxHeatLayerUbicacionDetencion} 
-            showUbicacionDetencionHeatLayer={showHeatLayerUbicacionDetencion}
-            fechaInicioUbicacionDetencion={fechaInicioUbicacionDetencion}
-            fechaFinUbicacionDetencion={fechaFinUbicacionDetencion}
-            handleStartDateChangeUbicacionDetencion={handleStartDateChangeUbicacionDetencion}
-            handleEndDateChangeUbicacionDetencion={handleEndDateChangeUbicacionDetencion} 
-            handleFaltaDelitoUbicacionDetencion={handleFaltaDetlitoUbicacionDetencion}
-            handleZonaUbicacionDetencion={handleZonaUbicacionDetencion}
-            handleJuntaAuxiliarUbicacionDetencion={handleJuntaAuxiliarUbicacionDetencion}
-          />
-        </div>
+      <div className="row mb-3 ">
+
+        {
+          (!isLoadingCatalogo)
+          ?(
+            <>
+              <div className="row d-flex justify-content-around">
+                  <div className="col-md-5 card shadow mb-3">
+                  <LayerHechosControls 
+                    handleCheckboxUbiHechosLayer={handleCheckboxLayer} 
+                    showUbiHechosLayer={showLayer}  
+                    handleCheckboxUbiHechosHeatLayer={handleCheckboxHeatLayer} 
+                    showUbiHechosHeatLayer={showHeatLayer}
+                    fechaInicio={fechaInicio}
+                    fechaFin={fechaFin}
+                    handleStartDateChange={handleStartDateChange}
+                    handleEndDateChange={handleEndDateChange} 
+                    handleFaltaDelito={handleFaltaDelito}
+                    handleZona={handleZona}
+                    handleJuntaAuxiliar={handleJuntaAuxiliar}
+                    catalogoFD={catalogoFD}
+                    handleFaltaDelitoEspecifico={handleFaltaDelitoEspecifico}
+                  />
+                </div>
+                <div className="col-md-5 card shadow mb-3">
+                  <LayerDomicilioDetControls
+                    handleCheckboxDomicilioDetLayer={handleCheckboxLayerDomicilioDetenido} 
+                    showDomicilioDetLayer={showLayerDomicilioDetenido}  
+                    handleCheckboxDomicilioDetHeatLayer={handleCheckboxHeatLayerDomicilioDetenido} 
+                    showDomicilioDetHeatLayer={showHeatLayerDomiclioDetenido}
+                    fechaInicioDomicilioDet={fechaInicioDomicilioDetenido}
+                    fechaFinDomicilioDet={fechaFinDomicilioDetenido}
+                    handleStartDateChangeDomicilioDet={handleStartDateChangeDomicilioDetenido}
+                    handleEndDateChangeDomicilioDet={handleEndDateChangeDomicilioDetenido} 
+                    handleFaltaDelitoDomicilioDet={handleFaltaDetlitoDomicilioDetenido}
+                    handleZonaDomicilioDet={handleZonaDomicilioDetenido}
+                    handleJuntaAuxiliarDomicilioDet={handleJuntaAuxiliarDomicilioDetenido}
+                    catalogoFD={catalogoFD}
+                    handleFaltaDelitoEspecifico={handleFaltaDelitoEspecifico}
+                  />
+                </div>
+                <div className="col-md-5 card shadow mb-3">
+                  <LayerUbicacionDetencionControls
+                    handleCheckboxUbicacionDetencionLayer={handleCheckboxLayerUbicacionDetencion} 
+                    showUbicacionDetencionLayer={showLayerUbicacionDetencion}  
+                    handleCheckboxUbicacionDetencionHeatLayer={handleCheckboxHeatLayerUbicacionDetencion} 
+                    showUbicacionDetencionHeatLayer={showHeatLayerUbicacionDetencion}
+                    fechaInicioUbicacionDetencion={fechaInicioUbicacionDetencion}
+                    fechaFinUbicacionDetencion={fechaFinUbicacionDetencion}
+                    handleStartDateChangeUbicacionDetencion={handleStartDateChangeUbicacionDetencion}
+                    handleEndDateChangeUbicacionDetencion={handleEndDateChangeUbicacionDetencion} 
+                    handleFaltaDelitoUbicacionDetencion={handleFaltaDetlitoUbicacionDetencion}
+                    handleZonaUbicacionDetencion={handleZonaUbicacionDetencion}
+                    handleJuntaAuxiliarUbicacionDetencion={handleJuntaAuxiliarUbicacionDetencion}
+                    catalogoFD={catalogoFD}
+                    handleFaltaDelitoEspecifico={handleFaltaDelitoEspecifico}
+                  />
+                </div>
+              </div>
+            </>
+
+          )
+          :<></>
+        }
+        
       </div>  
-      <div className="row">
-        <div className="col mt-2">
+      <div className="row card shadow">
+        <div className="col my-2">
           <GeneralControls 
             showVectoresLayer={showVectoresLayer} 
             handleCheckboxVectoresLayer={handleCheckboxVectoresLayer} 
@@ -198,14 +232,14 @@ export function Mapa() {
             handleCapasExcel={handleCapasExcel}/>
         </div>
       </div>
-      <div className="row">
+      <div className="row ">
         {/* <div className="overlaymap">
           Longitud: {lng} | Latitud: {lat} | Zoom: {zoom}
         </div> */}
-        <div className="col-md-10">
+        <div className="col-md-10 card shadow">
           <div ref={mapContainer} className="map-container mt-3" />
         </div>
-        <div className="col-md-2 shadow " style={{maxHeight: '400px'}}>
+        <div className="col-md-2 card shadow" style={{maxHeight: '400px'}}>
           <div className="row mt-3"> 
             <h4> Foto: </h4>
           </div>

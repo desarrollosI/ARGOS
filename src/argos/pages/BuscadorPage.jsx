@@ -16,7 +16,7 @@ export const BuscadorPage = () => {
   return (
     <>
       <div className="container-fluid">
-        <div className="row">
+        <div className="row card shadow">
           <div className="col">
             <h1 className="titulo">
               {" "}

@@ -4,7 +4,7 @@ import { mapasApi } from '../api';
 import mapboxgl from "mapbox-gl";
 import { PuntosEnJuntaAuxiliar, PuntosEnZona } from '../argos/helpers';
 
-const useMapLayerSARAI = (endpoint,color,capa) => {
+const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,FaltaDelitoEspecifico) => {
     const [mapContainer, setMapContainer] = useState();
     const [map, setMap] = useState(null);
     const [popup, setPopup] = useState(null);
@@ -26,13 +26,13 @@ const useMapLayerSARAI = (endpoint,color,capa) => {
     const [resultadosTurfJuntaAuxiliar, setResultadosTurfJuntaAuxiliar] = useState()
     
     const [capaVectores, setCapaVectores] = useState();//Capa de vectores usada para el turf js
-    const [Remision, setRemision] = useState(258086);
-    const [Ficha, setFicha] = useState(14931);
-    const [Nombre, setNombre] = useState('');
+    // const [Remision, setRemision] = useState(258086);
+    // const [Ficha, setFicha] = useState(14931);
+    // const [Nombre, setNombre] = useState('');
 
   const fetchData = async (endpoint) => {
         setIsLoadingData(true);
-        let response = await mapasApi.post(endpoint,{fechaInicio,fechaFin,FaltaDelito});
+        let response = await mapasApi.post(endpoint,{fechaInicio,fechaFin,FaltaDelito,FaltaDelitoEspecifico});
         console.log('data enpoint capa  '+capa,response.data.data.Remisiones2)
         setFetchedData2(response.data.data.Remisiones2);
         setIsLoadingData(false)
@@ -70,7 +70,7 @@ const useMapLayerSARAI = (endpoint,color,capa) => {
 
   useEffect(() => {
     fetchData(endpoint);
-  }, [endpoint,fechaInicio, fechaFin, FaltaDelito]);
+  }, [endpoint,fechaInicio, fechaFin, FaltaDelito,FaltaDelitoEspecifico]);
 
   // Implementa el resto de los efectos...
 
@@ -152,7 +152,7 @@ const useMapLayerSARAI = (endpoint,color,capa) => {
             map.removeSource(capa);
           }
         }
-      },[isLoadingData,fetchedData2,showLayer])
+      },[isLoadingData,fetchedData2,showLayer,FaltaDelitoEspecifico])
     
        //EFECTO PARA MANEJAR LA CAPA DE CALOR DE HECHOS HECHOS
        useEffect(() => {
@@ -316,9 +316,9 @@ const useMapLayerSARAI = (endpoint,color,capa) => {
     fechaFin,
     Zona,
     JuntaAuxiliar,
-    Remision,
-    Ficha,
-    Nombre,
+    // Remision,
+    // Ficha,
+    // Nombre,
     fetchedData2,
     // Resto de los estados...
     setMap,

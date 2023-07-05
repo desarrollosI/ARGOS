@@ -137,62 +137,64 @@ export function MyChart({configuracion}) {
     const ChartComponent = chartComponents[tipoGrafica];
     return (
         <>
+        <div className="my-3">
 
-        {ChartComponent && !isLoadingData && (
+          {ChartComponent && !isLoadingData && (
 
-          <ChartComponent
-            options={{
-              ...chartOptions,
-              indexAxis:indexAxis,
-              plugins: {
-                ...chartOptions.plugins,
-                title: {
-                  ...chartOptions.plugins.title,
-                  text: `${titulo}`,
+            <ChartComponent
+              options={{
+                ...chartOptions,
+                indexAxis:indexAxis,
+                plugins: {
+                  ...chartOptions.plugins,
+                  title: {
+                    ...chartOptions.plugins.title,
+                    text: `${titulo}`,
+                  },
                 },
-              },
-            }}
-            data={tratarInformacion(tipoGrafica, fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacionData,SpecifyAgrupacion,etiquetaEjeX)}
-          />
-        )}
+              }}
+              data={tratarInformacion(tipoGrafica, fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacionData,SpecifyAgrupacion,etiquetaEjeX)}
+            />
+          )}
 
-        
-        <DateRangePicker
-        fechaInicio={fechaInicio}
-        fechaFin={fechaFin}
-        handleStartDateChange={handleStartDateChange}
-        handleEndDateChange={handleEndDateChange}
-        />
-        {/* Controles personalizados para cada tipo de grafica  
-          /*
-          Tipos de graficas:
-          1- controles de agrupacion, ver uno en especifico
-          2. sin controles de agrupacion, ver uno en especifico, asendente o desendente
-          3. sin controles, solo rango de fechas
-        */}
-        {
-          avanzada == 1 && <GroupBySelector agrupacion={agrupacionData} handleAgrupacionChange={handleAgrupacionChange} />
-        }
-        {
-          (agrupacion!='SD') && 
-          (!isLoadingData) && 
-          (avanzada == 1) &&
-                        <SpecifyGroupBySelector 
-                        handleSpecifyAgrupacionChange={handleSpecifyAgrupacionChange} 
-                        opciones={
-                          (etiquetaEjeX != '') 
-                            ? fetchedData.map(item => item[etiquetaEjeX]) 
-                            : fetchedData.map(item => item[agrupacionData])
-                          }
+          
+          <DateRangePicker
+          fechaInicio={fechaInicio}
+          fechaFin={fechaFin}
+          handleStartDateChange={handleStartDateChange}
+          handleEndDateChange={handleEndDateChange}
+          />
+          {/* Controles personalizados para cada tipo de grafica  
+            /*
+            Tipos de graficas:
+            1- controles de agrupacion, ver uno en especifico
+            2. sin controles de agrupacion, ver uno en especifico, asendente o desendente
+            3. sin controles, solo rango de fechas
+          */}
+          {
+            avanzada == 1 && <GroupBySelector agrupacion={agrupacionData} handleAgrupacionChange={handleAgrupacionChange} />
+          }
+          {
+            (agrupacion!='SD') && 
+            (!isLoadingData) && 
+            (avanzada == 1) &&
+                          <SpecifyGroupBySelector 
+                          handleSpecifyAgrupacionChange={handleSpecifyAgrupacionChange} 
+                          opciones={
+                            (etiquetaEjeX != '') 
+                              ? fetchedData.map(item => item[etiquetaEjeX]) 
+                              : fetchedData.map(item => item[agrupacionData])
+                            }
+                            />
+          }
+          {
+            (!isLoadingData) &&
+            (avanzada == 2) &&
+                          <SpecifyOrderBySelector
+                          handeSpecifyOrderByChange={handeSpecifyOrderByChange}
                           />
-        }
-        {
-          (!isLoadingData) &&
-          (avanzada == 2) &&
-                        <SpecifyOrderBySelector
-                        handeSpecifyOrderByChange={handeSpecifyOrderByChange}
-                        />
-        }
+          }
+        </div>
 
       </>
     );

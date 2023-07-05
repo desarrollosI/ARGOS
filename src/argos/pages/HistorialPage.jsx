@@ -15,7 +15,7 @@ export const HistorialPage = () => {
   return (
     <>
       <div className="container-fluid">
-        <div className="row">
+        <div className="row card shadow">
           <div className="col">
             <h1 className="titulo">
               {" "}
@@ -27,7 +27,7 @@ export const HistorialPage = () => {
           </div>
           <hr />
         </div>
-        <div className="row">
+        <div className="row card shadow">
           <SelectBaseComponent base={'ARGOS HISTORIAL'} /> 
         </div>
       </div>

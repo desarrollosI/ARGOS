@@ -30,7 +30,7 @@ export const PuntosEnJuntaAuxiliar = async (JuntaAuxiliar, dataBuscar, lugar ) =
     console.log('Cantidad de polígonos (JuntaAuxiliar):', capaJuntaAuxiliar.features.length);
 
     // Almacenar puntos separados por zona
-    const  puntosPorJuntaAuxiliar = {
+    let puntosPorJuntaAuxiliar = {
         resultados: []
       };
 
