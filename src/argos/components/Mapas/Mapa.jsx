@@ -3,14 +3,17 @@ import { Link } from 'react-router-dom';
 import mapboxgl from "mapbox-gl";
 import * as turf from '@turf/turf';
 import { catalogosApi, mapasApi } from "../../../api";
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import "mapbox-gl/dist/mapbox-gl.css";
 import "../css/Mapa/mapa.css";
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import { LayerHechosControls } from "./LayerHechosControls";
 import { LayerDomicilioDetControls } from "./LayerDomicilioDetControls";
 import { LayerUbicacionDetencionControls } from "./LayerUbicacionDetencionControls";
 import { GeneralControls } from "./GeneralControls";
-import { PuntosEnZona, PuntosEnJuntaAuxiliar, capasToExcel } from "../../helpers";
+import { PuntosEnZona, PuntosEnJuntaAuxiliar, capasToExcel, capasPerToExcel } from "../../helpers";
 import useMapLayerSARAI from "../../../hooks/useMapLayerSarai";
+import { PuntosEnPoligonoPer } from "../../helpers/Mapa/puntosEnPoligonoPer";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg";
@@ -22,6 +25,7 @@ export function Mapa() {
   const [lng, setLng] = useState(-98.20346);
   const [lat, setLat] = useState(19.03793);
   const [zoom, setZoom] = useState(9);
+  const [mapaCargado,setMapaCargado] = useState(false);
 
   const [showVectoresLayer, setShowVectoresLayer] = useState(true);
   const [Remision, setRemision] = useState(258086);
@@ -32,6 +36,8 @@ export function Mapa() {
   const [isLoadingCatalogo, setIsLoadingCatalogo] = useState(true)
 
   const [FaltaDelitoEspecifico,setFaltaDelitoEspecifico] = useState('')
+
+  const [dataPoligonoPersonalizado,setDaltaPoligonoPersonalizado] = useState()
 
   const fetchDataCatalogo = async (endpoint) => {
     setIsLoadingCatalogo(true);
@@ -113,6 +119,18 @@ export function Mapa() {
     capasToExcel({hechos:datosUbicacionHechos,domicilio:datosDomicilioDetenido,detencion:datosUbicacionDetencion})
   }
 
+  
+  const handleCapasPerExcel = async(event) =>{
+    console.log(dataPoligonoPersonalizado)
+    let resultadosEnPoligonoPer = await PuntosEnPoligonoPer(dataPoligonoPersonalizado,datosUbicacionHechos,datosDomicilioDetenido,datosUbicacionDetencion)
+    console.log('antes del set poligono personalizado: ', resultadosEnPoligonoPer)
+    capasPerToExcel({
+      hechos:resultadosEnPoligonoPer.hechos,
+      domicilio:resultadosEnPoligonoPer.domicilio,
+      detencion:resultadosEnPoligonoPer.detencion
+    })
+  }
+
   const handleFaltaDelitoEspecifico = (delito) => {
     console.log('delito',delito)
     setFaltaDelitoEspecifico(delito.name)
@@ -145,10 +163,91 @@ export function Mapa() {
       setMapDomicilioDetenido(map.current);
       setMapUbicacionDetencion(map.current)
       setMap(map.current);
+
+      map.current.on('style.load', () => {
+        setMapaCargado(true)
+      })
+
+      const draw = new MapboxDraw();
+      map.current.addControl(draw);
+
+      // Escucha el evento de creación de un polígono
+      map.current.on('draw.create', async (event) => {
+        const polygon = event.features[0];
+        // Realiza alguna acción con el polígono creado
+        console.log('Polígono creado:', polygon);
+        setDaltaPoligonoPersonalizado(polygon)
+      });
     };
 
     loadMap();
   }, []);
+
+
+   //EFECTO PARA MANEJAR LA CAPA DE VECTORES
+   useEffect(() => {
+    if(mapaCargado === false) return
+    if(mapaCargado === true ){
+        const sourceIDVectores = 'vectores-source';
+        
+          if (showVectoresLayer) {
+            // Supongamos que tienes el objeto GeoJSON almacenado en una variable llamada 'geojsonFile'
+            var geojsonFile = './195_VECTORES.geojson';
+            // Utilizamos el método fetch para cargar el archivo GeoJSON
+            fetch(geojsonFile)
+              .then(function(response) {
+                return response.json();
+              })
+              .then(function(geojson) {      
+                // setCapaVectores(geojson)
+              })
+              .catch(function(error) {
+                console.log('Error al cargar el archivo GeoJSON:', error);
+              });
+    
+          if (!map.current.getSource(sourceIDVectores)) {
+            map.current.addSource(sourceIDVectores, {
+              type: "geojson",
+              data: './195_VECTORES.geojson'
+            });
+          }
+    
+          if (!map.current.getLayer("vectores-layer")) {
+            map.current.addLayer({
+              id: "vectores-layer",
+              type: "fill",
+              source: sourceIDVectores,
+              paint: {
+                'fill-opacity': 0.2,
+              },
+            });
+          }
+           // When a click event occurs on a feature in the places layer, open a popup at the
+          // location of the feature, with description HTML from its properties.
+          map.current.on('click', 'vectores-layer', (e) => {
+            // Copy coordinates array.
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const description = e.features[0].properties.Name + ' ' + e.features[0].properties.ZONA ;
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            
+            new mapboxgl.Popup({className: "custom-popup"}) 
+            .setLngLat(e.lngLat)
+            .setHTML(description)
+            .addTo(map.current);
+            });      
+          } else {
+            if (map.current.getLayer("vectores-layer")) {
+              map.current.removeLayer("vectores-layer");
+            }
+    
+          if (map.current.getSource(sourceIDVectores)) {
+            map.current.removeSource(sourceIDVectores);
+          }
+        }
+    }
+  },[showVectoresLayer,mapaCargado])
 
 
   useEffect(() => {
@@ -229,7 +328,8 @@ export function Mapa() {
             showVectoresLayer={showVectoresLayer} 
             handleCheckboxVectoresLayer={handleCheckboxVectoresLayer} 
             handleZonaGeneral={handleZonaGeneral}
-            handleCapasExcel={handleCapasExcel}/>
+            handleCapasExcel={handleCapasExcel}
+            handleCapasPerExcel={handleCapasPerExcel}/>
         </div>
       </div>
       <div className="row ">

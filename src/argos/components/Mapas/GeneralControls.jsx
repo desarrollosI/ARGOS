@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const GeneralControls = ({showVectoresLayer,handleCheckboxVectoresLayer,handleZonaGeneral,handleCapasExcel}) => {
+export const GeneralControls = ({showVectoresLayer,handleCheckboxVectoresLayer,handleZonaGeneral,handleCapasExcel,handleCapasPerExcel}) => {
   return (
     <>
         <div className="row">
@@ -25,6 +25,17 @@ export const GeneralControls = ({showVectoresLayer,handleCheckboxVectoresLayer,h
                     Exportar CSV
                 </button>
             </div>
+
+            <div className="col-md-3">
+                <button
+                    className='btn btn-primary'
+                    type='button'
+                    onClick={handleCapasPerExcel}
+                >
+                    Exportar CSV Poligono Perzonalizado
+                </button>
+            </div>
+
         </div>
     </>
   )

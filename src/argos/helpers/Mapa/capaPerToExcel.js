@@ -1,8 +1,3 @@
-/*
-      Helper cuya funcion es recibir un arreglo con la informacion que se requiere
-      para la expotacion de determinado filtro a excel
-*/
-
 // Se importa la biblioteca encargada de generar los archivos excel
 import * as XLSX from 'xlsx';
 // Se importa el helper para el manejo del historial
@@ -10,10 +5,10 @@ import * as XLSX from 'xlsx';
 
 // la funcion que se exporta  recibe la informacion que se plasmara en el excel
 // asi como la inofrmacion para ingresar en el historial del argos
-export const capasToExcel = ({hechos,domicilio,detencion}) => {
+export const capasPerToExcel = ({hechos,detencion,domicilio}) => {
 
-      console.log(hechos,domicilio,detencion)
-      const fields = Object.keys(hechos[0]);
+      const fields = [ 'No_Remision','Fecha_Hora','Nombre','Ap_Paterno','Ap_Materno','Edad','Genero','Escolaridad','Fecha_Registro_Detenido',	'Id_Domicilio','Lugar_Origen','Fecha_Nacimiento','Ficha','Falta_Delito_Tipo','Status_Remision','Folio_911','Averiguacion_Previa','Instancia','Tipo','Colonia','Calle_1','No_Ext','CP','Municipio','Faltas_Delitos_Detenido','Alias_Detenido','Negocio_Afectado','Zona','Vector','Coordenada_X','Coordenada_Y']
+      
   
       const wb = XLSX.utils.book_new(); // book
       const ws = XLSX.utils.json_to_sheet(hechos, { header: fields }); // sheet

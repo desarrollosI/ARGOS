@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mapbox/mapbox-gl-draw": "^1.4.2",
     "@reduxjs/toolkit": "^1.9.3",
     "@turf/turf": "^6.5.0",
     "animate.css": "^4.1.1",
