@@ -239,7 +239,7 @@ export function Mapa() {
         <div className="col-md-10 card shadow">
           <div ref={mapContainer} className="map-container mt-3" />
         </div>
-        <div className="col-md-2 card shadow" style={{maxHeight: '400px'}}>
+        <div className="col-md-2 card shadow" style={{maxHeight: '420px'}}>
           <div className="row mt-3"> 
             <h4> Foto: </h4>
           </div>

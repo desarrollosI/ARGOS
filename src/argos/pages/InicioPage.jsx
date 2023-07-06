@@ -14,8 +14,8 @@ export const InicioPage = () => {
   return (
     <>
       <>
-        <div className="container">
-          <div className="row">
+        <div className="container-fluid">
+          <div className="row card shadow">
             <div className="col">
               <h1 className="titulo">
                 {" "}
@@ -36,7 +36,7 @@ export const InicioPage = () => {
             <hr />
           </div>
           <div className="row">
-            <h3>A.R.G.O.S. V 0.7.1 </h3>
+            <h3>A.R.G.O.S. V 0.9.0 </h3>
             {/* comentario de prueba solo en dev */}
           </div>
         </div>

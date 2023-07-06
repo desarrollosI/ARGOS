@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { mapasApi } from '../api';
 
+import Swal from 'sweetalert2';
 import mapboxgl from "mapbox-gl";
 import { PuntosEnJuntaAuxiliar, PuntosEnZona } from '../argos/helpers';
 
@@ -13,6 +14,7 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
     const [zoom, setZoom] = useState(9);
   // Resto de los estados...
     const [isLoadingData, setIsLoadingData] = useState(true);
+    const [isLoadingDataCapa, setIsLoadingDataCapa] = useState(true);
     const [fechaInicio, setFechaInicio] = useState('2021-06-24')
     const [fechaFin, setFechaFin] = useState((new Date()).toISOString().split('T')[0])
     const [showLayer, setShowLayer] = useState(true);
@@ -259,18 +261,17 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
             }else {
             setFetchedData2Respaldo(fetchedData2)
             setResultadosTurf(await PuntosEnZona(capaVectores, fetchedData2, Zona,'hechos'));
-
             }
             
         }
-        }, 3000);
+        }, 500);
     }, [Zona]);  
     //EFECTO PARA ACTUALIZAR LA INFORMACION FILTRADA Y SE PUEDA REFLEJAR EN EL MAPA 
     useEffect(() => {
         if (resultadosTurf){
         setTimeout( () => {
             setFetchedData2(resultadosTurf.resultados);
-        }, 3000);
+        }, 500);
         }
     }, [resultadosTurf]);
 
@@ -293,7 +294,7 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
         }
           
       }
-    }, 3000);
+    }, 500);
   }, [JuntaAuxiliar]);  
   //EFECTO PARA ACTUALIZAR LA INFORMACION FILTRADA Y SE PUEDA REFLEJAR EN EL MAPA 
   useEffect(() => {
@@ -302,11 +303,19 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
       setTimeout( () => {
         console.log(resultadosTurfJuntaAuxiliar.resultados)
         setFetchedData2(resultadosTurfJuntaAuxiliar.resultados);
-      }, 3000);
+      }, 500);
     }
   }, [resultadosTurfJuntaAuxiliar]);
 
-
+  //Este efecto se usa para mostrar una alerta cuando esta cargando informacion o modificando el mapa 
+  useEffect(() => {
+    if ( isLoadingData || isLoadingDataCapa) {
+      Swal.fire('Haciendo Consulta', 'Paciencia se esta procesando la información', 'info');
+    }    
+    if( !isLoadingData || !isLoadingDataCapa){
+      Swal.close();
+    }
+  }, [isLoadingData,isLoadingDataCapa])
 
   return {
     mapContainer,

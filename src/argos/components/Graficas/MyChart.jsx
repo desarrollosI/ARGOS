@@ -13,6 +13,7 @@ import { graficasApi } from '../../../api';
 //Se importan los helpers necesarios
 import { tratarInformacion } from '../../helpers';
 //Se importan las bibliotecas y componentes de terceros
+import Swal from 'sweetalert2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -131,6 +132,14 @@ export function MyChart({configuracion}) {
         fetchData(endpoint)
     }, [fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,SpecifyOrderBy])
 
+    useEffect(() => {
+      if ( isLoadingData ) {
+        Swal.fire('Haciendo Consulta', 'Paciencia se esta procesando la información', 'info');
+      }    
+      if( !isLoadingData ){
+        Swal.close();
+      }
+    }, [isLoadingData])
 
     //TODO realizar el useEffect necesario para altenar entre tipo de grafica
 

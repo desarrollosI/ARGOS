@@ -19,7 +19,7 @@ const loginFormFields = {
 */
 export const LoginPage = () => {
     //Se  extran del store las funciones, estados, etc que se exponen a la aplicacion
-    const { startLogin, errorMessage, startRegister } = useAuthStore();
+    const { startLogin, errorMessage,status, startRegister } = useAuthStore();
     //Se extraen del hook useForm este hook es el encargado de manejar la información y funcionalidad del formulario
     const { loginEmail, loginPassword, onInputChange:onLoginInputChange } = useForm( loginFormFields );
     //funcion para manipular el submit del formulario.
@@ -30,7 +30,7 @@ export const LoginPage = () => {
 
     //Este efecto se usa para mostral el alert cuando se encuentra un error al realizar la authenticacion del usuario
     useEffect(() => {
-      if ( errorMessage !== '' ) {
+      if ( errorMessage !== undefined  ) {
         Swal.fire('Error en la autenticación', errorMessage, 'error');
       }    
     }, [errorMessage])
