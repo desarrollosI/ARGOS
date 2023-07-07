@@ -35,7 +35,7 @@ export const InicioPage = () => {
             </div>
             <hr />
           </div>
-          <div className="row">
+          <div className="row card shadow">
             <h3>A.R.G.O.S. V 0.9.0 </h3>
             {/* comentario de prueba solo en dev */}
           </div>

@@ -35,6 +35,10 @@ export const AutoCompleteFD = ({data,handleFaltaDelitoEspecifico}) => {
     console.log('Focused')
   }
 
+  const handleOnClear = () => {
+    handleFaltaDelitoEspecifico({id:9999,name: ''})
+  }
+
   const formatResult = (item) => {
     return (
       <>
@@ -57,6 +61,7 @@ export const AutoCompleteFD = ({data,handleFaltaDelitoEspecifico}) => {
             onHover={handleOnHover}
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
+            onClear={handleOnClear}
             autoFocus
             formatResult={formatResult}
             // styling={{backgroundColor: "black"}}

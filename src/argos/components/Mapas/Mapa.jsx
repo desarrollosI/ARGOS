@@ -35,7 +35,7 @@ export function Mapa() {
   const [catalogoFD, setCatalogoFD] = useState()
   const [isLoadingCatalogo, setIsLoadingCatalogo] = useState(true)
 
-  const [FaltaDelitoEspecifico,setFaltaDelitoEspecifico] = useState('')
+  // const [FaltaDelitoEspecifico,setFaltaDelitoEspecifico] = useState('')
 
   const [dataPoligonoPersonalizado,setDaltaPoligonoPersonalizado] = useState()
 
@@ -64,8 +64,9 @@ export function Mapa() {
     handleCheckboxHeatLayer,
     handleFaltaDelito,
     handleZona,
-    handleJuntaAuxiliar
-  } = useMapLayerSARAI('ubicacion-hechos', 'red', 'ubicacion-hechos',setRemision,setFicha,setNombre,FaltaDelitoEspecifico);
+    handleJuntaAuxiliar,
+    handleFaltaDelitoEspecifico: handleFaltaDelitoEspecificoHechos
+  } = useMapLayerSARAI('ubicacion-hechos', 'red', 'ubicacion-hechos',setRemision,setFicha,setNombre,'');
 
   const {
     showLayer: showLayerDomicilioDetenido,
@@ -84,8 +85,9 @@ export function Mapa() {
     handleCheckboxHeatLayer: handleCheckboxHeatLayerDomicilioDetenido,
     handleFaltaDelito: handleFaltaDetlitoDomicilioDetenido,
     handleZona: handleZonaDomicilioDetenido,
-    handleJuntaAuxiliar: handleJuntaAuxiliarDomicilioDetenido
-  } = useMapLayerSARAI('domicilio-detenido', 'blue', 'domicilio-detenido', setRemision, setFicha, setNombre, FaltaDelitoEspecifico);
+    handleJuntaAuxiliar: handleJuntaAuxiliarDomicilioDetenido,
+    handleFaltaDelitoEspecifico: handleFaltaDelitoEspecificoDomicilio
+  } = useMapLayerSARAI('domicilio-detenido', 'blue', 'domicilio-detenido', setRemision, setFicha, setNombre, 'FaltaDelitoEspecifico');
 
   const {
     showLayer: showLayerUbicacionDetencion,
@@ -104,8 +106,9 @@ export function Mapa() {
     handleCheckboxHeatLayer: handleCheckboxHeatLayerUbicacionDetencion,
     handleFaltaDelito: handleFaltaDetlitoUbicacionDetencion,
     handleZona: handleZonaUbicacionDetencion,
-    handleJuntaAuxiliar: handleJuntaAuxiliarUbicacionDetencion
-  } = useMapLayerSARAI('ubicacion-detencion', 'green', 'ubicacion-detencion', setRemision, setFicha, setNombre, FaltaDelitoEspecifico);
+    handleJuntaAuxiliar: handleJuntaAuxiliarUbicacionDetencion,
+    handleFaltaDelitoEspecifico: handleFaltaDelitoEspecificoDetencion
+  } = useMapLayerSARAI('ubicacion-detencion', 'green', 'ubicacion-detencion', setRemision, setFicha, setNombre, 'FaltaDelitoEspecifico');
 
   const handleCheckboxVectoresLayer = () => {
     setShowVectoresLayer(!showVectoresLayer);
@@ -130,12 +133,12 @@ export function Mapa() {
       detencion:resultadosEnPoligonoPer.detencion
     })
   }
-
+/*
   const handleFaltaDelitoEspecifico = (delito) => {
     console.log('delito',delito)
     setFaltaDelitoEspecifico(delito.name)
   }
-
+*/
   useEffect(() => {
     const loadMap = async () => {
       map.current = new mapboxgl.Map({
@@ -277,7 +280,7 @@ export function Mapa() {
                     handleZona={handleZona}
                     handleJuntaAuxiliar={handleJuntaAuxiliar}
                     catalogoFD={catalogoFD}
-                    handleFaltaDelitoEspecifico={handleFaltaDelitoEspecifico}
+                    handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoHechos}
                   />
                 </div>
                 <div className="col-md-5 card shadow mb-3">
@@ -294,7 +297,7 @@ export function Mapa() {
                     handleZonaDomicilioDet={handleZonaDomicilioDetenido}
                     handleJuntaAuxiliarDomicilioDet={handleJuntaAuxiliarDomicilioDetenido}
                     catalogoFD={catalogoFD}
-                    handleFaltaDelitoEspecifico={handleFaltaDelitoEspecifico}
+                    handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoDomicilio}
                   />
                 </div>
                 <div className="col-md-5 card shadow mb-3">
@@ -311,7 +314,7 @@ export function Mapa() {
                     handleZonaUbicacionDetencion={handleZonaUbicacionDetencion}
                     handleJuntaAuxiliarUbicacionDetencion={handleJuntaAuxiliarUbicacionDetencion}
                     catalogoFD={catalogoFD}
-                    handleFaltaDelitoEspecifico={handleFaltaDelitoEspecifico}
+                    handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoDetencion}
                   />
                 </div>
               </div>

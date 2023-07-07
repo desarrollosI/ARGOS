@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import mapboxgl from "mapbox-gl";
 import { PuntosEnJuntaAuxiliar, PuntosEnZona } from '../argos/helpers';
 
-const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,FaltaDelitoEspecifico) => {
+const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,FaltaDelitoEspecificoProp) => {
     const [mapContainer, setMapContainer] = useState();
     const [map, setMap] = useState(null);
     const [popup, setPopup] = useState(null);
@@ -20,6 +20,7 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
     const [showLayer, setShowLayer] = useState(true);
     const [showHeatLayer, setShowHeatLayer] = useState(false);
     const [FaltaDelito, setFaltaDelito] = useState('todas')
+    const [FaltaDelitoEspecifico,setFaltaDelitoEspecifico] = useState('')
     const [Zona, setZona] = useState('todas')
     const [JuntaAuxiliar, setJuntaAuxiliar] = useState('todas')
     const [fetchedData2, setFetchedData2] = useState();//Hechos
@@ -68,6 +69,11 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
 //PARA FILTRAR POR JUNTA AUXILIAR
   const handleJuntaAuxiliar = (event) => {
     setJuntaAuxiliar(event.target.value)
+  }
+
+  const handleFaltaDelitoEspecifico = (delito) => {
+    console.log('delito',delito)
+    setFaltaDelitoEspecifico(delito.name)
   }
 
   useEffect(() => {
@@ -339,7 +345,8 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
     handleCheckboxHeatLayer,
     handleFaltaDelito,
     handleZona,
-    handleJuntaAuxiliar
+    handleJuntaAuxiliar,
+    handleFaltaDelitoEspecifico
     // Resto de las funciones y efectos...
   };
 };
