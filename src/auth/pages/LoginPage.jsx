@@ -36,44 +36,64 @@ export const LoginPage = () => {
     }, [errorMessage])
     //El formulario se liga a las funciones del hook, las funcion del submit, y las funcion para detectar cambios en los input
     return (
-        <div className="container-fondo">
-            <div className="container login-container">
-                <div className="row container-center shadow" >
-                    <div className="col-md-6 login-form-1">
-                        <h1>ARGOS</h1>
-                        <h3>Iniciar Sesión</h3>
-                        <form onSubmit={ loginSubmit }>
-                            <div className="form-group mb-2">
-                                <input 
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Correo"
-                                    name="loginEmail"
-                                    value={ loginEmail }
-                                    onChange={ onLoginInputChange }
-                                />
-                            </div>
-                            <div className="form-group mb-2">
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    placeholder="Contraseña"
-                                    name="loginPassword"
-                                    value={ loginPassword }
-                                    onChange={ onLoginInputChange }
-                                />
-                            </div>
-                            <div className="d-grid gap-2">
-                                <input 
-                                    type="submit"
-                                    className="btnSubmit"
-                                    value="Login" 
-                                />
-                            </div>
-                        </form>
+        <>        
+            <div className="container-fondo">
+                <div className="container login-container">
+                    <div className="row container-center shadow" >
+                        <div className="col-md-6 login-form-1">
+                            <h1>ARGOS</h1>
+                            <h3>Iniciar Sesión</h3>
+                            <form onSubmit={ loginSubmit }>
+                                <div className="form-group mb-2">
+                                    <input 
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Correo"
+                                        name="loginEmail"
+                                        value={ loginEmail }
+                                        onChange={ onLoginInputChange }
+                                    />
+                                </div>
+                                <div className="form-group mb-2">
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        placeholder="Contraseña"
+                                        name="loginPassword"
+                                        value={ loginPassword }
+                                        onChange={ onLoginInputChange }
+                                    />
+                                </div>
+                                <div className="d-grid gap-2">
+                                    <input 
+                                        type="submit"
+                                        className="btnSubmit"
+                                        value="Acceder" 
+                                    />
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+        </>
+
     )
 }
