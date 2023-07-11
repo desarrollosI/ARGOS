@@ -28,6 +28,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar,Line,Radar,Doughnut } from 'react-chartjs-2';
+import { insertHistorial } from '../../../helpers/insertHistorial';
 //Se inicializa la grafica diciendole que elementos va a tener
 ChartJS.register(
   CategoryScale,
@@ -113,6 +114,7 @@ export function MyChart({configuracion}) {
         setIsLoadingData(true);
         // setAgrupacion(agrupacion);
         console.log('LINEA 101: ',endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion})
+        insertHistorial({lugar:'Estádistica',tipo:'Petición de información',endpoint,fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion})
         const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,SpecifyOrderBy});
         console.log(data.data.Remisiones)
         setFetchedData(data.data.Remisiones);

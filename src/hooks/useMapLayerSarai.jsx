@@ -4,6 +4,7 @@ import { mapasApi } from '../api';
 import Swal from 'sweetalert2';
 import mapboxgl from "mapbox-gl";
 import { PuntosEnJuntaAuxiliar, PuntosEnZona } from '../argos/helpers';
+import { insertHistorial } from '../helpers/insertHistorial';
 
 const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,FaltaDelitoEspecificoProp) => {
     const [mapContainer, setMapContainer] = useState();
@@ -29,13 +30,11 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
     const [resultadosTurfJuntaAuxiliar, setResultadosTurfJuntaAuxiliar] = useState()
     
     const [capaVectores, setCapaVectores] = useState();//Capa de vectores usada para el turf js
-    // const [Remision, setRemision] = useState(258086);
-    // const [Ficha, setFicha] = useState(14931);
-    // const [Nombre, setNombre] = useState('');
 
   const fetchData = async (endpoint) => {
         setIsLoadingData(true);
         let response = await mapasApi.post(endpoint,{fechaInicio,fechaFin,FaltaDelito,FaltaDelitoEspecifico});
+        insertHistorial({lugar:'Geoanalisis',tipo:'Petición de información',endpoint,fechaInicio,fechaFin,FaltaDelito,FaltaDelitoEspecifico})
         console.log('data enpoint capa  '+capa,response.data.data.Remisiones2)
         setFetchedData2(response.data.data.Remisiones2);
         setIsLoadingData(false)

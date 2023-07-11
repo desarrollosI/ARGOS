@@ -1,5 +1,6 @@
 // Se importa la biblioteca encargada de generar los archivos excel
 import * as XLSX from 'xlsx';
+import { insertHistorial } from '../../../helpers/insertHistorial';
 // Se importa el helper para el manejo del historial
 
 
@@ -19,6 +20,7 @@ export const capasPerToExcel = ({hechos,detencion,domicilio}) => {
 
       const ws2 = XLSX.utils.json_to_sheet(detencion, { header: fields }); // sheet
       XLSX.utils.book_append_sheet(wb, ws2, "Resultrados_Mapa_Detencion"); //sheet name
+      insertHistorial({lugar:'Geoanalisis',tipo:'Exportacion CSV', descripcion:'Exportacion datos de poligono personalizado'});
 
       XLSX.writeFile(wb, "Resultados_Mapa.xlsx");
 }

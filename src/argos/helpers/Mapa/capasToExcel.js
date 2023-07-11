@@ -24,6 +24,7 @@ export const capasToExcel = ({hechos,domicilio,detencion}) => {
 
       const ws2 = XLSX.utils.json_to_sheet(detencion, { header: fields }); // sheet
       XLSX.utils.book_append_sheet(wb, ws2, "Resultrados_Mapa_Detencion"); //sheet name
+      insertHistorial({lugar:'Geoanalisis',tipo:'Exportacion CSV', descripcion:'Exportacion datos de un poligono predeterminado'});
 
       XLSX.writeFile(wb, "Resultados_Mapa.xlsx");
 }

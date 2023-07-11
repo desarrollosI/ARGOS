@@ -38,6 +38,12 @@ export const TableDeciderArgos = ({lugar}) => {
         case 'Vista de Ficha: Mas Detalles':
             endpoint = '/mas-detalles';
             break;
+        case 'Peticiones Estádistica':
+            endpoint = '/estadistica';
+            break;
+        case 'Peticiones Geoanalisis':
+            endpoint = '/Geoanalisis';
+            break;
         default:
             break;
 

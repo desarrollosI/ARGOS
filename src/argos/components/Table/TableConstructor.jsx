@@ -2578,8 +2578,61 @@ export const TableConstructor = ({lugar, datos}) => {
           
           return (
             <Table columns={columns} data={data} base={'Reconocimiento Facial: Fotos Subidas'} setFiltros={setFiltros}/>
-          )
-          case 'Vista de Ficha: Mas Detalles':
+        )
+        case 'Vista de Ficha: Mas Detalles':
+        columns = React.useMemo(
+          () => [
+            {
+              Header:'ID',
+              accessor:'_id',
+              filter: 'fuzzyText',
+            }, 
+            {
+              Header:'FECHA',
+              accessor:'extra.hora',
+              Filter: DateRangeColumnFilter,
+              filter: dateBetweenFilterFn
+            },
+            {
+              Header:'USUARIO',
+              accessor:'user.nombre',
+              filter: 'fuzzyText',
+            }, 
+            {
+              Header:'LUGAR',
+              accessor:'extra.lugar',
+              Filter: SelectColumnFilter,
+              filter: 'equals',
+            }, 
+            {
+              Header:'TIPO',
+              accessor:'extra.tipo',
+              Filter: SelectColumnFilter,
+              filter: 'equals',
+            },
+            {
+              Header:'BASE',
+              accessor:'extra.base',
+              Filter: SelectColumnFilter,
+              filter: 'equals',
+            },
+            {
+              Header:'FOLIO',
+              accessor:'extra.folio',
+              filter: 'fuzzyText',
+            }, 
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos
+        , [])
+        
+        
+        return (
+          <Table columns={columns} data={data} base={'Reconocimiento Facial: Fotos Subidas'} setFiltros={setFiltros}/>
+        )
+        case 'Peticiones Estádistica':
           columns = React.useMemo(
             () => [
               {
@@ -2612,15 +2665,32 @@ export const TableConstructor = ({lugar, datos}) => {
               },
               {
                 Header:'BASE',
-                accessor:'extra.base',
+                accessor:'extra.endpoint',
+                Filter: SelectColumnFilter,
+                filter: 'equals',
+              },              
+              {
+                Header:'FECHA INICIO',
+                accessor:'extra.fechaInicio',
+                filter: 'fuzzyText',
+              },
+              {
+                Header:'FECHA FIN',
+                accessor:'extra.fechaFin',
+                filter: 'fuzzyText',
+              },
+              {
+                Header:'AGRUPADO POR',
+                accessor:'extra.agrupacionData',
                 Filter: SelectColumnFilter,
                 filter: 'equals',
               },
               {
-                Header:'FOLIO',
-                accessor:'extra.folio',
-                filter: 'fuzzyText',
-              }, 
+                Header:'ESPECIFICO',
+                accessor:'extra.SpecifyAgrupacion',
+                Filter: SelectColumnFilter,
+                filter: 'equals',
+              },              
             ],[]
           )
   
@@ -2631,7 +2701,77 @@ export const TableConstructor = ({lugar, datos}) => {
           
           return (
             <Table columns={columns} data={data} base={'Reconocimiento Facial: Fotos Subidas'} setFiltros={setFiltros}/>
+        )
+        case 'Peticiones Geoanalisis':
+          columns = React.useMemo(
+            () => [
+              {
+                Header:'ID',
+                accessor:'_id',
+                filter: 'fuzzyText',
+              }, 
+              {
+                Header:'FECHA',
+                accessor:'extra.hora',
+                Filter: DateRangeColumnFilter,
+                filter: dateBetweenFilterFn
+              },
+              {
+                Header:'USUARIO',
+                accessor:'user.nombre',
+                filter: 'fuzzyText',
+              }, 
+              {
+                Header:'LUGAR',
+                accessor:'extra.lugar',
+                Filter: SelectColumnFilter,
+                filter: 'equals',
+              }, 
+              {
+                Header:'TIPO',
+                accessor:'extra.tipo',
+                Filter: SelectColumnFilter,
+                filter: 'equals',
+              },
+              {
+                Header:'BASE',
+                accessor:'extra.endpoint',
+                Filter: SelectColumnFilter,
+                filter: 'equals',
+              },              
+              {
+                Header:'FECHA INICIO',
+                accessor:'extra.fechaInicio',
+                filter: 'fuzzyText',
+              },
+              {
+                Header:'FECHA FIN',
+                accessor:'extra.fechaFin',
+                filter: 'fuzzyText',
+              },
+              {
+                Header:'F/D',
+                accessor:'extra.FaltaDelito',
+                Filter: SelectColumnFilter,
+                filter: 'equals',
+              },
+              {
+                Header:'ESPECIFICO',
+                accessor:'extra.FaltaDelitoEspecifico',
+                Filter: SelectColumnFilter,
+                filter: 'equals',
+              },              
+            ],[]
           )
+  
+          data = React.useMemo(() =>
+          datos
+          , [])
+          
+          
+          return (
+            <Table columns={columns} data={data} base={'Reconocimiento Facial: Fotos Subidas'} setFiltros={setFiltros}/>
+        )
       default:
         break;
     }

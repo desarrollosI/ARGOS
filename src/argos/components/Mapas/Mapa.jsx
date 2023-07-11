@@ -14,6 +14,7 @@ import { GeneralControls } from "./GeneralControls";
 import { PuntosEnZona, PuntosEnJuntaAuxiliar, capasToExcel, capasPerToExcel } from "../../helpers";
 import useMapLayerSARAI from "../../../hooks/useMapLayerSarai";
 import { PuntosEnPoligonoPer } from "../../helpers/Mapa/puntosEnPoligonoPer";
+import { insertHistorial } from "../../../helpers/insertHistorial";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg";
@@ -179,6 +180,7 @@ export function Mapa() {
         const polygon = event.features[0];
         // Realiza alguna acción con el polígono creado
         console.log('Polígono creado:', polygon);
+        insertHistorial({lugar:'Geoanalisis',tipo:'Poligono Personalizado', poligono: polygon})
         setDaltaPoligonoPersonalizado(polygon)
       });
     };
