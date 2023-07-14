@@ -8,3 +8,5 @@ export * from './InspeccionPage';
 export * from './HistoricoPage';
 export * from './HistorialPage';
 export * from './EstadisticaPage';
+export * from './UsuariosPage';
+export * from './UsuarioPage';

@@ -116,7 +116,7 @@ export const BuscadorFacial = () => {
    
         <div className="container-fluid">
             <div className="row ">
-                <div className="col-md-5 card shadow vh100 me-2">
+                <div className="col-md-5 card shadow vh100 ">
                     <div className="row indicador mt-5">
                     </div>
                     <div className="row mt-2">
@@ -141,7 +141,7 @@ export const BuscadorFacial = () => {
                     
                 </div>
     
-                <div className="col-md-6 card shadow">
+                <div className="col-md-7 card shadow">
                   {
                      (isLoadingResults) 
                       ? <><MyLoader/><MyLoader/><MyLoader/><MyLoader/><MyLoader/><MyLoader/><MyLoader/><MyLoader/></>

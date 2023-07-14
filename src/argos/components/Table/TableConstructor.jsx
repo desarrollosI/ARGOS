@@ -2770,7 +2770,49 @@ export const TableConstructor = ({lugar, datos}) => {
           
           
           return (
-            <Table columns={columns} data={data} base={'Reconocimiento Facial: Fotos Subidas'} setFiltros={setFiltros}/>
+            <Table columns={columns} data={data} base={'Argos: Geoanalisis'} setFiltros={setFiltros}/>
+        )
+        case 'Todos los usuarios':
+          columns = React.useMemo(
+            () => [
+              {
+                Header:'ID',
+                accessor:'uid',
+                Cell: props =>  <Link to={`/usuario/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Usuarios',tipo: 'Mas detalles',folio: props.value,base: 'Usuarios'})} >{props.value}</Link>,
+                filter: 'fuzzyText',
+              }, 
+              {
+                Header:'NOMBRE',
+                accessor:'nombre',
+                filter: 'fuzzyText',
+              }, 
+              {
+                Header:'CORREO',
+                accessor:'correo',
+                filter: 'fuzzyText',
+              }, 
+              {
+                Header:'MAC',
+                accessor:'mac',
+                filter: 'fuzzyText',
+              }, 
+              {
+                Header:'ROL',
+                accessor:'rol',
+                Filter: SelectColumnFilter,
+                filter: 'equals',
+              }, 
+             
+            ],[]
+          )
+  
+          data = React.useMemo(() =>
+          datos
+          , [])
+          
+          
+          return (
+            <Table columns={columns} data={data} base={'Argos: Todos los usuarios'} setFiltros={setFiltros}/>
         )
       default:
         break;

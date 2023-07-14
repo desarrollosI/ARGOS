@@ -15,7 +15,9 @@ import {
   InspeccionPage,
   HistoricoPage,
   HistorialPage,
-  EstadisticaPage
+  EstadisticaPage,
+  UsuariosPage,
+  UsuarioPage
 } from "../../argos/pages";
 //Se importa el store 
 import { useAuthStore } from "../../hooks";
@@ -89,17 +91,7 @@ export const NavbarN = () => {
                     Reconocimiento Facial
                   </NavLink>
                 </li>
-                {
-                  (user.rol === 'ADMIN_ROLE' ) && (
-
-                    <li className="nav-item">
-                      <NavLink to="/historial" className="nav-link">
-                        <span data-feather="file" className="align-text-bottom"></span>
-                        Historial
-                      </NavLink>
-                    </li>
-                    )
-                }
+               
                  <li className="nav-item">
                   <NavLink to="/estadistica" className="nav-link">
                     <span data-feather="users" className="align-text-bottom"></span>
@@ -112,16 +104,24 @@ export const NavbarN = () => {
                     Geoanalisis
                   </NavLink>
                 </li> 
-                {/* <li className="nav-item">
-                  <a className="nav-link">
-                    <span
-                      data-feather="bar-chart-2"
-                      className="align-text-bottom"
-                    ></span>
-                    Estadística
-                  </a>
-                </li> */}
-                
+                {
+                  (user.rol === 'ADMIN_ROLE' ) && (
+                    <>
+                    <li className="nav-item">
+                      <NavLink to="/historial" className="nav-link">
+                        <span data-feather="file" className="align-text-bottom"></span>
+                        Historial
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                     <NavLink to="/usuarios" className="nav-link">
+                       <span data-feather="file" className="align-text-bottom"></span>
+                       Usuarios
+                     </NavLink>
+                    </li>
+                    </>
+                    )
+                }
               </ul>
             </div>
           </nav>
@@ -140,8 +140,11 @@ export const NavbarN = () => {
               <Route path="remision/:remision" element={<RemisionPage />} /> 
               <Route path="inspeccion/:inspeccion" element={<InspeccionPage />} /> 
               <Route path="historico/:folio" element={<HistoricoPage />} /> 
+              <Route path="usuario/:uid" element={<UsuarioPage />} /> 
+              <Route path="usuarios/usuario" element={<UsuarioPage />} /> 
               
               <Route path="geoanalisis" element={<GeoanalisisPage />} />
+              <Route path="usuarios" element={<UsuariosPage />} />
               <Route path="/" element={<Navigate to="/inicio" />} /> 
 
           </Routes>
