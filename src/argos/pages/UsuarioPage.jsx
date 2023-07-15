@@ -4,45 +4,67 @@ import { useForm } from '../../hooks';
 import { authApi, usuariosApi } from '../../api';
 import { insertHistorial } from '../../helpers/insertHistorial';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 
 const registerFormFields = {
     nombre:    '',
     correo: '',
     password: '123456',
-    rol: '',
+    rol: 'USER_ROLE',
     mac: ''
 }
 
 export const UsuarioPage = () => {
+    const { uid } = useParams();//se lee el prametro por el url
+    console.log('DE PARAMETROS',uid)
 
     //Se extraen del hook useForm este hook es el encargado de manejar la información y funcionalidad del formulario
     const { nombre, correo, password, mac, rol, onInputChange } = useForm( registerFormFields );
     const [fetchedData, setFetchedData] = useState()
     const [isLoadingData, setIsLoadingData] = useState(true)
-
     
     const fetchData = async (endpoint) => {
-        try {
-            const response = await usuariosApi.post(endpoint, { nombre, correo, password, mac, rol });
-            console.log(response);
-            Swal.fire('Correcto','Usuario registrado correctamente','success')
-          } catch (error) {
-            console.log(error.response);
-            Swal.fire('Incorrecto',error.response.data.errors[0].msg,'error')
-          }
+        switch (endpoint) {
+            case '/nuevo':
+                try {
+                    const response = await usuariosApi.post(endpoint, { nombre, correo, password, mac, rol });
+                    console.log(response);
+                    Swal.fire('Correcto','Usuario registrado correctamente','success')
+                  } catch (error) {
+                    console.log(error.response);
+                    Swal.fire('Incorrecto',error.response.data.errors[0].msg,'error')
+                  }
+                break;
+
+            case '/actualizar':
+                try {
+                    const response = await usuariosApi.put(endpoint+'/'+uid, { nombre, correo, password, mac, rol });
+                    console.log(response);
+                    Swal.fire('Correcto','Usuario actualizado correctamente','success')
+                  } catch (error) {
+                    console.log(error.response);
+                    Swal.fire('Incorrecto',error.response.data.errors[0].msg,'error')
+                  }
+                break;
+
+            default:
+                break;
+        }
     };
     
     const registerSubmit = ( event ) => {
         event.preventDefault();
-        fetchData('/nuevo')
+        if(uid === undefined){
+            fetchData('/nuevo')
+        }else{
+            fetchData('/actualizar')
+        }
     }
 
     useEffect(() => {
         if(fetchedData?.msg == 'post API usuario creado correctamente '){
             Swal.fire('Correcto','Usuario creado correctamente en el sistema','success')
-        }else{
-            Swal.fire('Incorrecto','El usuario no se ha podido registrar','error')
         }
     }, [fetchedData])
     

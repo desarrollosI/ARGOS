@@ -13,6 +13,7 @@ import { authApi } from '../api';
 import { insertHistorial } from '../helpers/insertHistorial';
 //Se importan las funciones y hooks de la store
 import { clearErrorMessage, onChecking, onLogin, onLogout } from '../store'; 
+import Swal from 'sweetalert2';
 
 export const useAuthStore = () => {
     //Se extraen de la store de authenticacion las funciones que se exponen, status, user, errorMessage
@@ -94,6 +95,7 @@ export const useAuthStore = () => {
         } catch (error) {
             console.log('error del check auth', error)
             localStorage.clear();
+            Swal.fire('Error en la autenticación', 'Tu sesión expiró', 'error');//esto se deberia de quitar recuerda que el store debe de ser lineal sin extras
             dispatch( onLogout() );
         }
     }

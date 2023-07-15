@@ -37,8 +37,8 @@ export const UsuariosPage = () => {
         </div>
 
         <div className="row card shadow">
-            <div className="col-md-12">
-                <NavLink  to="usuario" className="btn btn-primary">
+            <div className="col-md-12 mt-3">
+                <NavLink  to="usuario" className="btn btn-primary float-end">
                     NUEVO USUARIO
                 </NavLink>
             </div>
