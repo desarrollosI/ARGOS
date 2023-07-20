@@ -6,8 +6,8 @@ import { getRandomColor } from "./getRandomColor";
   para poder crear los dataSets, con los data sets se generan las graficas.
 */
 export const tratarInformacion = (tipo,data,label,x,y,agrupacion,SpecifyAgrupacion,etiquetaSeleccionada) => {
-    console.log('agrupado por :', x)
-    console.log('etiqueta seleccionada', etiquetaSeleccionada)
+    //console.log('agrupado por :', x)
+    //console.log('etiqueta seleccionada', etiquetaSeleccionada)
     let etiqueta = (etiquetaSeleccionada != '') ? etiquetaSeleccionada: x;
     let sets = y.split(',')
     let datasetsGenerados = [];
@@ -23,13 +23,13 @@ export const tratarInformacion = (tipo,data,label,x,y,agrupacion,SpecifyAgrupaci
       return newDataSet;
     })
     
-    console.log('desde el helper ', SpecifyAgrupacion);
+    //console.log('desde el helper ', SpecifyAgrupacion);
 
     let etiquetas = ['Remisiones totales']
     if(data.length > 1){      
       if(etiquetaSeleccionada != ''){
         etiquetas = data.map(item => item[etiquetaSeleccionada])
-        console.log('if de etiqueta seleccionada, ',etiquetas )
+        //console.log('if de etiqueta seleccionada, ',etiquetas )
       }else{
         etiquetas = data.map(item => item[agrupacion])
       }
@@ -40,11 +40,11 @@ export const tratarInformacion = (tipo,data,label,x,y,agrupacion,SpecifyAgrupaci
       }
     }
   
-    console.log('ETIQUETAS:',etiquetas);
+    //console.log('ETIQUETAS:',etiquetas);
     const dataResultado = {
       labels:  etiquetas,
       datasets: datasetsGenerados.map(dataSet => dataSet)
     }
-  
+    console.log('DATA DE la grafica',dataResultado)
     return dataResultado;
   }

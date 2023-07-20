@@ -7,11 +7,11 @@
 
 import React, { useEffect,useState } from 'react';
 //Se importan los componentes personalizados
-import { DateRangePicker, GroupBySelector, SpecifyGroupBySelector, SpecifyOrderBySelector } from './';
+import { CheckSelect, DateRangePicker, GroupBySelector, SpecifyGroupBySelector, SpecifyOrderBySelector } from './';
 //Se importa nuestro adaptador hacia el backend
 import { graficasApi } from '../../../api';
 //Se importan los helpers necesarios
-import { tratarInformacion } from '../../helpers';
+import { dataToExcel, tratarInformacion } from '../../helpers';
 //Se importan las bibliotecas y componentes de terceros
 import Swal from 'sweetalert2';
 import {
@@ -83,6 +83,31 @@ export function MyChart({configuracion}) {
     const [etiquetaEjeX, setEtiquetaEjeX] = useState(etiqueta); //este estado va  a manejar los label de las columnas del eje x en el caso de que se requiera algo mas que lo generico
     const [SpecifyAgrupacion, setSpecifyAgrupacion] = useState('todas')//aunque este no se pide como prop, se pone aca pues es un estado que muta la grafica
     const [SpecifyOrderBy, setSpecifyOrderBy] = useState('desc')
+
+    const [opcionesZona, setOpcionesZona] = useState([
+      "CENTRO HISTÓRICO",
+      "ZONA 1",
+      "ZONA 10",
+      "ZONA 2",
+      "ZONA 3",
+      "ZONA 4",
+      "ZONA 5",
+      "ZONA 6",
+      "ZONA 7",
+      "ZONA 8",
+      "ZONA 9"
+  ])
+
+    const [opcionesInstancia, setOpcionesInstancia] = useState([
+      "ADOLESCENTES I.",
+      "JUEZ DE JUSTICIA CÍVICA",
+      "M.P. FEDERAL",
+      "M.P. FUERO COMÚN"
+  ])
+
+    const [selectedOption, setSelectedOption] = useState();
+
+    const [dataResCSV, setDataResCSV] = useState();
     //las demas props no  es necesario almacenarlas en estado puesto que no suelen mutar demasiado con respecto a la data de la grafica
 
     //Esta función se dispara gracias al efecto, pone en estado de carga de infotmacion
@@ -99,6 +124,7 @@ export function MyChart({configuracion}) {
     };
 
     const handleAgrupacionChange = (event) => {
+      setSelectedOption()
       setAgrupacion(event.target.value);
     };
 
@@ -110,15 +136,16 @@ export function MyChart({configuracion}) {
       setSpecifyOrderBy(event.target.value);
     }
 
+    const handleGenerateCSV = async (endpoint) => {
+      const {data} = await graficasApi.post(endpoint+'-csv',{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,selectedOption,SpecifyOrderBy})
+      dataToExcel(data.data.Remisiones,{lugar:'Estádistica',tipo: 'Exportación Excel', base: endpoint+'-csv', filtros: {fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,selectedOption,SpecifyOrderBy}})
+    }
+
     const fetchData = async(endpont) => {
         setIsLoadingData(true);
-        // setAgrupacion(agrupacion);
-        console.log('LINEA 101: ',endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion})
         insertHistorial({lugar:'Estádistica',tipo:'Petición de información',endpoint,fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion})
-        const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,SpecifyOrderBy});
-        console.log(data.data.Remisiones)
+        const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,selectedOption,SpecifyOrderBy});
         setFetchedData(data.data.Remisiones);
-        // setEtiquetaEjeX(etiqueta);
         setIsLoadingData(false);
     }
 
@@ -132,23 +159,38 @@ export function MyChart({configuracion}) {
 
     useEffect(() => {
         fetchData(endpoint)
-    }, [fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,SpecifyOrderBy])
+    }, [fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,SpecifyOrderBy,selectedOption])
 
     useEffect(() => {
       if ( isLoadingData ) {
-        Swal.fire('Haciendo Consulta', 'Paciencia se esta procesando la información', 'info');
+        //Swal.fire('Haciendo Consulta', 'Paciencia se esta procesando la información', 'info');
       }    
       if( !isLoadingData ){
         Swal.close();
       }
     }, [isLoadingData])
 
+    const opciones =
+      agrupacionData === 'Instancia'
+        ? opcionesInstancia.map((item) => ({ value: item, label: item }))
+        : opcionesZona.map((item) => ({ value: item, label: item }));
+
+
     //TODO realizar el useEffect necesario para altenar entre tipo de grafica
 
     const ChartComponent = chartComponents[tipoGrafica];
     return (
         <>
-        <div className="my-3">
+        <div className="row">
+          <div className="col-md-4">
+            <button 
+              className='btn btn-primary mt-2'
+              onClick={() => handleGenerateCSV(endpoint)}>
+                Exportar
+            </button>
+          </div>
+        </div>
+        <div className="row my-3">
 
           {ChartComponent && !isLoadingData && (
 
@@ -168,7 +210,6 @@ export function MyChart({configuracion}) {
             />
           )}
 
-          
           <DateRangePicker
           fechaInicio={fechaInicio}
           fechaFin={fechaFin}
@@ -189,14 +230,23 @@ export function MyChart({configuracion}) {
             (agrupacion!='SD') && 
             (!isLoadingData) && 
             (avanzada == 1) &&
-                          <SpecifyGroupBySelector 
+
+                        <>
+                          {/* <SpecifyGroupBySelector 
                           handleSpecifyAgrupacionChange={handleSpecifyAgrupacionChange} 
                           opciones={
                             (etiquetaEjeX != '') 
                               ? fetchedData.map(item => item[etiquetaEjeX]) 
                               : fetchedData.map(item => item[agrupacionData])
                             }
-                            />
+                            /> */}
+                          <CheckSelect
+                            selectedOption={selectedOption}
+                            setSelectedOption={setSelectedOption}
+                            opciones={opciones}
+                          />
+                        
+                        </>
           }
           {
             (!isLoadingData) &&
