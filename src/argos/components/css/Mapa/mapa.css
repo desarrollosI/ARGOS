@@ -31,4 +31,12 @@
 .mapboxgl-ctrl-top-right {
     z-index: 9999 !important; /* Asegura que el control se muestre en el frente */
 }
+
+.flotante-derecha{
+    position: absolute;
+    top: 25%;
+    left: 83%;
+    max-width: 225px !important;
+    z-index: 9999;
+}
     

@@ -179,6 +179,18 @@ export function MyChart({configuracion}) {
     //TODO realizar el useEffect necesario para altenar entre tipo de grafica
 
     const ChartComponent = chartComponents[tipoGrafica];
+    
+    // Llamamos a la función tratarInformacion y almacenamos el resultado en una variable
+    const totalRegistros = fetchedData ? tratarInformacion(
+      tipoGrafica,
+      fetchedData,
+      'CANTIDAD DE REMSIONES',
+      x,
+      y,
+      agrupacionData,
+      SpecifyAgrupacion,
+      etiquetaEjeX
+    ) : null;
     return (
         <>
         <div className="row">
@@ -189,6 +201,9 @@ export function MyChart({configuracion}) {
                 Exportar
             </button>
           </div>
+        </div>
+        <div className="row">
+          {totalRegistros && <p><strong>Total de registros: {totalRegistros.totalRegistros}</strong></p>}
         </div>
         <div className="row my-3">
 

@@ -36,7 +36,7 @@ export const BuscadorPage = () => {
           <hr />
         </div>
         <BaseMultiplier/>
-        <JumpToTop/>
+        {/* <JumpToTop/> */}
       </div>
     </>
   );

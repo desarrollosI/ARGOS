@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 import { useAuthStore, useForm } from '../../hooks';
 //se importan las hojas de estilo necesarias para el componente
 import './LoginPage.css';
+import logo from '/login/argos-logo-1.png';
+import CanvasAnimation from './CanvasAnimation';
 //Se debe de tener un pseudo estado pristine del formulario, de otra forma se entra en un bucle de re-renderizado
 const loginFormFields = {
     loginEmail:    '',
@@ -39,10 +41,13 @@ export const LoginPage = () => {
         <>        
             <div className="container-fondo">
                 <div className="container login-container">
+
                     <div className="row container-center shadow" >
+                        <div className="col-md-12">
+                            <img src={logo} alt="ARGOS" width={700} />
+                        </div>
                         <div className="col-md-6 login-form-1">
-                            <h1>ARGOS</h1>
-                            <h3>Iniciar Sesión</h3>
+                            <h3 className='text-center'>Iniciar Sesión</h3>
                             <form onSubmit={ loginSubmit }>
                                 <div className="form-group mb-2">
                                     <input 
@@ -64,7 +69,7 @@ export const LoginPage = () => {
                                         onChange={ onLoginInputChange }
                                     />
                                 </div>
-                                <div className="d-grid gap-2">
+                                <div className="d-grid gap-2 mb-5">
                                     <input 
                                         type="submit"
                                         className="btnSubmit"
@@ -76,7 +81,8 @@ export const LoginPage = () => {
                     </div>
                 </div>
             </div>
-            <ul className="circles">
+            <CanvasAnimation/>
+            {/* <ul className="circles">
                     <li></li>
                     <li></li>
                     <li></li>
@@ -92,7 +98,7 @@ export const LoginPage = () => {
                     <li></li>
                     <li></li>
                     <li></li>
-            </ul>
+            </ul> */}
         </>
 
     )

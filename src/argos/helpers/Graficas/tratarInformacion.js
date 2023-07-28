@@ -39,12 +39,21 @@ export const tratarInformacion = (tipo,data,label,x,y,agrupacion,SpecifyAgrupaci
         etiquetas = [SpecifyAgrupacion]
       }
     }
-  
-    //console.log('ETIQUETAS:',etiquetas);
+    let sumaTotal = 0;
+    console.log('DATAASETS GENERADOS: ',datasetsGenerados)
+   datasetsGenerados.map(dataSet => {
+      dataSet.data.map( valor => {
+        sumaTotal+=(isNaN(Number(valor)))? 0:Number(valor);
+      })
+    });
+    console.log('SUMA TOTALES', sumaTotal);
     const dataResultado = {
       labels:  etiquetas,
       datasets: datasetsGenerados.map(dataSet => dataSet)
     }
-    console.log('DATA DE la grafica',dataResultado)
+    
+    dataResultado.totalRegistros = sumaTotal;
+    console.log('DATA DE TOTALES',dataResultado.totalRegistros)
+    console.log('GRAFICA: ', dataResultado)
     return dataResultado;
   }

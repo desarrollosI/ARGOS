@@ -30,7 +30,7 @@ export const SelectBaseComponent = ({base}) => {
         return (
             <>
                 <div className="container-fluid">
-                    <div className="row mt-5 mb-5">
+                    <div className="row mb-5">
                         <div className="col-md-12">
                             <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
                         </div>
@@ -70,7 +70,7 @@ export const SelectBaseComponent = ({base}) => {
         return (
             <>
                 <div className="container-fluid">
-                    <div className="row mt-5 mb-5">
+                    <div className="row mb-5">
                         <div className="col-md-12">
                             <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
                         </div>
@@ -102,7 +102,7 @@ export const SelectBaseComponent = ({base}) => {
         return (
             <>
                 <div className="container-fluid">
-                    <div className="row mt-5 mb-5">
+                    <div className="row mb-5">
                         <div className="col-md-12">
                             <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
                         </div>
@@ -131,7 +131,7 @@ export const SelectBaseComponent = ({base}) => {
         return (
             <>
                 <div className="container-fluid">
-                    <div className="row mt-5 mb-5">
+                    <div className="row mb-5">
                         <div className="col-md-12">
                             <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
                         </div>
@@ -160,7 +160,7 @@ export const SelectBaseComponent = ({base}) => {
         return (
             <>
                 <div className="container-fluid">
-                    <div className="row mt-5 mb-5">
+                    <div className="row mb-5">
                         <div className="col-md-12">
                             <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
                         </div>
@@ -194,7 +194,7 @@ export const SelectBaseComponent = ({base}) => {
         return (
             <>
                 <div className="container-fluid">
-                    <div className="row mt-5 mb-5">
+                    <div className="row mb-5">
                         <div className="col-md-12">
                             <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
                         </div>

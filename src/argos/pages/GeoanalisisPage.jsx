@@ -33,7 +33,7 @@ export const GeoanalisisPage = () => {
           </div>
           <hr />
         </div>
-        <div className="container-fluid row ">
+        <div className="container-fluid">
           <Mapa/>
         </div>
       </div>

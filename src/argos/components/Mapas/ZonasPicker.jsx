@@ -6,8 +6,8 @@ export function ZonasPicker({handleZona }) {
     <div className="col-md-12">
       <div className="form-group">
         <label htmlFor="zona">Mostrar Zona :</label>
-        <div onChange={handleZona} className="form-check form-check-inline">
-          <select className="form-select" name="zona" id="zona" >
+        <div onChange={handleZona}>
+          <select className="form-select form-select-sm" name="zona" id="zona" >
             <option value="todas">TODAS LAS OPCIONES</option>
             <option value="ZONA 1">ZONA 1</option>
             <option value="ZONA 2">ZONA 2</option>

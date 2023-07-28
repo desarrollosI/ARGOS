@@ -64,7 +64,23 @@ export const AutoCompleteFD = ({data,handleFaltaDelitoEspecifico}) => {
             onClear={handleOnClear}
             autoFocus
             formatResult={formatResult}
-            // styling={{backgroundColor: "black"}}
+            styling={{
+              maxWidth: "50px",
+              height: "30px",
+              border: "1px solid #dfe1e5",
+              borderRadius: "24px",
+              backgroundColor: "white",
+              boxShadow: "rgba(32, 33, 36, 0.28) 0px 1px 6px 0px",
+              hoverBackgroundColor: "#eee",
+              color: "#212121",
+              fontSize: "12px",
+              fontFamily: "Arial",
+              iconColor: "grey",
+              lineColor: "rgb(232, 234, 237)",
+              placeholderColor: "grey",
+              clearIconMargin: '1.5px 7px 0 0',
+              searchIconMargin: '0 0 0 8px'
+            }}
           />
         </div>
       </header>

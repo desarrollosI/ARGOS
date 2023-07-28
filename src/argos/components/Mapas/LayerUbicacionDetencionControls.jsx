@@ -50,12 +50,12 @@ export const LayerUbicacionDetencionControls = ({
         <div className="row  mb-3">
             <hr/>
             <h6>Filtros Específiscos:</h6>
-            <div className="col-md-6">
+            <div className="col-md-5">
                 <FaltaDelitoPicker
                     handleFaltaDelito={handleFaltaDelitoUbicacionDetencion}
                 />
             </div>
-            <div className="col-md-6">
+            <div className="col-md-5">
                 <AutoCompleteFD data={catalogoFD} handleFaltaDelitoEspecifico={handleFaltaDelitoEspecifico}/>
             </div>
         </div>

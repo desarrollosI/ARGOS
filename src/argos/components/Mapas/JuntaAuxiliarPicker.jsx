@@ -6,8 +6,8 @@ export function JuntaAuxiliarPicker({handleJuntaAuxiliar }) {
     <div className="col-md-12">
       <div className="form-group">
         <label htmlFor="Junta Auxiliar">Mostrar Junta Auxiliar:</label>
-        <div onChange={handleJuntaAuxiliar} className="form-check form-check-inline">
-          <select className="form-select" name="zona" id="zona" >
+        <div onChange={handleJuntaAuxiliar} >
+          <select className="form-select form-select-sm" name="zona" id="zona" >
             <option value="todas">TODAS LAS OPCIONES</option>
             <option value="J.A. IGNACIO ROMERO VARGAS">J.A. IGNACIO ROMERO VARGAS</option>
             <option value="J.A. IGNACIO ZARAGOZA">J.A. IGNACIO ZARAGOZA</option>

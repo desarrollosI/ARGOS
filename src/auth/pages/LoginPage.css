@@ -2,7 +2,7 @@
     width: 100vw;
     height: 100vh;
     /* background-image: url('../public/login-bg-2.svg'); */
-    background-color: #0F2145;
+    background-color: transparent;
     background-repeat: no-repeat;
     background-size: cover;
     /* Setup */
@@ -19,13 +19,13 @@ input {
     font-size: 24px;
     margin: auto !important;
     margin-top: 20% !important;
-    width: 500px;
-    height: 400px;
+    width: 700px;
+    height: 530px;
     /* Center vertically and horizontally */
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fff;
+    background-color: #ffffff73;
     border-radius: 5px;
     z-index: 99999;
     
@@ -229,4 +229,11 @@ input {
         border-radius: 50%;
     }
 
+}
+
+#canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
 }
