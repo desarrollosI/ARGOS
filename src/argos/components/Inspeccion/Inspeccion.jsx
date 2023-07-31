@@ -11,7 +11,7 @@ export const Inspeccion = ({data}) => {
   console.log(generales, fotos, personas)
 
   var date = new Date(generales[0].Fecha_Hora_Inspeccion);
-  const baseURLF='http://172.18.0.25/sarai/public/files/inspecciones/images/'
+  const baseURLF='http://187.216.250.245/sarai/public/files/inspecciones/images/'
 
   return (
     <>

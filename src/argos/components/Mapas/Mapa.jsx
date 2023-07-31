@@ -409,7 +409,7 @@ export function Mapa() {
                   <h4> Foto: </h4>
                 </div>
                 <div className="row">
-                  <img src={`http://172.18.0.25/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} width="400px" alt="Foto_Detenido"/>
+                  <img src={`http://187.216.250.245/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} width="400px" alt="Foto_Detenido"/>
                 </div>
                 <div className="row mt-3">
                   <strong>Ficha: {Ficha}</strong>

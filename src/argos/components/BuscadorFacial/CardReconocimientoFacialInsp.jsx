@@ -25,7 +25,7 @@ const separarFichaInspeccion = ({ _label }) => {
     //console.log('FILE: ', file);
     file = file.replaceAll(' ','%20')
     let url =
-        "http://172.18.0.25/sarai/public/files/inspecciones/images/" +
+        "http://187.216.250.245/sarai/public/files/inspecciones/images/" +
         guardar+
         "/"+
         file;
