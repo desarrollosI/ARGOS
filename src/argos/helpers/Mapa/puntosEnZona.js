@@ -15,14 +15,22 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
         isNaN(parseFloat(item.Coordenada_X)) ? -0.0 : parseFloat(item.Coordenada_X),
         isNaN(parseFloat(item.Coordenada_Y)) ? 0.0 : parseFloat(item.Coordenada_Y)
       ];
-
-      return turf.point(coordenadas, {
-        Ficha: item.Ficha,
-        No_Remision: item.No_Remision,
-        Nombre: item.Nombre,
-        Ap_Paterno: item.Ap_Paterno,
-        Ap_Materno: item.Ap_Materno
-      });
+      if(lugar == 'inspecciones'){
+        return turf.point(coordenadas, {
+          Id_Inspeccion: item.Id_Inspeccion,
+          Nombre: item.Nombre,
+          Ap_Paterno: item.Ap_Paterno,
+          Ap_Materno: item.Ap_Materno
+        });
+      }else {
+        return turf.point(coordenadas, {
+          Ficha: item.Ficha,
+          No_Remision: item.No_Remision,
+          Nombre: item.Nombre,
+          Ap_Paterno: item.Ap_Paterno,
+          Ap_Materno: item.Ap_Materno
+        });
+      }
     }));
 
     console.log('Cantidad de puntos de data buscar:', puntosDataBuscar.features.length);
@@ -60,15 +68,28 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
         resultados: []
       };
 
-      dataBuscar.forEach((data) => {
-        
-        if (puntosPorZona[zonaGeneral]) {
-          const coincidencia = puntosPorZona[zonaGeneral].resultados.find((punto) => punto.properties.No_Remision === data.No_Remision);
-          if (coincidencia) {
-            puntosFiltrados[zonaGeneral].resultados.push(data);
+      if(lugar == 'inspecciones'){
+        dataBuscar.forEach((data) => {
+          
+          if (puntosPorZona[zonaGeneral]) {
+            const coincidencia = puntosPorZona[zonaGeneral].resultados.find((punto) => punto.properties.Id_Inspeccion === data.Id_Inspeccion);
+            if (coincidencia) {
+              puntosFiltrados[zonaGeneral].resultados.push(data);
+            }
           }
-        }
-      });
+        });
+      }else {
+
+        dataBuscar.forEach((data) => {
+          
+          if (puntosPorZona[zonaGeneral]) {
+            const coincidencia = puntosPorZona[zonaGeneral].resultados.find((punto) => punto.properties.No_Remision === data.No_Remision);
+            if (coincidencia) {
+              puntosFiltrados[zonaGeneral].resultados.push(data);
+            }
+          }
+        });
+      }
   
      
       //console.log('PUNTOS FILTRADOS A MANDAR', puntosFiltrados)

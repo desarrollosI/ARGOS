@@ -17,6 +17,8 @@ import { insertHistorial } from "../../../helpers/insertHistorial";
 import { SearchPerson } from "./SearchPerson";
 import useMapLayerBuscado from "../../../hooks/useMapLayerBuscado";
 import KmlToGeoJsonConverter from "./KmlToGeoJsonConverter";
+import { LayerInspeccionesControls } from "./LayerInspeccionesControls";
+import useMapLayerInspecciones from "../../../hooks/useMapLayerInspecciones";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg";
@@ -116,6 +118,25 @@ export function Mapa() {
 
   const{ mapContainerBuscado, setMapContainerBuscado,setMapBuscado, setPuntosPersona} = useMapLayerBuscado( setRemision ,setFicha , setNombre )
 
+  const {
+    showLayer: showLayerInspecciones,
+    showHeatLayer: showHeatLayerInspecciones,
+    fechaInicio: fechaInicioInspecciones,
+    fechaFin: fechaFinInspecciones,
+    Zona: ZonaInspecciones,
+    JuntaAuxiliar: JuntaAuxiliarInspecciones,
+    fetchedData2: datosInspecciones,
+    setMap: setMapInspecciones,
+    setMapContainer: setMapContainerInspecciones,
+    fetchData: fetchDataInspecciones,
+    handleStartDateChange: handleStartDateChangeInspecciones,
+    handleEndDateChange: handleEndDateChangeInspecciones,
+    handleCheckboxLayer: handleCheckboxLayerInspecciones,
+    handleCheckboxHeatLayer: handleCheckboxHeatLayerInspecciones,
+    handleZona: handleZonaInspecciones,
+    handleJuntaAuxiliar: handleJuntaAuxiliarInspecciones
+  } = useMapLayerInspecciones('ubicacion-inspecciones', 'purple', 'inspecciones');
+
   const handleCheckboxVectoresLayer = () => {
     setShowVectoresLayer(!showVectoresLayer);
   };
@@ -125,18 +146,19 @@ export function Mapa() {
   };
 
   const handleCapasExcel = (event) =>{
-    capasToExcel({hechos:datosUbicacionHechos,domicilio:datosDomicilioDetenido,detencion:datosUbicacionDetencion})
+    capasToExcel({hechos:datosUbicacionHechos,domicilio:datosDomicilioDetenido,detencion:datosUbicacionDetencion,inspecciones:datosInspecciones})
   }
 
   
   const handleCapasPerExcel = async(event) =>{
     console.log(dataPoligonoPersonalizado)
-    let resultadosEnPoligonoPer = await PuntosEnPoligonoPer(dataPoligonoPersonalizado,datosUbicacionHechos,datosDomicilioDetenido,datosUbicacionDetencion)
+    let resultadosEnPoligonoPer = await PuntosEnPoligonoPer(dataPoligonoPersonalizado,datosUbicacionHechos,datosDomicilioDetenido,datosUbicacionDetencion,datosInspecciones)
     console.log('antes del set poligono personalizado: ', resultadosEnPoligonoPer)
     capasPerToExcel({
       hechos:resultadosEnPoligonoPer.hechos,
       domicilio:resultadosEnPoligonoPer.domicilio,
-      detencion:resultadosEnPoligonoPer.detencion
+      detencion:resultadosEnPoligonoPer.detencion,
+      inspecciones:resultadosEnPoligonoPer.inspecciones
     })
   }
 
@@ -168,12 +190,14 @@ export function Mapa() {
       setMapContainerDomicilioDetenido(mapContainer.current);
       setMapContainerUbicacionDetencion(mapContainer.current);
       setMapContainerBuscado(mapContainer.current);
+      setMapContainerInspecciones(mapContainer.current);
 
       setMapDomicilioDetenido(map.current);
       setMapUbicacionDetencion(map.current)
       setMap(map.current);
       setMapBuscado(map.current);
       setMapaArchivo(map.current);
+      setMapInspecciones(map.current);
 
       map.current.on('style.load', () => {
         setMapaCargado(true)
@@ -357,6 +381,32 @@ export function Mapa() {
                       handleJuntaAuxiliarUbicacionDetencion={handleJuntaAuxiliarUbicacionDetencion}
                       catalogoFD={catalogoFD}
                       handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoDetencion}
+                    />
+                  </div>
+
+                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInspecciones" aria-expanded="false" aria-controls="collapseInspecciones">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="purple" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
+                      <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
+                    </svg>
+
+                      Capa Inspecciones
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                      </svg>
+                  </button>
+
+                  <div className="col-md-12 card shadow mb-3 collapse" id="collapseInspecciones">
+                    <LayerInspeccionesControls
+                      handleCheckboxInspeccionesLayer={handleCheckboxLayerInspecciones} 
+                      showInspeccionesLayer={showLayerInspecciones}  
+                      handleCheckboxInspeccionesHeatLayer={handleCheckboxHeatLayerInspecciones} 
+                      showInspeccionesHeatLayer={showHeatLayerInspecciones}
+                      fechaInicioInspecciones={fechaInicioInspecciones}
+                      fechaFinInspecciones={fechaFinInspecciones}
+                      handleStartDateChangeInspecciones={handleStartDateChangeInspecciones}
+                      handleEndDateChangeInspecciones={handleEndDateChangeInspecciones} 
+                      handleZonaInspecciones={handleZonaInspecciones}
+                      handleJuntaAuxiliarInspecciones={handleJuntaAuxiliarInspecciones}
                     />
                   </div>
               </>

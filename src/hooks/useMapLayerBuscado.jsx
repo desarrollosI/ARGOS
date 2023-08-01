@@ -11,10 +11,31 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre) => {
     useEffect(() => {
         if (MapBuscado) {
           MapBuscado.loadImage(
-            "/mapa/marker.png", // URL del ícono personalizado
+            "/estaticos-argos/mapa/rojo.png", // URL del ícono personalizado
             (error, image) => {
               if (error) throw error;
-              MapBuscado.addImage("custom-marker", image);
+              MapBuscado.addImage("marker-hechos", image);
+            }
+          );
+          MapBuscado.loadImage(
+            "/estaticos-argos/mapa/verde.png", // URL del ícono personalizado
+            (error, image) => {
+              if (error) throw error;
+              MapBuscado.addImage("marker-detencion", image);
+            }
+          );
+          MapBuscado.loadImage(
+            "/estaticos-argos/mapa/azul.png", // URL del ícono personalizado
+            (error, image) => {
+              if (error) throw error;
+              MapBuscado.addImage("marker-domicilio", image);
+            }
+          );
+          MapBuscado.loadImage(
+            "/estaticos-argos/mapa/morado.png", // URL del ícono personalizado
+            (error, image) => {
+              if (error) throw error;
+              MapBuscado.addImage("marker-inspecciones", image);
             }
           );
         }
@@ -43,6 +64,7 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre) => {
                     Nombre: item.Nombre,
                     Ap_Paterno: item.Ap_Paterno,
                     Ap_Materno: item.Ap_Materno,
+                    tipo: "hechos"
                   },
                 })),
                 ...puntosPersona.Domicilio.map((item) => ({
@@ -60,6 +82,7 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre) => {
                     Nombre: item.Nombre,
                     Ap_Paterno: item.Ap_Paterno,
                     Ap_Materno: item.Ap_Materno,
+                    tipo: "domicilio"
                     },
                 })),
                 ...puntosPersona.Detencion.map((item) => ({
@@ -77,6 +100,24 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre) => {
                     Nombre: item.Nombre,
                     Ap_Paterno: item.Ap_Paterno,
                     Ap_Materno: item.Ap_Materno,
+                    tipo: "detencion"
+                    },
+                })),
+                ...puntosPersona.Inspecciones.map((item) => ({
+                  type: "Feature",
+                  geometry: {
+                    type: "Point",
+                    coordinates: [
+                      isNaN(parseFloat(item.Coordenada_X)) ? -0.0 : parseFloat(item.Coordenada_X),
+                      isNaN(parseFloat(item.Coordenada_Y)) ? 0.0 : parseFloat(item.Coordenada_Y),
+                    ],
+                  },
+                  properties: {
+                    Id_Inspeccion: item.Id_Inspeccion,
+                    Nombre: item.Nombre,
+                    Ap_Paterno: item.Ap_Paterno,
+                    Ap_Materno: item.Ap_Materno,
+                    tipo: "inspecciones"
                     },
                 })),
               ];
@@ -103,7 +144,7 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre) => {
                         type: "symbol",
                         source: 'buscado',
                         layout: {
-                            'icon-image': 'custom-marker', // reference the image
+                          'icon-image': ["match", ["get", "tipo"], "hechos", "marker-hechos", "detencion", "marker-detencion", "domicilio", "marker-domicilio", "inspeccion", "marker-inspecciones", "marker-inspecciones"],
                             'icon-size': 0.20,
                             'icon-allow-overlap': true
                             }

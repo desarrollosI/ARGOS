@@ -15,14 +15,22 @@ export const PuntosEnJuntaAuxiliar = async (JuntaAuxiliar, dataBuscar, lugar ) =
         isNaN(parseFloat(item.Coordenada_X)) ? -0.0 : parseFloat(item.Coordenada_X),
         isNaN(parseFloat(item.Coordenada_Y)) ? 0.0 : parseFloat(item.Coordenada_Y)
       ];
-
-      return turf.point(coordenadas, {
-        Ficha: item.Ficha,
-        No_Remision: item.No_Remision,
-        Nombre: item.Nombre,
-        Ap_Paterno: item.Ap_Paterno,
-        Ap_Materno: item.Ap_Materno
-      });
+      if(lugar == 'inspecciones'){
+        return turf.point(coordenadas, {
+          Id_Inspeccion: item.Id_Inspeccion,
+          Nombre: item.Nombre,
+          Ap_Paterno: item.Ap_Paterno,
+          Ap_Materno: item.Ap_Materno
+        });
+      }else{
+        return turf.point(coordenadas, {
+          Ficha: item.Ficha,
+          No_Remision: item.No_Remision,
+          Nombre: item.Nombre,
+          Ap_Paterno: item.Ap_Paterno,
+          Ap_Materno: item.Ap_Materno
+        });
+      }
     }));
 
     console.log('Cantidad de puntos de data buscar:', puntosDataBuscar.features.length);
@@ -57,13 +65,21 @@ export const PuntosEnJuntaAuxiliar = async (JuntaAuxiliar, dataBuscar, lugar ) =
       };
 
       dataBuscar.forEach((data) => {
-        
-        if (Array.isArray(puntosPorJuntaAuxiliar.resultados)) {
-            const coincidencia = puntosPorJuntaAuxiliar.resultados.find((punto, index) => punto.properties && punto.properties.No_Remision === data.No_Remision);
+        if(lugar == 'inspecciones'){
+          if (Array.isArray(puntosPorJuntaAuxiliar.resultados)) {
+            const coincidencia = puntosPorJuntaAuxiliar.resultados.find((punto, index) => punto.properties && punto.properties.Id_Inspeccion === data.Id_Inspeccion);
             if (coincidencia) {
               puntosFiltrados.resultados.push(data);
             }
           }
+        }else{
+          if (Array.isArray(puntosPorJuntaAuxiliar.resultados)) {
+              const coincidencia = puntosPorJuntaAuxiliar.resultados.find((punto, index) => punto.properties && punto.properties.No_Remision === data.No_Remision);
+              if (coincidencia) {
+                puntosFiltrados.resultados.push(data);
+              }
+            }
+        }
       });
   
     return puntosFiltrados;
