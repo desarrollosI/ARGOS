@@ -7,6 +7,16 @@ const KmlToGeoJsonConverter = ({mapa}) => {
 
   const addGeoJsonLayerToMap = (mapa, geoJsonData) => {
     console.log('DENTRO DE LA FUNCION,', mapa,geoJsonData)
+
+    if (mapa.getLayer('pointLayer')) {
+      mapa.removeLayer('pointLayer');
+      }
+
+      if (mapa.getSource('geojsonSource')) {
+      mapa.removeSource('geojsonSource');
+      }
+
+
     mapa.addSource('geojsonSource', {
       type: 'geojson',
       data: geoJsonData,
@@ -47,8 +57,8 @@ const KmlToGeoJsonConverter = ({mapa}) => {
   }, [mapa, geoJsonData]);
 
   return (
-    <div>
-      <input type="file" accept=".kml" onChange={handleFileChange} />
+    <div className='mt-3'>
+      <input type="file" className="form-control form-control-lg" accept=".kml" onChange={handleFileChange} />
     </div>
   );
 };

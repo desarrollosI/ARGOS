@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { insertHistorial } from '../helpers/insertHistorial';
 
-const useMapLayerBuscado = (setFicha,setRemision,setNombre) => {
+const useMapLayerBuscado = (setFicha,setRemision,setNombre,setInspeccion) => {
 
     const [mapContainerBuscado, setMapContainerBuscado] = useState();
     const [MapBuscado, setMapBuscado] = useState();
@@ -144,7 +144,7 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre) => {
                         type: "symbol",
                         source: 'buscado',
                         layout: {
-                          'icon-image': ["match", ["get", "tipo"], "hechos", "marker-hechos", "detencion", "marker-detencion", "domicilio", "marker-domicilio", "inspeccion", "marker-inspecciones", "marker-inspecciones"],
+                          'icon-image': ["match", ["get", "tipo"], "hechos", "marker-hechos", "detencion", "marker-detencion", "domicilio", "marker-domicilio", "inspecciones", "marker-inspecciones", "marker-inspecciones"],
                             'icon-size': 0.20,
                             'icon-allow-overlap': true
                             }
@@ -166,11 +166,14 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre) => {
             if (clickedFeatures.length > 0) {
               const feature = clickedFeatures[0]; // Obtén el primer marcador clickeado (puedes ajustar esta lógica según tus necesidades)
               const properties = feature.properties; // Aquí están las propiedades del marcador clickeado
-
-              setFicha(properties.No_Remision)
-              setRemision(properties.Ficha)
-              setNombre(`${ properties.Nombre }  ${properties.Ap_Paterno} ${properties.Ap_Materno}`)
-              
+              if(feature.properties.tipo == 'inspecciones'){
+                setInspeccion(e.features[0].properties.Id_Inspeccion)
+                setNombre(`${ properties.Nombre }  ${properties.Ap_Paterno} ${properties.Ap_Materno}`)
+              }else{
+                setFicha(properties.No_Remision)
+                setRemision(properties.Ficha)
+                setNombre(`${ properties.Nombre }  ${properties.Ap_Paterno} ${properties.Ap_Materno}`)
+              }
             }
           });
         }

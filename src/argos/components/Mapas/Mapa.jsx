@@ -36,6 +36,7 @@ export function Mapa() {
   const [Remision, setRemision] = useState(258086);
   const [Ficha, setFicha] = useState(14931);
   const [Nombre, setNombre] = useState('');
+  const [Inspeccion, setInspeccion] = useState(0);
 
   const [catalogoFD, setCatalogoFD] = useState()
   const [isLoadingCatalogo, setIsLoadingCatalogo] = useState(true)
@@ -116,7 +117,7 @@ export function Mapa() {
     handleFaltaDelitoEspecifico: handleFaltaDelitoEspecificoDetencion
   } = useMapLayerSARAI('ubicacion-detencion', 'green', 'ubicacion-detencion', setRemision, setFicha, setNombre, 'FaltaDelitoEspecifico');
 
-  const{ mapContainerBuscado, setMapContainerBuscado,setMapBuscado, setPuntosPersona} = useMapLayerBuscado( setRemision ,setFicha , setNombre )
+  const{ mapContainerBuscado, setMapContainerBuscado,setMapBuscado, setPuntosPersona} = useMapLayerBuscado( setRemision ,setFicha , setNombre,setInspeccion )
 
   const {
     showLayer: showLayerInspecciones,
@@ -135,7 +136,7 @@ export function Mapa() {
     handleCheckboxHeatLayer: handleCheckboxHeatLayerInspecciones,
     handleZona: handleZonaInspecciones,
     handleJuntaAuxiliar: handleJuntaAuxiliarInspecciones
-  } = useMapLayerInspecciones('ubicacion-inspecciones', 'purple', 'inspecciones');
+  } = useMapLayerInspecciones('ubicacion-inspecciones', 'purple', 'inspecciones', setInspeccion);
 
   const handleCheckboxVectoresLayer = () => {
     setShowVectoresLayer(!showVectoresLayer);
@@ -289,6 +290,10 @@ export function Mapa() {
   useEffect(() => {
     fetchDataCatalogo('faltas-delitos');
   }, []);
+  //Efecto para restear el estado inspeccion y poder cambiar la tarjeta
+  useEffect(() => {
+    setInspeccion(0)
+  },[Remision]);
 
   return (
     <>
@@ -298,117 +303,126 @@ export function Mapa() {
             {
             (!isLoadingCatalogo)
             ?(
-              <>  
-                    <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHechos" aria-expanded="false" aria-controls="collapseHechos">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="red" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
-                      <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
-                    </svg>
-
-                      Capa Ubicacion Hechos 
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+              <>
+                <div className="row">   
+                  <div className="col-md-12">
+                      <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHechos" aria-expanded="false" aria-controls="collapseHechos">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="red" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
+                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
                       </svg>
+
+                        Capa Ubicacion Hechos 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                        </svg>
+                      </button>
+                      <div className="col-md-12 card shadow mb-3 collapse" id="collapseHechos">
+                        <LayerHechosControls 
+                          handleCheckboxUbiHechosLayer={handleCheckboxLayer} 
+                          showUbiHechosLayer={showLayer}  
+                          handleCheckboxUbiHechosHeatLayer={handleCheckboxHeatLayer} 
+                          showUbiHechosHeatLayer={showHeatLayer}
+                          fechaInicio={fechaInicio}
+                          fechaFin={fechaFin}
+                          handleStartDateChange={handleStartDateChange}
+                          handleEndDateChange={handleEndDateChange} 
+                          handleFaltaDelito={handleFaltaDelito}
+                          handleZona={handleZona}
+                          handleJuntaAuxiliar={handleJuntaAuxiliar}
+                          catalogoFD={catalogoFD}
+                          handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoHechos}
+                        />
+                    </div>
+                  </div>
+
+                  <div className="col-md-12">
+                    <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDomicilio" aria-expanded="false" aria-controls="collapseDomicilio">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="blue" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
+                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
+                      </svg>
+                        Capa Domicilio Detenido
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                        </svg>
                     </button>
-                    <div className="col-md-12 card shadow mb-3 collapse" id="collapseHechos">
-                      <LayerHechosControls 
-                        handleCheckboxUbiHechosLayer={handleCheckboxLayer} 
-                        showUbiHechosLayer={showLayer}  
-                        handleCheckboxUbiHechosHeatLayer={handleCheckboxHeatLayer} 
-                        showUbiHechosHeatLayer={showHeatLayer}
-                        fechaInicio={fechaInicio}
-                        fechaFin={fechaFin}
-                        handleStartDateChange={handleStartDateChange}
-                        handleEndDateChange={handleEndDateChange} 
-                        handleFaltaDelito={handleFaltaDelito}
-                        handleZona={handleZona}
-                        handleJuntaAuxiliar={handleJuntaAuxiliar}
+                    <div className="col-md-12 card shadow mb-3 collapse" id="collapseDomicilio">
+                      <LayerDomicilioDetControls
+                        handleCheckboxDomicilioDetLayer={handleCheckboxLayerDomicilioDetenido} 
+                        showDomicilioDetLayer={showLayerDomicilioDetenido}  
+                        handleCheckboxDomicilioDetHeatLayer={handleCheckboxHeatLayerDomicilioDetenido} 
+                        showDomicilioDetHeatLayer={showHeatLayerDomiclioDetenido}
+                        fechaInicioDomicilioDet={fechaInicioDomicilioDetenido}
+                        fechaFinDomicilioDet={fechaFinDomicilioDetenido}
+                        handleStartDateChangeDomicilioDet={handleStartDateChangeDomicilioDetenido}
+                        handleEndDateChangeDomicilioDet={handleEndDateChangeDomicilioDetenido} 
+                        handleFaltaDelitoDomicilioDet={handleFaltaDetlitoDomicilioDetenido}
+                        handleZonaDomicilioDet={handleZonaDomicilioDetenido}
+                        handleJuntaAuxiliarDomicilioDet={handleJuntaAuxiliarDomicilioDetenido}
                         catalogoFD={catalogoFD}
-                        handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoHechos}
+                        handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoDomicilio}
                       />
+                    </div>
                   </div>
 
-                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDomicilio" aria-expanded="false" aria-controls="collapseDomicilio">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="blue" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
-                      <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
-                    </svg>
-                      Capa Domicilio Detenido
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                  <div className="col-md-12">
+                    <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetencion" aria-expanded="false" aria-controls="collapseDetencion">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="green" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
+                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
                       </svg>
-                  </button>
-                  <div className="col-md-12 card shadow mb-3 collapse" id="collapseDomicilio">
-                    <LayerDomicilioDetControls
-                      handleCheckboxDomicilioDetLayer={handleCheckboxLayerDomicilioDetenido} 
-                      showDomicilioDetLayer={showLayerDomicilioDetenido}  
-                      handleCheckboxDomicilioDetHeatLayer={handleCheckboxHeatLayerDomicilioDetenido} 
-                      showDomicilioDetHeatLayer={showHeatLayerDomiclioDetenido}
-                      fechaInicioDomicilioDet={fechaInicioDomicilioDetenido}
-                      fechaFinDomicilioDet={fechaFinDomicilioDetenido}
-                      handleStartDateChangeDomicilioDet={handleStartDateChangeDomicilioDetenido}
-                      handleEndDateChangeDomicilioDet={handleEndDateChangeDomicilioDetenido} 
-                      handleFaltaDelitoDomicilioDet={handleFaltaDetlitoDomicilioDetenido}
-                      handleZonaDomicilioDet={handleZonaDomicilioDetenido}
-                      handleJuntaAuxiliarDomicilioDet={handleJuntaAuxiliarDomicilioDetenido}
-                      catalogoFD={catalogoFD}
-                      handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoDomicilio}
-                    />
+
+                        Capa Ubicacion Detencion
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                        </svg>
+                    </button>
+
+                    <div className="col-md-12 card shadow mb-3 collapse" id="collapseDetencion">
+                      <LayerUbicacionDetencionControls
+                        handleCheckboxUbicacionDetencionLayer={handleCheckboxLayerUbicacionDetencion} 
+                        showUbicacionDetencionLayer={showLayerUbicacionDetencion}  
+                        handleCheckboxUbicacionDetencionHeatLayer={handleCheckboxHeatLayerUbicacionDetencion} 
+                        showUbicacionDetencionHeatLayer={showHeatLayerUbicacionDetencion}
+                        fechaInicioUbicacionDetencion={fechaInicioUbicacionDetencion}
+                        fechaFinUbicacionDetencion={fechaFinUbicacionDetencion}
+                        handleStartDateChangeUbicacionDetencion={handleStartDateChangeUbicacionDetencion}
+                        handleEndDateChangeUbicacionDetencion={handleEndDateChangeUbicacionDetencion} 
+                        handleFaltaDelitoUbicacionDetencion={handleFaltaDetlitoUbicacionDetencion}
+                        handleZonaUbicacionDetencion={handleZonaUbicacionDetencion}
+                        handleJuntaAuxiliarUbicacionDetencion={handleJuntaAuxiliarUbicacionDetencion}
+                        catalogoFD={catalogoFD}
+                        handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoDetencion}
+                      />
+                    </div>
                   </div>
 
-                  
-                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetencion" aria-expanded="false" aria-controls="collapseDetencion">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="green" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
-                      <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
-                    </svg>
-
-                      Capa Ubicacion Detencion
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                  <div className="col-md-12">
+                    <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInspecciones" aria-expanded="false" aria-controls="collapseInspecciones">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="purple" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
+                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
                       </svg>
-                  </button>
 
-                  <div className="col-md-12 card shadow mb-3 collapse" id="collapseDetencion">
-                    <LayerUbicacionDetencionControls
-                      handleCheckboxUbicacionDetencionLayer={handleCheckboxLayerUbicacionDetencion} 
-                      showUbicacionDetencionLayer={showLayerUbicacionDetencion}  
-                      handleCheckboxUbicacionDetencionHeatLayer={handleCheckboxHeatLayerUbicacionDetencion} 
-                      showUbicacionDetencionHeatLayer={showHeatLayerUbicacionDetencion}
-                      fechaInicioUbicacionDetencion={fechaInicioUbicacionDetencion}
-                      fechaFinUbicacionDetencion={fechaFinUbicacionDetencion}
-                      handleStartDateChangeUbicacionDetencion={handleStartDateChangeUbicacionDetencion}
-                      handleEndDateChangeUbicacionDetencion={handleEndDateChangeUbicacionDetencion} 
-                      handleFaltaDelitoUbicacionDetencion={handleFaltaDetlitoUbicacionDetencion}
-                      handleZonaUbicacionDetencion={handleZonaUbicacionDetencion}
-                      handleJuntaAuxiliarUbicacionDetencion={handleJuntaAuxiliarUbicacionDetencion}
-                      catalogoFD={catalogoFD}
-                      handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoDetencion}
-                    />
+                        Capa Inspecciones
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                        </svg>
+                    </button>
+
+                    <div className="col-md-12 card shadow mb-3 collapse" id="collapseInspecciones">
+                      <LayerInspeccionesControls
+                        handleCheckboxInspeccionesLayer={handleCheckboxLayerInspecciones} 
+                        showInspeccionesLayer={showLayerInspecciones}  
+                        handleCheckboxInspeccionesHeatLayer={handleCheckboxHeatLayerInspecciones} 
+                        showInspeccionesHeatLayer={showHeatLayerInspecciones}
+                        fechaInicioInspecciones={fechaInicioInspecciones}
+                        fechaFinInspecciones={fechaFinInspecciones}
+                        handleStartDateChangeInspecciones={handleStartDateChangeInspecciones}
+                        handleEndDateChangeInspecciones={handleEndDateChangeInspecciones} 
+                        handleZonaInspecciones={handleZonaInspecciones}
+                        handleJuntaAuxiliarInspecciones={handleJuntaAuxiliarInspecciones}
+                      />
+                    </div>
                   </div>
-
-                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInspecciones" aria-expanded="false" aria-controls="collapseInspecciones">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="purple" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
-                      <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
-                    </svg>
-
-                      Capa Inspecciones
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                      </svg>
-                  </button>
-
-                  <div className="col-md-12 card shadow mb-3 collapse" id="collapseInspecciones">
-                    <LayerInspeccionesControls
-                      handleCheckboxInspeccionesLayer={handleCheckboxLayerInspecciones} 
-                      showInspeccionesLayer={showLayerInspecciones}  
-                      handleCheckboxInspeccionesHeatLayer={handleCheckboxHeatLayerInspecciones} 
-                      showInspeccionesHeatLayer={showHeatLayerInspecciones}
-                      fechaInicioInspecciones={fechaInicioInspecciones}
-                      fechaFinInspecciones={fechaFinInspecciones}
-                      handleStartDateChangeInspecciones={handleStartDateChangeInspecciones}
-                      handleEndDateChangeInspecciones={handleEndDateChangeInspecciones} 
-                      handleZonaInspecciones={handleZonaInspecciones}
-                      handleJuntaAuxiliarInspecciones={handleJuntaAuxiliarInspecciones}
-                    />
-                  </div>
+                </div>  
               </>
 
             )
@@ -459,15 +473,33 @@ export function Mapa() {
                   <h4> Foto: </h4>
                 </div>
                 <div className="row">
+                {Inspeccion === 0 ? (
                   <img src={`http://187.216.250.245/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} width="400px" alt="Foto_Detenido"/>
+                ) : (
+                  <></>
+                )}
                 </div>
                 <div className="row mt-3">
-                  <strong>Ficha: {Ficha}</strong>
-                  <strong>Remision: {Remision}</strong>
-                  <strong>Nombre: {Nombre}</strong>
+                {Inspeccion == 0 ? (
+                    <>
+                      <strong>Ficha: {Ficha}</strong>
+                      <strong>Remision: {Remision}</strong>
+                      <strong>Nombre: {Nombre}</strong>
+                    </>
+                  ) : (
+                    <>
+                      <strong>Inspeccion: {Inspeccion}</strong>
+                    </>
+                  )}
+
+                  
                 </div>
                 <div className="row">
-                  <Link to={`/remision/${Remision}`} target="_blank">Mas Detalles...</Link>
+                  {Inspeccion == 0 ? (
+                    <Link to={`/remision/${Remision}`} target="_blank">Mas Detalles...</Link>
+                  ) : (
+                    <Link to={`/inspeccion/${Inspeccion}`} target="_blank">Mas Detalles...</Link>
+                  )}
                 </div>
               </div>
             </div>

@@ -6,7 +6,7 @@ import mapboxgl from "mapbox-gl";
 import { PuntosEnJuntaAuxiliar, PuntosEnZona } from '../argos/helpers';
 import { insertHistorial } from '../helpers/insertHistorial';
 
-const useMapLayerInspecciones = (endpoint,color,capa) => {
+const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
     const [mapContainer, setMapContainer] = useState();
     const [map, setMap] = useState(null);
     const [popup, setPopup] = useState(null);
@@ -134,7 +134,7 @@ const useMapLayerInspecciones = (endpoint,color,capa) => {
             const coordinates = e.features[0].geometry.coordinates.slice();
             const description = `Inspeccion: ${e.features[0].properties.Id_Inspeccion} Nombre: ${ e.features[0].properties.Nombre }  ${e.features[0].properties.Ap_Paterno} ${e.features[0].properties.Ap_Materno}`;
             
-            //Aqui hacen falta los setters para alterar la tarjeta
+            setInspeccion(e.features[0].properties.Id_Inspeccion)
             
             new mapboxgl.Popup({className: "custom-popup"}) 
             .setLngLat(e.lngLat)
