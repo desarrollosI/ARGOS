@@ -10,7 +10,6 @@
 import React from "react";
 //Se importan los componentes necesarios
 import { BaseMultiplier } from "../components";
-import { JumpToTop } from "../components/Shared/JumpToTop";
 
 export const BuscadorPage = () => {
   return (
@@ -36,7 +35,6 @@ export const BuscadorPage = () => {
           <hr />
         </div>
         <BaseMultiplier/>
-        {/* <JumpToTop/> */}
       </div>
     </>
   );

@@ -306,7 +306,7 @@ export function Mapa() {
               <>
                 <div className="row">   
                   <div className="col-md-12">
-                      <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHechos" aria-expanded="false" aria-controls="collapseHechos">
+                      <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHechos" aria-expanded="false" aria-controls="collapseHechos">
                       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="red" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
                         <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
                       </svg>
@@ -336,7 +336,7 @@ export function Mapa() {
                   </div>
 
                   <div className="col-md-12">
-                    <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDomicilio" aria-expanded="false" aria-controls="collapseDomicilio">
+                    <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDomicilio" aria-expanded="false" aria-controls="collapseDomicilio">
                       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="blue" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
                         <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
                       </svg>
@@ -365,7 +365,7 @@ export function Mapa() {
                   </div>
 
                   <div className="col-md-12">
-                    <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetencion" aria-expanded="false" aria-controls="collapseDetencion">
+                    <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetencion" aria-expanded="false" aria-controls="collapseDetencion">
                       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="green" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
                         <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
                       </svg>
@@ -396,7 +396,7 @@ export function Mapa() {
                   </div>
 
                   <div className="col-md-12">
-                    <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInspecciones" aria-expanded="false" aria-controls="collapseInspecciones">
+                    <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInspecciones" aria-expanded="false" aria-controls="collapseInspecciones">
                       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="purple" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
                         <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
                       </svg>
@@ -431,7 +431,7 @@ export function Mapa() {
           </div>
           
 
-          <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBusqueda" aria-expanded="false" aria-controls="collapseBusqueda">
+          <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBusqueda" aria-expanded="false" aria-controls="collapseBusqueda">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-person-bounding-box me-2" viewBox="0 0 16 16">
               <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
               <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>

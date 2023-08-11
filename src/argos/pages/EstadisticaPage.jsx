@@ -100,7 +100,7 @@ export const EstadisticaPage = () => {
               agrupacion:'Sector_Area',
               etiqueta:'Sector_Area',
               indexAxis:'y',
-              avanzada: 3
+              avanzada: 1
             }}
           />
         </div>
@@ -116,6 +116,21 @@ export const EstadisticaPage = () => {
               etiqueta:'Colonia',
               indexAxis:'y',
               avanzada: 2
+            }}
+          />
+        </div>
+        <div className="col-md-6 my-3 card shadow">
+          <MyChart configuracion={
+            {
+              tipo:'barra',
+              endpoint:'remisiones-por-instancia-historico',
+              titulo:'TOTAL DE REMISIONES',
+              x:'Remitido_a', 
+              y:'total',
+              agrupacion:'Instancia',
+              etiqueta:'',
+              indexAxis:'x',
+              avanzada: 1
             }}
           />
         </div>

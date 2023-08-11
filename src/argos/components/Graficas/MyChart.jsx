@@ -105,6 +105,40 @@ export function MyChart({configuracion}) {
       "M.P. FUERO COMÚN"
   ])
 
+  const [opcionesPrimerRespondiente, setOpcionesPrimerRespondiente] = useState([
+    "",
+    "ÁGUILAS",
+    "CENTINELAS",
+    "CENTRO HISTÓRICO",
+    "CORREDOR UNIVERSITARIO",
+    "DEPARTAMENTO DE PERITOS",
+    "DIRECCIÓN",
+    "DIRECCIÓN DE INTELIGENCIA Y POLITICA CRIMINAL",
+    "GRUPO DE INTERVENCIÓN PROACTIVA",
+    "GUARDIA EN PREVENCIÓN",
+    "K9",
+    "REGIONES",
+    "ROCA",
+    "SECTOR CENTRO",
+    "SECTOR CENTRO HISTÓRICO",
+    "SECTOR NORTE",
+    "SECTOR SUR",
+    "SUPERVISIÓN",
+    "UACE(UNIDAD DE ATENCION A LA COMUNIDAD ESCOLAR)",
+    "UTR(UNIDAD TÁCTICA DE REACCIÓN)",
+    "ZONA 1",
+    "ZONA 10",
+    "ZONA 2",
+    "ZONA 3",
+    "ZONA 4",
+    "ZONA 5",
+    "ZONA 6",
+    "ZONA 7",
+    "ZONA 8",
+    "ZONA 9",
+    "ZONA CENTRO HISTÓRICO"
+])
+
     const [selectedOption, setSelectedOption] = useState();
 
     const [dataResCSV, setDataResCSV] = useState();
@@ -170,10 +204,16 @@ export function MyChart({configuracion}) {
       }
     }, [isLoadingData])
 
-    const opciones =
-      agrupacionData === 'Instancia'
-        ? opcionesInstancia.map((item) => ({ value: item, label: item }))
-        : opcionesZona.map((item) => ({ value: item, label: item }));
+    let opciones;
+    if (agrupacionData === 'Instancia') {
+      opciones = opcionesInstancia.map((item) => ({ value: item, label: item }));
+    } else if (agrupacionData === 'Sector_Area') {
+      opciones = opcionesPrimerRespondiente.map((item) => ({ value: item, label: item }));
+    } else {
+      opciones = opcionesZona.map((item) => ({ value: item, label: item }));
+    }
+    
+      
 
 
     //TODO realizar el useEffect necesario para altenar entre tipo de grafica
@@ -247,14 +287,6 @@ export function MyChart({configuracion}) {
             (avanzada == 1) &&
 
                         <>
-                          {/* <SpecifyGroupBySelector 
-                          handleSpecifyAgrupacionChange={handleSpecifyAgrupacionChange} 
-                          opciones={
-                            (etiquetaEjeX != '') 
-                              ? fetchedData.map(item => item[etiquetaEjeX]) 
-                              : fetchedData.map(item => item[agrupacionData])
-                            }
-                            /> */}
                           <CheckSelect
                             selectedOption={selectedOption}
                             setSelectedOption={setSelectedOption}
