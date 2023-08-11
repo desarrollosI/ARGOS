@@ -2814,6 +2814,539 @@ export const TableConstructor = ({lugar, datos}) => {
           return (
             <Table columns={columns} data={data} base={'Argos: Todos los usuarios'} setFiltros={setFiltros}/>
         )
+
+
+      //FILTROS NUEVOS PARA LA BUSQUEDA GENERAL
+
+        case 'Inspecciones: Personas Inspeccionadas General':
+          columns = React.useMemo(
+            () => [
+                  {
+                    Header:'FECHA',
+                    accessor:'Fecha_Hora_Inspeccion',
+                    Filter: DateRangeColumnFilter,
+                    filter: dateBetweenFilterFn
+                  },
+                  {
+                    Header:'ID INSPECCIÓN',
+                    accessor:'Id_Inspeccion',
+                    Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Inspecciones: Personas Inspeccionadas'})}>{props.value}</Link>,
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'SOLICITA',
+                    accessor:'Quien_Solicita',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'GRUPO',
+                    accessor:'Grupo',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',
+                  },
+                  {
+                    Header:'ZONA',
+                    accessor:'Zona_Sector',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',
+                  },
+                  {
+                    Header:'UNIDAD',
+                    accessor:'Unidad',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'MOTIVO',
+                    accessor:'Motivo_Inspeccion',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',
+                  },
+                  {
+                    Header:'RESULTADO INSPECCIÓN',
+                    accessor:'Resultado_Inspeccion',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NOMBRE',
+                    accessor:'Nombre',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDO PATERNO',
+                    accessor:'Ap_Paterno',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDO MATERNO',
+                    accessor:'Ap_Materno',
+                    filter: 'fuzzyText',
+                  }
+            ],[]
+          )
+  
+          data = React.useMemo(() =>
+          datos.Inspecciones
+          , [])
+          
+          
+          return (
+            <Table columns={columns} data={data} base={'Inspecciones: Personas Inspeccionadas'}/>
+          )
+      
+        case 'Incidencia Delictiva: Personas':
+          columns = React.useMemo(
+            () => [
+                  {
+                    Header:'ID INCIDENCIA',
+                    accessor:'id_incidencia',
+                    Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Inspecciones: Personas Inspeccionadas'})}>{props.value}</Link>,
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NOMBRE',
+                    accessor:'Nombre',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDO PATERNO',
+                    accessor:'Ap_Paterno',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDO MATERNO',
+                    accessor:'Ap_Materno',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'Señas Particulares',
+                    accessor:'SeñasPart',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'SEXO',
+                    accessor:'Sexo',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',
+                  },
+            ],[]
+          )
+  
+          data = React.useMemo(() =>
+          datos.Incidencia
+          , [])
+          
+          
+          return (
+            <Table columns={columns} data={data} base={'Incidencia Delictiva: Personas'}/>
+          )
+
+        case 'Alertas: Personas':
+          columns = React.useMemo(
+            () => [
+                  {
+                    Header:'ID PERSONA',
+                    accessor:'Id',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NOMBRE',
+                    accessor:'Nombre',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDO PATERNO',
+                    accessor:'ApellidoPaterno',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDO MATERNO',
+                    accessor:'ApellidoMaterno',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'ALIAS',
+                    accessor:'Alias',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'BANDA',
+                    accessor:'banda',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'DELITOS ASOCIADOS',
+                    accessor:'Delitos_Asociados',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'OBSERVACIONES',
+                    accessor:'Observaciones',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'FOLIO',
+                    accessor:'Folio',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'CAPTURA',
+                    accessor:'Captura',
+                    filter: 'fuzzyText',
+                  },
+            ],[]
+          )
+  
+          data = React.useMemo(() =>
+          datos.Alertas
+          , [])
+            
+            
+            return (
+              <Table columns={columns} data={data} base={'Alertas: Personas'}/>
+            )
+
+        case 'Atlas: Personas':
+          columns = React.useMemo(
+            () => [
+                  {
+                    Header:'ID PERSONA',
+                    accessor:'ID_PERSONA',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NOMBRE',
+                    accessor:'NOMBRE',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDO PATERNO',
+                    accessor:'APELLIDO_PATERNO',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDO_MATERNO',
+                    accessor:'APELLIDO_MATERNO',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'ALIAS',
+                    accessor:'ALIAS',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'SEXO',
+                    accessor:'SEXO',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',
+                  },        
+                  {
+                    Header:'DESCRIPCION',
+                    accessor:'DESCRIPCION',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'ANTECEDENTES',
+                    accessor:'ANTECEDENTES_PERSONA',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'CURP',
+                    accessor:'CURP',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'UDC',
+                    accessor:'UDC',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'UTC',
+                    accessor:'UTC',
+                    filter: 'fuzzyText',
+                  },
+            ],[]
+          )
+  
+          data = React.useMemo(() =>
+          datos.Atlas
+          , [])
+            
+            
+            return (
+              <Table columns={columns} data={data} base={'Alertas: Personas'}/>
+            )
+        
+        case 'Puebla: Personas':
+          columns = React.useMemo(
+            () => [
+                  {
+                    Header:'ID',
+                    accessor:'row_id',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NOMBRE',
+                    accessor:'nombre',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDO PATERNO',
+                    accessor:'paterno',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDO_MATERNO',
+                    accessor:'materno',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'CURP',
+                    accessor:'curp',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'SEXO',
+                    accessor:'sexo',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',
+                  },        
+                  {
+                    Header:'FECHA NAC.',
+                    accessor:'fecnac',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header: 'EDAD: ',
+                    accessor: 'edad',
+                    Filter: NumberRangeColumnFilter,
+                    filter: 'between',
+                  },
+                  {
+                    Header:'Colonia',
+                    accessor:'colonia',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'CALLE',
+                    accessor:'calle',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'CP',
+                    accessor:'cp',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'EXTERIOR',
+                    accessor:'ext',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'INNTERIOR',
+                    accessor:'interior',
+                    filter: 'fuzzyText',
+                  },
+            ],[]
+          )
+  
+          data = React.useMemo(() =>
+          datos.PueblaPegada
+          , [])
+            
+            
+            return (
+              <Table columns={columns} data={data} base={'Alertas: Personas'}/>
+            )
+        
+        case 'SIC: Personas':
+          columns = React.useMemo(
+            () => [
+                  {
+                    Header:'ID PERSONA',
+                    accessor:'Id_Persona',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NOMBRE',
+                    accessor:'Nombre',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDO PATERNO',
+                    accessor:'Ap_Paterno',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDO MATERNO',
+                    accessor:'Ap_Materno',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'CURP',
+                    accessor:'Curp',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'SEXO',
+                    accessor:'Genero',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',
+                  },        
+                  {
+                    Header:'FECHA NAC.',
+                    accessor:'Fecha_Nacimiento',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header: 'EDAD: ',
+                    accessor: 'Edad',
+                    Filter: NumberRangeColumnFilter,
+                    filter: 'between',
+                  },
+                  {
+                    Header:'ALIAS',
+                    accessor:'Alias',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'REMISIONES',
+                    accessor:'Remisiones',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'TELEFONO',
+                    accessor:'Telefono',
+                    filter: 'fuzzyText',
+                  },
+            ],[]
+          )
+  
+          data = React.useMemo(() =>
+          datos.SIC
+          , [])
+            
+            
+            return (
+              <Table columns={columns} data={data} base={'SIC: Personas'}/>
+            )
+
+        case 'SIC: Eventos':
+          columns = React.useMemo(
+            () => [
+                  {
+                    Header:'FECHA',
+                    accessor:'FechaHora_Recepcion',
+                    Filter: DateRangeColumnFilter,
+                    filter: dateBetweenFilterFn
+                  },
+                  {
+                    Header:'FOLIO INFRA',
+                    accessor:'Folio_infra',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'COLONIA',
+                    accessor:'Colonia',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'CALLE 1',
+                    accessor:'Calle',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'CALLE 2',
+                    accessor:'Calle2',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NO. EXT.',
+                    accessor:'NoExt',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'DELITO',
+                    accessor:'delito_giro',
+                    filter: 'fuzzyText',
+                  },        
+                  {
+                    Header:'HECHOS',
+                    accessor:'hechos_concat',
+                    filter: 'fuzzyText',
+                    minWidth: 800
+                  },
+                  {
+                    Header:'VIOLENCIA',
+                    accessor:'Tipo_Violencia',
+                    filter: 'fuzzyText',
+                  },
+            ],[]
+          )
+  
+          data = React.useMemo(() =>
+          datos.SIC
+          , [])
+            
+            
+            return (
+              <Table columns={columns} data={data} base={'SIC: Eventos'}/>
+            )
+        
+        case 'Alertas: Vehiculos':
+          columns = React.useMemo(
+            () => [
+                  {
+                    Header:'ID VEHICULO',
+                    accessor:'Id',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'PLACA',
+                    accessor:'Placa',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NIV',
+                    accessor:'Niv',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'VEHICULO',
+                    accessor:'Vehiculo',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'BANDA',
+                    accessor:'banda',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'DELITOS',
+                    accessor:'Delito',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'OBSERVACIONES',
+                    accessor:'Observaciones',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'CAPTURA',
+                    accessor:'Captura',
+                    filter: 'fuzzyText',
+                  },
+            ],[]
+          )
+  
+          data = React.useMemo(() =>
+          datos.Alertas
+          , [])
+            
+            
+            return (
+              <Table columns={columns} data={data} base={'Alertas: Personas'}/>
+            )
+    
       default:
         break;
     }
