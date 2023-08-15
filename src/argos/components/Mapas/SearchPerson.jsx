@@ -10,7 +10,7 @@ const registerFormFields = {
 
 
 
-export const SearchPerson = ({setSetDataResultadoBusqueda}) => {
+export const SearchPerson = ({setSetDataResultadoBusqueda,handleCapasPersonaExcel}) => {
 
     const [isLoadingData, setIsLoadingData] = useState(false);
 
@@ -86,11 +86,16 @@ export const SearchPerson = ({setSetDataResultadoBusqueda}) => {
                 </div>
             </div>
             <div className="row">
-                <div className="col-md-12 my-2">
+                <div className="col-md-12 mt-2">
                     <button className='btn btn-primary float-end'>Buscar</button>
                 </div>
             </div>
             </form>
+            <div className="row">
+                <div className="col-md-12 mb-2">
+                    <button className='btn btn-primary float-end'  onClick={handleCapasPersonaExcel}>Exportar</button>
+                </div>
+            </div>
         </div>
     </>
   )

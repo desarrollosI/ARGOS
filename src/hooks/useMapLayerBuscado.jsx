@@ -169,10 +169,12 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre,setInspeccion) => {
               if(feature.properties.tipo == 'inspecciones'){
                 setInspeccion(e.features[0].properties.Id_Inspeccion)
                 setNombre(`${ properties.Nombre }  ${properties.Ap_Paterno} ${properties.Ap_Materno}`)
+                setFicha(0)
               }else{
                 setFicha(properties.No_Remision)
                 setRemision(properties.Ficha)
                 setNombre(`${ properties.Nombre }  ${properties.Ap_Paterno} ${properties.Ap_Materno}`)
+                setInspeccion(0)
               }
             }
           });
@@ -182,6 +184,7 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre,setInspeccion) => {
       
   return {
     mapContainerBuscado,
+    puntosPersona,
     // Resto de los estados...
 
     setMapContainerBuscado,

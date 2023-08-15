@@ -3,7 +3,7 @@ import React from 'react'
 export const LayerChecksInspecciones = ({handleCheckboxInspeccionesLayer,showInspeccionesLayer,handleCheckboxInspeccionesHeatLayer,showInspeccionesHeatLayer}) => {
   return (
     <div className="row">
-        <div className="col-md-6 form-check">
+        <div className="ms-3 col-md-5 form-check">
             <input
                 className='form-check-input form-check-input-sm'
                 type="checkbox"

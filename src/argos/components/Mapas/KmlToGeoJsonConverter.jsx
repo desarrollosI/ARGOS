@@ -57,7 +57,7 @@ const KmlToGeoJsonConverter = ({mapa}) => {
   }, [mapa, geoJsonData]);
 
   return (
-    <div className='mt-3'>
+    <div className='my-3'>
       <input type="file" className="form-control form-control-lg" accept=".kml" onChange={handleFileChange} />
     </div>
   );

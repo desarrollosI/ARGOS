@@ -117,7 +117,7 @@ export function Mapa() {
     handleFaltaDelitoEspecifico: handleFaltaDelitoEspecificoDetencion
   } = useMapLayerSARAI('ubicacion-detencion', 'green', 'ubicacion-detencion', setRemision, setFicha, setNombre, 'FaltaDelitoEspecifico');
 
-  const{ mapContainerBuscado, setMapContainerBuscado,setMapBuscado, setPuntosPersona} = useMapLayerBuscado( setRemision ,setFicha , setNombre,setInspeccion )
+  const{ mapContainerBuscado, puntosPersona,setMapContainerBuscado,setMapBuscado, setPuntosPersona} = useMapLayerBuscado( setRemision ,setFicha , setNombre,setInspeccion )
 
   const {
     showLayer: showLayerInspecciones,
@@ -160,6 +160,16 @@ export function Mapa() {
       domicilio:resultadosEnPoligonoPer.domicilio,
       detencion:resultadosEnPoligonoPer.detencion,
       inspecciones:resultadosEnPoligonoPer.inspecciones
+    })
+  }
+
+  const handleCapasPersonaExcel = async(event) =>{
+    console.log(DataResultadoBusqueda)
+    capasPerToExcel({
+      hechos:DataResultadoBusqueda.Hechos,
+      domicilio:DataResultadoBusqueda.Domicilio,
+      detencion:DataResultadoBusqueda.Detencion,
+      inspecciones:DataResultadoBusqueda.Inspecciones
     })
   }
 
@@ -290,10 +300,12 @@ export function Mapa() {
   useEffect(() => {
     fetchDataCatalogo('faltas-delitos');
   }, []);
-  //Efecto para restear el estado inspeccion y poder cambiar la tarjeta
-  useEffect(() => {
-    setInspeccion(0)
-  },[Remision]);
+  // //Efecto para restear el estado inspeccion y poder cambiar la tarjeta
+  // useEffect(() => {
+  //   console.log('entro al efecto para restear a 0 la inspeccion',Inspeccion)
+  //   setInspeccion(0)
+  //   console.log('despues: ',Inspeccion)
+  // },[Remision,Ficha]);
 
   return (
     <>
@@ -443,7 +455,7 @@ export function Mapa() {
           </button>
 
           <div className="col-md-12 card shadow mb-3 collapse" id="collapseBusqueda">
-            <SearchPerson setSetDataResultadoBusqueda = {setSetDataResultadoBusqueda}/>
+            <SearchPerson setSetDataResultadoBusqueda = {setSetDataResultadoBusqueda} handleCapasPersonaExcel={handleCapasPersonaExcel}/>
           </div>
 
           <div className="col-md-12">
