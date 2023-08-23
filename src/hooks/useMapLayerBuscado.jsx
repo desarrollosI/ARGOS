@@ -42,9 +42,9 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre,setInspeccion) => {
       }, [MapBuscado]);
   
     useEffect(() => {
-        console.log('EFECTRO DENTRO DEL HOOK LAYER BUSCADO', puntosPersona);
-        console.log(mapContainerBuscado)
-        console.log('MAPA TAL CUAL',MapBuscado)
+        //console.log('EFECTRO DENTRO DEL HOOK LAYER BUSCADO', puntosPersona);
+        //console.log(mapContainerBuscado)
+        //console.log('MAPA TAL CUAL',MapBuscado)
         if (!MapBuscado) return;
         if(puntosPersona.Hechos){
 
@@ -130,7 +130,7 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre,setInspeccion) => {
             MapBuscado.removeSource('buscado');
             }
 
-            console.log('HECHOS',puntosPersona.Hechos)
+            //console.log('HECHOS',puntosPersona.Hechos)
             MapBuscado.addSource('buscado', {
                 type: "geojson",
                 data: {
@@ -160,7 +160,7 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre,setInspeccion) => {
             // Aquí puedes ejecutar la lógica que deseas al hacer clic en el símbolo
             // e.features contendrá información sobre los objetos que fueron clickeados
             const clickedFeatures = e.features;
-            console.log('Marcadores clickeados:', clickedFeatures);
+            //console.log('Marcadores clickeados:', clickedFeatures);
       
             // Por ejemplo, puedes mostrar una ventana emergente con información del marcador clickeado
             if (clickedFeatures.length > 0) {

@@ -24,7 +24,7 @@ import '../css/Table/tabla.css';
 export function Table({ columns, data, base='' }) {
 
     const exportExcel = (data,base) => {
-        console.log('data a excel',data)
+        //console.log('data a excel',data)
         dataToExcel(data,  {lugar:'Buscador',tipo: 'Exportación Excel', base: base, filtros: state.filters} );
 
     }

@@ -35,7 +35,7 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
         setIsLoadingData(true);
         let response = await mapasApi.post(endpoint,{fechaInicio,fechaFin,FaltaDelito,FaltaDelitoEspecifico});
         insertHistorial({lugar:'Geoanalisis',tipo:'Petición de información',endpoint,fechaInicio,fechaFin,FaltaDelito,FaltaDelitoEspecifico})
-        console.log('data enpoint capa  '+capa,response.data.data.Remisiones2)
+        //console.log('data enpoint capa  '+capa,response.data.data.Remisiones2)
         setFetchedData2(response.data.data.Remisiones2);
         setIsLoadingData(false)
   };
@@ -71,7 +71,7 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
   }
 
   const handleFaltaDelitoEspecifico = (delito) => {
-    console.log('delito',delito)
+    //console.log('delito',delito)
     setFaltaDelitoEspecifico(delito.name)
   }
 
@@ -107,10 +107,14 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
                     coordinates: [
                       isNaN(parseFloat(item.Coordenada_X))
                         ? -0.0
-                        : parseFloat(item.Coordenada_X),
+                        : (parseFloat(item.Coordenada_X)>0)
+                            ? parseFloat(item.Coordenada_Y)
+                            : parseFloat(item.Coordenada_X),
                       isNaN(parseFloat(item.Coordenada_Y))
                         ? 0.0
-                        : parseFloat(item.Coordenada_Y),
+                        : (parseFloat(item.Coordenada_X)>0)
+                            ? parseFloat(item.Coordenada_X)
+                            : parseFloat(item.Coordenada_Y),
                     ],
                   },
                   properties: {
@@ -131,7 +135,7 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
             source: capa,
             paint: {
               "circle-color": color,
-              "circle-radius": 5,
+              "circle-radius": 8,
             },
           });
     
@@ -144,10 +148,10 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
             setRemision(e.features[0].properties.No_Remision)
             setNombre(`${ e.features[0].properties.Nombre }  ${e.features[0].properties.Ap_Paterno} ${e.features[0].properties.Ap_Materno}`)
             
-            new mapboxgl.Popup({className: "custom-popup"}) 
-            .setLngLat(e.lngLat)
-            .setHTML(description)
-            .addTo(map);
+            // new mapboxgl.Popup({className: "custom-popup"}) 
+            // .setLngLat(e.lngLat)
+            // .setHTML(description)
+            // .addTo(map);
             });
     
         } else {
@@ -159,6 +163,15 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
             map.removeSource(capa);
           }
         }
+         // Cambia el cursor cuando el mouse entra en la capa de puntos
+         map.on('mouseenter', capa, () => {
+          map.getCanvas().style.cursor = 'pointer'; // Cambia el cursor a "pointer"
+        });
+
+        // Cambia el cursor de nuevo cuando el mouse sale de la capa de puntos
+        map.on('mouseleave', capa, () => {
+          map.getCanvas().style.cursor = ''; // Restablece el cursor al valor predeterminado
+        });
       },[isLoadingData,fetchedData2,showLayer,FaltaDelitoEspecifico])
     
        //EFECTO PARA MANEJAR LA CAPA DE CALOR DE HECHOS HECHOS
@@ -283,17 +296,17 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
 /*---------------------EFECTOS DE CAPA DE HECHOS JUNTSA AUXILIARES --------------------------------------------- */
   //EFECTO PARA DISPARAR EL FILTRADO DE LOS PUNTOS CON BASE EN POLIGONO JUNTA AUXILIAR
   useEffect(() => {
-    console.log('efecto 1 de junta auxiliar');
+    //console.log('efecto 1 de junta auxiliar');
     setTimeout(async () => {
       if ( !isLoadingData ) {
-        console.log('entre al efecto 1 dentro del if')
+        //console.log('entre al efecto 1 dentro del if')
         if(JuntaAuxiliar === 'todas'){
-            console.log('if 1 de junta')
+            //console.log('if 1 de junta')
           setFetchedData2(fetchedData2Respaldo)
         }else {
-            console.log('else de junta')
+            //console.log('else de junta')
           setFetchedData2Respaldo(fetchedData2)
-          console.log('LINEA 290 : ',await PuntosEnJuntaAuxiliar(JuntaAuxiliar, fetchedData2,'hechos'))
+          //console.log('LINEA 290 : ',await PuntosEnJuntaAuxiliar(JuntaAuxiliar, fetchedData2,'hechos'))
           setResultadosTurfJuntaAuxiliar(await PuntosEnJuntaAuxiliar(JuntaAuxiliar, fetchedData2,'hechos'));
 
         }
@@ -303,10 +316,10 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
   }, [JuntaAuxiliar]);  
   //EFECTO PARA ACTUALIZAR LA INFORMACION FILTRADA Y SE PUEDA REFLEJAR EN EL MAPA 
   useEffect(() => {
-    console.log('efecto 2 de junta auxiliar')
+    //console.log('efecto 2 de junta auxiliar')
     if (resultadosTurfJuntaAuxiliar){
       setTimeout( () => {
-        console.log(resultadosTurfJuntaAuxiliar.resultados)
+        //console.log(resultadosTurfJuntaAuxiliar.resultados)
         setFetchedData2(resultadosTurfJuntaAuxiliar.resultados);
       }, 500);
     }

@@ -54,7 +54,7 @@ const useGeneralSearchControls = () => {
   
     switch (lugar) {
       case 'nombre':
-        console.log('si entre al caso de nombre')
+        //console.log('si entre al caso de nombre')
       
         // Verifica si Remisiones está definida y tiene elementos antes de acceder a 'length'
         if (DataResultadoBusquedaGeneral.Remisiones && DataResultadoBusquedaGeneral.Remisiones.length > 0) {
@@ -163,7 +163,7 @@ const useGeneralSearchControls = () => {
 
         break;
       case 'direccion':
-          console.log('si entre al caso de DIRECCION',DataResultadoBusquedaGeneral)
+          //console.log('si entre al caso de DIRECCION',DataResultadoBusquedaGeneral)
 
           if (DataResultadoBusquedaGeneral.Remisiones_Hechos && DataResultadoBusquedaGeneral.Remisiones_Hechos.length > 0) {
             newTablasResultado.push(
@@ -291,7 +291,7 @@ const useGeneralSearchControls = () => {
           }
         break;
       case 'alias':
-        console.log('si entre al caso de nombre')
+        //console.log('si entre al caso de nombre')
       
         // Verifica si Remisiones está definida y tiene elementos antes de acceder a 'length'
         if (DataResultadoBusquedaGeneral.Remisiones && DataResultadoBusquedaGeneral.Remisiones.length > 0) {
@@ -360,7 +360,7 @@ const useGeneralSearchControls = () => {
     
         break;
       case 'placaniv':
-        console.log('si entre al caso de placaniv')
+        //console.log('si entre al caso de placaniv')
       
         // Verifica si Remisiones está definida y tiene elementos antes de acceder a 'length'
         if (DataResultadoBusquedaGeneral.Remisiones && DataResultadoBusquedaGeneral.Remisiones.length > 0) {
@@ -404,7 +404,7 @@ const useGeneralSearchControls = () => {
 
         break;
       case 'telefono':
-        console.log('si entre al caso de telefono ',DataResultadoBusquedaGeneral)
+        //console.log('si entre al caso de telefono ',DataResultadoBusquedaGeneral)
         
         // Verifica si Remisiones está definida y tiene elementos antes de acceder a 'length'
         if (DataResultadoBusquedaGeneral.Remisiones && DataResultadoBusquedaGeneral.Remisiones.length > 0) {
@@ -421,7 +421,7 @@ const useGeneralSearchControls = () => {
       
         // Verifica si Inspecciones está definida y tiene elementos antes de acceder a 'length'
         if (DataResultadoBusquedaGeneral.Contactos_Remitidos && DataResultadoBusquedaGeneral.Contactos_Remitidos.length > 0) {
-          console.log('debe de haber contactos de detenido')
+          //console.log('debe de haber contactos de detenido')
             newTablasResultado.push(
               <div key="remisiones_contactos">
                 <div className="row mb-4">

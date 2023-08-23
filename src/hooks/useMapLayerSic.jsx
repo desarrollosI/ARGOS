@@ -6,7 +6,7 @@ import mapboxgl from "mapbox-gl";
 import { PuntosEnJuntaAuxiliar, PuntosEnZona } from '../argos/helpers';
 import { insertHistorial } from '../helpers/insertHistorial';
 
-const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
+const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
     const [mapContainer, setMapContainer] = useState();
     const [map, setMap] = useState(null);
     const [popup, setPopup] = useState(null);
@@ -35,8 +35,8 @@ const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
         setIsLoadingData(true);
         let response = await mapasApi.post(endpoint,{fechaInicio,fechaFin});
         insertHistorial({lugar:'Geoanalisis',tipo:'Petición de información',endpoint,fechaInicio,fechaFin})
-        //console.log('data enpoint capa  '+capa,response.data.data.Inspecciones)
-        setFetchedData2(response.data.data.Inspecciones);
+        //console.log('data enpoint capa  '+capa,response.data.data.EventosSic)
+        setFetchedData2(response.data.data.EventosSic);
         setIsLoadingData(false)
   };
 
@@ -100,23 +100,23 @@ const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
                   geometry: {
                     type: "Point",
                     coordinates: [
-                      isNaN(parseFloat(item.Coordenada_X))
+                      isNaN(parseFloat(item.CoordX))
                         ? -0.0
-                        : (parseFloat(item.Coordenada_X)>0)
-                            ? parseFloat(item.Coordenada_Y)
-                            : parseFloat(item.Coordenada_X),
-                      isNaN(parseFloat(item.Coordenada_Y))
+                        : (parseFloat(item.CoordX)>0)
+                            ? parseFloat(item.CoordY)
+                            : parseFloat(item.CoordX),
+                      isNaN(parseFloat(item.CoordY))
                         ? 0.0
-                        : (parseFloat(item.Coordenada_X)>0)
-                            ? parseFloat(item.Coordenada_X)
-                            : parseFloat(item.Coordenada_Y),
+                        : (parseFloat(item.CoordX)>0)
+                            ? parseFloat(item.CoordX)
+                            : parseFloat(item.CoordY),
                     ],
                   },
                   properties: {
-                    Id_Inspeccion: item.Id_Inspeccion,
-                    Nombre: item.Nombre,
-                    Ap_Paterno: item.Ap_Paterno,
-                    Ap_Materno: item.Ap_Materno,
+                     Folio_Infra: item.Folio_Infra,
+                //     Nombre: item.Nombre,
+                //     Ap_Paterno: item.Ap_Paterno,
+                //     Ap_Materno: item.Ap_Materno,
                   },
                 };
               }),
@@ -134,16 +134,9 @@ const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
           });
     
           map.on('click', capa, (e) => {
-            // Copy coordinates array.
-            const coordinates = e.features[0].geometry.coordinates.slice();
-            const description = `Inspeccion: ${e.features[0].properties.Id_Inspeccion} Nombre: ${ e.features[0].properties.Nombre }  ${e.features[0].properties.Ap_Paterno} ${e.features[0].properties.Ap_Materno}`;
             
-            setInspeccion(e.features[0].properties.Id_Inspeccion)
-            
-            // new mapboxgl.Popup({className: "custom-popup"}) 
-            // .setLngLat(e.lngLat)
-            // .setHTML(description)
-            // .addTo(map);
+            setFolioSic(e.features[0].properties.Folio_Infra)
+
             });
     
         } else {
@@ -168,7 +161,7 @@ const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
 
       },[isLoadingData,fetchedData2,showLayer,])
     
-       //EFECTO PARA MANEJAR LA CAPA DE CALOR DE HECHOS HECHOS
+       //EFECTO PARA MANEJAR LA CAPA DE CALOR
        useEffect(() => {
         if (!map || isLoadingData) return;
     
@@ -195,8 +188,16 @@ const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
                             geometry: {
                               type: "Point",
                               coordinates: [
-                                isNaN(parseFloat(item.Coordenada_X)) ? -0.0 : parseFloat(item.Coordenada_X),
-                                isNaN(parseFloat(item.Coordenada_Y)) ? 0.0 : parseFloat(item.Coordenada_Y),
+                                isNaN(parseFloat(item.CoordX))
+                                ? -0.0
+                                : (parseFloat(item.CoordX)>0)
+                                    ? parseFloat(item.CoordY)
+                                    : parseFloat(item.CoordX),
+                              isNaN(parseFloat(item.CoordY))
+                                ? 0.0
+                                : (parseFloat(item.CoordX)>0)
+                                    ? parseFloat(item.CoordX)
+                                    : parseFloat(item.CoordY),
                               ],
                             },
                           };
@@ -263,7 +264,7 @@ const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
     
       }, [isLoadingData, fetchedData2,showHeatLayer]);
     
-        /*---------------------EFECTOS DE CAPA DE INSPECCIONES --------------------------------------------- */
+        /*---------------------EFECTOS DE CAPA DE EVENTOS SIC --------------------------------------------- */
     //EFECTO PARA DISPARAR EL FILTRADO DE LOS PUNTOS CON BASE EN POLIGONO 
     useEffect(() => {
         setTimeout(async () => {
@@ -272,8 +273,8 @@ const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
             setFetchedData2(fetchedData2Respaldo)
             }else {
             setFetchedData2Respaldo(fetchedData2)
-            setResultadosTurf(await PuntosEnZona(capaVectores, fetchedData2, Zona,'inspecciones'));
-            //console.log('QUEME REGRESA EL AWAIT ',await PuntosEnZona(capaVectores, fetchedData2, Zona,'inspecciones'))
+            setResultadosTurf(await PuntosEnZona(capaVectores, fetchedData2, Zona,'eventossic'));
+            //console.log('QUEME REGRESA EL AWAIT ',await PuntosEnZona(capaVectores, fetchedData2, Zona,'eventossic'))
             }
             
         }
@@ -300,10 +301,10 @@ const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
             //console.log('if 1 de junta')
           setFetchedData2(fetchedData2Respaldo)
         }else {
-            //console.log('else de junta')
+           //console.log('else de junta')
           setFetchedData2Respaldo(fetchedData2)
-          //console.log('LINEA 290 : ',await PuntosEnJuntaAuxiliar(JuntaAuxiliar, fetchedData2,'inspecciones'))
-          setResultadosTurfJuntaAuxiliar(await PuntosEnJuntaAuxiliar(JuntaAuxiliar, fetchedData2,'inspecciones'));
+          //console.log('LINEA 290 : ',await PuntosEnJuntaAuxiliar(JuntaAuxiliar, fetchedData2,'eventossic'))
+          setResultadosTurfJuntaAuxiliar(await PuntosEnJuntaAuxiliar(JuntaAuxiliar, fetchedData2,'eventossic'));
 
         }
           
@@ -339,9 +340,6 @@ const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
     fechaFin,
     Zona,
     JuntaAuxiliar,
-    // Remision,
-    // Ficha,
-    // Nombre,
     fetchedData2,
     // Resto de los estados...
     setMap,
@@ -357,4 +355,4 @@ const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
   };
 };
 
-export default useMapLayerInspecciones;
+export default useMapLayerSic;

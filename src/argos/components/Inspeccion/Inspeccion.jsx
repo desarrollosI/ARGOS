@@ -139,16 +139,16 @@ export const Inspeccion = ({data}) => {
 							fotos.map(foto => console.log('AQUI: ',`${baseURLF}${generales[0].Id_Inspeccion}/${foto.Path_Imagen}`))
 						} */}
 						{
-							fotos.map(foto => (
+							fotos.map(foto => 
+							(
 								
 								<div className="col-md-4" key={foto.Path_Imagen}>
 									<ImageZoom  url={`${baseURLF}${generales[0].Id_Inspeccion}/${foto.Path_Imagen}`} width={'580'} height={'450'}/>
 								</div>
 							))
+								
 						}
 					</div>
-				
-				
 					
 			</div>
 

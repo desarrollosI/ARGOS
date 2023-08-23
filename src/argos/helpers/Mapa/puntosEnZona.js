@@ -11,31 +11,66 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
     const capaVectores = turf.featureCollection(vectores.features);
 
     const puntosDataBuscar = turf.featureCollection(dataBuscar.map((item) => {
-      const coordenadas = [
-        isNaN(parseFloat(item.Coordenada_X)) ? -0.0 : parseFloat(item.Coordenada_X),
-        isNaN(parseFloat(item.Coordenada_Y)) ? 0.0 : parseFloat(item.Coordenada_Y)
-      ];
-      if(lugar == 'inspecciones'){
-        return turf.point(coordenadas, {
-          Id_Inspeccion: item.Id_Inspeccion,
-          Nombre: item.Nombre,
-          Ap_Paterno: item.Ap_Paterno,
-          Ap_Materno: item.Ap_Materno
-        });
-      }else {
-        return turf.point(coordenadas, {
-          Ficha: item.Ficha,
-          No_Remision: item.No_Remision,
-          Nombre: item.Nombre,
-          Ap_Paterno: item.Ap_Paterno,
-          Ap_Materno: item.Ap_Materno
-        });
+      let coordenadascase;
+      switch (lugar) {
+        case 'eventossic':
+          coordenadascase = [
+              isNaN(parseFloat(item.CoordX))
+                  ? -0.0
+                  : (parseFloat(item.CoordX) > 0)
+                  ? parseFloat(item.CoordY)
+                  : parseFloat(item.CoordX),
+              isNaN(parseFloat(item.CoordY))
+                  ? 0.0
+                  : (parseFloat(item.CoordX) > 0)
+                  ? parseFloat(item.CoordX)
+                  : parseFloat(item.CoordY),
+          ];
+          break;
+      
+        default:
+          coordenadascase = [
+            isNaN(parseFloat(item.Coordenada_X))
+                ? -0.0
+                : (parseFloat(item.Coordenada_X) > 0)
+                ? parseFloat(item.Coordenada_Y)
+                : parseFloat(item.Coordenada_X),
+            isNaN(parseFloat(item.Coordenada_Y))
+                ? 0.0
+                : (parseFloat(item.Coordenada_X) > 0)
+                ? parseFloat(item.Coordenada_X)
+                : parseFloat(item.Coordenada_Y),
+        ];
+        break;
+      }
+      const coordenadas = coordenadascase;
+
+      switch (lugar) {
+        case 'inspecciones':
+          return turf.point(coordenadas, {
+            Id_Inspeccion: item.Id_Inspeccion,
+            Nombre: item.Nombre,
+            Ap_Paterno: item.Ap_Paterno,
+            Ap_Materno: item.Ap_Materno
+          });
+          break;
+        case 'eventossic':
+          return turf.point(coordenadas, {
+            Folio_Infra: item.Folio_Infra
+          });
+          break;
+      
+        default:
+          return turf.point(coordenadas, {
+            Ficha: item.Ficha,
+            No_Remision: item.No_Remision,
+            Nombre: item.Nombre,
+            Ap_Paterno: item.Ap_Paterno,
+            Ap_Materno: item.Ap_Materno
+          });
+          break;
       }
     }));
-
-    console.log('Cantidad de puntos de data buscar:', puntosDataBuscar.features.length);
-
-    console.log('Cantidad de polígonos (vectores):', capaVectores.features.length);
 
     // Almacenar puntos separados por zona
     const puntosPorZona = {};
@@ -56,8 +91,6 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
         }
       });
 
-    console.log('RESULTADOS:', puntosPorZona);
-
     if (zonaGeneral === 'todas') {
       //console.log('voy a regresar por todas las zonas', puntosPorZona);
       return puntosPorZona;
@@ -68,31 +101,44 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
         resultados: []
       };
 
-      if(lugar == 'inspecciones'){
-        dataBuscar.forEach((data) => {
-          
-          if (puntosPorZona[zonaGeneral]) {
-            const coincidencia = puntosPorZona[zonaGeneral].resultados.find((punto) => punto.properties.Id_Inspeccion === data.Id_Inspeccion);
-            if (coincidencia) {
-              puntosFiltrados[zonaGeneral].resultados.push(data);
-            }
-          }
-        });
-      }else {
 
-        dataBuscar.forEach((data) => {
+      switch (lugar) {
+        case 'inspecciones':
+          dataBuscar.forEach((data) => {
           
-          if (puntosPorZona[zonaGeneral]) {
-            const coincidencia = puntosPorZona[zonaGeneral].resultados.find((punto) => punto.properties.No_Remision === data.No_Remision);
-            if (coincidencia) {
-              puntosFiltrados[zonaGeneral].resultados.push(data);
+            if (puntosPorZona[zonaGeneral]) {
+              const coincidencia = puntosPorZona[zonaGeneral].resultados.find((punto) => punto.properties.Id_Inspeccion === data.Id_Inspeccion);
+              if (coincidencia) {
+                puntosFiltrados[zonaGeneral].resultados.push(data);
+              }
             }
-          }
-        });
+          });
+          break;
+        case 'eventossic':
+          dataBuscar.forEach((data) => {
+          
+            if (puntosPorZona[zonaGeneral]) {
+              const coincidencia = puntosPorZona[zonaGeneral].resultados.find((punto) => punto.properties.Folio_Infra === data.Folio_Infra);
+              if (coincidencia) {
+                puntosFiltrados[zonaGeneral].resultados.push(data);
+              }
+            }
+          });
+          break;
+      
+        default:
+          dataBuscar.forEach((data) => {
+          
+            if (puntosPorZona[zonaGeneral]) {
+              const coincidencia = puntosPorZona[zonaGeneral].resultados.find((punto) => punto.properties.No_Remision === data.No_Remision);
+              if (coincidencia) {
+                puntosFiltrados[zonaGeneral].resultados.push(data);
+              }
+            }
+          });
+          break;
       }
-  
      
-      //console.log('PUNTOS FILTRADOS A MANDAR', puntosFiltrados)
     return puntosFiltrados[zonaGeneral];
     }
   } catch (error) {

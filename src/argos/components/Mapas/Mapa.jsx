@@ -10,7 +10,7 @@ import { LayerHechosControls } from "./LayerHechosControls";
 import { LayerDomicilioDetControls } from "./LayerDomicilioDetControls";
 import { LayerUbicacionDetencionControls } from "./LayerUbicacionDetencionControls";
 import { GeneralControls } from "./GeneralControls";
-import { PuntosEnZona, PuntosEnJuntaAuxiliar, capasToExcel, capasPerToExcel } from "../../helpers";
+import { capasToExcel, capasPerToExcel } from "../../helpers";
 import useMapLayerSARAI from "../../../hooks/useMapLayerSarai";
 import { PuntosEnPoligonoPer } from "../../helpers/Mapa/puntosEnPoligonoPer";
 import { insertHistorial } from "../../../helpers/insertHistorial";
@@ -19,6 +19,8 @@ import useMapLayerBuscado from "../../../hooks/useMapLayerBuscado";
 import KmlToGeoJsonConverter from "./KmlToGeoJsonConverter";
 import { LayerInspeccionesControls } from "./LayerInspeccionesControls";
 import useMapLayerInspecciones from "../../../hooks/useMapLayerInspecciones";
+import useMapLayerSic from "../../../hooks/useMapLayerSic";
+import { LayerSicEventosControls } from "./LayerSicEventosControls";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg";
@@ -37,6 +39,11 @@ export function Mapa() {
   const [Ficha, setFicha] = useState(14931);
   const [Nombre, setNombre] = useState('');
   const [Inspeccion, setInspeccion] = useState(0);
+  const [FolioSic, setFolioSic] = useState(0);
+
+  const prevInspeccionRef = useRef(Inspeccion);
+  const prevFolioSicRef = useRef(FolioSic);
+  const prevRemisionRef = useRef(Remision);
 
   const [catalogoFD, setCatalogoFD] = useState()
   const [isLoadingCatalogo, setIsLoadingCatalogo] = useState(true)
@@ -49,7 +56,7 @@ export function Mapa() {
   const fetchDataCatalogo = async (endpoint) => {
     setIsLoadingCatalogo(true);
     let response = await catalogosApi.post(endpoint);
-    console.log('catalogo  ',response.data.data.catalogo)
+    //console.log('catalogo  ',response.data.data.catalogo)
     setCatalogoFD(response.data.data.catalogo);
     setIsLoadingCatalogo(false)
 };
@@ -138,6 +145,27 @@ export function Mapa() {
     handleJuntaAuxiliar: handleJuntaAuxiliarInspecciones
   } = useMapLayerInspecciones('ubicacion-inspecciones', 'purple', 'inspecciones', setInspeccion);
 
+  const {
+    showLayer: showLayerSicEventos,
+    showHeatLayer: showHeatLayerSicEventos,
+    fechaInicio: fechaInicioSicEventos,
+    fechaFin: fechaFinSicEventos,
+    Zona: ZonaSicEventos,
+    JuntaAuxiliar: JuntaAuxiliarSicEventos,
+    fetchedData2: datosSicEventos,
+    setMap: setMapSicEventos,
+    setMapContainer: setMapContainerSicEventos,
+    fetchData: fetchDataSicEventos,
+    handleStartDateChange: handleStartDateChangeSicEventos,
+    handleEndDateChange: handleEndDateChangeSicEventos,
+    handleCheckboxLayer: handleCheckboxLayerSicEventos,
+    handleCheckboxHeatLayer: handleCheckboxHeatLayerSicEventos,
+    handleZona: handleZonaSicEventos,
+    handleJuntaAuxiliar: handleJuntaAuxiliarSicEventos
+  } = useMapLayerSic('ubicacion-sic-eventos', 'orange', 'sic', setFolioSic);
+
+
+
   const handleCheckboxVectoresLayer = () => {
     setShowVectoresLayer(!showVectoresLayer);
   };
@@ -147,24 +175,25 @@ export function Mapa() {
   };
 
   const handleCapasExcel = (event) =>{
-    capasToExcel({hechos:datosUbicacionHechos,domicilio:datosDomicilioDetenido,detencion:datosUbicacionDetencion,inspecciones:datosInspecciones})
+    capasToExcel({hechos:datosUbicacionHechos,domicilio:datosDomicilioDetenido,detencion:datosUbicacionDetencion,inspecciones:datosInspecciones,siceventos:datosSicEventos})
   }
 
   
   const handleCapasPerExcel = async(event) =>{
-    console.log(dataPoligonoPersonalizado)
-    let resultadosEnPoligonoPer = await PuntosEnPoligonoPer(dataPoligonoPersonalizado,datosUbicacionHechos,datosDomicilioDetenido,datosUbicacionDetencion,datosInspecciones)
-    console.log('antes del set poligono personalizado: ', resultadosEnPoligonoPer)
+    //console.log(dataPoligonoPersonalizado)
+    let resultadosEnPoligonoPer = await PuntosEnPoligonoPer(dataPoligonoPersonalizado,datosUbicacionHechos,datosDomicilioDetenido,datosUbicacionDetencion,datosInspecciones,datosSicEventos)
+    //console.log('antes del set poligono personalizado: ', resultadosEnPoligonoPer)
     capasPerToExcel({
       hechos:resultadosEnPoligonoPer.hechos,
       domicilio:resultadosEnPoligonoPer.domicilio,
       detencion:resultadosEnPoligonoPer.detencion,
-      inspecciones:resultadosEnPoligonoPer.inspecciones
+      inspecciones:resultadosEnPoligonoPer.inspecciones,
+      siceventos:resultadosEnPoligonoPer.siceventos
     })
   }
 
   const handleCapasPersonaExcel = async(event) =>{
-    console.log(DataResultadoBusqueda)
+    //console.log(DataResultadoBusqueda)
     capasPerToExcel({
       hechos:DataResultadoBusqueda.Hechos,
       domicilio:DataResultadoBusqueda.Domicilio,
@@ -202,6 +231,7 @@ export function Mapa() {
       setMapContainerUbicacionDetencion(mapContainer.current);
       setMapContainerBuscado(mapContainer.current);
       setMapContainerInspecciones(mapContainer.current);
+      setMapContainerSicEventos(map.current);
 
       setMapDomicilioDetenido(map.current);
       setMapUbicacionDetencion(map.current)
@@ -209,6 +239,7 @@ export function Mapa() {
       setMapBuscado(map.current);
       setMapaArchivo(map.current);
       setMapInspecciones(map.current);
+      setMapSicEventos(map.current);
 
       map.current.on('style.load', () => {
         setMapaCargado(true)
@@ -221,7 +252,7 @@ export function Mapa() {
       map.current.on('draw.create', async (event) => {
         const polygon = event.features[0];
         // Realiza alguna acción con el polígono creado
-        console.log('Polígono creado:', polygon);
+        //console.log('Polígono creado:', polygon);
         insertHistorial({lugar:'Geoanalisis',tipo:'Poligono Personalizado', poligono: polygon})
         setDaltaPoligonoPersonalizado(polygon)
       });
@@ -300,12 +331,27 @@ export function Mapa() {
   useEffect(() => {
     fetchDataCatalogo('faltas-delitos');
   }, []);
-  // //Efecto para restear el estado inspeccion y poder cambiar la tarjeta
-  // useEffect(() => {
-  //   console.log('entro al efecto para restear a 0 la inspeccion',Inspeccion)
-  //   setInspeccion(0)
-  //   console.log('despues: ',Inspeccion)
-  // },[Remision,Ficha]);
+
+    // Observar cambios en los estados Inspeccion, FolioSic y Remision
+    useEffect(() => {
+      if (Remision !== 0 && prevRemisionRef.current !== Remision) {
+        setFolioSic(0);
+        setInspeccion(0);
+      } else if (Inspeccion !== 0 && prevInspeccionRef.current !== Inspeccion) {
+        setRemision(0);
+        setFolioSic(0);
+      } else if (FolioSic !== 0 && prevFolioSicRef.current !== FolioSic) {
+        setRemision(0);
+        setInspeccion(0);
+      }
+  
+      prevInspeccionRef.current = Inspeccion;
+      prevFolioSicRef.current = FolioSic;
+      prevRemisionRef.current = Remision;
+  
+      //console.log({ Inspeccion, FolioSic, Remision });
+    }, [Inspeccion, FolioSic, Remision]);
+  
 
   return (
     <>
@@ -434,6 +480,35 @@ export function Mapa() {
                       />
                     </div>
                   </div>
+
+                  <div className="col-md-12">
+                    <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSic" aria-expanded="false" aria-controls="collapseSic">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="orange" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
+                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
+                      </svg>
+
+                        Capa Eventos SIC
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                        </svg>
+                    </button>
+
+                    <div className="col-md-12 card shadow mb-3 collapse" id="collapseSic">
+                      <LayerSicEventosControls
+                        handleCheckboxEventosSicLayer={handleCheckboxLayerSicEventos} 
+                        showEventosSicLayer={showLayerSicEventos}  
+                        handleCheckboxEventosSicHeatLayer={handleCheckboxHeatLayerSicEventos} 
+                        showEventosSicHeatLayer={showHeatLayerSicEventos}
+                        fechaInicioEventosSic={fechaInicioSicEventos}
+                        fechaFinEventosSic={fechaFinSicEventos}
+                        handleStartDateChangeEventosSic={handleStartDateChangeSicEventos}
+                        handleEndDateChangeEventosSic={handleEndDateChangeSicEventos} 
+                        handleZonaEventosSic={handleZonaSicEventos}
+                        handleJuntaAuxiliarEventosSic={handleJuntaAuxiliarSicEventos}
+                      />
+                    </div>
+                  </div>
+
                 </div>  
               </>
 
@@ -485,32 +560,41 @@ export function Mapa() {
                   <h4> Foto: </h4>
                 </div>
                 <div className="row">
-                {Inspeccion === 0 ? (
+                {Remision != 0 ? (
                   <img src={`http://187.216.250.245/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} width="400px" alt="Foto_Detenido"/>
                 ) : (
                   <></>
                 )}
                 </div>
                 <div className="row mt-3">
-                {Inspeccion == 0 ? (
+                  {Remision !== 0 ? (
                     <>
                       <strong>Ficha: {Ficha}</strong>
                       <strong>Remision: {Remision}</strong>
                       <strong>Nombre: {Nombre}</strong>
                     </>
-                  ) : (
+                  ) : Inspeccion !== 0 ? (
                     <>
                       <strong>Inspeccion: {Inspeccion}</strong>
                     </>
-                  )}
-
-                  
-                </div>
-                <div className="row">
-                  {Inspeccion == 0 ? (
-                    <Link to={`/remision/${Remision}`} target="_blank">Mas Detalles...</Link>
                   ) : (
-                    <Link to={`/inspeccion/${Inspeccion}`} target="_blank">Mas Detalles...</Link>
+                    <>
+                      <strong>Folio Infra: {FolioSic}</strong>
+                    </>
+                  )}
+                </div>
+
+                <div className="row">
+                  {Remision !== 0 ? (
+                    <Link to={`/remision/${Remision}`} target="_blank">Mas Detalles...</Link>
+                  ) : Inspeccion !== 0 ? (
+                    <>
+                      <Link to={`/inspeccion/${Inspeccion}`} target="_blank">Mas Detalles...</Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link to={`/inicio`} target="_blank">Mas Detalles...</Link>
+                    </>
                   )}
                 </div>
               </div>
