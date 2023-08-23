@@ -21,7 +21,7 @@ const separarFichaRemision = ({ _label }) => {
   newLabel[1] = newLabel[1].trim();
   newLabel[1] = newLabel[1].split(" ");
   let url =
-    "http://172.18.0.25/sarai/public/files/Remisiones/" +
+    "http://187.216.250.245/sarai/public/files/Remisiones/" +
     newLabel[0][1] +
     "/FotosHuellas/" +
     newLabel[1][1] +

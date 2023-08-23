@@ -9,6 +9,7 @@ import React, { useState } from 'react'
 import { TableDecider } from './TableDecider'; //En el table decider hace referencia  a filtros de bases de datos oficiales
 import { TableHolder } from './TableHolder'; //Este componente encapsula el Skeleton Loader
 import { TableDeciderArgos } from './TableDeciderArgos'; //Este componente encapsula las tablas en este caso del historial
+import { TableDeciderArgosUsuarios } from './TableDeciderArgosUsuarios';
 
 /* 
     El componente recibe la base de la que se quieren acceder los filtros del que se quiere obtener la información
@@ -29,7 +30,7 @@ export const SelectBaseComponent = ({base}) => {
         return (
             <>
                 <div className="container-fluid">
-                    <div className="row mt-5 mb-5">
+                    <div className="row mb-5">
                         <div className="col-md-12">
                             <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
                         </div>
@@ -69,7 +70,7 @@ export const SelectBaseComponent = ({base}) => {
         return (
             <>
                 <div className="container-fluid">
-                    <div className="row mt-5 mb-5">
+                    <div className="row mb-5">
                         <div className="col-md-12">
                             <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
                         </div>
@@ -101,7 +102,7 @@ export const SelectBaseComponent = ({base}) => {
         return (
             <>
                 <div className="container-fluid">
-                    <div className="row mt-5 mb-5">
+                    <div className="row mb-5">
                         <div className="col-md-12">
                             <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
                         </div>
@@ -130,7 +131,7 @@ export const SelectBaseComponent = ({base}) => {
         return (
             <>
                 <div className="container-fluid">
-                    <div className="row mt-5 mb-5">
+                    <div className="row mb-5">
                         <div className="col-md-12">
                             <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
                         </div>
@@ -159,7 +160,7 @@ export const SelectBaseComponent = ({base}) => {
         return (
             <>
                 <div className="container-fluid">
-                    <div className="row mt-5 mb-5">
+                    <div className="row mb-5">
                         <div className="col-md-12">
                             <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
                         </div>
@@ -172,6 +173,8 @@ export const SelectBaseComponent = ({base}) => {
                                 <option value="Buscador: Exportacion a Excel">BUSCADOR: EXPORTACION A EXCEL</option>
                                 <option value="Vista de Ficha: Mas Detalles">VISTA DE FICHA: MAS DETALLES</option>
                                 <option value="Reconocimiento Facial: Fotos Subidas">RECONOCIMIENTO FACIAL: FOTOS SUBIDAS</option>
+                                <option value="Peticiones Estádistica">PETICIONES ESTADISTICA</option>
+                                <option value="Peticiones Geoanalisis">PETICIONES GEOANALISIS</option>
                             </select>
                         </div>
                     </div>
@@ -180,6 +183,35 @@ export const SelectBaseComponent = ({base}) => {
                 {
                     ( baseSelect != " " ) 
                         ? <TableDeciderArgos lugar={baseSelect}/>
+                        : <TableHolder />
+                }
+            </>
+            
+        )
+
+        case 'ARGOS USUARIOS':
+       
+        return (
+            <>
+                <div className="container-fluid">
+                    <div className="row mb-5">
+                        <div className="col-md-12">
+                            <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
+                        </div>
+                        <div className="col-md-12">
+                            <select className="form-select" aria-label="Default select example"
+                                onChange={handleChange}
+                            >
+                                <option value=" ">SELECCIONE UNA OPCIÓN</option>
+                                <option value="Todos los usuarios">TODOS LOS USUARIOS</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {
+                    ( baseSelect != " " ) 
+                        ? <TableDeciderArgosUsuarios lugar={baseSelect}/>
                         : <TableHolder />
                 }
             </>

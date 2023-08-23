@@ -1,0 +1,7 @@
+export * from './NombreSearch'
+export * from './CheckTypeSearch'
+export * from './BuscadorGeneral'
+export * from './DireccionSearch'
+export * from './AliasSearch'
+export * from './PalacaNivSearch'
+export * from './TelefonoSearch'

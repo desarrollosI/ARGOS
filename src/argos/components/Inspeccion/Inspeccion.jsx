@@ -11,11 +11,11 @@ export const Inspeccion = ({data}) => {
   console.log(generales, fotos, personas)
 
   var date = new Date(generales[0].Fecha_Hora_Inspeccion);
-  const baseURLF='http://172.18.0.25/sarai/public/files/inspecciones/images/'
+  const baseURLF='http://187.216.250.245/sarai/public/files/inspecciones/images/'
 
   return (
     <>
-		<div className="container-fluid shadow mt-5 animate__animated animate__fadeIn mb-4">
+		<div className="container-fluid card shadow mt-5 animate__animated animate__fadeIn mb-4">
 
 			<div className="row">
 				<div className="col">
@@ -139,16 +139,16 @@ export const Inspeccion = ({data}) => {
 							fotos.map(foto => console.log('AQUI: ',`${baseURLF}${generales[0].Id_Inspeccion}/${foto.Path_Imagen}`))
 						} */}
 						{
-							fotos.map(foto => (
+							fotos.map(foto => 
+							(
 								
 								<div className="col-md-4" key={foto.Path_Imagen}>
 									<ImageZoom  url={`${baseURLF}${generales[0].Id_Inspeccion}/${foto.Path_Imagen}`} width={'580'} height={'450'}/>
 								</div>
 							))
+								
 						}
 					</div>
-				
-				
 					
 			</div>
 

@@ -14,8 +14,8 @@ export const InicioPage = () => {
   return (
     <>
       <>
-        <div className="container">
-          <div className="row">
+        <div className="container-fluid">
+          <div className="row card shadow">
             <div className="col">
               <h1 className="titulo">
                 {" "}
@@ -35,9 +35,16 @@ export const InicioPage = () => {
             </div>
             <hr />
           </div>
-          <div className="row">
-            <h3>A.R.G.O.S. V 0.7.1 </h3>
-            {/* comentario de prueba solo en dev */}
+          <div className="row card shadow">
+            <div className="col-md-12">
+              <h3>A.R.G.O.S. RC-2.0.0</h3>
+              <ul>
+                <li>Añadido Buscador General</li>
+                <li>Añadidas capas de Inspecciones, Eventos Sic en Geoanalisis</li>
+                <li>Corrección de las fotos en tarjetas y con zoom se veian blancas</li>
+                <li>Corrección las tarjetas del mapa ahora deben alternar correctamente</li>
+              </ul>
+            </div>
           </div>
         </div>
       </>

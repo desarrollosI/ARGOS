@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 import { useAuthStore, useForm } from '../../hooks';
 //se importan las hojas de estilo necesarias para el componente
 import './LoginPage.css';
+import logo from '/login/argos-logo-1.png';
+import CanvasAnimation from './CanvasAnimation';
 //Se debe de tener un pseudo estado pristine del formulario, de otra forma se entra en un bucle de re-renderizado
 const loginFormFields = {
     loginEmail:    '',
@@ -19,7 +21,7 @@ const loginFormFields = {
 */
 export const LoginPage = () => {
     //Se  extran del store las funciones, estados, etc que se exponen a la aplicacion
-    const { startLogin, errorMessage, startRegister } = useAuthStore();
+    const { startLogin, errorMessage,status, startRegister } = useAuthStore();
     //Se extraen del hook useForm este hook es el encargado de manejar la información y funcionalidad del formulario
     const { loginEmail, loginPassword, onInputChange:onLoginInputChange } = useForm( loginFormFields );
     //funcion para manipular el submit del formulario.
@@ -30,50 +32,74 @@ export const LoginPage = () => {
 
     //Este efecto se usa para mostral el alert cuando se encuentra un error al realizar la authenticacion del usuario
     useEffect(() => {
-      if ( errorMessage !== '' ) {
+      if ( errorMessage !== undefined  ) {
         Swal.fire('Error en la autenticación', errorMessage, 'error');
       }    
     }, [errorMessage])
     //El formulario se liga a las funciones del hook, las funcion del submit, y las funcion para detectar cambios en los input
     return (
-        <div className="container-fondo">
-            <div className="container login-container">
-                <div className="row container-center shadow" >
-                    <div className="col-md-6 login-form-1">
-                        <h1>ARGOS</h1>
-                        <h3>Iniciar Sesión</h3>
-                        <form onSubmit={ loginSubmit }>
-                            <div className="form-group mb-2">
-                                <input 
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Correo"
-                                    name="loginEmail"
-                                    value={ loginEmail }
-                                    onChange={ onLoginInputChange }
-                                />
-                            </div>
-                            <div className="form-group mb-2">
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    placeholder="Contraseña"
-                                    name="loginPassword"
-                                    value={ loginPassword }
-                                    onChange={ onLoginInputChange }
-                                />
-                            </div>
-                            <div className="d-grid gap-2">
-                                <input 
-                                    type="submit"
-                                    className="btnSubmit"
-                                    value="Login" 
-                                />
-                            </div>
-                        </form>
+        <>        
+            <div className="container-fondo">
+                <div className="container login-container">
+
+                    <div className="row container-center shadow" >
+                        <div className="col-md-12">
+                            <img src={logo} alt="ARGOS" width={700} />
+                        </div>
+                        <div className="col-md-6 login-form-1">
+                            <h3 className='text-center'>Iniciar Sesión</h3>
+                            <form onSubmit={ loginSubmit }>
+                                <div className="form-group mb-2">
+                                    <input 
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Correo"
+                                        name="loginEmail"
+                                        value={ loginEmail }
+                                        onChange={ onLoginInputChange }
+                                    />
+                                </div>
+                                <div className="form-group mb-2">
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        placeholder="Contraseña"
+                                        name="loginPassword"
+                                        value={ loginPassword }
+                                        onChange={ onLoginInputChange }
+                                    />
+                                </div>
+                                <div className="d-grid gap-2 mb-5">
+                                    <input 
+                                        type="submit"
+                                        className="btnSubmit"
+                                        value="Acceder" 
+                                    />
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <CanvasAnimation/>
+            {/* <ul className="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul> */}
+        </>
+
     )
 }

@@ -16,6 +16,7 @@ import '../css/BuscadorFacial/card-imagen.css'
   div, manejable por zoom.
 */
 const CustomZoomContent = ({buttonUnzoom,modalState,img}) => {
+    console.log('ENTRO AL CUSTOM : ')
     const [isLoaded, setIsLoaded] = useState(false)
 
     useLayoutEffect(() => {
@@ -52,7 +53,7 @@ const CustomZoomContent = ({buttonUnzoom,modalState,img}) => {
 
 
 export const ImageZoom = ({url,width=0,height=0,ml=0}) => {
-    console.log('desde image zoom: ', url)
+    
 
     const imgContainerRef = useRef(null);
     const [watermark, setWatermark] = useState("watermarked");
@@ -74,7 +75,6 @@ export const ImageZoom = ({url,width=0,height=0,ml=0}) => {
         imgContainerSelector.dataset.watermark = "";
       }
     }, [watermark]);
-  
   
   
   

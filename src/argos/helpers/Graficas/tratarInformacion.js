@@ -6,8 +6,8 @@ import { getRandomColor } from "./getRandomColor";
   para poder crear los dataSets, con los data sets se generan las graficas.
 */
 export const tratarInformacion = (tipo,data,label,x,y,agrupacion,SpecifyAgrupacion,etiquetaSeleccionada) => {
-    console.log('agrupado por :', x)
-    console.log('etiqueta seleccionada', etiquetaSeleccionada)
+    //console.log('agrupado por :', x)
+    //console.log('etiqueta seleccionada', etiquetaSeleccionada)
     let etiqueta = (etiquetaSeleccionada != '') ? etiquetaSeleccionada: x;
     let sets = y.split(',')
     let datasetsGenerados = [];
@@ -23,13 +23,13 @@ export const tratarInformacion = (tipo,data,label,x,y,agrupacion,SpecifyAgrupaci
       return newDataSet;
     })
     
-    console.log('desde el helper ', SpecifyAgrupacion);
+    //console.log('desde el helper ', SpecifyAgrupacion);
 
     let etiquetas = ['Remisiones totales']
     if(data.length > 1){      
       if(etiquetaSeleccionada != ''){
         etiquetas = data.map(item => item[etiquetaSeleccionada])
-        console.log('if de etiqueta seleccionada, ',etiquetas )
+        //console.log('if de etiqueta seleccionada, ',etiquetas )
       }else{
         etiquetas = data.map(item => item[agrupacion])
       }
@@ -39,12 +39,21 @@ export const tratarInformacion = (tipo,data,label,x,y,agrupacion,SpecifyAgrupaci
         etiquetas = [SpecifyAgrupacion]
       }
     }
-  
-    console.log('ETIQUETAS:',etiquetas);
+    let sumaTotal = 0;
+    console.log('DATAASETS GENERADOS: ',datasetsGenerados)
+   datasetsGenerados.map(dataSet => {
+      dataSet.data.map( valor => {
+        sumaTotal+=(isNaN(Number(valor)))? 0:Number(valor);
+      })
+    });
+    console.log('SUMA TOTALES', sumaTotal);
     const dataResultado = {
       labels:  etiquetas,
       datasets: datasetsGenerados.map(dataSet => dataSet)
     }
-  
+    
+    dataResultado.totalRegistros = sumaTotal;
+    console.log('DATA DE TOTALES',dataResultado.totalRegistros)
+    console.log('GRAFICA: ', dataResultado)
     return dataResultado;
   }

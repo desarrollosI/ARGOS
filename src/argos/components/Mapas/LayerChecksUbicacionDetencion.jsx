@@ -3,7 +3,7 @@ import React from 'react'
 export const LayerChecksUbicacionDetencion = ({handleCheckboxUbicacionDetencionLayer,showUbicacionDetencionLayer,handleCheckboxUbicacionDetencionHeatLayer,showUbicacionDetencionHeatLayer}) => {
     return (
       <div className="row">
-          <div className="col-md-6">
+          <div className="ms-3 col-md-5">
               <input
                   type="checkbox"
                   checked={showUbicacionDetencionLayer}

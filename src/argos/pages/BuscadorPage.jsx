@@ -10,13 +10,12 @@
 import React from "react";
 //Se importan los componentes necesarios
 import { BaseMultiplier } from "../components";
-import { JumpToTop } from "../components/Shared/JumpToTop";
 
 export const BuscadorPage = () => {
   return (
     <>
       <div className="container-fluid">
-        <div className="row">
+        <div className="row card shadow">
           <div className="col">
             <h1 className="titulo">
               {" "}
@@ -36,7 +35,6 @@ export const BuscadorPage = () => {
           <hr />
         </div>
         <BaseMultiplier/>
-        <JumpToTop/>
       </div>
     </>
   );

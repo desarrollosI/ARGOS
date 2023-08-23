@@ -7,11 +7,11 @@ import 'animate.css';
 //El componente es sencillo solo es la maquetacion en jsx de la información y como debe de ser mostrada
 export const Historico = ({data}) => {
   console.log('RECIBI LA REMISION:',data)
-  const imgUrl =  `http://172.18.10.13/planeacion-recuperadas/Historicos/${data[0].Folio}/${data[0].Folio}.jpg`
+  const imgUrl =  `http://172.18.10.227/planeacion-recuperadas/Historicos/${data[0].Folio}/${data[0].Folio}.jpg`
 
   return (
     <>
-		<div className="container-fluid shadow mt-5 animate__animated animate__fadeIn mb-4">
+		<div className="container-fluid card shadow mt-5 animate__animated animate__fadeIn mb-4">
 
 			<div className="row">
 				<div className="col">

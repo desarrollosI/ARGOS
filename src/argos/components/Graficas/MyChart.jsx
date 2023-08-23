@@ -7,12 +7,13 @@
 
 import React, { useEffect,useState } from 'react';
 //Se importan los componentes personalizados
-import { DateRangePicker, GroupBySelector, SpecifyGroupBySelector, SpecifyOrderBySelector } from './';
+import { CheckSelect, DateRangePicker, GroupBySelector, SpecifyGroupBySelector, SpecifyOrderBySelector } from './';
 //Se importa nuestro adaptador hacia el backend
 import { graficasApi } from '../../../api';
 //Se importan los helpers necesarios
-import { tratarInformacion } from '../../helpers';
+import { dataToExcel, tratarInformacion } from '../../helpers';
 //Se importan las bibliotecas y componentes de terceros
+import Swal from 'sweetalert2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,6 +28,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar,Line,Radar,Doughnut } from 'react-chartjs-2';
+import { insertHistorial } from '../../../helpers/insertHistorial';
 //Se inicializa la grafica diciendole que elementos va a tener
 ChartJS.register(
   CategoryScale,
@@ -81,6 +83,65 @@ export function MyChart({configuracion}) {
     const [etiquetaEjeX, setEtiquetaEjeX] = useState(etiqueta); //este estado va  a manejar los label de las columnas del eje x en el caso de que se requiera algo mas que lo generico
     const [SpecifyAgrupacion, setSpecifyAgrupacion] = useState('todas')//aunque este no se pide como prop, se pone aca pues es un estado que muta la grafica
     const [SpecifyOrderBy, setSpecifyOrderBy] = useState('desc')
+
+    const [opcionesZona, setOpcionesZona] = useState([
+      "CENTRO HISTÓRICO",
+      "ZONA 1",
+      "ZONA 10",
+      "ZONA 2",
+      "ZONA 3",
+      "ZONA 4",
+      "ZONA 5",
+      "ZONA 6",
+      "ZONA 7",
+      "ZONA 8",
+      "ZONA 9"
+  ])
+
+    const [opcionesInstancia, setOpcionesInstancia] = useState([
+      "ADOLESCENTES I.",
+      "JUEZ DE JUSTICIA CÍVICA",
+      "M.P. FEDERAL",
+      "M.P. FUERO COMÚN"
+  ])
+
+  const [opcionesPrimerRespondiente, setOpcionesPrimerRespondiente] = useState([
+    "",
+    "ÁGUILAS",
+    "CENTINELAS",
+    "CENTRO HISTÓRICO",
+    "CORREDOR UNIVERSITARIO",
+    "DEPARTAMENTO DE PERITOS",
+    "DIRECCIÓN",
+    "DIRECCIÓN DE INTELIGENCIA Y POLITICA CRIMINAL",
+    "GRUPO DE INTERVENCIÓN PROACTIVA",
+    "GUARDIA EN PREVENCIÓN",
+    "K9",
+    "REGIONES",
+    "ROCA",
+    "SECTOR CENTRO",
+    "SECTOR CENTRO HISTÓRICO",
+    "SECTOR NORTE",
+    "SECTOR SUR",
+    "SUPERVISIÓN",
+    "UACE(UNIDAD DE ATENCION A LA COMUNIDAD ESCOLAR)",
+    "UTR(UNIDAD TÁCTICA DE REACCIÓN)",
+    "ZONA 1",
+    "ZONA 10",
+    "ZONA 2",
+    "ZONA 3",
+    "ZONA 4",
+    "ZONA 5",
+    "ZONA 6",
+    "ZONA 7",
+    "ZONA 8",
+    "ZONA 9",
+    "ZONA CENTRO HISTÓRICO"
+])
+
+    const [selectedOption, setSelectedOption] = useState();
+
+    const [dataResCSV, setDataResCSV] = useState();
     //las demas props no  es necesario almacenarlas en estado puesto que no suelen mutar demasiado con respecto a la data de la grafica
 
     //Esta función se dispara gracias al efecto, pone en estado de carga de infotmacion
@@ -97,6 +158,7 @@ export function MyChart({configuracion}) {
     };
 
     const handleAgrupacionChange = (event) => {
+      setSelectedOption()
       setAgrupacion(event.target.value);
     };
 
@@ -108,14 +170,16 @@ export function MyChart({configuracion}) {
       setSpecifyOrderBy(event.target.value);
     }
 
+    const handleGenerateCSV = async (endpoint) => {
+      const {data} = await graficasApi.post(endpoint+'-csv',{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,selectedOption,SpecifyOrderBy})
+      dataToExcel(data.data.Remisiones,{lugar:'Estádistica',tipo: 'Exportación Excel', base: endpoint+'-csv', filtros: {fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,selectedOption,SpecifyOrderBy}})
+    }
+
     const fetchData = async(endpont) => {
         setIsLoadingData(true);
-        // setAgrupacion(agrupacion);
-        console.log('LINEA 101: ',endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion})
-        const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,SpecifyOrderBy});
-        console.log(data.data.Remisiones)
+        insertHistorial({lugar:'Estádistica',tipo:'Petición de información',endpoint,fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion})
+        const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,selectedOption,SpecifyOrderBy});
         setFetchedData(data.data.Remisiones);
-        // setEtiquetaEjeX(etiqueta);
         setIsLoadingData(false);
     }
 
@@ -129,70 +193,116 @@ export function MyChart({configuracion}) {
 
     useEffect(() => {
         fetchData(endpoint)
-    }, [fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,SpecifyOrderBy])
+    }, [fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,SpecifyOrderBy,selectedOption])
+
+    useEffect(() => {
+      if ( isLoadingData ) {
+        //Swal.fire('Haciendo Consulta', 'Paciencia se esta procesando la información', 'info');
+      }    
+      if( !isLoadingData ){
+        Swal.close();
+      }
+    }, [isLoadingData])
+
+    let opciones;
+    if (agrupacionData === 'Instancia') {
+      opciones = opcionesInstancia.map((item) => ({ value: item, label: item }));
+    } else if (agrupacionData === 'Sector_Area') {
+      opciones = opcionesPrimerRespondiente.map((item) => ({ value: item, label: item }));
+    } else {
+      opciones = opcionesZona.map((item) => ({ value: item, label: item }));
+    }
+    
+      
 
 
     //TODO realizar el useEffect necesario para altenar entre tipo de grafica
 
     const ChartComponent = chartComponents[tipoGrafica];
+    
+    // Llamamos a la función tratarInformacion y almacenamos el resultado en una variable
+    const totalRegistros = fetchedData ? tratarInformacion(
+      tipoGrafica,
+      fetchedData,
+      'CANTIDAD DE REMSIONES',
+      x,
+      y,
+      agrupacionData,
+      SpecifyAgrupacion,
+      etiquetaEjeX
+    ) : null;
     return (
         <>
+        <div className="row">
+          <div className="col-md-4">
+            <button 
+              className='btn btn-primary mt-2'
+              onClick={() => handleGenerateCSV(endpoint)}>
+                Exportar
+            </button>
+          </div>
+        </div>
+        <div className="row">
+          {totalRegistros && <p><strong>Total de registros: {totalRegistros.totalRegistros}</strong></p>}
+        </div>
+        <div className="row my-3">
 
-        {ChartComponent && !isLoadingData && (
+          {ChartComponent && !isLoadingData && (
 
-          <ChartComponent
-            options={{
-              ...chartOptions,
-              indexAxis:indexAxis,
-              plugins: {
-                ...chartOptions.plugins,
-                title: {
-                  ...chartOptions.plugins.title,
-                  text: `${titulo}`,
+            <ChartComponent
+              options={{
+                ...chartOptions,
+                indexAxis:indexAxis,
+                plugins: {
+                  ...chartOptions.plugins,
+                  title: {
+                    ...chartOptions.plugins.title,
+                    text: `${titulo}`,
+                  },
                 },
-              },
-            }}
-            data={tratarInformacion(tipoGrafica, fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacionData,SpecifyAgrupacion,etiquetaEjeX)}
-          />
-        )}
+              }}
+              data={tratarInformacion(tipoGrafica, fetchedData, 'CANTIDAD DE REMSIONES', x, y, agrupacionData,SpecifyAgrupacion,etiquetaEjeX)}
+            />
+          )}
 
-        
-        <DateRangePicker
-        fechaInicio={fechaInicio}
-        fechaFin={fechaFin}
-        handleStartDateChange={handleStartDateChange}
-        handleEndDateChange={handleEndDateChange}
-        />
-        {/* Controles personalizados para cada tipo de grafica  
-          /*
-          Tipos de graficas:
-          1- controles de agrupacion, ver uno en especifico
-          2. sin controles de agrupacion, ver uno en especifico, asendente o desendente
-          3. sin controles, solo rango de fechas
-        */}
-        {
-          avanzada == 1 && <GroupBySelector agrupacion={agrupacionData} handleAgrupacionChange={handleAgrupacionChange} />
-        }
-        {
-          (agrupacion!='SD') && 
-          (!isLoadingData) && 
-          (avanzada == 1) &&
-                        <SpecifyGroupBySelector 
-                        handleSpecifyAgrupacionChange={handleSpecifyAgrupacionChange} 
-                        opciones={
-                          (etiquetaEjeX != '') 
-                            ? fetchedData.map(item => item[etiquetaEjeX]) 
-                            : fetchedData.map(item => item[agrupacionData])
-                          }
+          <DateRangePicker
+          fechaInicio={fechaInicio}
+          fechaFin={fechaFin}
+          handleStartDateChange={handleStartDateChange}
+          handleEndDateChange={handleEndDateChange}
+          />
+          {/* Controles personalizados para cada tipo de grafica  
+            /*
+            Tipos de graficas:
+            1- controles de agrupacion, ver uno en especifico
+            2. sin controles de agrupacion, ver uno en especifico, asendente o desendente
+            3. sin controles, solo rango de fechas
+          */}
+          {
+            avanzada == 1 && <GroupBySelector agrupacion={agrupacionData} handleAgrupacionChange={handleAgrupacionChange} />
+          }
+          {
+            (agrupacion!='SD') && 
+            (!isLoadingData) && 
+            (avanzada == 1) &&
+
+                        <>
+                          <CheckSelect
+                            selectedOption={selectedOption}
+                            setSelectedOption={setSelectedOption}
+                            opciones={opciones}
                           />
-        }
-        {
-          (!isLoadingData) &&
-          (avanzada == 2) &&
-                        <SpecifyOrderBySelector
-                        handeSpecifyOrderByChange={handeSpecifyOrderByChange}
-                        />
-        }
+                        
+                        </>
+          }
+          {
+            (!isLoadingData) &&
+            (avanzada == 2) &&
+                          <SpecifyOrderBySelector
+                          handeSpecifyOrderByChange={handeSpecifyOrderByChange}
+                          />
+          }
+        </div>
 
       </>
     );

@@ -22,7 +22,7 @@ export const EstadisticaPage = () => {
   return (
     <>
       <div className="container-fluid">
-        <div className="row">
+        <div className="row card shadow">
           <div className="col">
             <h1 className="titulo">
               {" "}
@@ -43,8 +43,8 @@ export const EstadisticaPage = () => {
         </div>
       </div>
 
-      <div className="row">
-        <div className="col-md-6 mb-3">
+      <div className="row d-flex justify-content-around ">
+        <div className="col-md-6 my-3 card shadow">
           <MyChart configuracion={
             {
               tipo:'barra',
@@ -59,7 +59,7 @@ export const EstadisticaPage = () => {
             }}
           />
         </div>
-        <div className="col-md-6  mb-3">
+        <div className="col-md-6 my-3 card shadow">
           <MyChart configuracion={
             {
               tipo:'barra',
@@ -74,7 +74,7 @@ export const EstadisticaPage = () => {
             }}
           />
         </div>
-        <div className="col-md-12  mb-3">
+        <div className="col-md-12 my-3 card shadow">
           <MyChart configuracion={
             {
               tipo:'barra',
@@ -89,7 +89,7 @@ export const EstadisticaPage = () => {
             }}
           />
         </div>
-        <div className="col-md-12  mb-3">
+        <div className="col-md-12 my-3 card shadow">
           <MyChart configuracion={
             {
               tipo:'barra',
@@ -100,11 +100,11 @@ export const EstadisticaPage = () => {
               agrupacion:'Sector_Area',
               etiqueta:'Sector_Area',
               indexAxis:'y',
-              avanzada: 3
+              avanzada: 1
             }}
           />
         </div>
-        <div className="col-md-12  mb-3">
+        <div className="col-md-12 my-3 card shadow">
           <MyChart configuracion={
             {
               tipo:'barra',
@@ -116,6 +116,21 @@ export const EstadisticaPage = () => {
               etiqueta:'Colonia',
               indexAxis:'y',
               avanzada: 2
+            }}
+          />
+        </div>
+        <div className="col-md-6 my-3 card shadow">
+          <MyChart configuracion={
+            {
+              tipo:'barra',
+              endpoint:'remisiones-por-instancia-historico',
+              titulo:'TOTAL DE REMISIONES',
+              x:'Remitido_a', 
+              y:'total',
+              agrupacion:'Instancia',
+              etiqueta:'',
+              indexAxis:'x',
+              avanzada: 1
             }}
           />
         </div>
