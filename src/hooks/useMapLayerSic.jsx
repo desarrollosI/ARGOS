@@ -35,7 +35,7 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
         setIsLoadingData(true);
         let response = await mapasApi.post(endpoint,{fechaInicio,fechaFin});
         insertHistorial({lugar:'Geoanalisis',tipo:'Petición de información',endpoint,fechaInicio,fechaFin})
-        //console.log('data enpoint capa  '+capa,response.data.data.EventosSic)
+        // console.log('data enpoint capa  '+capa,response.data.data.EventosSic)
         setFetchedData2(response.data.data.EventosSic);
         setIsLoadingData(false)
   };
@@ -113,7 +113,7 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
                     ],
                   },
                   properties: {
-                     Folio_Infra: item.Folio_Infra,
+                     Folio_Infra: item.Folio_infra,
                 //     Nombre: item.Nombre,
                 //     Ap_Paterno: item.Ap_Paterno,
                 //     Ap_Materno: item.Ap_Materno,
@@ -134,7 +134,6 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
           });
     
           map.on('click', capa, (e) => {
-            
             setFolioSic(e.features[0].properties.Folio_Infra)
 
             });

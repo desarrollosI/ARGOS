@@ -112,7 +112,7 @@ export const PuntosEnPoligonoPer = async (poligono, datosHechos,datosDomicilio,d
         ];
   
         return turf.point(coordenadas, {
-          Folio_Infra: item.Folio_Infra
+          Folio_Infra: item.Folio_infra
         });
       })
     );
@@ -176,7 +176,7 @@ export const PuntosEnPoligonoPer = async (poligono, datosHechos,datosDomicilio,d
     });
     puntosEnPoligonoPerSicEv.features.forEach((punto) => {
     const coincidencia = datosSicEventos.find((data) => {
-        return punto.properties.Folio_Infra === data.Folio_Infra;
+        return punto.properties.Folio_Infra === data.Folio_infra;
     });
     if (coincidencia) {
         puntosFiltrados.siceventos.push(coincidencia);
