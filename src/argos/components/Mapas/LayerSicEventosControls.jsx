@@ -3,6 +3,7 @@ import { ZonasPicker } from './ZonasPicker'
 import { JuntaAuxiliarPicker } from './JuntaAuxiliarPicker'
 import { DateRangePicker } from '../Graficas/DateRangePicker'
 import { LayerChecksEventosSic } from './LayerChecksEventosSic'
+import { AutoCompleteFD } from './AutoCompleteFD'
 
 export const LayerSicEventosControls = ({
     handleCheckboxEventosSicLayer,
@@ -15,6 +16,8 @@ export const LayerSicEventosControls = ({
     handleEndDateChangeEventosSic,
     handleZonaEventosSic,
     handleJuntaAuxiliarEventosSic,
+    catalogoFD,
+    handleFaltaDelitoEspecifico
 }) => {
   return (
     <>
@@ -42,6 +45,13 @@ export const LayerSicEventosControls = ({
                         handleStartDateChange={handleStartDateChangeEventosSic}
                         handleEndDateChange={handleEndDateChangeEventosSic}
                     />
+                </div>
+            </div>
+            <div className="row mb-3">
+                <hr/>
+                <h6>Filtros Específicos:</h6>
+                <div className="col-md-6">
+                    <AutoCompleteFD data={catalogoFD} handleFaltaDelitoEspecifico={handleFaltaDelitoEspecifico}/>
                 </div>
             </div>
             <div className="row mb-3">

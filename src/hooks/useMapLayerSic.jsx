@@ -28,14 +28,15 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
     const [fetchedData2Respaldo, setFetchedData2Respaldo] = useState();//Hechos
     const [resultadosTurf, setResultadosTurf] = useState()
     const [resultadosTurfJuntaAuxiliar, setResultadosTurfJuntaAuxiliar] = useState()
+    const [FaltaDelitoEspecifico,setFaltaDelitoEspecifico] = useState('')
     
     const [capaVectores, setCapaVectores] = useState();//Capa de vectores usada para el turf js
 
   const fetchData = async (endpoint) => {
         setIsLoadingData(true);
-        let response = await mapasApi.post(endpoint,{fechaInicio,fechaFin});
-        insertHistorial({lugar:'Geoanalisis',tipo:'Petición de información',endpoint,fechaInicio,fechaFin})
-        // console.log('data enpoint capa  '+capa,response.data.data.EventosSic)
+        let response = await mapasApi.post(endpoint,{fechaInicio,fechaFin,FaltaDelitoEspecifico});
+        insertHistorial({lugar:'Geoanalisis',tipo:'Petición de información',endpoint,fechaInicio,fechaFin,FaltaDelitoEspecifico})
+         console.log('data enpoint capa  '+capa,response.data.data.EventosSic)
         setFetchedData2(response.data.data.EventosSic);
         setIsLoadingData(false)
   };
@@ -70,9 +71,14 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
     setJuntaAuxiliar(event.target.value)
   }
 
+  const handleFaltaDelitoEspecifico = (delito) => {
+    //console.log('delito',delito)
+    setFaltaDelitoEspecifico(delito.name)
+  }
+
   useEffect(() => {
     fetchData(endpoint);
-  }, [endpoint,fechaInicio, fechaFin]);
+  }, [endpoint,fechaInicio, fechaFin,FaltaDelitoEspecifico]);
 
   // Implementa el resto de los efectos...
 
@@ -350,6 +356,7 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
     handleCheckboxHeatLayer,
     handleZona,
     handleJuntaAuxiliar,
+    handleFaltaDelitoEspecifico,
     // Resto de las funciones y efectos...
   };
 };

@@ -161,7 +161,8 @@ export function Mapa() {
     handleCheckboxLayer: handleCheckboxLayerSicEventos,
     handleCheckboxHeatLayer: handleCheckboxHeatLayerSicEventos,
     handleZona: handleZonaSicEventos,
-    handleJuntaAuxiliar: handleJuntaAuxiliarSicEventos
+    handleJuntaAuxiliar: handleJuntaAuxiliarSicEventos,
+    handleFaltaDelitoEspecifico: handleFaltaDelitoEspecificoSicEventos
   } = useMapLayerSic('ubicacion-sic-eventos', 'orange', 'sic', setFolioSic);
 
 
@@ -505,6 +506,8 @@ export function Mapa() {
                         handleEndDateChangeEventosSic={handleEndDateChangeSicEventos} 
                         handleZonaEventosSic={handleZonaSicEventos}
                         handleJuntaAuxiliarEventosSic={handleJuntaAuxiliarSicEventos}
+                        catalogoFD={catalogoFD}
+                        handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoSicEventos}
                       />
                     </div>
                   </div>
