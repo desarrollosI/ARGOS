@@ -10,3 +10,5 @@ export * from './HistorialPage';
 export * from './EstadisticaPage';
 export * from './UsuariosPage';
 export * from './UsuarioPage';
+export * from './IncidenciaDelictivaPage';
+export * from './SicEventoPage';

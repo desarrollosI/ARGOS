@@ -596,7 +596,7 @@ export function Mapa() {
                     </>
                   ) : (
                     <>
-                      <Link to={`/inicio`} target="_blank">Mas Detalles...</Link>
+                      <Link to={`/evento/${FolioSic}`} target="_blank">Mas Detalles...</Link>
                     </>
                   )}
                 </div>
