@@ -20,7 +20,7 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
     const [fechaInicio, setFechaInicio] = useState(
       new Date(new Date().setMonth(new Date().getMonth() - 3)).toISOString().split('T')[0]
     );
-    const [showLayer, setShowLayer] = useState(true);
+    const [showLayer, setShowLayer] = useState(false);
     const [showHeatLayer, setShowHeatLayer] = useState(false);
     const [Zona, setZona] = useState('todas')
     const [JuntaAuxiliar, setJuntaAuxiliar] = useState('todas')
