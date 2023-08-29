@@ -458,6 +458,29 @@ const useGeneralSearchControls = () => {
                 </div>
             );
         }
+        // Verifica si TelefonoSSC está definida y tiene elementos antes de acceder a 'length'
+        if (DataResultadoBusquedaGeneral.TelefonoSSC && DataResultadoBusquedaGeneral.TelefonoSSC.length > 0) {
+            newTablasResultado.push(
+                <div key="llamadas911">
+                <div className="row mb-4">
+                    <h3 className="titulo">Llamadas 911</h3>
+                </div>
+                <TableConstructor lugar={'Telefonos: Llamadas'} datos={{ Llamadas:DataResultadoBusquedaGeneral.TelefonoSSC }} />
+                {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
+                </div>
+            );
+        }
+        if (DataResultadoBusquedaGeneral.Contactos && DataResultadoBusquedaGeneral.Contactos.length > 0) {
+            newTablasResultado.push(
+                <div key="llamadas911">
+                <div className="row mb-4">
+                    <h3 className="titulo">Contactos Extracciones</h3>
+                </div>
+                <TableConstructor lugar={'Telefonos: Contactos'} datos={{ Contactos:DataResultadoBusquedaGeneral.Contactos }} />
+                {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
+                </div>
+            );
+        }
 
         break;
       default:

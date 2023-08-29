@@ -3320,6 +3320,122 @@ export const TableConstructor = ({lugar, datos}) => {
               <Table columns={columns} data={data} base={'SIC: Eventos'}/>
             )
         
+        case 'Telefonos: Llamadas':
+          columns = React.useMemo(
+            () => [
+                  {
+                    Header:'ID REGISTRO',
+                    accessor:'_id',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'FECHA',
+                    accessor:'Fecha',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'TELEFONO',
+                    accessor:'Telefono',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'ORIGEN',
+                    accessor:'Origen',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',      
+                  },
+                  {
+                    Header:'TIPO',
+                    accessor:'Tipo',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'LOC',
+                    accessor:'Loc Info ',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'COLONIA',
+                    accessor:'Colonia',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'COMENTARIOS',
+                    accessor:'Comentarios',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'CORPORACION',
+                    accessor:'Corporacion',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',    
+                  },
+            ],[]
+          )
+  
+          data = React.useMemo(() =>
+          datos.Llamadas
+          , [])
+            
+            
+            return (
+              <Table columns={columns} data={data} base={'Telefonos: Llamadas'}/>
+            )
+        case 'Telefonos: Contactos':
+          columns = React.useMemo(
+            () => [
+                  {
+                    Header:'ID REGISTRO',
+                    accessor:'_id',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'FECHA',
+                    accessor:'FECHA DEL REGISTRO',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'MOTIVO DEL DELITO Y/O SEGUIMIENTO',
+                    accessor:'MOTIVO DEL DELITO Y/O SEGUIMIENTO',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'FUENTE',
+                    accessor:'FUENTE',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',      
+                  },
+                  {
+                    Header:'NOMBRE/USUARIO',
+                    accessor:'NOMBRE/USUARIO',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NUMEROTELEFONICO',
+                    accessor:'NUMEROTELEFONICO',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NOMBRE DE LA RELACION Y/O PARENTEZCO',
+                    accessor:'NOMBRE DE LA RELACION Y/O PARENTEZCO',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NUMERO TELEFÓNICO',
+                    accessor:'NUMERO TELEFÓNICO',
+                    filter: 'fuzzyText',
+                  }
+            ],[]
+          )
+  
+          data = React.useMemo(() =>
+          datos.Contactos
+          , [])
+            
+            
+            return (
+              <Table columns={columns} data={data} base={'Telefonos: Contactos'}/>
+            )
         case 'Alertas: Vehiculos':
           columns = React.useMemo(
             () => [
