@@ -3038,6 +3038,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   {
                     Header:'ID PERSONA',
                     accessor:'ID_PERSONA',
+                    Cell: props =>  <Link to={`/integrante/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Atlas: Personas'})}>{props.value}</Link>,
                     filter: 'fuzzyText',
                   },
                   {
