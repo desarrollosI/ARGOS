@@ -135,9 +135,6 @@ export const Inspeccion = ({data}) => {
 
 				<div className="row collapse" id={`insp-${generales[0].Id_Inspeccion}`}>
 					<div className="row mb-4">
-						{/* {
-							fotos.map(foto => console.log('AQUI: ',`${baseURLF}${generales[0].Id_Inspeccion}/${foto.Path_Imagen}`))
-						} */}
 						{
 							fotos.map(foto => 
 							(

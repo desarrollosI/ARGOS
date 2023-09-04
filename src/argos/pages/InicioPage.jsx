@@ -37,7 +37,15 @@ export const InicioPage = () => {
           </div>
           <div className="row card shadow">
             <div className="col-md-12">
-              <h3>A.R.G.O.S. RC-2.1.0</h3>
+              <h3>A.R.G.O.S. RC-2.3.0</h3>
+              <ul>
+                <li>Añadida capa Puntos Identificados</li>
+                <li>Añadida Vista Atlas</li>
+                <li>Añadida Vista Eventos Delictivos</li>
+                <li>Correccion en el catalogo de Falta/Delito ya no se repiten opciones</li>
+                <li>Inicio de reestructuracion del Modulo Estadistica</li>
+              </ul>
+              <h5>A.R.G.O.S. RC-2.1.0</h5>
               <ul>
                 <li>Añadida Vista Incidencia Delictiva</li>
                 <li>Añadida Vista Eventos SIC</li>
