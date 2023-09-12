@@ -23,6 +23,7 @@ import useMapLayerSic from "../../../hooks/useMapLayerSic";
 import { LayerSicEventosControls } from "./LayerSicEventosControls";
 import useMapLayerPuntos from "../../../hooks/useMapLayerPuntos";
 import { LayerPuntosIdentificadosControls } from "./LayerPuntosIdentificadosControls";
+import { FlyTo } from "./FlyTo";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg";
@@ -58,6 +59,7 @@ export function Mapa() {
   const [isLoadingCatalogoBanda, setIsLoadingCatalogoBanda] = useState(true)
   const [isLoadingCatalogoObjetivo, setIsLoadingCatalogoObjetivo] = useState(true)
 
+  const [CoordenadasFlyTo,setCoordenadasFlyTo] = useState([-98.20346,19.03793])
 
   const [dataPoligonoPersonalizado,setDaltaPoligonoPersonalizado] = useState()
 
@@ -427,13 +429,25 @@ export function Mapa() {
     }, [Inspeccion, FolioSic, Remision]);
   
 
+    useEffect(() => {
+
+      if (map.current) {
+        map.current.flyTo({
+          center: CoordenadasFlyTo,
+          zoom: 15,
+          essential: true
+        });
+      }
+    
+    }, [CoordenadasFlyTo]);
+
   return (
     <>
       <div className="row">
         <div className="col-md-4">
           <div className="row">
             {
-            (!isLoadingCatalogo)
+            (!isLoadingCatalogo && catalogoFD.length)
             ?(
               <>
                 <div className="row">   
@@ -596,7 +610,7 @@ export function Mapa() {
                           <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
                         </svg>
                     </button>
-                    {(!isLoadingCatalogo) && !(isLoadingCatalogoFuente) && (
+                    {(!isLoadingCatalogo) && !(isLoadingCatalogoFuente) && !(isLoadingCatalogoBanda)  && !(isLoadingCatalogoObjetivo) &&(
 
                     <div className="col-md-12 card shadow mb-3 collapse" id="collapsePuntosIdentificados">
                       <LayerPuntosIdentificadosControls
@@ -625,6 +639,23 @@ export function Mapa() {
           }
           </div>
           
+          <div className="col-md-12">
+            <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFlyTo" aria-expanded="false" aria-controls="collapseFlyTo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-pin-map-fill" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/>
+              <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
+            </svg>
+              Mover Mapa
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+              </svg>
+            </button>
+          </div>
+
+          <div className="col-md-12 card shadow mb-3 collapse" id="collapseFlyTo">
+            <FlyTo setCoordenadasFlyTo={setCoordenadasFlyTo}/>
+          </div>
+
 
           <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBusqueda" aria-expanded="false" aria-controls="collapseBusqueda">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-person-bounding-box me-2" viewBox="0 0 16 16">

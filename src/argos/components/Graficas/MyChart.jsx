@@ -1,3 +1,7 @@
+/* Este componente queda aislado a base de datos como remisiones sarai o historico,
+  aunque es similar, no funciona correctamente con informacion del sic, por lo que se crea un componente Nuevo
+  para poder hacer las modificaciones pertinentes sin afectar las demás gráficas.
+*/
 /*
   Tipos de graficas:
   1- controles de agrupacion, ver uno en especifico
@@ -69,7 +73,7 @@ const chartOptions = {
 export function MyChart({configuracion}) {
     //Des estructuro de la propiedad de configuracion como quiero que luzca la grafica   
     const {tipo,endpoint,titulo,x,y,agrupacion,etiqueta,indexAxis,avanzada} = configuracion;
-    console.log({tipo,endpoint,titulo,x,y,agrupacion,etiqueta,avanzada})
+    //console.log({tipo,endpoint,titulo,x,y,agrupacion,etiqueta,avanzada})
 
     //Estados por defecto, no requeridos en primera insancia como propiedad para poder iniciar la grafica
     const [isLoadingData, setIsLoadingData] = useState(true) //Estado bandera para saber cuando se sigue esperando una respuesta del backend
