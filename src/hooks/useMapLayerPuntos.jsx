@@ -6,13 +6,9 @@ import mapboxgl from "mapbox-gl";
 import { PuntosEnJuntaAuxiliar, PuntosEnZona } from '../argos/helpers';
 import { insertHistorial } from '../helpers/insertHistorial';
 
-const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
+const useMapLayerPuntos = (endpoint,color,capa,setFolioPunto) => {
     const [mapContainer, setMapContainer] = useState();
     const [map, setMap] = useState(null);
-    const [popup, setPopup] = useState(null);
-    const [lng, setLng] = useState(-98.20346);
-    const [lat, setLat] = useState(19.03793);
-    const [zoom, setZoom] = useState(9);
   // Resto de los estados...
     const [isLoadingData, setIsLoadingData] = useState(true);
     const [isLoadingDataCapa, setIsLoadingDataCapa] = useState(true);
@@ -28,16 +24,19 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
     const [fetchedData2Respaldo, setFetchedData2Respaldo] = useState();//Hechos
     const [resultadosTurf, setResultadosTurf] = useState()
     const [resultadosTurfJuntaAuxiliar, setResultadosTurfJuntaAuxiliar] = useState()
-    const [FaltaDelitoEspecifico,setFaltaDelitoEspecifico] = useState('')
+    const [FaltaDelitoEspecifico, setFaltaDelitoEspecifico] = useState('')
+    const [Fuente, setFuente] = useState('')
+    const [Banda, setBanda] = useState('')
+    const [Objetivo, setObjetivo] = useState('')
     
     const [capaVectores, setCapaVectores] = useState();//Capa de vectores usada para el turf js
 
   const fetchData = async (endpoint) => {
         setIsLoadingData(true);
-        let response = await mapasApi.post(endpoint,{fechaInicio,fechaFin,FaltaDelitoEspecifico});
-        insertHistorial({lugar:'Geoanalisis',tipo:'Petición de información',endpoint,fechaInicio,fechaFin,FaltaDelitoEspecifico})
-         console.log('data enpoint capa  '+capa,response.data.data.EventosSic)
-        setFetchedData2(response.data.data.EventosSic);
+        let response = await mapasApi.post(endpoint,{fechaInicio,fechaFin,FaltaDelitoEspecifico,Fuente,Banda,Objetivo});
+        insertHistorial({lugar:'Geoanalisis',tipo:'Petición de información',endpoint,fechaInicio,fechaFin,FaltaDelitoEspecifico,Fuente,Banda,Objetivo})
+         console.log('data enpoint capa  '+capa,response.data.data)
+        setFetchedData2(response.data.data);
         setIsLoadingData(false)
   };
 
@@ -70,15 +69,29 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
   const handleJuntaAuxiliar = (event) => {
     setJuntaAuxiliar(event.target.value)
   }
-
   const handleFaltaDelitoEspecifico = (delito) => {
     //console.log('delito',delito)
     setFaltaDelitoEspecifico(delito.name)
   }
 
+  const handleFuente = (fuene) => {
+    //console.log('delito',delito)
+    setFuente(fuene.name)
+  }
+
+  const handleBanda = (banda) => {
+    //console.log('delito',delito)
+    setBanda(banda.name)
+  }
+
+  const handleObjetivo = (objetivo) => {
+    //console.log('delito',delito)
+    setObjetivo(objetivo.name)
+  }
+
   useEffect(() => {
     fetchData(endpoint);
-  }, [endpoint,fechaInicio, fechaFin,FaltaDelitoEspecifico]);
+  }, [endpoint,fechaInicio, fechaFin,FaltaDelitoEspecifico,Fuente,Banda,Objetivo]);
 
   // Implementa el resto de los efectos...
 
@@ -106,23 +119,24 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
                   geometry: {
                     type: "Point",
                     coordinates: [
-                      isNaN(parseFloat(item.CoordX))
-                        ? -0.0
-                        : (parseFloat(item.CoordX)>0)
-                            ? parseFloat(item.CoordY)
-                            : parseFloat(item.CoordX),
-                      isNaN(parseFloat(item.CoordY))
+                        isNaN(item["COORDENADAS X"])
                         ? 0.0
-                        : (parseFloat(item.CoordX)>0)
-                            ? parseFloat(item.CoordX)
-                            : parseFloat(item.CoordY),
+                        : (item["COORDENADAS X"]>0)
+                        ? item["COORDENADAS Y"]
+                        : item["COORDENADAS X"],
+                        isNaN(item["COORDENADAS Y"])
+                        ? -0.0
+                        : (item["COORDENADAS X"]>0)
+                            ? item["COORDENADAS X"]
+                            : item["COORDENADAS Y"]
                     ],
                   },
                   properties: {
-                     Folio_Infra: item.Folio_infra,
-                //     Nombre: item.Nombre,
-                //     Ap_Paterno: item.Ap_Paterno,
-                //     Ap_Materno: item.Ap_Materno,
+                     Folio: item["FOLIO"],
+                     Delito_Asociado: item["DELITO ASOCIADO"],
+                     Fuente: item["FUENTE"],
+                     Banda: item["NOMBRE DE LA BANDA"],
+                     Observaciones: item["OBSERVACIONES"],
                   },
                 };
               }),
@@ -140,8 +154,20 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
           });
     
           map.on('click', capa, (e) => {
-            setFolioSic(e.features[0].properties.Folio_Infra)
-
+            setFolioPunto(e.features[0].properties.Folio)
+            Swal.fire('Datos del Punto', 
+             `<div>
+             <b>Folio: </b>${e.features[0].properties.Folio}
+             <br>
+             <b>Delito: </b>${e.features[0].properties.Delito_Asociado}
+             <br>
+             <b>Fuente: </b>${e.features[0].properties.Fuente}
+             <br>
+             <b>Banda: </b>${e.features[0].properties.Banda}
+             <br>
+             <b>Observaciones: </b>${e.features[0].properties.Observaciones}
+             <br>
+             </div>`);
             });
     
         } else {
@@ -193,17 +219,17 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
                             geometry: {
                               type: "Point",
                               coordinates: [
-                                isNaN(parseFloat(item.CoordX))
-                                ? -0.0
-                                : (parseFloat(item.CoordX)>0)
-                                    ? parseFloat(item.CoordY)
-                                    : parseFloat(item.CoordX),
-                              isNaN(parseFloat(item.CoordY))
+                                isNaN(item["COORDENADAS X"])
                                 ? 0.0
-                                : (parseFloat(item.CoordX)>0)
-                                    ? parseFloat(item.CoordX)
-                                    : parseFloat(item.CoordY),
-                              ],
+                                : (item["COORDENADAS X"]>0)
+                                ? item["COORDENADAS Y"]
+                                : item["COORDENADAS X"],
+                                isNaN(item["COORDENADAS Y"])
+                                ? -0.0
+                                : (item["COORDENADAS X"]>0)
+                                    ? item["COORDENADAS X"]
+                                    : item["COORDENADAS Y"]
+                                ],
                             },
                           };
                         }),
@@ -278,7 +304,7 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
             setFetchedData2(fetchedData2Respaldo)
             }else {
             setFetchedData2Respaldo(fetchedData2)
-            setResultadosTurf(await PuntosEnZona(capaVectores, fetchedData2, Zona,'eventossic'));
+            setResultadosTurf(await PuntosEnZona(capaVectores, fetchedData2, Zona,'puntosidentificados'));
             //console.log('QUEME REGRESA EL AWAIT ',await PuntosEnZona(capaVectores, fetchedData2, Zona,'eventossic'))
             }
             
@@ -309,7 +335,7 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
            //console.log('else de junta')
           setFetchedData2Respaldo(fetchedData2)
           //console.log('LINEA 290 : ',await PuntosEnJuntaAuxiliar(JuntaAuxiliar, fetchedData2,'eventossic'))
-          setResultadosTurfJuntaAuxiliar(await PuntosEnJuntaAuxiliar(JuntaAuxiliar, fetchedData2,'eventossic'));
+          setResultadosTurfJuntaAuxiliar(await PuntosEnJuntaAuxiliar(JuntaAuxiliar, fetchedData2,'puntosidentificados'));
 
         }
           
@@ -357,8 +383,11 @@ const useMapLayerSic = (endpoint,color,capa,setFolioSic) => {
     handleZona,
     handleJuntaAuxiliar,
     handleFaltaDelitoEspecifico,
+    handleFuente,
+    handleBanda,
+    handleObjetivo
     // Resto de las funciones y efectos...
   };
 };
 
-export default useMapLayerSic;
+export default useMapLayerPuntos;

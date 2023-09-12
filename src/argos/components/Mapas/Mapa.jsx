@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import mapboxgl from "mapbox-gl";
-import { catalogosApi, mapasApi } from "../../../api";
+import { catalogosApi } from "../../../api";
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import "mapbox-gl/dist/mapbox-gl.css";
 import "../css/Mapa/mapa.css";
@@ -21,6 +21,9 @@ import { LayerInspeccionesControls } from "./LayerInspeccionesControls";
 import useMapLayerInspecciones from "../../../hooks/useMapLayerInspecciones";
 import useMapLayerSic from "../../../hooks/useMapLayerSic";
 import { LayerSicEventosControls } from "./LayerSicEventosControls";
+import useMapLayerPuntos from "../../../hooks/useMapLayerPuntos";
+import { LayerPuntosIdentificadosControls } from "./LayerPuntosIdentificadosControls";
+import { FlyTo } from "./FlyTo";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg";
@@ -40,13 +43,23 @@ export function Mapa() {
   const [Nombre, setNombre] = useState('');
   const [Inspeccion, setInspeccion] = useState(0);
   const [FolioSic, setFolioSic] = useState(0);
+  const [FolioPunto, setFolioPunto] = useState(0);
 
   const prevInspeccionRef = useRef(Inspeccion);
   const prevFolioSicRef = useRef(FolioSic);
   const prevRemisionRef = useRef(Remision);
 
   const [catalogoFD, setCatalogoFD] = useState()
+  const [catalogoFaltasDelitosPuntos, setCatalogoFaltasDelitosPuntos] = useState([])
+  const [catalogoFuentePuntos, setCatalogoFuentePuntos] = useState([])
+  const [catalogoBandaPuntos, setCatalogoBandaPuntos] = useState([])
+  const [catalogoObjetivoPuntos, setCatalogoObjetivoPuntos] = useState([])
   const [isLoadingCatalogo, setIsLoadingCatalogo] = useState(true)
+  const [isLoadingCatalogoFuente, setIsLoadingCatalogoFuente] = useState(true)
+  const [isLoadingCatalogoBanda, setIsLoadingCatalogoBanda] = useState(true)
+  const [isLoadingCatalogoObjetivo, setIsLoadingCatalogoObjetivo] = useState(true)
+
+  const [CoordenadasFlyTo,setCoordenadasFlyTo] = useState([-98.20346,19.03793])
 
   const [dataPoligonoPersonalizado,setDaltaPoligonoPersonalizado] = useState()
 
@@ -59,6 +72,35 @@ export function Mapa() {
     //console.log('catalogo  ',response.data.data.catalogo)
     setCatalogoFD(response.data.data.catalogo);
     setIsLoadingCatalogo(false)
+};
+  const fetchDataCatalogoPuntos = async (endpoint) => {
+    try {
+      let response = await catalogosApi.post(endpoint);
+      console.log(endpoint,response.data.data)
+      switch (endpoint) {
+        case 'puntos-delitos-asociados':
+          setCatalogoFaltasDelitosPuntos(response.data.data);
+          setIsLoadingCatalogo(false);
+          break;
+        case 'puntos-fuentes':
+          setCatalogoFuentePuntos(response.data.data);
+          setIsLoadingCatalogoFuente(false)
+          break;
+        case 'puntos-banda':
+          setCatalogoBandaPuntos(response.data.data);
+          setIsLoadingCatalogoBanda(false)
+          break;
+        case 'puntos-objetivo':
+          setCatalogoObjetivoPuntos(response.data.data);
+          setIsLoadingCatalogoObjetivo(false)
+          break;
+      
+        default:
+          break;
+      }
+    } catch (error) {
+      console.log('Error al cargar los catalogos', error)
+    }    
 };
 
   const {
@@ -161,8 +203,32 @@ export function Mapa() {
     handleCheckboxLayer: handleCheckboxLayerSicEventos,
     handleCheckboxHeatLayer: handleCheckboxHeatLayerSicEventos,
     handleZona: handleZonaSicEventos,
-    handleJuntaAuxiliar: handleJuntaAuxiliarSicEventos
+    handleJuntaAuxiliar: handleJuntaAuxiliarSicEventos,
+    handleFaltaDelitoEspecifico: handleFaltaDelitoEspecificoSicEventos
   } = useMapLayerSic('ubicacion-sic-eventos', 'orange', 'sic', setFolioSic);
+
+  const {
+    showLayer: showLayerPuntosIdentificados,
+    showHeatLayer: showHeatLayerPuntosIdentificados,
+    fechaInicio: fechaInicioPuntosIdentificados,
+    fechaFin: fechaFinPuntosIdentificados,
+    Zona: ZonaPuntosIdentificados,
+    JuntaAuxiliar: JuntaAuxiliarPuntosIdentificados,
+    fetchedData2: datosPuntosIdentificados,
+    setMap: setMapPuntosIdentificados,
+    setMapContainer: setMapContainerPuntosIdentificados,
+    fetchData: fetchDataPuntosIdentificados,
+    handleStartDateChange: handleStartDateChangePuntosIdentificados,
+    handleEndDateChange: handleEndDateChangePuntosIdentificados,
+    handleCheckboxLayer: handleCheckboxLayerPuntosIdentificados,
+    handleCheckboxHeatLayer: handleCheckboxHeatLayerPuntosIdentificados,
+    handleZona: handleZonaPuntosIdentificados,
+    handleJuntaAuxiliar: handleJuntaAuxiliarPuntosIdentificados,
+    handleFaltaDelitoEspecifico: handleFaltaDelitoEspecificoPuntosIdentificados,
+    handleFuente,
+    handleBanda,
+    handleObjetivo
+  } = useMapLayerPuntos('puntos-identificados', 'brown', 'puntosidentificados', setFolioPunto);
 
 
 
@@ -232,6 +298,7 @@ export function Mapa() {
       setMapContainerBuscado(mapContainer.current);
       setMapContainerInspecciones(mapContainer.current);
       setMapContainerSicEventos(map.current);
+      setMapContainerPuntosIdentificados(map.current);
 
       setMapDomicilioDetenido(map.current);
       setMapUbicacionDetencion(map.current)
@@ -240,6 +307,7 @@ export function Mapa() {
       setMapaArchivo(map.current);
       setMapInspecciones(map.current);
       setMapSicEventos(map.current);
+      setMapPuntosIdentificados(map.current);
 
       map.current.on('style.load', () => {
         setMapaCargado(true)
@@ -331,6 +399,14 @@ export function Mapa() {
   useEffect(() => {
     fetchDataCatalogo('faltas-delitos');
   }, []);
+ //TODO RECUERDA SE TIENE QUE CONVERTIR EN UN SWITCH EN EL FECTHDATACATALOGOPUNTOS
+ //DISPARAR TODOS LOS CATALOGOS A LA VEZ 
+  useEffect(() => {
+    fetchDataCatalogoPuntos('puntos-delitos-asociados');
+    fetchDataCatalogoPuntos('puntos-fuentes');
+    fetchDataCatalogoPuntos('puntos-banda');
+    fetchDataCatalogoPuntos('puntos-objetivo');
+  }, []);
 
     // Observar cambios en los estados Inspeccion, FolioSic y Remision
     useEffect(() => {
@@ -353,13 +429,25 @@ export function Mapa() {
     }, [Inspeccion, FolioSic, Remision]);
   
 
+    useEffect(() => {
+
+      if (map.current) {
+        map.current.flyTo({
+          center: CoordenadasFlyTo,
+          zoom: 15,
+          essential: true
+        });
+      }
+    
+    }, [CoordenadasFlyTo]);
+
   return (
     <>
       <div className="row">
         <div className="col-md-4">
           <div className="row">
             {
-            (!isLoadingCatalogo)
+            (!isLoadingCatalogo && catalogoFD.length)
             ?(
               <>
                 <div className="row">   
@@ -505,8 +593,42 @@ export function Mapa() {
                         handleEndDateChangeEventosSic={handleEndDateChangeSicEventos} 
                         handleZonaEventosSic={handleZonaSicEventos}
                         handleJuntaAuxiliarEventosSic={handleJuntaAuxiliarSicEventos}
+                        catalogoFD={catalogoFD}
+                        handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoSicEventos}
                       />
                     </div>
+                  </div>
+
+                  <div className="col-md-12">
+                    <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePuntosIdentificados" aria-expanded="false" aria-controls="collapsePuntosIdentificados">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="brown" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
+                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
+                      </svg>
+
+                        Capa Puntos Identificados
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                        </svg>
+                    </button>
+                    {(!isLoadingCatalogo) && !(isLoadingCatalogoFuente) && !(isLoadingCatalogoBanda)  && !(isLoadingCatalogoObjetivo) &&(
+
+                    <div className="col-md-12 card shadow mb-3 collapse" id="collapsePuntosIdentificados">
+                      <LayerPuntosIdentificadosControls
+                        handleCheckboxPuntosIdentificadosLayer={handleCheckboxLayerPuntosIdentificados} 
+                        showPuntosIdentificadosLayer={showLayerPuntosIdentificados}  
+                        handleCheckboxPuntosIdentificadosHeatLayer={handleCheckboxHeatLayerPuntosIdentificados} 
+                        showPuntosIdentificadosHeatLayer={showHeatLayerPuntosIdentificados}
+                        catalogoFD={catalogoFaltasDelitosPuntos}
+                        catalogoFuente={catalogoFuentePuntos}
+                        catalogoBanda={catalogoBandaPuntos}
+                        catalogoObjetivo={catalogoObjetivoPuntos}
+                        handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoPuntosIdentificados}
+                        handleFuente={handleFuente}
+                        handleBanda={handleBanda}
+                        handleObjetivo={handleObjetivo}
+                      />
+                    </div>
+                    )}
                   </div>
 
                 </div>  
@@ -517,6 +639,23 @@ export function Mapa() {
           }
           </div>
           
+          <div className="col-md-12">
+            <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFlyTo" aria-expanded="false" aria-controls="collapseFlyTo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-pin-map-fill" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/>
+              <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
+            </svg>
+              Mover Mapa
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+              </svg>
+            </button>
+          </div>
+
+          <div className="col-md-12 card shadow mb-3 collapse" id="collapseFlyTo">
+            <FlyTo setCoordenadasFlyTo={setCoordenadasFlyTo}/>
+          </div>
+
 
           <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBusqueda" aria-expanded="false" aria-controls="collapseBusqueda">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-person-bounding-box me-2" viewBox="0 0 16 16">
@@ -593,7 +732,7 @@ export function Mapa() {
                     </>
                   ) : (
                     <>
-                      <Link to={`/inicio`} target="_blank">Mas Detalles...</Link>
+                      <Link to={`/evento/${FolioSic}`} target="_blank">Mas Detalles...</Link>
                     </>
                   )}
                 </div>

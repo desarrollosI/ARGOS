@@ -165,6 +165,28 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'fuzzyText',
                 },
                 {
+                  Header:'TIPO',
+                  accessor:'Tipo',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'COLONIA',
+                  accessor:'Colonia',
+                  filter: 'fuzzyText',
+                },
+                {
+                  Header:'CALLE',
+                  accessor:'Calle',
+                  filter: 'fuzzyText',
+                  minWidth: 200
+                },
+                {
+                  Header:'NO. EXT',
+                  accessor:'No_Exterior',
+                  filter: 'fuzzyText',
+                  minWidth: 100
+                },
+                {
                   Header:'OCUPACIÓN',
                   accessor:'Ocupacion',
                   filter: 'fuzzyText',
@@ -2276,9 +2298,14 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: dateBetweenFilterFn
                 },
                 {
+                  Header:'ID INCIDENCIA',
+                  accessor:'id_incidencia',
+                  Cell: props =>  <Link to={`/incidencia/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Incidencia: General'})}>{props.value}</Link>,
+                  filter: 'fuzzyText',
+                },
+                {
                   Header:'FOLIO',
                   accessor:'Folio',
-                  // Cell: props =>  <Link to={`/historico/${props.value}`} target="_blank">{props.value}</Link>,
                   filter: 'fuzzyText',
                 },
                 {
@@ -2899,7 +2926,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   {
                     Header:'ID INCIDENCIA',
                     accessor:'id_incidencia',
-                    Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Inspecciones: Personas Inspeccionadas'})}>{props.value}</Link>,
+                    Cell: props =>  <Link to={`/incidencia/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Incidencia: Personas'})}>{props.value}</Link>,
                     filter: 'fuzzyText',
                   },
                   {
@@ -3011,6 +3038,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   {
                     Header:'ID PERSONA',
                     accessor:'ID_PERSONA',
+                    Cell: props =>  <Link to={`/integrante/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Atlas: Personas'})}>{props.value}</Link>,
                     filter: 'fuzzyText',
                   },
                   {
@@ -3242,6 +3270,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   {
                     Header:'FOLIO INFRA',
                     accessor:'Folio_infra',
+                    Cell: props =>  <Link to={`/evento/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'SIC: Eventos'})}>{props.value}</Link>,
                     filter: 'fuzzyText',
                   },
                   {
@@ -3292,6 +3321,122 @@ export const TableConstructor = ({lugar, datos}) => {
               <Table columns={columns} data={data} base={'SIC: Eventos'}/>
             )
         
+        case 'Telefonos: Llamadas':
+          columns = React.useMemo(
+            () => [
+                  {
+                    Header:'ID REGISTRO',
+                    accessor:'_id',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'FECHA',
+                    accessor:'Fecha',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'TELEFONO',
+                    accessor:'Telefono',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'ORIGEN',
+                    accessor:'Origen',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',      
+                  },
+                  {
+                    Header:'TIPO',
+                    accessor:'Tipo',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'LOC',
+                    accessor:'Loc Info ',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'COLONIA',
+                    accessor:'Colonia',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'COMENTARIOS',
+                    accessor:'Comentarios',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'CORPORACION',
+                    accessor:'Corporacion',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',    
+                  },
+            ],[]
+          )
+  
+          data = React.useMemo(() =>
+          datos.Llamadas
+          , [])
+            
+            
+            return (
+              <Table columns={columns} data={data} base={'Telefonos: Llamadas'}/>
+            )
+        case 'Telefonos: Contactos':
+          columns = React.useMemo(
+            () => [
+                  {
+                    Header:'ID REGISTRO',
+                    accessor:'_id',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'FECHA',
+                    accessor:'FECHA DEL REGISTRO',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'MOTIVO DEL DELITO Y/O SEGUIMIENTO',
+                    accessor:'MOTIVO DEL DELITO Y/O SEGUIMIENTO',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'FUENTE',
+                    accessor:'FUENTE',
+                    Filter: SelectColumnFilter,
+                    filter: 'equals',      
+                  },
+                  {
+                    Header:'NOMBRE/USUARIO',
+                    accessor:'NOMBRE/USUARIO',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NUMEROTELEFONICO',
+                    accessor:'NUMEROTELEFONICO',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NOMBRE DE LA RELACION Y/O PARENTEZCO',
+                    accessor:'NOMBRE DE LA RELACION Y/O PARENTEZCO',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'NUMERO TELEFÓNICO',
+                    accessor:'NUMERO TELEFÓNICO',
+                    filter: 'fuzzyText',
+                  }
+            ],[]
+          )
+  
+          data = React.useMemo(() =>
+          datos.Contactos
+          , [])
+            
+            
+            return (
+              <Table columns={columns} data={data} base={'Telefonos: Contactos'}/>
+            )
         case 'Alertas: Vehiculos':
           columns = React.useMemo(
             () => [

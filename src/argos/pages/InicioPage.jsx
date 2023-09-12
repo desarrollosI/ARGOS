@@ -37,12 +37,27 @@ export const InicioPage = () => {
           </div>
           <div className="row card shadow">
             <div className="col-md-12">
-              <h3>A.R.G.O.S. RC-2.0.0</h3>
+              <h3>A.R.G.O.S. RC-2.6.1</h3>
               <ul>
-                <li>Añadido Buscador General</li>
-                <li>Añadidas capas de Inspecciones, Eventos Sic en Geoanalisis</li>
-                <li>Corrección de las fotos en tarjetas y con zoom se veian blancas</li>
-                <li>Corrección las tarjetas del mapa ahora deben alternar correctamente</li>
+                <li>Solucionado problema de carga del módulo de Geoanálisis</li>
+                <li>Añadida la navegacion por coordenadas</li>
+                <li>Reeestructuracion del Módulo de estadística</li>
+                <li>Añadidas gráficas SIC</li>
+              </ul>
+              <h5>A.R.G.O.S. RC-2.5.0</h5>
+              <ul>
+                <li>Añadida capa Puntos Identificados</li>
+                <li>Añadida Vista Atlas</li>
+                <li>Añadida Vista Eventos Delictivos</li>
+                <li>Correccion en el catalogo de Falta/Delito ya no se repiten opciones</li>
+                <li>Inicio de reestructuracion del Modulo Estadistica</li>
+              </ul>
+              <h5>A.R.G.O.S. RC-2.1.0</h5>
+              <ul>
+                <li>Añadida Vista Incidencia Delictiva</li>
+                <li>Añadida Vista Eventos SIC</li>
+                <li>Añadido Filtro FaltaDelito En Geoanalisis SIC</li>
+                <li>Añadido el Domicilio Detenido en las busquedas Datos Personales, y Busqueda General</li>
               </ul>
             </div>
           </div>

@@ -54,7 +54,7 @@ export const PuntosEnJuntaAuxiliar = async (JuntaAuxiliar, dataBuscar, lugar ) =
           break;
         case 'eventossic':
           return turf.point(coordenadas, {
-            Folio_Infra: item.Folio_Infra
+            Folio_Infra: item.Folio_infra
           });
           break;
       
@@ -109,7 +109,7 @@ export const PuntosEnJuntaAuxiliar = async (JuntaAuxiliar, dataBuscar, lugar ) =
         case 'eventossic':
           if (Array.isArray(puntosPorJuntaAuxiliar.resultados)) {
             dataBuscar.forEach((data) => {
-              const coincidencia = puntosPorJuntaAuxiliar.resultados.find((punto) => punto.properties && punto.properties.Folio_Infra === data.Folio_Infra);
+              const coincidencia = puntosPorJuntaAuxiliar.resultados.find((punto) => punto.properties && punto.properties.Folio_Infra === data.Folio_infra);
               if (coincidencia) {
                 puntosFiltrados.resultados.push(data);
               }

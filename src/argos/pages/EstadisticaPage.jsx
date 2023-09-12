@@ -14,7 +14,7 @@
 */ 
 //Se realizan las importaciones de react
 import React from "react";
-import { MyChart } from "../components";
+import { CategoryChart, MyChart, MyChartSIC } from "../components";
 //Se importan los componentes necesarios
 
 
@@ -36,104 +36,15 @@ export const EstadisticaPage = () => {
               >
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
               </svg>{" "}
-              Estádistica
+              Estadística
             </h1>
           </div>
           <hr />
         </div>
       </div>
 
-      <div className="row d-flex justify-content-around ">
-        <div className="col-md-6 my-3 card shadow">
-          <MyChart configuracion={
-            {
-              tipo:'barra',
-              endpoint:'remisiones-por-instancia',
-              titulo:'TOTAL DE REMISIONES',
-              x:'Instancia', 
-              y:'total',
-              agrupacion:'Instancia',
-              etiqueta:'',
-              indexAxis:'x',
-              avanzada: 1
-            }}
-          />
-        </div>
-        <div className="col-md-6 my-3 card shadow">
-          <MyChart configuracion={
-            {
-              tipo:'barra',
-              endpoint:'remisiones-por-instancia-genero',
-              titulo:'TOTAL DE REMISIONES POR GÉNERO',
-              x:'Instancia', 
-              y:'suma_hombres,suma_mujeres',
-              agrupacion:'Instancia',
-              etiqueta:'',
-              indexAxis:'x',
-              avanzada: 1
-            }}
-          />
-        </div>
-        <div className="col-md-12 my-3 card shadow">
-          <MyChart configuracion={
-            {
-              tipo:'barra',
-              endpoint:'remisiones-por-instancia-edad',
-              titulo:'TOTAL DE REMISIONES POR POR EDAD',
-              x:'Instancia', 
-              y:'0-5,6-10,11-15,16-20,21-25,26-30,31-35,36-40,41-45,46-50,51-55,56-60,61-65,66-70,71-75,76-80,81-85,86-90,91-95,96-100',
-              agrupacion:'Instancia',
-              etiqueta:'',
-              indexAxis:'x',
-              avanzada: 1
-            }}
-          />
-        </div>
-        <div className="col-md-12 my-3 card shadow">
-          <MyChart configuracion={
-            {
-              tipo:'barra',
-              endpoint:'remisiones-por-primer-respondiente',
-              titulo:'TOTAL DE REMISIONES POR PRIMER RESPONDIENTE',
-              x:'Sector_Area', 
-              y:'total',
-              agrupacion:'Sector_Area',
-              etiqueta:'Sector_Area',
-              indexAxis:'y',
-              avanzada: 1
-            }}
-          />
-        </div>
-        <div className="col-md-12 my-3 card shadow">
-          <MyChart configuracion={
-            {
-              tipo:'barra',
-              endpoint:'remisiones-por-colonia-domicilio',
-              titulo:'TOTAL DE REMISIONES POR COLONIA DOMICILIO DETENIDO - TOP 100',
-              x:'Colonia', 
-              y:'total',
-              agrupacion:'Colonia',
-              etiqueta:'Colonia',
-              indexAxis:'y',
-              avanzada: 2
-            }}
-          />
-        </div>
-        <div className="col-md-6 my-3 card shadow">
-          <MyChart configuracion={
-            {
-              tipo:'barra',
-              endpoint:'remisiones-por-instancia-historico',
-              titulo:'TOTAL DE REMISIONES',
-              x:'Remitido_a', 
-              y:'total',
-              agrupacion:'Instancia',
-              etiqueta:'',
-              indexAxis:'x',
-              avanzada: 1
-            }}
-          />
-        </div>
+      <div className="row card shadow ms-1 me-1">
+        <CategoryChart/>
       </div>
     </>
   );

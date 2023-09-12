@@ -17,7 +17,10 @@ import {
   HistorialPage,
   EstadisticaPage,
   UsuariosPage,
-  UsuarioPage
+  UsuarioPage,
+  SicEventoPage,
+  IncidenciaDelictivaPage,
+  AtlasPage
 } from "../../argos/pages";
 //Se importa el store 
 import { useAuthStore } from "../../hooks";
@@ -88,6 +91,9 @@ export const NavbarN = () => {
               <Route path="historial" element={<HistorialPage/>} />
               <Route path="remision/:remision" element={<RemisionPage />} /> 
               <Route path="inspeccion/:inspeccion" element={<InspeccionPage />} /> 
+              <Route path="evento/:folio_infra" element={<SicEventoPage />} /> 
+              <Route path="incidencia/:id_incidencia" element={<IncidenciaDelictivaPage />} /> 
+              <Route path="integrante/:id_persona" element={<AtlasPage />} /> 
               <Route path="historico/:folio" element={<HistoricoPage />} /> 
               <Route path="usuario/:uid" element={<UsuarioPage />} /> 
               <Route path="usuarios/usuario" element={<UsuarioPage />} /> 
