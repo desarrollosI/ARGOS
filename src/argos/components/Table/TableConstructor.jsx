@@ -3340,6 +3340,21 @@ export const TableConstructor = ({lugar, datos}) => {
                     filter: 'fuzzyText',
                   },
                   {
+                    Header:'NOMBRE',
+                    accessor:'Nombre',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDOP',
+                    accessor:'ApellidoP',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'APELLIDOM',
+                    accessor:'ApellidoM',
+                    filter: 'fuzzyText',
+                  },
+                  {
                     Header:'ORIGEN',
                     accessor:'Origen',
                     Filter: SelectColumnFilter,
@@ -3358,6 +3373,11 @@ export const TableConstructor = ({lugar, datos}) => {
                   {
                     Header:'COLONIA',
                     accessor:'Colonia',
+                    filter: 'fuzzyText',
+                  },
+                  {
+                    Header:'UBICACION',
+                    accessor:'Ubicacion',
                     filter: 'fuzzyText',
                   },
                   {
