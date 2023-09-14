@@ -50,24 +50,36 @@ export const NavbarN = () => {
         <div className="nav-item">
           <NavLink to="/" className="me-3 text-white nav-link active">Inicio</NavLink>
         </div>
+        {(user.permisos.buscar) &&(
         <div className="nav-item">
           <NavLink to="/buscador" className="me-3 text-white nav-link">Buscador</NavLink>
         </div>
+        )}
+        {(user.permisos.reconocimiento) &&(
         <div className="nav-item">
           <NavLink to="/reconocimiento" className="me-3 text-white nav-link">Reconocimiento Facial</NavLink>
         </div>
+        )}
+        {(user.permisos.geoanalisis) &&( 
         <div className="nav-item">
           <NavLink to="/geoanalisis" className="me-3 text-white nav-link">Geoanálisis</NavLink>
         </div>
-        <div className="nav-item">
-          <NavLink to="/estadistica" className="me-3 text-white nav-link">Estádistica</NavLink>
-        </div>
+        )}
+        {(user.permisos.estadistica) &&( 
+          <div className="nav-item">
+            <NavLink to="/estadistica" className="me-3 text-white nav-link">Estádistica</NavLink>
+          </div>
+        )}
+        {(user.permisos.usuarios) &&( 
         <div className="nav-item">
           <NavLink to="/usuarios" className="me-3 text-white nav-link">Usuarios</NavLink>
         </div>
+        )}
+        {(user.permisos.historial) &&( 
         <div className="nav-item">
           <NavLink to="/historial" className="me-3 text-white nav-link">Historial</NavLink>
         </div>
+        )}
       </div>
 
       <div className="navbar-nav">
@@ -91,10 +103,24 @@ export const NavbarN = () => {
           </Routes> */}
            <Routes>
               <Route path="inicio" element={<InicioPage />} />
+              {(user.permisos.buscar) &&(
               <Route path="buscador" element={<BuscadorPage />} />
+              )}
+              {(user.permisos.reconocimiento) &&(
               <Route path="reconocimiento" element={<ReconocimientoPage />} />
+               )}
+              {(user.permisos.estadistica) &&(
               <Route path="estadistica" element={<EstadisticaPage />} />
+              )}
+              {(user.permisos.historial) &&(
               <Route path="historial" element={<HistorialPage/>} />
+              )}
+              {(user.permisos.geoanalisis) &&(
+              <Route path="geoanalisis" element={<GeoanalisisPage />} />
+              )}
+              {(user.permisos.usuarios) &&(
+              <Route path="usuarios" element={<UsuariosPage />} />
+              )}
               <Route path="remision/:remision" element={<RemisionPage />} /> 
               <Route path="inspeccion/:inspeccion" element={<InspeccionPage />} /> 
               <Route path="evento/:folio_infra" element={<SicEventoPage />} /> 
@@ -103,8 +129,6 @@ export const NavbarN = () => {
               <Route path="historico/:folio" element={<HistoricoPage />} /> 
               <Route path="usuario/:uid" element={<UsuarioPage />} /> 
               <Route path="usuarios/usuario" element={<UsuarioPage />} /> 
-              <Route path="geoanalisis" element={<GeoanalisisPage />} />
-              <Route path="usuarios" element={<UsuariosPage />} />
               <Route path="*" element={<Navigate to="inicio" />} /> 
           </Routes>
           </main>
