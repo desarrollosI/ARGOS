@@ -14,7 +14,7 @@ export const SicEvento = ({data}) => {
 
 return (
     <>
-		<div className="container-fluid card shadow mt-5 animate__animated animate__fadeIn mb-4">
+		<div className="container-fluid card shadow mt-5 animate__animated animate__fadeIn mb-4 content">
 
 			<div className="row">
 				<div className="col">

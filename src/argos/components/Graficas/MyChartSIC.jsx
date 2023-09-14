@@ -11,7 +11,7 @@ import React, { useEffect,useState } from 'react';
 //Se importan los componentes personalizados
 import { CheckSelect, DateRangePicker, GroupBySelector, GroupBySelectorSIC, SpecifyGroupBySelector, SpecifyOrderBySelector } from './';
 //Se importa nuestro adaptador hacia el backend
-import { graficasApi } from '../../../api';
+import { catalogosApi, graficasApi } from '../../../api';
 //Se importan los helpers necesarios
 import { dataToExcel, tratarInformacion, tratarInformacionSIC } from '../../helpers';
 //Se importan las bibliotecas y componentes de terceros
@@ -31,6 +31,7 @@ import {
 } from 'chart.js';
 import { Bar,Line,Radar,Doughnut } from 'react-chartjs-2';
 import { insertHistorial } from '../../../helpers/insertHistorial';
+import { AutoCompleteFD } from '../Mapas/AutoCompleteFD';
 //Se inicializa la grafica diciendole que elementos va a tener
 ChartJS.register(
   CategoryScale,
@@ -71,7 +72,7 @@ const chartOptions = {
 export function MyChartSIC({configuracion}) {
     //Des estructuro de la propiedad de configuracion como quiero que luzca la grafica   
     const {tipo,endpoint,titulo,x,y,agrupacion,etiqueta,indexAxis,avanzada} = configuracion;
-    console.log({tipo,endpoint,titulo,x,y,agrupacion,etiqueta,avanzada})
+    console.log('AGRUPACION DESDE MY CHART SIC ',{agrupacion})
 
     //Estados por defecto, no requeridos en primera insancia como propiedad para poder iniciar la grafica
     const [isLoadingData, setIsLoadingData] = useState(true) //Estado bandera para saber cuando se sigue esperando una respuesta del backend
@@ -85,6 +86,9 @@ export function MyChartSIC({configuracion}) {
     const [etiquetaEjeX, setEtiquetaEjeX] = useState(etiqueta); //este estado va  a manejar los label de las columnas del eje x en el caso de que se requiera algo mas que lo generico
     const [SpecifyAgrupacion, setSpecifyAgrupacion] = useState('todas')//aunque este no se pide como prop, se pone aca pues es un estado que muta la grafica
     const [SpecifyOrderBy, setSpecifyOrderBy] = useState('desc')
+    const [FaltaDelitoEspecifico, setFaltaDelitoEspecifico] = useState('');
+    const [IsLoadingCatalogo,setIsLoadingCatalogo] = useState(true);
+    const [catalogoFD, setCatalogoFD] = useState()
 
     const [opcionesZona, setOpcionesZona] = useState([
       "CENTRO HISTÓRICO",
@@ -190,6 +194,11 @@ export function MyChartSIC({configuracion}) {
       setSpecifyOrderBy(event.target.value);
     }
 
+    const handleFaltaDelitoEspecifico = (delito) => {
+      //console.log('delito',delito)
+      setFaltaDelitoEspecifico(delito.name)
+    }
+
     const handleGenerateCSV = async (endpoint) => {
       const {data} = await graficasApi.post(endpoint+'-csv',{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,selectedOption,SpecifyOrderBy})
       dataToExcel(data.data.Remisiones,{lugar:'Estádistica',tipo: 'Exportación Excel', base: endpoint+'-csv', filtros: {fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,selectedOption,SpecifyOrderBy}})
@@ -197,13 +206,25 @@ export function MyChartSIC({configuracion}) {
 
     const fetchData = async(endpont) => {
         setIsLoadingData(true);
-        insertHistorial({lugar:'Estádistica',tipo:'Petición de información',endpoint,fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion})
-        console.log('LE ESTOY MANDANDO AL BACKEND: ',endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,selectedOption,SpecifyOrderBy})
-        const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,selectedOption,SpecifyOrderBy});
+        insertHistorial({lugar:'Estádistica',tipo:'Petición de información',endpoint,fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,FaltaDelitoEspecifico})
+        console.log('LE ESTOY MANDANDO AL BACKEND: ',endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,selectedOption,SpecifyOrderBy,FaltaDelitoEspecifico})
+        const {data} =  await graficasApi.post(endpont,{fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,selectedOption,SpecifyOrderBy,FaltaDelitoEspecifico});
         console.log('EL BACKEND ME REGRESA: ',data.data.Remisiones )
         setFetchedData(data.data.Remisiones);
         setIsLoadingData(false);
     }
+
+    const fetchDataCatalogo = async (endpoint) => {
+      setIsLoadingCatalogo(true);
+      let response = await catalogosApi.post(endpoint);
+      //console.log('catalogo  ',response.data.data.catalogo)
+      setCatalogoFD(response.data.data.catalogo);
+      setIsLoadingCatalogo(false)
+  };
+
+    useEffect(() => {
+      fetchDataCatalogo('faltas-delitos');
+    }, []);
 
     useEffect(() => {
       setEtiquetaEjeX(etiqueta)
@@ -215,7 +236,7 @@ export function MyChartSIC({configuracion}) {
 
     useEffect(() => {
         fetchData(endpoint)
-    }, [fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,SpecifyOrderBy,selectedOption])
+    }, [fechaInicio,fechaFin,agrupacionData,SpecifyAgrupacion,SpecifyOrderBy,selectedOption,FaltaDelitoEspecifico])
 
     useEffect(() => {
       if ( isLoadingData ) {
@@ -318,7 +339,7 @@ export function MyChartSIC({configuracion}) {
                3. sin controles, solo rango de fechas
              */}
              {
-               avanzada == 1 && <GroupBySelectorSIC agrupacion={agrupacionData} handleAgrupacionChange={handleAgrupacionChange} />
+               avanzada == 1 && <GroupBySelectorSIC agrupacionData={agrupacionData} handleAgrupacionChange={handleAgrupacionChange} />
              }
              {
                (agrupacion!='SD') && 
@@ -341,6 +362,12 @@ export function MyChartSIC({configuracion}) {
                              handeSpecifyOrderByChange={handeSpecifyOrderByChange}
                              />
              }
+             {
+               (!isLoadingData) &&
+               (avanzada == 1) &&
+                            <AutoCompleteFD data={catalogoFD} handleFaltaDelitoEspecifico={handleFaltaDelitoEspecifico}/>
+             }
+            
            </div>
    
          </>

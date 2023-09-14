@@ -24,6 +24,7 @@ import { LayerSicEventosControls } from "./LayerSicEventosControls";
 import useMapLayerPuntos from "../../../hooks/useMapLayerPuntos";
 import { LayerPuntosIdentificadosControls } from "./LayerPuntosIdentificadosControls";
 import { FlyTo } from "./FlyTo";
+import { ImageZoom } from "../Shared";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg";
@@ -36,6 +37,7 @@ export function Mapa() {
   const [lat, setLat] = useState(19.03793);
   const [zoom, setZoom] = useState(9);
   const [mapaCargado,setMapaCargado] = useState(false);
+  const [marker, setMarker] = useState(null);
 
   const [showVectoresLayer, setShowVectoresLayer] = useState(true);
   const [Remision, setRemision] = useState(258086);
@@ -428,15 +430,32 @@ export function Mapa() {
       //console.log({ Inspeccion, FolioSic, Remision });
     }, [Inspeccion, FolioSic, Remision]);
   
-
+    //EFECTO ENCARGADO DE REALIZAR EL FLY TO y COLOCAR  EL MARCADOR
     useEffect(() => {
 
-      if (map.current) {
+      if (map.current ) {
+
+        // Elimina el marcador anterior si existe
+        if (marker) {
+          marker.remove();
+        }
+
+        const newMarker = new mapboxgl.Marker()
+        .setLngLat(CoordenadasFlyTo)
+        .addTo(map.current);
+
+        // Establecer el índice z del nuevo marcador mediante CSS
+        newMarker.getElement().style.zIndex = '9999'; // Ajusta el valor según sea necesario
+
+        // Actualiza la referencia del marcador en el estado
+        setMarker(newMarker);
+        
         map.current.flyTo({
           center: CoordenadasFlyTo,
           zoom: 15,
           essential: true
         });
+      console.log('MARKER', marker);
       }
     
     }, [CoordenadasFlyTo]);
@@ -642,8 +661,8 @@ export function Mapa() {
           <div className="col-md-12">
             <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFlyTo" aria-expanded="false" aria-controls="collapseFlyTo">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-pin-map-fill" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/>
-              <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
+              <path fillRule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/>
+              <path fillRule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
             </svg>
               Mover Mapa
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
@@ -694,13 +713,14 @@ export function Mapa() {
               {/* <div className="overlaymap">
                 Longitud: {lng} | Latitud: {lat} | Zoom: {zoom}
               </div> */}
-              <div className="col-md-12 card shadow pb-2 px-2" style={{maxHeight: '420px'}}>
+              <div className="col-md-12 card shadow pb-2 px-2" style={{maxHeight: '420px', width:'290px'}}>
                 <div className="row mt-3"> 
                   <h4> Foto: </h4>
                 </div>
                 <div className="row">
                 {Remision != 0 ? (
-                  <img src={`http://187.216.250.245/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} width="400px" alt="Foto_Detenido"/>
+                  <ImageZoom  url={`http://187.216.250.245/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} width={'270'} height={'180'}/>
+                  //<img src={`http://187.216.250.245/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} width="400px" alt="Foto_Detenido"/>
                 ) : (
                   <></>
                 )}

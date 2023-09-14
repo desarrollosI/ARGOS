@@ -28,7 +28,7 @@ export const CatergorySic = () => {
                     titulo:'TOTAL DE EVENTOS',
                     x:'CSviolencia', 
                     y:'total',
-                    agrupacion:'',
+                    agrupacion:'SD',
                     etiqueta:'',
                     indexAxis:'x',
                     avanzada: 1

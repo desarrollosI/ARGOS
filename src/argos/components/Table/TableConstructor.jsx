@@ -3345,6 +3345,11 @@ export const TableConstructor = ({lugar, datos}) => {
                     filter: 'fuzzyText',
                   },
                   {
+                    Header:'NOMBRE',
+                    accessor:'Nom completo',
+                    filter: 'fuzzyText',
+                  },
+                  {
                     Header:'APELLIDOP',
                     accessor:'ApellidoP',
                     filter: 'fuzzyText',

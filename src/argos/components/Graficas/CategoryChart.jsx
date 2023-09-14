@@ -5,7 +5,7 @@ import { CatergorySic } from './CategorySic'
 
 export const CategoryChart = () => {
   return (
-    <div className="row d-flex align-items-start">
+    <div className="row d-flex align-items-start content">
     <div className="row">
         <div className="col-md-1 mt-2">
             <div className="nav flex-column nav-pills me-3 col-md-1" id="v-pills-tab" role="tablist" aria-orientation="vertical">

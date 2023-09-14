@@ -5,7 +5,6 @@ import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 export const AutoCompletePuntosDelitos = ({data,handleFaltaDelitoEspecificoPuntosIdentificados}) => {
 
     // console.log('REFERENCIA DE LA FUNCION', handleFaltaDelitoEspecifico)
-    console.log(data)
 
    const [items, setItems] = useState([])
   // note: the id field is mandatory

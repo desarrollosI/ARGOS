@@ -15,7 +15,7 @@ import { NavLink } from "react-router-dom";
 export const UsuariosPage = () => {
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid content">
         <div className="row card shadow">
           <div className="col">
             <h1 className="titulo">

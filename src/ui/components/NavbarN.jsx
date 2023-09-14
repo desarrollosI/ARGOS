@@ -4,7 +4,8 @@
   y siempre seran necesario ser mostrados al usuario en este caso es la barra de navegacion
 */
 //Se importan los componentes necesarios de react router
-import { Navigate, Route, Routes ,Link, NavLink, useNavigate} from "react-router-dom";
+import { Navigate, Route, Routes ,Link, NavLink, useNavigate,useLocation} from "react-router-dom";
+import gsap from "gsap";
 //Se improtan los componentes hoc, paginas para la barra de navegacion
 import {
   BuscadorPage,
@@ -33,6 +34,11 @@ export const NavbarN = () => {
   const { status, user, startLogout } = useAuthStore();
   // se deja el navigate del router antes se usaba para redirigir al usuario en caso de ser necesario
   const navigate = useNavigate();
+
+  let location = useLocation();
+  useEffect(() => {
+    gsap.fromTo(".content", { opacity: 0, x: 300 }, { opacity: 1, x: 0 });
+}, [location]);
 
   return (
     <>

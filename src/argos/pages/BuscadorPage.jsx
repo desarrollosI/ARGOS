@@ -14,7 +14,7 @@ import { BaseMultiplier } from "../components";
 export const BuscadorPage = () => {
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid content">
         <div className="row card shadow">
           <div className="col">
             <h1 className="titulo">

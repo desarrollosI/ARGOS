@@ -14,7 +14,7 @@ import { SelectBaseComponent } from "../components/Table/SelectBaseComponent";
 export const HistorialPage = () => {
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid content">
         <div className="row card shadow">
           <div className="col">
             <h1 className="titulo">
