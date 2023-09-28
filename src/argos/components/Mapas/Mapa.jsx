@@ -26,6 +26,8 @@ import { LayerPuntosIdentificadosControls } from "./LayerPuntosIdentificadosCont
 import { FlyTo } from "./FlyTo";
 import { ImageZoom } from "../Shared";
 
+//import CapaVectores from '../../../assets/capas/195_VECTORES.geojson';
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg";
 
@@ -340,7 +342,7 @@ export function Mapa() {
         
           if (showVectoresLayer) {
             // Supongamos que tienes el objeto GeoJSON almacenado en una variable llamada 'geojsonFile'
-            var geojsonFile = './195_VECTORES.geojson';
+            var geojsonFile = './capas/195_VECTORES.geojson';
             // Utilizamos el método fetch para cargar el archivo GeoJSON
             fetch(geojsonFile)
               .then(function(response) {
@@ -356,7 +358,7 @@ export function Mapa() {
           if (!map.current.getSource(sourceIDVectores)) {
             map.current.addSource(sourceIDVectores, {
               type: "geojson",
-              data: './195_VECTORES.geojson'
+              data: './capas/195_VECTORES.geojson'
             });
           }
     

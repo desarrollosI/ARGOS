@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import { insertHistorial } from '../helpers/insertHistorial';
+import Azul from '../assets/azul.png';
+import Morado from '../assets/morado.png';
+import Rojo from '../assets/rojo.png';
+import Verde from '../assets/verde.png';
 
 const useMapLayerBuscado = (setFicha,setRemision,setNombre,setInspeccion) => {
 
@@ -11,28 +15,28 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre,setInspeccion) => {
     useEffect(() => {
         if (MapBuscado) {
           MapBuscado.loadImage(
-            "/estaticos-argos/mapa/rojo.png", // URL del ícono personalizado
+            Rojo, // URL del ícono personalizado
             (error, image) => {
               if (error) throw error;
               MapBuscado.addImage("marker-hechos", image);
             }
           );
           MapBuscado.loadImage(
-            "/estaticos-argos/mapa/verde.png", // URL del ícono personalizado
+            Verde, // URL del ícono personalizado
             (error, image) => {
               if (error) throw error;
               MapBuscado.addImage("marker-detencion", image);
             }
           );
           MapBuscado.loadImage(
-            "/estaticos-argos/mapa/azul.png", // URL del ícono personalizado
+            Azul, // URL del ícono personalizado
             (error, image) => {
               if (error) throw error;
               MapBuscado.addImage("marker-domicilio", image);
             }
           );
           MapBuscado.loadImage(
-            "/estaticos-argos/mapa/morado.png", // URL del ícono personalizado
+            Morado, // URL del ícono personalizado
             (error, image) => {
               if (error) throw error;
               MapBuscado.addImage("marker-inspecciones", image);
