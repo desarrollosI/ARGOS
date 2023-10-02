@@ -1,5 +1,8 @@
+//se importa react
 import React from 'react';
-
+/*Este componente exporta un selector basado en un arreglo de opciones que recibe de entrada
+  solo soporta una opcion a la vez por lo que fue reemplazado por el componente CheckSelect
+*/
 export function SpecifyGroupBySelector({ handleSpecifyAgrupacionChange,opciones = [] }) {
   opciones = [...new Set(opciones)]
   return (

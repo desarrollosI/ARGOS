@@ -1,9 +1,8 @@
+//se importa react 
 import React from 'react';
-
+//Este componente es el cual se encarga de manejar la agrupacion  de la data de la grafica
 export function GroupBySelectorSIC({ agrupacionData,handleAgrupacionChange }) {
-  console.log(agrupacionData,'desde el group by',agrupacionData === "CSviolencia")
 
-  console.log(agrupacionData) 
   return (
     <div className="row mt-2">
       <div className="col-md-12">

@@ -45,7 +45,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
+//Se declaran los tipos de graficas que se pueden manejar
 const chartComponents = {
   barra: Bar,
   area: Line,
@@ -89,6 +89,12 @@ export function MyChartSIC({configuracion}) {
     const [FaltaDelitoEspecifico, setFaltaDelitoEspecifico] = useState('');
     const [IsLoadingCatalogo,setIsLoadingCatalogo] = useState(true);
     const [catalogoFD, setCatalogoFD] = useState()
+
+      /*
+    estos arreglos/estado de opciones se añadieron para poder manejar los controles y los filtros,
+    perfectamente se pueden realizar mediante peticiones fetch 
+    */
+
 
     const [opcionesZona, setOpcionesZona] = useState([
       "CENTRO HISTÓRICO",

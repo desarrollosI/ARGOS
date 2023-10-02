@@ -1,6 +1,13 @@
+//se importa react
 import React from 'react'
+/*se importa el componente MyChartSIC este se encarga de mostrar y manipular la grafica de acuerdo a los controles 
+  este componente funciona en bases como SIC.
+*/
 import { MyChartSIC } from './MyChartSIC'
-
+/* 
+  El componente resultante a su vez  pueden ser una serie de pestañas con categorias especificas de graficas
+  de igual forma si se quieren mas categorias se tienen que añadir en este tipo de archivos
+*/
 
 export const CatergorySic = () => {
   return (
@@ -21,6 +28,21 @@ export const CatergorySic = () => {
     <div className="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
         <div className="row d-flex justify-content-around ">
             <div className="col-md-8 my-3 card shadow">
+
+                {/* 
+                    Paramtros de entrada para el componente:
+                    Tipo de grafica,
+                    Endpoint de donde sacara la informacion (proviene de GraficasApi)
+                    titulo
+                    En nombre del campo que sera representado en el eje x 
+                    El nombre del campo que sera representado en el eje y
+                    si los datos tienen agrupacion especifica o ese control, debe ir el nombre del campo por el que se agrupan
+                    etiqueta es un parametro algo complicado, separado por comas deben de ir todos los grupos que pertecen a una
+                    misma columna de x, se entiende mejor visualizando las graficas
+                    indexAxis es para cambiar o "girar" la orientacion de la grafica
+                    avanzada representa la cantidad y complejidad de los controles
+                */}
+
                 <MyChartSIC configuracion={
                 {
                     tipo:'barra',
