@@ -1,9 +1,8 @@
 import * as turf from '@turf/turf';
 
 export const PuntosEnJuntaAuxiliar = async (JuntaAuxiliar, dataBuscar, lugar ) => {
-
   try {
-    const response = await fetch(`./${JuntaAuxiliar}.geojson`);
+    const response = await fetch(`./capas/${JuntaAuxiliar}.geojson`);
     const data = await response.json();
 
     JuntaAuxiliar = data;

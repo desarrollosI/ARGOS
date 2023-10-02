@@ -1,5 +1,10 @@
+//Se importa react
 import React from 'react';
-
+/*
+  El retorno de este componente es el selector para realizar el fitlrado por alguna junta auxiliar
+  como recordatorio ya que estamos hablando de capas, no funciona si no existe su capa exactamente con el mismo
+  nombre la opcion dentro de los assets
+*/
 export function JuntaAuxiliarPicker({handleJuntaAuxiliar }) {
   return (
     <div className="row mt-2">

@@ -7,7 +7,7 @@ export const PersonaAtlas = ({data}) => {
     let pathPersona=Persona[0].PATH_IMAGEN.split('?');
     console.log('PERSONA: ', Persona)
   return (
-    <div className="container-fluid card shadow mt-5 animate__animated animate__fadeIn mb-4">
+    <div className="container-fluid card shadow mt-5 animate__animated animate__fadeIn mb-4 content">
 
     <div className="row">
         <div className="col">

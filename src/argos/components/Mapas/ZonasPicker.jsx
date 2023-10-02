@@ -1,5 +1,9 @@
+//se importa react
 import React from 'react';
-
+/*
+  El componente aqui exportado no es mas que un selector con las opciones de zona por las que se puede
+  filtrar la informacio de una capa, es una parte de todos los controles de las capas
+*/
 export function ZonasPicker({handleZona }) {
   return (
     <div className="row mt-2">

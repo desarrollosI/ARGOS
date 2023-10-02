@@ -21,7 +21,7 @@ import { CategoryChart, MyChart, MyChartSIC } from "../components";
 export const EstadisticaPage = () => {
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid content">
         <div className="row card shadow">
           <div className="col">
             <h1 className="titulo">
@@ -42,7 +42,7 @@ export const EstadisticaPage = () => {
           <hr />
         </div>
       </div>
-
+      {/* se creo un nuevo componente funciona como una ventana con paneles de diferentes categorias */}
       <div className="row card shadow ms-1 me-1">
         <CategoryChart/>
       </div>

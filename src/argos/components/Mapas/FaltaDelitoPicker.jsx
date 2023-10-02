@@ -1,5 +1,8 @@
+//se importa react
 import React from 'react';
-
+/*
+  El retorno de este componente no es mas que un selector entre Faltas o Delitos para el filtrado de informacion
+*/
 export function FaltaDelitoPicker({handleFaltaDelito }) {
   return (
     <div className="row mt-2">

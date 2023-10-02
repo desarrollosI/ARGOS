@@ -1,5 +1,5 @@
+//Archivo de barril para facilitar todas las exportaciones posteriores de componentes que tengan que ver con el mapa
 export * from './Mapa'
-export * from './MapControls'
 export * from './FaltaDelitoPicker'
 export * from './ZonasPicker'
 export * from './LayerHechosControls'

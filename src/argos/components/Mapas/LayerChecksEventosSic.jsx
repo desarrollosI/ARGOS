@@ -1,5 +1,9 @@
+//se importa react
 import React from 'react'
-
+/*
+    El componente son las opciones para poder mostrar/ocultar las capa de eventos sic en formato de 
+    puntos y en formato de capa de calor        
+*/
 export const LayerChecksEventosSic = ({handleCheckboxEventosSicLayer,showEventosSicLayer,handleCheckboxEventosSicHeatLayer,showEventosSicHeatLayer}) => {
   return (
     <div className="row">

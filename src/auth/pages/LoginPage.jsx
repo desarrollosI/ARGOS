@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { useAuthStore, useForm } from '../../hooks';
 //se importan las hojas de estilo necesarias para el componente
 import './LoginPage.css';
-import logo from '/login/argos-logo-1.png';
+import logo from '../../assets/argos-logo-1.png';
 import CanvasAnimation from './CanvasAnimation';
 //Se debe de tener un pseudo estado pristine del formulario, de otra forma se entra en un bucle de re-renderizado
 const loginFormFields = {

@@ -1,5 +1,9 @@
+//se importa react
 import React from 'react'
-
+/*
+    El componente son las opciones para poder mostrar/ocultar las capa de inspecciones en formato de 
+    puntos y en formato de capa de calor        
+*/
 export const LayerChecksInspecciones = ({handleCheckboxInspeccionesLayer,showInspeccionesLayer,handleCheckboxInspeccionesHeatLayer,showInspeccionesHeatLayer}) => {
   return (
     <div className="row">

@@ -5,6 +5,7 @@ import * as faceapi from 'face-api.js';
 //Componentes personalizados necesarios, la importacion es corta, pues se jala de un archivo de barril.
 import { LoadingFace, LoadingSpinner, MyLoader, ResultadosReconocimiento } from '../../components';
 //Archivos css
+import Silueta from '../../../assets/silueta.jpg'
 import '../css/BuscadorFacial/BuscadorFacial.css';
 //Importacion de hooks
 import { useAuthStore } from '../../../hooks';
@@ -35,7 +36,7 @@ export const BuscadorFacial = () => {
     const [ParecidosHistoricos, setParecidosHistoricos] = useState([]);///Resultados de Historicos
     const [CaraSubida, setCaraSubida] = useState([]);//Cara que se sube al sistema
     const [files, setFiles] = useState([]);//sub estado para detectar cuando se carga un archivo
-    const [images, setImages] = useState([import.meta.env.VITE_PUBLIC_ROUTE+'silueta.jpg']);//Estado para manejar la imagen placeholder cuando recien se incia el sistema
+    const [images, setImages] = useState([Silueta]);//Estado para manejar la imagen placeholder cuando recien se incia el sistema
     const [IsLoadingFace, setIsLoadingFace] = useState(false);//Estado bandera para saber si la cara fue mapeada con exito, si se esta procesado o si no se pudo procesar
     const [isLoadingResults, setIsLoadingResults] = useState(false);// Estado bandera para saber si se siguen solicitando los resultados al backend
     const [Message, setMessage] = useState(['Paciencia se esta cargando tu imagen','warning']);//Estado que maneja los mensajes informativos cuando se carga una imagen

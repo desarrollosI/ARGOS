@@ -4,7 +4,8 @@
   y siempre seran necesario ser mostrados al usuario en este caso es la barra de navegacion
 */
 //Se importan los componentes necesarios de react router
-import { Navigate, Route, Routes ,Link, NavLink, useNavigate} from "react-router-dom";
+import { Navigate, Route, Routes ,Link, NavLink, useNavigate,useLocation} from "react-router-dom";
+import gsap from "gsap";
 //Se improtan los componentes hoc, paginas para la barra de navegacion
 import {
   BuscadorPage,
@@ -34,6 +35,11 @@ export const NavbarN = () => {
   // se deja el navigate del router antes se usaba para redirigir al usuario en caso de ser necesario
   const navigate = useNavigate();
 
+  let location = useLocation();
+  useEffect(() => {
+    gsap.fromTo(".content", { opacity: 0, x: 300 }, { opacity: 1, x: 0 });
+}, [location]);
+
   return (
     <>
       <header className="navbar navbar-dark sticky-top bg-dark Rhino flex-md-nowrap p-0 shadow">
@@ -44,24 +50,36 @@ export const NavbarN = () => {
         <div className="nav-item">
           <NavLink to="/" className="me-3 text-white nav-link active">Inicio</NavLink>
         </div>
+        {(user.permisos.buscar) &&(
         <div className="nav-item">
           <NavLink to="/buscador" className="me-3 text-white nav-link">Buscador</NavLink>
         </div>
+        )}
+        {(user.permisos.reconocimiento) &&(
         <div className="nav-item">
           <NavLink to="/reconocimiento" className="me-3 text-white nav-link">Reconocimiento Facial</NavLink>
         </div>
+        )}
+        {(user.permisos.geoanalisis) &&( 
         <div className="nav-item">
           <NavLink to="/geoanalisis" className="me-3 text-white nav-link">Geoanálisis</NavLink>
         </div>
-        <div className="nav-item">
-          <NavLink to="/estadistica" className="me-3 text-white nav-link">Estádistica</NavLink>
-        </div>
+        )}
+        {(user.permisos.estadistica) &&( 
+          <div className="nav-item">
+            <NavLink to="/estadistica" className="me-3 text-white nav-link">Estádistica</NavLink>
+          </div>
+        )}
+        {(user.permisos.usuarios) &&( 
         <div className="nav-item">
           <NavLink to="/usuarios" className="me-3 text-white nav-link">Usuarios</NavLink>
         </div>
+        )}
+        {(user.permisos.historial) &&( 
         <div className="nav-item">
           <NavLink to="/historial" className="me-3 text-white nav-link">Historial</NavLink>
         </div>
+        )}
       </div>
 
       <div className="navbar-nav">
@@ -85,10 +103,24 @@ export const NavbarN = () => {
           </Routes> */}
            <Routes>
               <Route path="inicio" element={<InicioPage />} />
+              {(user.permisos.buscar) &&(
               <Route path="buscador" element={<BuscadorPage />} />
+              )}
+              {(user.permisos.reconocimiento) &&(
               <Route path="reconocimiento" element={<ReconocimientoPage />} />
+               )}
+              {(user.permisos.estadistica) &&(
               <Route path="estadistica" element={<EstadisticaPage />} />
+              )}
+              {(user.permisos.historial) &&(
               <Route path="historial" element={<HistorialPage/>} />
+              )}
+              {(user.permisos.geoanalisis) &&(
+              <Route path="geoanalisis" element={<GeoanalisisPage />} />
+              )}
+              {(user.permisos.usuarios) &&(
+              <Route path="usuarios" element={<UsuariosPage />} />
+              )}
               <Route path="remision/:remision" element={<RemisionPage />} /> 
               <Route path="inspeccion/:inspeccion" element={<InspeccionPage />} /> 
               <Route path="evento/:folio_infra" element={<SicEventoPage />} /> 
@@ -97,8 +129,6 @@ export const NavbarN = () => {
               <Route path="historico/:folio" element={<HistoricoPage />} /> 
               <Route path="usuario/:uid" element={<UsuarioPage />} /> 
               <Route path="usuarios/usuario" element={<UsuarioPage />} /> 
-              <Route path="geoanalisis" element={<GeoanalisisPage />} />
-              <Route path="usuarios" element={<UsuariosPage />} />
               <Route path="*" element={<Navigate to="inicio" />} /> 
           </Routes>
           </main>

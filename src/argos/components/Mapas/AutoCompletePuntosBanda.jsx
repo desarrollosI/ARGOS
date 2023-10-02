@@ -1,12 +1,14 @@
+//se importa react 
 import React, { useState } from 'react'
-//import './App.css'
+//se importa el componente de terceros
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+/* 
+  Como el nombre indica el componente es un input que recibe de datos de entrada 
+  un catalogo, en concreo de las bandas y el handler para almacenar la respuesta seleccionada
+*/
 
 export const AutoCompletePuntosBanda = ({data,handleBandaPuntosIdentificados}) => {
-
-    // console.log('REFERENCIA DE LA FUNCION', handleFaltaDelitoEspecifico)
-    // console.log(data)
-
+   //para que el componente funcione es mandatorio que el catalogo sea un arreglo de objetos con id y el name, buscar la documentacion de la biblioteca
    const [items, setItems] = useState([])
   // note: the id field is mandatory
   let itemsFD = []
@@ -15,7 +17,7 @@ export const AutoCompletePuntosBanda = ({data,handleBandaPuntosIdentificados}) =
 } )
 
   
-
+  //todas estas funciones se dejan por si en algun punto es necesario utilizarlas, son handlers, parecido a funciones de un hook
   const handleOnSearch = (string, results) => {
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.
@@ -49,7 +51,10 @@ export const AutoCompletePuntosBanda = ({data,handleBandaPuntosIdentificados}) =
       </>
     )
   }
-
+    /*
+    El retorno del componente como se tiene es un input que va mostrando
+    opciones para seleccionar de acuerdo a la entrada del usuario
+  */
   return (
     <div className="App">
       <header className="App-header">
@@ -89,5 +94,3 @@ export const AutoCompletePuntosBanda = ({data,handleBandaPuntosIdentificados}) =
     </div>
   )
 }
-
-// export default App

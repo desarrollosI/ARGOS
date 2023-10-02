@@ -8,6 +8,7 @@ import  { useEffect, useState } from 'react'
 import { SelectBaseComponent, TableConstructor } from '../Table';
 import { BuscadorGeneral, NombreSearch } from '../BuscadoGeneral';
 import useGeneralSearchControls from '../../../hooks/useGeneralSearchControls';
+import { useAuthStore } from '../../../hooks';
 /*
     Funciones que estan fuera de el componente para que no se les asigne otro espacio en  memoria al llamarlas
     o en su defecto cuando el componente <BaseMultiplier /> sea redibujado, cada funcion hace referencia a una base de datos
@@ -62,8 +63,10 @@ export const BaseMultiplier = () => {
         así como tambien regresa una instancia de cada base de datos, que no es alamacenada en los estados del mismo, de esta manera
         aunque se eliminen las instancias siempre harba una de cada base de datos para realizar búsquedas.
     */
+    const { status, user, startLogout } = useAuthStore();
   return (
     <>
+    {(user.permisos.buscador.remisiones || user.permisos.buscador.inspecciones || user.permisos.buscador.historico || user.permisos.buscador.eventos) &&(
     <div className='row my-3 card shadow'>
         <div className="col-md-12 my-4">
             <button onClick={onClearAll} className="ms-2 btn btn-reset-filters">
@@ -75,19 +78,31 @@ export const BaseMultiplier = () => {
         </div>
         
     </div>
+     )}
     <div className="row card shadow d-flex align-items-start">
         <div className="row">
             <div className="col-md-1 mt-2">
                 <div className="nav flex-column nav-pills me-3 col-md-1" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    {(user.permisos.buscador.global) &&(
                     <button className="nav-link active" id="v-pills-general-tab" data-bs-toggle="pill" data-bs-target="#v-pills-general" type="button" role="tab" aria-controls="v-pills-general" aria-selected="true">GENERAL</button>
+                    )}
+                    {(user.permisos.buscador.remisiones) &&(
                     <button className="nav-link" id="v-pills-remisiones-tab" data-bs-toggle="pill" data-bs-target="#v-pills-remisiones" type="button" role="tab" aria-controls="v-pills-remisiones" aria-selected="true">REMISIONES</button>
+                    )}
+                    {(user.permisos.buscador.inspecciones) &&(
                     <button className="nav-link" id="v-pills-inspecciones-tab" data-bs-toggle="pill" data-bs-target="#v-pills-inspecciones" type="button" role="tab" aria-controls="v-pills-inspecciones" aria-selected="false">INSPECCIONES</button>
+                    )}
+                    {(user.permisos.buscador.historico) &&(
                     <button className="nav-link" id="v-pills-historico-tab" data-bs-toggle="pill" data-bs-target="#v-pills-historico" type="button" role="tab" aria-controls="v-pills-historico" aria-selected="false">HISTORICO</button>
+                    )}
+                    {(user.permisos.buscador.eventos) &&(
                     <button className="nav-link" id="v-pills-eventos-tab" data-bs-toggle="pill" data-bs-target="#v-pills-eventos" type="button" role="tab" aria-controls="v-pills-eventos" aria-selected="false">EVENTOS DELICTIVOS</button>
+                    )}
                 </div>
             </div>
             <div className="ms-3 col-md-10">
                 <div className="tab-content" id="v-pills-tabContent">
+                    {(user.permisos.buscador.global) &&(
                     <div className="tab-pane fade show active" id="v-pills-general" role="tabpanel" aria-labelledby="v-pills-general-tab">
                         <div className="row my-3">
                             <div className="row">
@@ -98,6 +113,8 @@ export const BaseMultiplier = () => {
                             </div>
                         </div>
                     </div>
+                    )}
+                    {(user.permisos.buscador.remisiones) &&(
                     <div className="tab-pane fade show" id="v-pills-remisiones" role="tabpanel" aria-labelledby="v-pills-remisiones-tab">
                         <div className="row my-3">
                             <div className="row mt-2">
@@ -121,6 +138,8 @@ export const BaseMultiplier = () => {
                             </div>
                         </div>
                     </div>
+                    )}
+                    {(user.permisos.buscador.inspecciones) &&(
                     <div className="tab-pane fade" id="v-pills-inspecciones" role="tabpanel" aria-labelledby="v-pills-inspecciones-tab">
                         <div className="row my-3">
                             <div className="row mt-2">
@@ -144,6 +163,8 @@ export const BaseMultiplier = () => {
                             </div>
                         </div>
                     </div>
+                    )}
+                    {(user.permisos.buscador.historico) &&(
                     <div className="tab-pane fade" id="v-pills-historico" role="tabpanel" aria-labelledby="v-pills-historico-tab">
                         <div className="row my-3">
                             <div className="row mt-2">
@@ -169,6 +190,8 @@ export const BaseMultiplier = () => {
 
                         </div>
                     </div>
+                    )}
+                    {(user.permisos.buscador.eventos) &&(
                     <div className="tab-pane fade" id="v-pills-eventos" role="tabpanel" aria-labelledby="v-pills-eventos-tab">
                     <div className="row my-3">
                             <div className="row mt-2">
@@ -192,6 +215,7 @@ export const BaseMultiplier = () => {
                             </div>
                         </div>
                     </div>
+                    )}
                 </div>
             </div>
         </div>
