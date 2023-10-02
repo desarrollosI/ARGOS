@@ -1,6 +1,8 @@
+//se importa react
 import React, { useState } from 'react'
+//se importa el hook de useForm para el manejo de formularios
 import { useForm } from '../../../hooks';
-
+//Se declaran las entradas del formulario
 const coordenadasFormFields = {
     coordx: '',
     coordy: ''
@@ -16,7 +18,7 @@ export const FlyTo = ({setCoordenadasFlyTo}) => {
         event.preventDefault();
         setCoordenadasFlyTo([Number(coordx),Number(coordy)])
     }
-
+/* El retrono del componente no es mas que un formulario para recibir las coordenadas de entrada */
   return (
     <>
          <div className="container">

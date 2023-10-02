@@ -1,46 +1,65 @@
+//se importa react y los componentes necesarios del mismo
 import React, { useRef, useEffect, useState } from "react";
+//se importa el link de el router
 import { Link } from 'react-router-dom';
+//se importan las bibliotecas de terceros asi como sus estilos
 import mapboxgl from "mapbox-gl";
-import { catalogosApi } from "../../../api";
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import "mapbox-gl/dist/mapbox-gl.css";
-import "../css/Mapa/mapa.css";
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
+import KmlToGeoJsonConverter from "./KmlToGeoJsonConverter";
+//se importa el adaptador para conectarnos a la base de datos
+import { catalogosApi } from "../../../api";
+//se importan los hooks necesarios para cada una de las capas que presenta el mapa
+import useMapLayerSARAI from "../../../hooks/useMapLayerSarai";
+import useMapLayerBuscado from "../../../hooks/useMapLayerBuscado";
+import useMapLayerInspecciones from "../../../hooks/useMapLayerInspecciones";
+import useMapLayerSic from "../../../hooks/useMapLayerSic";
+import useMapLayerPuntos from "../../../hooks/useMapLayerPuntos";
+//se importan los componentes 
 import { LayerHechosControls } from "./LayerHechosControls";
 import { LayerDomicilioDetControls } from "./LayerDomicilioDetControls";
 import { LayerUbicacionDetencionControls } from "./LayerUbicacionDetencionControls";
-import { GeneralControls } from "./GeneralControls";
-import { capasToExcel, capasPerToExcel } from "../../helpers";
-import useMapLayerSARAI from "../../../hooks/useMapLayerSarai";
-import { PuntosEnPoligonoPer } from "../../helpers/Mapa/puntosEnPoligonoPer";
-import { insertHistorial } from "../../../helpers/insertHistorial";
-import { SearchPerson } from "./SearchPerson";
-import useMapLayerBuscado from "../../../hooks/useMapLayerBuscado";
-import KmlToGeoJsonConverter from "./KmlToGeoJsonConverter";
 import { LayerInspeccionesControls } from "./LayerInspeccionesControls";
-import useMapLayerInspecciones from "../../../hooks/useMapLayerInspecciones";
-import useMapLayerSic from "../../../hooks/useMapLayerSic";
-import { LayerSicEventosControls } from "./LayerSicEventosControls";
-import useMapLayerPuntos from "../../../hooks/useMapLayerPuntos";
 import { LayerPuntosIdentificadosControls } from "./LayerPuntosIdentificadosControls";
+import { LayerSicEventosControls } from "./LayerSicEventosControls";
+import { GeneralControls } from "./GeneralControls";
+import { SearchPerson } from "./SearchPerson";
 import { FlyTo } from "./FlyTo";
 import { ImageZoom } from "../Shared";
 
-//import CapaVectores from '../../../assets/capas/195_VECTORES.geojson';
+//se importan los helpers necesarios 
+import { capasToExcel, capasPerToExcel } from "../../helpers";
+import { PuntosEnPoligonoPer } from "../../helpers/Mapa/puntosEnPoligonoPer";
+import { insertHistorial } from "../../../helpers/insertHistorial";
+//se importan los estilos generales del modulo
+import "../css/Mapa/mapa.css";
 
+//se asigna el token para el componente del mapa de mapbox 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg";
-
+/* Este componente es de los mas complejos que maneja el sistema por lo que se ira explicando dentro del mismo 
+   La funcionalidad general: es un mapa con diferentes capas con informacion obtenida de bases de datos 
+*/
 export function Mapa() {
+  /*primero se necesitan referencias hacia las entidades html para tratar de evitar rerenderizados inecesarios los nombres son descriptivos*/
   const mapContainer = useRef(null);
   const map = useRef(null);
   const popup = useRef(null);
+  
+  //tambien se necesitan estados iniciales para el mapa, como el nivel de zoom asi como donde estara el centro
   const [lng, setLng] = useState(-98.20346);
   const [lat, setLat] = useState(19.03793);
   const [zoom, setZoom] = useState(9);
   const [mapaCargado,setMapaCargado] = useState(false);
   const [marker, setMarker] = useState(null);
 
+  /*
+    aqui comienzan los estados de los controles o interfaces del mapa
+    showVectoresLayer es para ocultar/mostrar la capa generar de zonas vectores
+    Los siguientes estados son para poder alternar en la tarjeta de detalles cuando
+    se hace click en un punto del mapa dependiendo de la capa
+  */
   const [showVectoresLayer, setShowVectoresLayer] = useState(true);
   const [Remision, setRemision] = useState(258086);
   const [Ficha, setFicha] = useState(14931);
@@ -48,11 +67,20 @@ export function Mapa() {
   const [Inspeccion, setInspeccion] = useState(0);
   const [FolioSic, setFolioSic] = useState(0);
   const [FolioPunto, setFolioPunto] = useState(0);
-
+  /* 
+    Aunque se cuenta con los estados, a estos tres se les tiene que hacer referencia 
+    para que se pueda cambiar de manera adecuada la tarjeta de informacion
+  */
   const prevInspeccionRef = useRef(Inspeccion);
   const prevFolioSicRef = useRef(FolioSic);
   const prevRemisionRef = useRef(Remision);
 
+  /* 
+    Los siguientes estados hacen referencia a catalogos de opciones que se necesitan para 
+    los componentes de los controles de las capas, son almacenadores de la informacion
+    asi como indicadores de cuando ya cuentan con informacion para poder reenderizar el 
+    componente en cuestion que los utilice.
+  */
   const [catalogoFD, setCatalogoFD] = useState()
   const [catalogoFaltasDelitosPuntos, setCatalogoFaltasDelitosPuntos] = useState([])
   const [catalogoFuentePuntos, setCatalogoFuentePuntos] = useState([])
@@ -62,14 +90,15 @@ export function Mapa() {
   const [isLoadingCatalogoFuente, setIsLoadingCatalogoFuente] = useState(true)
   const [isLoadingCatalogoBanda, setIsLoadingCatalogoBanda] = useState(true)
   const [isLoadingCatalogoObjetivo, setIsLoadingCatalogoObjetivo] = useState(true)
-
+  // Este estado se utliza para disparar el flyto del mapa
   const [CoordenadasFlyTo,setCoordenadasFlyTo] = useState([-98.20346,19.03793])
-
+  // En este estado se almacena la informacion de un poligono creado por usuario
   const [dataPoligonoPersonalizado,setDaltaPoligonoPersonalizado] = useState()
-
+  //en este estado se almacenan los resultados de una busqueda por nombre
   const [DataResultadoBusqueda, setSetDataResultadoBusqueda] = useState([])
+  //en este estado se detecta si hay o no un archivo cargado para mostrarlo, por defecto solo se muestran capas de puntos
   const [mapaArchivo, setMapaArchivo] = useState(null)
-
+  //la siguiente funcion busca la informacion de un catalogo dandole como entrada el endpoint al cual debe de llamar
   const fetchDataCatalogo = async (endpoint) => {
     setIsLoadingCatalogo(true);
     let response = await catalogosApi.post(endpoint);
@@ -77,6 +106,7 @@ export function Mapa() {
     setCatalogoFD(response.data.data.catalogo);
     setIsLoadingCatalogo(false)
 };
+  //esta funcion determina que endpoint es al que hay que llamar y asigna la informacion obtenida a los estados correspondientes
   const fetchDataCatalogoPuntos = async (endpoint) => {
     try {
       let response = await catalogosApi.post(endpoint);
@@ -106,7 +136,18 @@ export function Mapa() {
       console.log('Error al cargar los catalogos', error)
     }    
 };
+  /* 
+    En las siguientes lineas se llama a acada uno de los hook de las capas, recodemos que lo hook son segmentos de codigo 
+    que buscan tomar toda la logica necesaria y que mas se pueda para dejar al componente mas simple, en cada uno de los hook
+    se exponen los estados y funciones necesarias para que funcione la capa asi como en concreto los estados que se alteran 
+    interactuando con los  controles de la capa, para mas detalles ir a cada archivo de cada hook, todos funcionan de manera 
+    muy similar, se decanto por un hook por base de datos, de manera que el hook de sarai maneja tres capas, sic 1, ubicaciones
+    1, etc.
+    Por el motivo de que usan el mismo hook se les tiene que dar un alias a estados y funciones para no tener conflictos 
+    con el manejo de la informacion nombre original : alias
+  */
 
+  //Hook para la capa de hechos
   const {
     showLayer,
     showHeatLayer,
@@ -128,6 +169,7 @@ export function Mapa() {
     handleFaltaDelitoEspecifico: handleFaltaDelitoEspecificoHechos
   } = useMapLayerSARAI('ubicacion-hechos', 'red', 'ubicacion-hechos',setRemision,setFicha,setNombre,'');
 
+  //Hook para la capa del domicilio
   const {
     showLayer: showLayerDomicilioDetenido,
     showHeatLayer: showHeatLayerDomiclioDetenido,
@@ -149,6 +191,7 @@ export function Mapa() {
     handleFaltaDelitoEspecifico: handleFaltaDelitoEspecificoDomicilio
   } = useMapLayerSARAI('domicilio-detenido', 'blue', 'domicilio-detenido', setRemision, setFicha, setNombre, 'FaltaDelitoEspecifico');
 
+  //Hook para la capa de ubicacion de la detencion
   const {
     showLayer: showLayerUbicacionDetencion,
     showHeatLayer: showHeatLayerUbicacionDetencion,
@@ -170,8 +213,9 @@ export function Mapa() {
     handleFaltaDelitoEspecifico: handleFaltaDelitoEspecificoDetencion
   } = useMapLayerSARAI('ubicacion-detencion', 'green', 'ubicacion-detencion', setRemision, setFicha, setNombre, 'FaltaDelitoEspecifico');
 
+  //Hook para la capa de Personas buscadas
   const{ mapContainerBuscado, puntosPersona,setMapContainerBuscado,setMapBuscado, setPuntosPersona} = useMapLayerBuscado( setRemision ,setFicha , setNombre,setInspeccion )
-
+  //Hook para la capa de Inspecciones
   const {
     showLayer: showLayerInspecciones,
     showHeatLayer: showHeatLayerInspecciones,
@@ -190,7 +234,7 @@ export function Mapa() {
     handleZona: handleZonaInspecciones,
     handleJuntaAuxiliar: handleJuntaAuxiliarInspecciones
   } = useMapLayerInspecciones('ubicacion-inspecciones', 'purple', 'inspecciones', setInspeccion);
-
+  //Hook para la capa de eventos sic
   const {
     showLayer: showLayerSicEventos,
     showHeatLayer: showHeatLayerSicEventos,
@@ -210,7 +254,7 @@ export function Mapa() {
     handleJuntaAuxiliar: handleJuntaAuxiliarSicEventos,
     handleFaltaDelitoEspecifico: handleFaltaDelitoEspecificoSicEventos
   } = useMapLayerSic('ubicacion-sic-eventos', 'orange', 'sic', setFolioSic);
-
+  //Hook para la capa de puntos identificados
   const {
     showLayer: showLayerPuntosIdentificados,
     showHeatLayer: showHeatLayerPuntosIdentificados,
@@ -235,24 +279,22 @@ export function Mapa() {
   } = useMapLayerPuntos('puntos-identificados', 'brown', 'puntosidentificados', setFolioPunto);
 
 
-
+  //Handler para ocultar/mostrar la capa de vectores
   const handleCheckboxVectoresLayer = () => {
     setShowVectoresLayer(!showVectoresLayer);
   };
-
+  //Handler de zonas
   const handleZonaGeneral = (event) => {
     setZonaGeneral(event.target.value);
   };
-
+  //Handler para exportar la informacion de las capas hacia un csv
   const handleCapasExcel = (event) =>{
     capasToExcel({hechos:datosUbicacionHechos,domicilio:datosDomicilioDetenido,detencion:datosUbicacionDetencion,inspecciones:datosInspecciones,siceventos:datosSicEventos})
   }
 
-  
+  //Handler para pasar la informacion que se encuentre en un poligono personalizado a csv
   const handleCapasPerExcel = async(event) =>{
-    //console.log(dataPoligonoPersonalizado)
     let resultadosEnPoligonoPer = await PuntosEnPoligonoPer(dataPoligonoPersonalizado,datosUbicacionHechos,datosDomicilioDetenido,datosUbicacionDetencion,datosInspecciones,datosSicEventos)
-    //console.log('antes del set poligono personalizado: ', resultadosEnPoligonoPer)
     capasPerToExcel({
       hechos:resultadosEnPoligonoPer.hechos,
       domicilio:resultadosEnPoligonoPer.domicilio,
@@ -261,9 +303,8 @@ export function Mapa() {
       siceventos:resultadosEnPoligonoPer.siceventos
     })
   }
-
+  //Handler para pasar la informacion de una persona buscada a csv
   const handleCapasPersonaExcel = async(event) =>{
-    //console.log(DataResultadoBusqueda)
     capasPerToExcel({
       hechos:DataResultadoBusqueda.Hechos,
       domicilio:DataResultadoBusqueda.Domicilio,
@@ -272,11 +313,14 @@ export function Mapa() {
     })
   }
 
+  //Efecto para almacenar los resultados de busqueda persona
   useEffect(() => {
     setPuntosPersona(DataResultadoBusqueda)
   },[DataResultadoBusqueda])
 
+  //Efecto principal, en este se inicializa todo lo necesario para el mapa, se recomienda consultar la documentacion de MapBox
   useEffect(() => {
+    //se inicializa el mapa
     const loadMap = async () => {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
@@ -284,18 +328,22 @@ export function Mapa() {
         center: [lng, lat],
         zoom: zoom,
       });
-
+      //se agregan los controles
       const nav = new mapboxgl.NavigationControl();
       map.current.addControl(nav, "top-right");
       const fullscreen = new mapboxgl.FullscreenControl();
       map.current.addControl(fullscreen, "top-right");
-
+      //se agrega la funcion del move del mapa (ya no se usa existia una barra para mostrar las coordenadas en todo momento )
       map.current.on("move", () => {
         setLng(map.current.getCenter().lng.toFixed(4));
         setLat(map.current.getCenter().lat.toFixed(4));
         setZoom(map.current.getZoom().toFixed(2));
       });
-
+      /*
+        En las siguientes lineas  se asignar a los estados de los hooks las referencias al contenedor del mapa
+        asi como la referencia al mapa como tal, esto con el fin de que la informacion de las capas que se cambien
+        se vea reflejada en el mismo mapa.
+      */
       setMapContainer(mapContainer.current);
       setMapContainerDomicilioDetenido(mapContainer.current);
       setMapContainerUbicacionDetencion(mapContainer.current);
@@ -312,11 +360,11 @@ export function Mapa() {
       setMapInspecciones(map.current);
       setMapSicEventos(map.current);
       setMapPuntosIdentificados(map.current);
-
+      //Hay un error con determiandos estilos provenientes de mapbox esta funcion busca hacer tiempo hasta que cargue
       map.current.on('style.load', () => {
         setMapaCargado(true)
       })
-
+      //Se crean los controles de dibujo de los poligonos personalizados y se añaden al mapa
       const draw = new MapboxDraw();
       map.current.addControl(draw);
 
@@ -324,7 +372,6 @@ export function Mapa() {
       map.current.on('draw.create', async (event) => {
         const polygon = event.features[0];
         // Realiza alguna acción con el polígono creado
-        //console.log('Polígono creado:', polygon);
         insertHistorial({lugar:'Geoanalisis',tipo:'Poligono Personalizado', poligono: polygon})
         setDaltaPoligonoPersonalizado(polygon)
       });
@@ -399,12 +446,12 @@ export function Mapa() {
     }
   },[showVectoresLayer,mapaCargado])
 
-
+  //efecto para llamar el catalogo de faltas delitos
   useEffect(() => {
     fetchDataCatalogo('faltas-delitos');
   }, []);
- //TODO RECUERDA SE TIENE QUE CONVERTIR EN UN SWITCH EN EL FECTHDATACATALOGOPUNTOS
- //DISPARAR TODOS LOS CATALOGOS A LA VEZ 
+
+ // efecto para disparar la obtencion de todos los catalogos para la capa de puntos
   useEffect(() => {
     fetchDataCatalogoPuntos('puntos-delitos-asociados');
     fetchDataCatalogoPuntos('puntos-fuentes');
@@ -412,7 +459,8 @@ export function Mapa() {
     fetchDataCatalogoPuntos('puntos-objetivo');
   }, []);
 
-    // Observar cambios en los estados Inspeccion, FolioSic y Remision
+    /* Observar cambios en los estados Inspeccion, FolioSic y Remision aqui se usan las referencias 
+    a los estados anteriores para detectar correctamente los cambios*/
     useEffect(() => {
       if (Remision !== 0 && prevRemisionRef.current !== Remision) {
         setFolioSic(0);
@@ -424,12 +472,11 @@ export function Mapa() {
         setRemision(0);
         setInspeccion(0);
       }
-  
+      //se actualizan los estados previos 
       prevInspeccionRef.current = Inspeccion;
       prevFolioSicRef.current = FolioSic;
       prevRemisionRef.current = Remision;
   
-      //console.log({ Inspeccion, FolioSic, Remision });
     }, [Inspeccion, FolioSic, Remision]);
   
     //EFECTO ENCARGADO DE REALIZAR EL FLY TO y COLOCAR  EL MARCADOR
@@ -440,8 +487,8 @@ export function Mapa() {
         // Elimina el marcador anterior si existe
         if (marker) {
           marker.remove();
-        }
-
+        } 
+        //se crea el nuevo marcador
         const newMarker = new mapboxgl.Marker()
         .setLngLat(CoordenadasFlyTo)
         .addTo(map.current);
@@ -451,7 +498,7 @@ export function Mapa() {
 
         // Actualiza la referencia del marcador en el estado
         setMarker(newMarker);
-        
+        // por ultimo se realiza el movimiento en el mapa
         map.current.flyTo({
           center: CoordenadasFlyTo,
           zoom: 15,
@@ -461,12 +508,17 @@ export function Mapa() {
       }
     
     }, [CoordenadasFlyTo]);
-
+  
+    /*
+      El retorno el componente, son todos los controles de la capa, asi como el mapa para la visualizacion del mismo
+    */
   return (
     <>
       <div className="row">
         <div className="col-md-4">
           <div className="row">
+            {/* Para evitar errores es necesario esperar a que ya se cuente con la informacion de los catalogos para poder renderizar ciertas partes del componente
+                como los controles por ejemplo */}
             {
             (!isLoadingCatalogo && catalogoFD.length)
             ?(
@@ -484,6 +536,8 @@ export function Mapa() {
                         </svg>
                       </button>
                       <div className="col-md-12 card shadow mb-3 collapse" id="collapseHechos">
+                        {/* El patron es general y se repite para todos los controles, tienen que recibir los handler de los hook, asi como los estados, o catalgos
+                        que necesiten estos controles, depende mucho de que es lo que se requiera y que funcionalidad se le quere asignar a la capa */}
                         <LayerHechosControls 
                           handleCheckboxUbiHechosLayer={handleCheckboxLayer} 
                           showUbiHechosLayer={showLayer}  
@@ -722,7 +776,6 @@ export function Mapa() {
                 <div className="row">
                 {Remision != 0 ? (
                   <ImageZoom  url={`http://187.216.250.245/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} width={'270'} height={'180'}/>
-                  //<img src={`http://187.216.250.245/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} width="400px" alt="Foto_Detenido"/>
                 ) : (
                   <></>
                 )}

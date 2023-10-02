@@ -1,19 +1,23 @@
+//se importa react 
 import React, { useState } from 'react'
-//import './App.css'
+//se importa el componente de terceros
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 
+/* 
+  Como el nombre indica el componente es un input que recibe de datos de entrada 
+  un catalogo, en concreo de faltas y delitos y el handler para almacenar la respuesta seleccionada
+*/
 export const AutoCompleteFD = ({data,handleFaltaDelitoEspecifico}) => {
 
-    // console.log('REFERENCIA DE LA FUNCION', handleFaltaDelitoEspecifico)
-    // console.log(data)
-
-   const [items, setItems] = useState([])
-  // note: the id field is mandatory
+  //para que el componente funcione es mandatorio que el catalogo sea un arreglo de objetos con id y el name, buscar la documentacion de la biblioteca
+  const [items, setItems] = useState([])
+  
   let itemsFD = []
    data.forEach(dato => {
         itemsFD.push({id: dato.Id_Falta_Delito, name: dato.Descripcion})
     } )
 
+    //todas estas funciones se dejan por si en algun punto es necesario utilizarlas, son handlers, parecido a funciones de un hook
   const handleOnSearch = (string, results) => {
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.
@@ -47,7 +51,10 @@ export const AutoCompleteFD = ({data,handleFaltaDelitoEspecifico}) => {
       </>
     )
   }
-
+  /*
+    El retorno del componente como se tiene es un input que va mostrando
+    opciones para seleccionar de acuerdo a la entrada del usuario
+  */
   return (
     <div className="App">
       <header className="App-header">
@@ -87,5 +94,3 @@ export const AutoCompleteFD = ({data,handleFaltaDelitoEspecifico}) => {
     </div>
   )
 }
-
-// export default App

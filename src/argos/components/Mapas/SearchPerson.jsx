@@ -1,14 +1,15 @@
+//se importa react y componentes
 import React, { useState } from 'react'
+//se importa el hook de useForm para el manejo del formulario
 import { useForm } from '../../../hooks';
+//se importa el adaptador hacia la base de datos
 import { mapasApi } from '../../../api';
-
+//se crea el estado inicial del formulario
 const registerFormFields = {
     nombre:    '',
     ap_paterno: '',
     ap_materno: ''
 }
-
-
 
 export const SearchPerson = ({setSetDataResultadoBusqueda,handleCapasPersonaExcel}) => {
 
@@ -17,7 +18,7 @@ export const SearchPerson = ({setSetDataResultadoBusqueda,handleCapasPersonaExce
     //Se extraen del hook useForm este hook es el encargado de manejar la información y funcionalidad del formulario
     const { nombre, ap_paterno, ap_materno, onInputChange } = useForm( registerFormFields );
 
-
+    //con los datos de entraada del formulario se va a buscar en base de datos alguna informacion al respecto
     const fetchPerson = async (endpoint) => {
         try {
             setIsLoadingData(true)
@@ -34,7 +35,7 @@ export const SearchPerson = ({setSetDataResultadoBusqueda,handleCapasPersonaExce
         event.preventDefault();
         fetchPerson('/buscar-persona')
     }
-
+// el componente resultado no es mas que un formulario con 3 campos de busqueda asi como el boton para disparar dicha busqueda
   return (
     <>
         <div className="container">

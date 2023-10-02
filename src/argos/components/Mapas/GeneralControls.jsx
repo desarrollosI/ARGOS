@@ -1,5 +1,9 @@
+//se importa react
 import React from 'react'
-
+/* 
+    El retorno de este componente son todos los controles generales no especificos a una capa,
+    como mostrar u ocultar la capa de vectores, y ya exportacion a csv general o poligono personalziado
+*/
 export const GeneralControls = ({showVectoresLayer,handleCheckboxVectoresLayer,handleZonaGeneral,handleCapasExcel,handleCapasPerExcel}) => {
   return (
     <>

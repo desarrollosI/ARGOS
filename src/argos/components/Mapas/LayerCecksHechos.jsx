@@ -1,5 +1,9 @@
+//se importa react
 import React from 'react'
-
+/*
+    El componente son las opciones para poder mostrar/ocultar las capa de ubicaciones de hechos en formato de 
+    puntos y en formato de capa de calor        
+*/
 export const LayerChecksHechos = ({handleCheckboxUbiHechosLayer,showUbiHechosLayer,handleCheckboxUbiHechosHeatLayer,showUbiHechosHeatLayer}) => {
   return (
     <div className="row">

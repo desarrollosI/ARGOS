@@ -1,10 +1,16 @@
+//se importa react
 import React from 'react'
+//se importan los componentes personalizados
 import { LayerChecksPuntos } from './LayerChecksPuntos'
 import { AutoCompletePuntosDelitos } from './AutoCompletePuntosDelitos'
 import { AutoCompletePuntosFuente } from './AutoCompletePuntosFuente'
 import { AutoCompletePuntosBanda } from './AutoCompletePuntosBanda'
 import { AutoCompletePuntosObjetivo } from './AutoCompletePuntosObjetivo'
 
+/* Como tal este es un HOC High Order Component pues esta compuesto de otros componentes 
+mas pequeños y manejables, solo se reciben los handlers provenientes del componente abuelo para
+manejar los cambios en los estados que manipulan los controles o componentes mas pequeños
+El retorno es un formulario con todos los controles en uno */
 export const LayerPuntosIdentificadosControls = ({
     handleCheckboxPuntosIdentificadosLayer,
     showPuntosIdentificadosLayer,

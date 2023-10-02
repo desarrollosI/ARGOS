@@ -1,10 +1,16 @@
+//se importa react
 import React from 'react'
+//se importan los componentes personalizados
 import { ZonasPicker } from './ZonasPicker'
 import { JuntaAuxiliarPicker } from './JuntaAuxiliarPicker'
 import { DateRangePicker } from '../Graficas/DateRangePicker'
 import { LayerChecksEventosSic } from './LayerChecksEventosSic'
 import { AutoCompleteFD } from './AutoCompleteFD'
 
+/* Como tal este es un HOC High Order Component pues esta compuesto de otros componentes 
+mas pequeños y manejables, solo se reciben los handlers provenientes del componente abuelo para
+manejar los cambios en los estados que manipulan los controles o componentes mas pequeños
+El retorno es un formulario con todos los controles en uno */
 export const LayerSicEventosControls = ({
     handleCheckboxEventosSicLayer,
     showEventosSicLayer,
