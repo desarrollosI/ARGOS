@@ -46,7 +46,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
+//Se declaran los tipos de graficas que se pueden manejar
 const chartComponents = {
   barra: Bar,
   area: Line,
@@ -87,6 +87,11 @@ export function MyChart({configuracion}) {
     const [etiquetaEjeX, setEtiquetaEjeX] = useState(etiqueta); //este estado va  a manejar los label de las columnas del eje x en el caso de que se requiera algo mas que lo generico
     const [SpecifyAgrupacion, setSpecifyAgrupacion] = useState('todas')//aunque este no se pide como prop, se pone aca pues es un estado que muta la grafica
     const [SpecifyOrderBy, setSpecifyOrderBy] = useState('desc')
+
+    /*
+      estos arreglos/estado de opciones se añadieron para poder manejar los controles y los filtros,
+      perfectamente se pueden realizar mediante peticiones fetch 
+      */
 
     const [opcionesZona, setOpcionesZona] = useState([
       "CENTRO HISTÓRICO",

@@ -1,5 +1,9 @@
+//se importa react
 import React from 'react';
-
+/*
+  El componente es el encargado de manejar los cambios de fechas de dos input,
+  como el nombre lo indica es el selecctor para filtrar entre un rango de fechas 
+*/
 export function DateRangePicker({ fechaInicio, fechaFin, handleStartDateChange, handleEndDateChange }) {
   return (
     <div className="row">

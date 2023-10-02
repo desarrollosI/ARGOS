@@ -1,3 +1,4 @@
+//Archivo de barril con todas las importaciones de componentes del sic para facilitar su posterior importacion
 export * from './MyChart'
 export * from './DateRangePicker'
 export * from './GroupBySelector'

@@ -1,11 +1,16 @@
+//se importa react
 import React from 'react'
+//se importan los componentes "hijos" cada uno representa un tab sobre la base de las graficas que contienen
 import { CatergoryRemisiones } from './CatergoryRemisiones'
 import { CatergoryHistorico } from './CategoryHistorico'
 import { CatergorySic } from './CategorySic'
-
+/*El componente es muy sencillo solo es un panel que muestra o oculta determinada pagina dependiendo donde se le de click
+conteniendo tres categorias, Renisiones,Sic e Historico, Si se quieren mas categorias se ha de crear
+un componente similar y adoc a la base de datos con la que se trabaja 
+*/
 export const CategoryChart = () => {
   return (
-    <div className="row d-flex align-items-start">
+    <div className="row d-flex align-items-start content">
     <div className="row">
         <div className="col-md-1 mt-2">
             <div className="nav flex-column nav-pills me-3 col-md-1" id="v-pills-tab" role="tablist" aria-orientation="vertical">

@@ -1,5 +1,6 @@
+//se importa react
 import React from 'react'
-
+//Este componente presenta el control para ordenar los resultado de manera ascendente o descendente
 export const SpecifyOrderBySelector = ({handeSpecifyOrderByChange}) => {
   return (
     <div className="row mt-2">

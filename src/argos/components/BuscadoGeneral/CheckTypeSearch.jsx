@@ -1,8 +1,13 @@
 import React from 'react';
+import { useAuthStore } from '../../../hooks';
 
 export const CheckTypeSearch = ({ selectedOption, handleOptionChange }) => {
+
+    const { status, user, startLogout } = useAuthStore();
+
     return (
         <div className="row ms-5">
+            {(user.permisos.buscador.general.nombre) &&(
             <div className="col-md-2 form-check">
                 <input
                     className="form-check-input form-check-input-sm"
@@ -13,6 +18,8 @@ export const CheckTypeSearch = ({ selectedOption, handleOptionChange }) => {
                 />
                 <label>Nombre</label>
             </div>
+            )}
+            {(user.permisos.buscador.general.direcciones) &&(
             <div className="col-md-2 form-check">
                 <input
                     className="form-check-input form-check-input-sm"
@@ -23,6 +30,8 @@ export const CheckTypeSearch = ({ selectedOption, handleOptionChange }) => {
                 />
                 <label>Direcciones</label>
             </div>
+            )}
+            {(user.permisos.buscador.general.alias) &&(
             <div className="col-md-2 form-check">
                 <input
                     className="form-check-input form-check-input-sm"
@@ -33,6 +42,8 @@ export const CheckTypeSearch = ({ selectedOption, handleOptionChange }) => {
                 />
                 <label>Alias</label>
             </div>
+            )}
+            {(user.permisos.buscador.general.placa) &&(   
             <div className="col-md-2 form-check">
                 <input
                     className="form-check-input form-check-input-sm"
@@ -43,6 +54,8 @@ export const CheckTypeSearch = ({ selectedOption, handleOptionChange }) => {
                 />
                 <label>Placa / NIV</label>
             </div>
+            )}
+            {(user.permisos.buscador.general.telefono) &&(
             <div className="col-md-2 form-check">
                 <input
                     className="form-check-input form-check-input-sm"
@@ -53,6 +66,7 @@ export const CheckTypeSearch = ({ selectedOption, handleOptionChange }) => {
                 />
                 <label>Teléfono</label>
             </div>
+            )}
         </div>
     );
 };

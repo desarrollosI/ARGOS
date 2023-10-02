@@ -463,7 +463,7 @@ const useGeneralSearchControls = () => {
             newTablasResultado.push(
                 <div key="llamadas911">
                 <div className="row mb-4">
-                    <h3 className="titulo">Llamadas 911</h3>
+                    <h3 className="titulo">Llamadas</h3>
                 </div>
                 <TableConstructor lugar={'Telefonos: Llamadas'} datos={{ Llamadas:DataResultadoBusquedaGeneral.TelefonoSSC }} />
                 {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
@@ -474,7 +474,7 @@ const useGeneralSearchControls = () => {
             newTablasResultado.push(
                 <div key="llamadas911">
                 <div className="row mb-4">
-                    <h3 className="titulo">Contactos Extracciones</h3>
+                    <h3 className="titulo">Contactos E.</h3>
                 </div>
                 <TableConstructor lugar={'Telefonos: Contactos'} datos={{ Contactos:DataResultadoBusquedaGeneral.Contactos }} />
                 {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}

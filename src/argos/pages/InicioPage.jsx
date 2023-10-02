@@ -14,7 +14,7 @@ export const InicioPage = () => {
   return (
     <>
       <>
-        <div className="container-fluid">
+        <div className="container-fluid content">
           <div className="row card shadow">
             <div className="col">
               <h1 className="titulo">
@@ -37,7 +37,7 @@ export const InicioPage = () => {
           </div>
           <div className="row card shadow">
             <div className="col-md-12">
-              <h3>A.R.G.O.S. RC-2.6.1</h3>
+              <h3>A.R.G.O.S. RC-2.6.3</h3>
               <ul>
                 <li>Solucionado problema de carga del módulo de Geoanálisis</li>
                 <li>Añadida la navegacion por coordenadas</li>

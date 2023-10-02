@@ -35,7 +35,7 @@
 .flotante-derecha{
     position: absolute;
     top: 25%;
-    left: 83%;
+    left: 81%;
     max-width: 225px !important;
     z-index: 9999;
 }

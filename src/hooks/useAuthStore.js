@@ -43,7 +43,7 @@ export const useAuthStore = () => {
             localStorage.setItem('token', data.token );
             localStorage.setItem('token-init-date', new Date().getTime() );
             insertHistorial({ tipo:'Inicio de Sesión' })
-            dispatch( onLogin({ name: data.usuario.nombre, uid: data.usuario.uid, rol: data.usuario.rol }) );
+            dispatch( onLogin({ name: data.usuario.nombre, uid: data.usuario.uid, rol: data.usuario.rol, permisos: data.usuario.permisos}) );
             
         } catch (error) {
             dispatch( onLogout('Credenciales incorrectas') );
@@ -86,17 +86,17 @@ export const useAuthStore = () => {
         if ( !token ) return dispatch( onLogout() );
 
         try {
-            const { data } = await authApi.get('/renew');
-            console.log('desde el chekAuthToken:',{data})
+            const {data} = await authApi.get('/renew');
+            // console.log('desde el chekAuthToken:',data)
             localStorage.setItem('token', data.token );
             localStorage.setItem('token-init-date', new Date().getTime() );
             insertHistorial({ tipo:'Renovación de Token' })
-            dispatch( onLogin({ name: data.name, uid: data.uid , rol: data.rol }) );
+            dispatch( onLogin({ name: data.name, uid: data.uid , rol: data.rol,  permisos: data.permisos }) );
         } catch (error) {
             console.log('error del check auth', error)
             localStorage.clear();
             Swal.fire('Error en la autenticación', 'Tu sesión expiró', 'error');//esto se deberia de quitar recuerda que el store debe de ser lineal sin extras
-            dispatch( onLogout() );
+            //dispatch( onLogout() );
         }
     }
     //Funcion que maneja el cierre de sesion, limpia el almacenamiento local y redirige al usuario al login

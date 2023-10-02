@@ -4,7 +4,7 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
 
     console.log('entro en la funcion : ',vectores, dataBuscar, zonaGeneral, lugar)
   try {
-    const response = await fetch('./195_VECTORES.geojson');
+    const response = await fetch('./capas/195_VECTORES.geojson');
     const data = await response.json();
 
     vectores = data;

@@ -1,5 +1,9 @@
+//se importa react
 import React from 'react'
-
+/*
+    El componente son las opciones para poder mostrar/ocultar las capa de domicilio detenido en formato de 
+    puntos y en formato de capa de calor        
+*/
 export const LayerChecksDomicilioDet = ({handleCheckboxDomicilioDetLayer,showDomicilioDetLayer,handleCheckboxDomicilioDetHeatLayer,showDomicilioDetHeatLayer}) => {
     return (
       <div className="row">
