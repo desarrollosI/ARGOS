@@ -1,11 +1,18 @@
+//Se importan los componentes de react
 import { useEffect, useState, useRef } from 'react';
+//se importa el adaptador hacia la base de datos
 import { mapasApi } from '../api';
-
+// se importan los componentes de terceros
 import Swal from 'sweetalert2';
 import mapboxgl from "mapbox-gl";
+//se importan los helpers necesarios
 import { PuntosEnJuntaAuxiliar, PuntosEnZona } from '../argos/helpers';
 import { insertHistorial } from '../helpers/insertHistorial';
-
+/*
+  Este hook y todos los hook que representan un layer tienen como objetivo manipular la informacion de un determinado tipo de ubicaciones
+  en este caso pueden ser hechos, domicilios o detencion, y dicha informacions transformarla  a una capa geojson pata poderla poner en 
+  el mapa
+*/
 const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,FaltaDelitoEspecificoProp) => {
     const [mapContainer, setMapContainer] = useState();
     const [map, setMap] = useState(null);
@@ -70,8 +77,8 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
     setJuntaAuxiliar(event.target.value)
   }
 
+  //PARA FILTRAR POR UN DELITO
   const handleFaltaDelitoEspecifico = (delito) => {
-    //console.log('delito',delito)
     setFaltaDelitoEspecifico(delito.name)
   }
 
