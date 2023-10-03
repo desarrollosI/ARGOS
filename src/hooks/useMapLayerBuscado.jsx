@@ -1,17 +1,21 @@
+//se importan los componentes de react necesarios
 import { useEffect, useState } from 'react';
-
+//se importan los helpers y assets necesarios
 import { insertHistorial } from '../helpers/insertHistorial';
 import Azul from '../assets/azul.png';
 import Morado from '../assets/morado.png';
 import Rojo from '../assets/rojo.png';
 import Verde from '../assets/verde.png';
-
+/*
+  este hook se encagra de obtener todas las ubicaciones de una persona 
+  de la cual se realizo busqueda
+*/
 const useMapLayerBuscado = (setFicha,setRemision,setNombre,setInspeccion) => {
 
     const [mapContainerBuscado, setMapContainerBuscado] = useState();
     const [MapBuscado, setMapBuscado] = useState();
     const [puntosPersona, setPuntosPersona] = useState([])
-
+    // en este efecto se añaden al mapa los marker con diferentes colores dependiendo de la ubicacion
     useEffect(() => {
         if (MapBuscado) {
           MapBuscado.loadImage(
@@ -44,11 +48,13 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre,setInspeccion) => {
           );
         }
       }, [MapBuscado]);
-  
+      
+    /*
+      En el siguiente efecto se toman todos los resultados de la peticion, es decir los puntos 
+      y dependiendo de dichos resultados se comienza a crear la inofrmacion que sea agregable al mapa
+      es decir un a feature collection
+    */
     useEffect(() => {
-        //console.log('EFECTRO DENTRO DEL HOOK LAYER BUSCADO', puntosPersona);
-        //console.log(mapContainerBuscado)
-        //console.log('MAPA TAL CUAL',MapBuscado)
         if (!MapBuscado) return;
         if(puntosPersona.Hechos){
 
@@ -125,7 +131,8 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre,setInspeccion) => {
                     },
                 })),
               ];
-
+            
+            
             if (MapBuscado.getLayer('buscado')) {
             MapBuscado.removeLayer('buscado');
             }
@@ -134,7 +141,7 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre,setInspeccion) => {
             MapBuscado.removeSource('buscado');
             }
 
-            //console.log('HECHOS',puntosPersona.Hechos)
+            //con la informacion generada se agrega al mapa
             MapBuscado.addSource('buscado', {
                 type: "geojson",
                 data: {
@@ -164,7 +171,6 @@ const useMapLayerBuscado = (setFicha,setRemision,setNombre,setInspeccion) => {
             // Aquí puedes ejecutar la lógica que deseas al hacer clic en el símbolo
             // e.features contendrá información sobre los objetos que fueron clickeados
             const clickedFeatures = e.features;
-            //console.log('Marcadores clickeados:', clickedFeatures);
       
             // Por ejemplo, puedes mostrar una ventana emergente con información del marcador clickeado
             if (clickedFeatures.length > 0) {
