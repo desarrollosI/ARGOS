@@ -1,15 +1,28 @@
+//se importa react
 import React, { useEffect, useState } from 'react';
+//se importa el adaptador con la base de datos
 import { buscadorGeneralApi } from '../api';
+// se importa el componente de la tabla 
 import { TableConstructor } from '../argos/components/Table';
+//se importan las bibliotecas de terceros
 import Swal from 'sweetalert2';
 
+/*
+  Este hook se encarga de realizar busquedas y mostrar resultados de diferentes bases de datos
+  se realizo mediante un hook por la complejidad de las peticiones
+*/
 const useGeneralSearchControls = () => {
+  //se tienen los diferentes estados uno para almacenar la informacion, y otro son las tablas que se van a mostrar
+  // asi como diferentes banderas para mostrar la informacion
   const [DataResultadoBusquedaGeneral, setDataResultadoBusquedaGeneral] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [showTables, setShowTables] = useState(false);
   const [lugarSearch, setLugarSearch] = useState('');
   const [tablasResultado, setTablasResultado] = useState([]);
-
+  /*
+    En esta funcion se raliza la peticion al backend, dependiendo de la base de datos en la que se encuentra
+    buscando informacion
+    */
   const fetchData = async (endpoint, objeto, lugar) => {
     try {
       setIsLoadingData(true);
@@ -25,7 +38,7 @@ const useGeneralSearchControls = () => {
       Swal.fire('Incorrecto', 'La búsqueda fue demasiado general, llene más campos', 'error');
     }
   };
-
+  //dependiendo de la categoria se llama al endpoint adecuado y configurado para las busquedas
   const GenerateObject = (objeto, lugar) => {
     setLugarSearch(lugar);
     switch (lugar) {
@@ -48,7 +61,7 @@ const useGeneralSearchControls = () => {
         break;
     }
   };
-
+  //En esta funcion se van generando o llamando a las tablas de las que si se tiene resultado de acuerdo a la categoria
   const generarTablas = (lugar) => {
     let newTablasResultado = [];
   

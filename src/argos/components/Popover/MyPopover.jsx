@@ -1,10 +1,16 @@
+//se importan los componentes de react
 import React, { useState } from 'react';
+//se importan los componentes de bootstrap
 import { Button, ButtonToolbar, Overlay, Popover } from 'react-bootstrap';
 //se importan los helpers necesarios para el historial
 import { historialApi } from '../../../api';
 
+/* 
+  Este componente se encagra de hacer una peticion al backend para solicitar una foto especifica de un registro
+  del historial, esto con el fin de hacer que el historial no se sobrecargue 
+*/
 export const MyPopover = ({id}) => {
-  console.log(id)
+  
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
 
