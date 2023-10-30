@@ -289,7 +289,7 @@ export function Mapa() {
   };
   //Handler para exportar la informacion de las capas hacia un csv
   const handleCapasExcel = (event) =>{
-    capasToExcel({hechos:datosUbicacionHechos,domicilio:datosDomicilioDetenido,detencion:datosUbicacionDetencion,inspecciones:datosInspecciones,siceventos:datosSicEventos})
+    capasToExcel({hechos:datosUbicacionHechos,domicilio:datosDomicilioDetenido,detencion:datosUbicacionDetencion,inspecciones:datosInspecciones,siceventos:datosSicEventos,puntosidentificados:datosPuntosIdentificados})
   }
 
   //Handler para pasar la informacion que se encuentre en un poligono personalizado a csv
