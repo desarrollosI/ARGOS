@@ -11,7 +11,7 @@ import { insertHistorial } from '../../../helpers/insertHistorial';
 
 // la funcion que se exporta  recibe la informacion que se plasmara en el excel
 // asi como la inofrmacion para ingresar en el historial del argos
-export const capasToExcel = ({hechos,domicilio,detencion,inspecciones,siceventos}) => {
+export const capasToExcel = ({hechos,domicilio,detencion,inspecciones,siceventos,puntosidentificados}) => {
 
       //console.log(hechos,domicilio,detencion)
       const fields = Object.keys(hechos[0]);
@@ -34,6 +34,9 @@ export const capasToExcel = ({hechos,domicilio,detencion,inspecciones,siceventos
       const ws4 = XLSX.utils.json_to_sheet(siceventos, { header: fieldsSicEv }); // sheet
       XLSX.utils.book_append_sheet(wb, ws4, "Resultrados_Mapa_SicEventos"); //sheet name
 
+      const fieldsPI = Object.keys(puntosidentificados[0]);
+      const ws5 = XLSX.utils.json_to_sheet(puntosidentificados, { header: fieldsPI }); // sheet
+      XLSX.utils.book_append_sheet(wb, ws5, "Resultrados_Puntos"); //sheet name
       insertHistorial({lugar:'Geoanalisis',tipo:'Exportacion CSV', descripcion:'Exportacion datos de un poligono predeterminado'});
 
       XLSX.writeFile(wb, "Resultados_Mapa.xlsx");
