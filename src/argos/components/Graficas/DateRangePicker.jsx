@@ -17,6 +17,7 @@ export function DateRangePicker({ fechaInicio, fechaFin, handleStartDateChange, 
             name="trip-start"
             value={fechaInicio}
             onChange={handleStartDateChange}
+            onKeyDown={(e) => e.preventDefault()}
           />
         </div>
       </div>
@@ -30,6 +31,7 @@ export function DateRangePicker({ fechaInicio, fechaFin, handleStartDateChange, 
             name="trip-end"
             value={fechaFin}
             onChange={handleEndDateChange}
+            onKeyDown={(e) => e.preventDefault()}
           />
         </div>
       </div>
