@@ -294,13 +294,14 @@ export function Mapa() {
 
   //Handler para pasar la informacion que se encuentre en un poligono personalizado a csv
   const handleCapasPerExcel = async(event) =>{
-    let resultadosEnPoligonoPer = await PuntosEnPoligonoPer(dataPoligonoPersonalizado,datosUbicacionHechos,datosDomicilioDetenido,datosUbicacionDetencion,datosInspecciones,datosSicEventos)
+    let resultadosEnPoligonoPer = await PuntosEnPoligonoPer(dataPoligonoPersonalizado,datosUbicacionHechos,datosDomicilioDetenido,datosUbicacionDetencion,datosInspecciones,datosSicEventos,datosPuntosIdentificados)
     capasPerToExcel({
       hechos:resultadosEnPoligonoPer.hechos,
       domicilio:resultadosEnPoligonoPer.domicilio,
       detencion:resultadosEnPoligonoPer.detencion,
       inspecciones:resultadosEnPoligonoPer.inspecciones,
-      siceventos:resultadosEnPoligonoPer.siceventos
+      siceventos:resultadosEnPoligonoPer.siceventos,
+      puntosidentificados:resultadosEnPoligonoPer.puntosidentificados
     })
   }
   //Handler para pasar la informacion de una persona buscada a csv
