@@ -1,5 +1,5 @@
 import * as turf from "@turf/turf";
-export const PuntosEnPoligonoPer = async (poligono, datosHechos,datosDomicilio,datosDetencion,datosInspecciones,datosSicEventos) => {
+export const PuntosEnPoligonoPer = async (poligono, datosHechos,datosDomicilio,datosDetencion,datosInspecciones,datosSicEventos,datosPuntosIdentificados) => {
     //console.log('ENTRO A LA FUNCION DE PERSONALIZADDO ',{poligono, datosHechos,datosDomicilio,datosDetencion,datosInspecciones})
     const puntosHechos = turf.featureCollection(
       datosHechos.map((item) => {
@@ -116,14 +116,38 @@ export const PuntosEnPoligonoPer = async (poligono, datosHechos,datosDomicilio,d
         });
       })
     );
+    const puntosPuntosIdentificados = turf.featureCollection(
+      datosPuntosIdentificados.map((item) => {
+        const coordenadas = [
+          isNaN(parseFloat(item["COORDENADAS X"]))
+            ? -0.0
+            : (parseFloat(item["COORDENADAS X"])>0)
+                ? parseFloat(item["COORDENADAS Y"])
+                : parseFloat(item["COORDENADAS X"]),
+          isNaN(parseFloat(item["COORDENADAS Y"]))
+            ? 0.0
+            : (parseFloat(item["COORDENADAS X"])>0)
+                ? parseFloat(item["COORDENADAS X"])
+                : parseFloat(item["COORDENADAS Y"]),
+        ];
   
+        return turf.point(coordenadas, {
+          Folio: item["FOLIO"],
+          Fuente: item["FUENTE"],
+          Delito: item["DELITO ASOCIADO"],
+          Banda: item["NOMBRE DE LA BANDA"],
+          Objetivo: item["OBJETIVO"],
+        });
+      })
+    );
     // Almacenar puntos separados por zona
     let puntosPorPoligonoPer = {
       hechos: [],
       domicilio:[],
       detencion:[],
       inspecciones:[],
-      siceventos:[]
+      siceventos:[],
+      puntosidentificados:[]
     };
   
     //console.log("tratados ", puntosHechos);
@@ -132,14 +156,16 @@ export const PuntosEnPoligonoPer = async (poligono, datosHechos,datosDomicilio,d
     const puntosEnPoligonoPerDet = turf.pointsWithinPolygon(puntosDetencion, poligono);
     const puntosEnPoligonoPerInsp = turf.pointsWithinPolygon(puntosInspecciones, poligono);
     const puntosEnPoligonoPerSicEv = turf.pointsWithinPolygon(puntosSicEventos, poligono);
-    //console.log('linea 38:', puntosEnPoligonoPer.features);
+    const puntosEnPoligonoPerPuntIden = turf.pointsWithinPolygon(puntosPuntosIdentificados, poligono);
+    console.log('linea 38:', puntosEnPoligonoPerPuntIden.features);
   
     let puntosFiltrados = {
       hechos: [],
       domicilio: [],
       detencion:[],
       inspecciones:[],
-      siceventos:[]
+      siceventos:[],
+      puntosidentificados:[]
     };
   
     puntosEnPoligonoPer.features.forEach((punto) => {
@@ -182,6 +208,15 @@ export const PuntosEnPoligonoPer = async (poligono, datosHechos,datosDomicilio,d
         puntosFiltrados.siceventos.push(coincidencia);
     }
     });
+    puntosEnPoligonoPerPuntIden.features.forEach((punto) => {
+      const coincidencia = datosPuntosIdentificados.find((data) => {
+          return punto.properties.Folio === data.FOLIO;
+      });
+      if (coincidencia) {
+          console.log('COINCIDENCIA: ',coincidencia);
+          puntosFiltrados.puntosidentificados.push(coincidencia);
+      }
+      });
 
     //console.log(puntosFiltrados);
     return puntosFiltrados;
