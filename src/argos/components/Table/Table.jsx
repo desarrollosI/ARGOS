@@ -14,14 +14,20 @@ import React, { useEffect } from 'react'
 import { useTable, useFilters, useGlobalFilter, usePagination, useResizeColumns } from 'react-table'
 // Se importan los componentes personalizados, estos componentes son los filtros e inputs de los mismos
 // Se importan algunos aunque aun no se usan por si son necesarios en un futuro.
-import { GlobalFilter, DefaultColumnFilter, SelectColumnFilter, SliderColumnFilter, NumberRangeColumnFilter, fuzzyTextFilterFn, dataToExcel } from '../../helpers'
+import { GlobalFilter, dataToExcel } from '../../helpers'
 // Se importan las hojas de estilo del componente
 import '../css/Table/tabla.css';
+import { useState } from 'react';
+
+//import {  SelectColumnFilterStatic } from './StaticFilters'; // Asegúrate de ajustar la ruta correcta
 
 /*
     El componente final es la tabla con paginacion, , columnas con filtros y la posibilidad de exportarlo a excel
 */
-export function Table({ columns, data, base='' }) {
+export function Table({ columns, data, base='',updateColumnFilters,columnFilters, totalRegisters, nxtPage,prevPage, opciones}) {
+
+
+    console.log('ACA ESTAN LAS OPCIONES DEL BACK ', opciones)
 
     const exportExcel = (data,base) => {
         //console.log('data a excel',data)
@@ -29,34 +35,26 @@ export function Table({ columns, data, base='' }) {
 
     }
 
-    const filterTypes = React.useMemo(
-        () => ({
-        // Add a new fuzzyTextFilterFn filter type.
-        fuzzyText: fuzzyTextFilterFn,
-        // Or, override the default text filter to use
-        // "startWith"
-        text: (rows, id, filterValue) => {
-            return rows.filter(row => {
-            const rowValue = row.values[id]
-            return rowValue !== undefined
-                ? String(rowValue)
-                    .toLowerCase()
-                    .startsWith(String(filterValue).toLowerCase())
-                : true
-            })
-        },
-        }),
-        []
-    )
+    // Función para renderizar los filtros específicos de cada columna
+    const renderColumnFilter = (column) => {
+        console.log('ESTOY EN LA FUNCION DEL RENDER,',column.id)
 
-    const defaultColumn = React.useMemo(
-        () => ({
-        width: 150,
-        // Let's set up our default Filter UI
-        Filter: DefaultColumnFilter,
-        }),
-        []
-    )
+        if (column.filter == 'SelectColumnFilterStatic') {
+           
+            const opcionesColumna = opciones.find(opcion => opcion.nombre === column.id);
+            console.log('DESPUES DE BUSCAR LAS OPCIONES', opcionesColumna)
+
+            return (
+                <SelectColumnFilterStatic
+                    name={column.id}
+                    opciones={opcionesColumna}
+                />
+                )
+        }
+    
+        // Agrega más casos según sea necesario para otros tipos de filtros
+        return null;
+    };
 
     const {
         getTableProps,
@@ -75,33 +73,21 @@ export function Table({ columns, data, base='' }) {
         pageOptions,
         pageCount,
         gotoPage,
-        nextPage,
-        previousPage,
         setPageSize,
         state: {
             pageIndex,
-            pageSize,
-            sortBy,
-            groupBy,
-            expanded,
-            filters,
-            selectedRowIds,
+            pageSize
         },
     } = useTable(
         {
         columns,
         data,
-        defaultColumn, // Be sure to pass the defaultColumn option
-        filterTypes,
         },
-        useFilters, // useFilters!
         useGlobalFilter, // useGlobalFilter!
         usePagination// usa la paginacion
     )
 
-  // We don't want to render all of the rows for this example, so cap
-  // it for this use case
-  //const firstPageRows = rows
+
 
   /* --- --- --- ACA PUEDES ACCEDER A LOS RENGLONES FILTRADOS PARA POSTERIOR EXPORTACION --- --- ---
     FALTA TRATAR LA INFORMACION YA QUE REGRESA UN OBJETO UTILIZADO PARA EL REACT TABLE 
@@ -113,6 +99,22 @@ export function Table({ columns, data, base='' }) {
   //console.log('previa a excel :', remisiones)
     //TODO Como pasar el filtro al padre para el historial ?
   
+
+    //efecto para poder observar los filtros
+
+    // useEffect(() => {
+    //     // Establece un temporizador para retrasar la actualización de los filtros
+    //     const timerId = setTimeout(() => {
+    //       // Actualiza los filtros del hook con los filtros locales
+    //       updateColumnFilters(state.filters);
+    //     }, 4000); // 4000 milisegundos (4 segundos)
+      
+    //     // Limpia el temporizador al desmontar el componente o al cambiar los filtros
+    //     return () => clearTimeout(timerId);
+      
+    //     // Asegúrate de incluir las dependencias necesarias
+    //   }, [state.filters]);
+
   return (
         <>
          <div className="row">
@@ -129,7 +131,11 @@ export function Table({ columns, data, base='' }) {
                         EXPORTAR EXCEL
                     </button>
                     <button 
-                        onClick={() => setAllFilters([])}
+                         onClick={() => {
+                            console.log('Eliminar filtros');
+                            updateColumnFilters([]); // Llamar a updateColumnFilters con un arreglo vacío
+                            setAllFilters([]); // Limpiar los filtros locales
+                        }}
                         className='ms-2 btn btn-reset-filters'
                     >
                         ELIMINAR FILTROS
@@ -137,7 +143,7 @@ export function Table({ columns, data, base='' }) {
                 </div>
                 <div className="col-md-4">
                     <h5>
-                        { `${preGlobalFilteredRows.length} REGISTROS ENCONTRADOS` }
+                        { `${totalRegisters} REGISTROS ENCONTRADOS` }
                     </h5>
                 </div>
                </div>
@@ -147,37 +153,17 @@ export function Table({ columns, data, base='' }) {
             <div className='table-wrapper'>
                 <table {...getTableProps()} className="table table-bordered table-hover shadow" >
                     <thead>
-                        <tr>
-                            <th
-                            colSpan={visibleColumns.length}
-                            style={{
-                                textAlign: 'left',
-                                
-                            }}
-                            >
-                            <GlobalFilter
-                                preGlobalFilteredRows={preGlobalFilteredRows}
-                                globalFilter={state.globalFilter}
-                                setGlobalFilter={setGlobalFilter}
-                            />
-                            </th>
-                        </tr>
-                    {headerGroups.map(headerGroup => (
-                        
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                        {/* {headerGroup.headers.map(column => {console.log(column)})} */}
-                        {headerGroup.headers.map(column => (
-                            <th  className="align-middle"{...column.getHeaderProps({
-                                style: {minWidth: column.minWidth } //de esta forma se sobreescribe el tamaño de las celdas, si viene la propiedad en el Table Constructor
-                               })}>
-                            {column.render('Header')}
-                            {/* Render the columns filter UI */}
-                            <div>{column.canFilter ? column.render('Filter') : null}</div>
-                            </th>
+                        {headerGroups.map(headerGroup => (
+                            <tr {...headerGroup.getHeaderGroupProps()}>
+                                {headerGroup.headers.map(column => (
+                                    <th className="align-middle" {...column.getHeaderProps({ style: { minWidth: column.minWidth } })}>
+                                        {column.render('Header')}
+                                        {/* Render the columns filter UI */}
+                                        <div>{renderColumnFilter(column)}</div>
+                                    </th>
+                                ))}
+                            </tr>
                         ))}
-                        </tr>
-                    ))}
-                    
                     </thead>
                     <tbody {...getTableBodyProps()}>
                     {page.map((row, i) => {
@@ -201,10 +187,10 @@ export function Table({ columns, data, base='' }) {
                     <button className="btn btn-pagination" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
                     {'<<'}
                     </button>{' '}
-                    <button className="btn btn-pagination" onClick={() => previousPage()} disabled={!canPreviousPage}>
+                    <button className="btn btn-pagination" onClick={() => prevPage()} >
                     {'<'}
                     </button>{' '}
-                    <button className="btn btn-pagination" onClick={() => nextPage()} disabled={!canNextPage}>
+                    <button className="btn btn-pagination" onClick={() => nxtPage()}>
                     {'>'}
                     </button>{' '}
                     <button className="btn btn-pagination" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
@@ -255,14 +241,14 @@ export function Table({ columns, data, base='' }) {
         </div>
 
         <br />
-        {/* se comenta sive para debugear que filtros se estan aplicando */}
-        {/* <div>
+        {/* se comenta sive para debugear que filtros se estan aplicando
+         <div>
             <pre>
                 <br />
                 {console.log(state.filters)}
                 <code>{JSON.stringify(state.filters, null, 2)}</code>
             </pre>
-        </div> */}
+        </div>  */}
         </>
     )
 }

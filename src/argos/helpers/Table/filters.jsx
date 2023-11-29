@@ -21,7 +21,7 @@ export function GlobalFilter({
     const [value, setValue] = React.useState(globalFilter)
     const onChange = useAsyncDebounce(value => {
       setGlobalFilter(value || undefined)
-    }, 200)
+    }, 4000)
   
     return (
       <span>
@@ -191,7 +191,7 @@ export function NumberRangeColumnFilter({
 export function fuzzyTextFilterFn(rows, id, filterValue) {
       return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
   }
-  
+
   // Let the table remove the filter if the string is empty
   fuzzyTextFilterFn.autoRemove = val => !val
 
@@ -282,5 +282,34 @@ export function fuzzyTextFilterFn(rows, id, filterValue) {
         />
       </div>
     );
+
+
+    
   }
   
+
+
+  export function TextColumnFilter({
+    column: { filterValue, setFilter, preFilteredRows, id },
+  }) {
+    const count = preFilteredRows.length;
+  
+    const onChange = useAsyncDebounce((value) => {
+      setFilter(id, value || undefined);
+    }, 4000);
+  
+    return (
+      <input
+        className="form-control"
+        value={filterValue || ''}
+        onChange={(e) => {
+          onChange(e.target.value);
+        }}
+        placeholder={`Buscar (${count} registros)`}
+        style={{
+          fontSize: '1.1rem',
+          border: '0',
+        }}
+      />
+    );
+  }

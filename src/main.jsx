@@ -10,13 +10,22 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, HashRouter } from 'react-router-dom';
 //se importan los componentes personalzados
 import { ArgosApp } from './ArgosApp';
+
+import { QueryClient,QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
 //se importan las hojas de estilo de la aplicacion styles por defecto suele ser global
 import './styles.css';
 
+const client = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
+  <QueryClientProvider client={client}>
     <HashRouter>
+      <ReactQueryDevtools/>
       <ArgosApp />
     </HashRouter>
+  </QueryClientProvider>
   // </React.StrictMode>
 );
