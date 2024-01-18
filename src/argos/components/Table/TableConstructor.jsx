@@ -998,6 +998,18 @@ export const TableConstructor = ({lugar, datos}) => {
                   Header: 'VECTOR',
                   accessor: 'Vector',
                   filter: 'fuzzyText',
+                },
+                {
+                  Header: 'FORMA DETENCION',
+                  accessor: 'Forma_Detencion',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'DESCRIPCION FORMA DETENCION',
+                  accessor: 'Descripcion_Forma_Detencion',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
                 }
           ],[]
         )
@@ -1131,6 +1143,18 @@ export const TableConstructor = ({lugar, datos}) => {
                   Header: 'VECTOR',
                   accessor: 'Vector',
                   filter: 'fuzzyText',
+                },
+                {
+                  Header: 'FORMA DETENCION',
+                  accessor: 'Forma_Detencion',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
+                },
+                {
+                  Header: 'DESCRIPCION FORMA DETENCION',
+                  accessor: 'Descripcion_Forma_Detencion',
+                  Filter: SelectColumnFilter,
+                  filter: 'equals',
                 }
           ],[]
         )
