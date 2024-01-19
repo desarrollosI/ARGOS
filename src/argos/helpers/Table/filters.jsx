@@ -11,6 +11,7 @@ import { useAsyncDebounce } from 'react-table'
 import {matchSorter} from 'match-sorter'
 // se importa traductor hacia javascript
 import "babel-polyfill";
+import moment from 'moment';
 // Este componente es el que se encarga de realizar el filtrado global en todas las columnas de la tabla
 export function GlobalFilter({
     preGlobalFilteredRows,
@@ -197,8 +198,9 @@ export function fuzzyTextFilterFn(rows, id, filterValue) {
 
   // Esta funcion realiza la busqueda entre dos rangos de fehcas,
   //hace los ajustes necesarios y la reconversion de los mismos para empatar las horas
-  export function dateBetweenFilterFn(rows, id, filterValues) {
+  /*export function dateBetweenFilterFn(rows, id, filterValues) {
     
+    console.log({rows, id, filterValues})
     const sd = filterValues[0] ? new Date(filterValues[0]) : undefined;
     const ed = filterValues[1] ? new Date(filterValues[1]) : undefined;
     if(sd!= undefined) sd.setHours(sd.getHours() + 6)
@@ -216,19 +218,57 @@ export function fuzzyTextFilterFn(rows, id, filterValue) {
         const cellDate = new Date(formattedData);
   
         if (ed && sd) {
+          console.log(cellDate >= sd && cellDate <= ed)
           return cellDate >= sd && cellDate <= ed;
         } else if (sd) {
-          //sd.setHours(sd.getHours() + 6)
+          // sd.setHours(sd.getHours() + 6)
+          // console.log(cellDate >= sd)
           return cellDate >= sd;
         } else {
-          //e//d.setHours(ed.getHours() + 6)
+          ed.setHours(ed.getHours() + 6)
+          console.log(cellDate <= ed)
           return cellDate <= ed;
         }
       });
     } else {
+      console.log('estan filtradas: ',rows)
       return rows;
     }
-  }
+  }*/
+
+
+  export function dateBetweenFilterFn(rows, id, filterValues) {
+    console.log({ rows, id, filterValues });
+    const sd = filterValues[0] ? moment(filterValues[0]).toDate() : undefined;
+    const ed = filterValues[1] ? moment(filterValues[1]).add(24, 'hours').toDate() : undefined;
+    console.log({sd,ed})
+    if (ed || sd) {
+        return rows.filter((r) => {
+            // format data
+            var dateAndHour = r.values[id].split(" ");
+            var [year, month, day] = dateAndHour[0].split("-");
+            var date = [year, month, day].join("-");
+            var hour = (dateAndHour[1]!=undefined)?dateAndHour[1]:"00:00:00";
+            //console.log({date,hour})
+            var formattedData = date + " " + hour;
+            //console.log({formattedData})
+            const cellDate = new Date(formattedData);
+
+            if (ed && sd) {
+              //console.log({cellDate,sd,ed})
+                console.log(cellDate >= sd && cellDate <= ed)
+                return cellDate >= sd && cellDate <= ed;
+            } else if (sd) {
+                return cellDate >= sd;
+            } else {
+                return cellDate <= ed;
+            }
+        });
+    } else {
+        console.log('estan filtradas: ', rows)
+        return rows;
+    }
+}
   
   // esta funcion realiza el renderizado de los dos inputs para establecer las fechas
   //minima y maxima para el filtrado
@@ -259,8 +299,12 @@ export function fuzzyTextFilterFn(rows, id, filterValue) {
           min={min.toISOString().slice(0, 10)}
           onChange={(e) => {
             const val = e.target.value;
+            // setFilter((old = []) => [
+            //   val ? val.concat("") : undefined, 
+            //   old[1]
+            // ]);
             setFilter((old = []) => [
-              val ? val.concat("") : undefined, 
+              val,
               old[1]
             ]);
           }}
@@ -272,9 +316,13 @@ export function fuzzyTextFilterFn(rows, id, filterValue) {
           max={max.toISOString().slice(0, 10)}
           onChange={(e) => {
             const val = e.target.value;
+            // setFilter((old = []) => [
+            //   old[0],
+            //   val ? val.concat(" 23:59") : undefined //"T23:59:59.999Z"
+            // ]);
             setFilter((old = []) => [
               old[0],
-              val ? val.concat(" 23:59") : undefined //"T23:59:59.999Z"
+              val
             ]);
           }}
           type="date"
