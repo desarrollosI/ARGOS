@@ -6,6 +6,7 @@ import { buscadorGeneralApi } from '../api';
 import { TableConstructor } from '../argos/components/Table';
 //se importan las bibliotecas de terceros
 import Swal from 'sweetalert2';
+import { insertHistorial } from '../helpers/insertHistorial';
 
 /*
   Este hook se encarga de realizar busquedas y mostrar resultados de diferentes bases de datos
@@ -27,6 +28,7 @@ const useGeneralSearchControls = () => {
     try {
       setIsLoadingData(true);
       const response = await buscadorGeneralApi.post(endpoint, { ...objeto });
+      insertHistorial({lugar:'Buscador General',tipo:lugar, descripcion:JSON.stringify(objeto)});
       if (response.status === 200) {
         setDataResultadoBusquedaGeneral(response.data.data);
         generarTablas(lugar);

@@ -26,6 +26,9 @@ export const TableDeciderArgos = ({lugar}) => {
     let endpoint ='';
    
     switch (lugar) {
+        case 'Buscador General: Busqueda Realizada':
+            endpoint = '/buscador-general';
+            break;
         case 'Reconocimiento Facial: Fotos Subidas':
             endpoint = '/subida-facial';
             break;

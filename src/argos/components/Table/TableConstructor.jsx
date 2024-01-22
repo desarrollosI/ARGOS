@@ -2540,6 +2540,54 @@ export const TableConstructor = ({lugar, datos}) => {
         return (
           <Table columns={columns} data={data} base={'Reconocimiento Facial: Fotos Subidas'} setFiltros={setFiltros}/>
         )
+        case 'Buscador General: Busqueda Realizada':
+        columns = React.useMemo(
+          () => [
+            {
+              Header:'ID',
+              accessor:'_id',
+              filter: 'fuzzyText',
+              id: 'id'
+            }, 
+            {
+              Header:'FECHA',
+              accessor:'extra.hora',
+              Filter: DateRangeColumnFilter,
+              filter: dateBetweenFilterFn
+            },
+            {
+              Header:'USUARIO',
+              accessor:'user.nombre',
+              filter: 'fuzzyText',
+            }, 
+            {
+              Header:'LUGAR',
+              accessor:'extra.lugar',
+              Filter: SelectColumnFilter,
+              filter: 'equals',
+            }, 
+            {
+              Header:'TIPO',
+              accessor:'extra.tipo',
+              Filter: SelectColumnFilter,
+              filter: 'equals',
+            }, 
+            {
+              Header:'DESCRIPCION',
+              accessor:'extra.descripcion',
+              filter: 'fuzzyText',
+            }, 
+          ],[]
+        )
+
+        data = React.useMemo(() =>
+        datos
+        , [])
+        
+        
+        return (
+          <Table columns={columns} data={data} base={'Buscador General: Busqueda Realizada'} setFiltros={setFiltros}/>
+        )
         case 'Inicio de Sesion':
         columns = React.useMemo(
           () => [

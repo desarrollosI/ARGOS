@@ -170,6 +170,7 @@ export const SelectBaseComponent = ({base}) => {
                             >
                                 <option value=" ">SELECCIONE UNA OPCIÓN</option>
                                 <option value="Inicio de Sesion">INICIO DE SESIÓN</option>
+                                <option value="Buscador General: Busqueda Realizada">BUSCADOR GENERAL: BUSQUEDAS REALIZADAS</option>
                                 <option value="Buscador: Exportacion a Excel">BUSCADOR: EXPORTACION A EXCEL</option>
                                 <option value="Vista de Ficha: Mas Detalles">VISTA DE FICHA: MAS DETALLES</option>
                                 <option value="Reconocimiento Facial: Fotos Subidas">RECONOCIMIENTO FACIAL: FOTOS SUBIDAS</option>
