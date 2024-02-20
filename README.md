@@ -48,6 +48,7 @@ VITE_BACKEND_SERVER_BASE_PERSONAS=
 VITE_BACKEND_SERVER_HISTORIAL=
 VITE_BACKEND_SERVER_CATALOGOS=
 VITE_BACKEND_SERVER_USUARIOS=
+VITE_BACKEND_SERVER_GENERADOR=
 ```
 Como se trabaja con vite todas las variables de entorno personalizadas deben de comenzar con  la palabra **VITE** de lo contrario no podran ser detectadas y accesibles.
 
