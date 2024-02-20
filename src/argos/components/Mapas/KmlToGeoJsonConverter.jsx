@@ -57,6 +57,19 @@ const KmlToGeoJsonConverter = ({mapa}) => {
 
     reader.readAsText(file);
   };
+
+  const removeGeoJsonLayerFromMap = () => {
+    if (mapa.getLayer('pointLayer')) {
+      mapa.removeLayer('pointLayer');
+    }
+
+    if (mapa.getSource('geojsonSource')) {
+      mapa.removeSource('geojsonSource');
+    }
+
+    setGeoJsonData(null);
+  };
+
   //se añade la capa al mapa
   useEffect(() => {
     console.log('EFECTO DE ADD JSON')
@@ -68,6 +81,7 @@ const KmlToGeoJsonConverter = ({mapa}) => {
   return (
     <div className='my-3'>
       <input type="file" className="form-control form-control-lg" accept=".kml" onChange={handleFileChange} />
+      <button className="btn btn-danger mt-2" onClick={removeGeoJsonLayerFromMap}>Eliminar Capa</button>
     </div>
   );
 };

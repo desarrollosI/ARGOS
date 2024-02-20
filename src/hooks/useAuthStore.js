@@ -96,7 +96,7 @@ export const useAuthStore = () => {
             console.log('error del check auth', error)
             localStorage.clear();
             Swal.fire('Error en la autenticación', 'Tu sesión expiró', 'error');//esto se deberia de quitar recuerda que el store debe de ser lineal sin extras
-            //dispatch( onLogout() );
+            dispatch( onLogout() );
         }
     }
     //Funcion que maneja el cierre de sesion, limpia el almacenamiento local y redirige al usuario al login

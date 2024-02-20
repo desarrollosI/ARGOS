@@ -217,50 +217,49 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
                       },
                     });
             
-                    map.addLayer(
-                      {
-                        id: "heatmap"+capa,
-                        type: "heatmap",
-                        source: "heatmap"+capa,
-                        paint: {
-                          "heatmap-weight": {
-                            property: "mag",
-                            type: "exponential",
-                            stops: [
-                              [0, 0],
-                              [6, 1],
+                    map.addLayer({
+                      id: "heatmap" + capa,
+                      type: "heatmap",
+                      source: "heatmap" + capa,
+                      paint: {
+                        "heatmap-weight": 1, // Puedes mantener esto como lo tienes si no necesitas ajustar el peso
+                        "heatmap-color": [
+                          "interpolate",
+                          ["linear"],
+                          ["heatmap-density"],
+                          0,
+                          "rgba(33,102,172,0)",
+                          0.2,
+                          "rgb(103,169,207)",
+                          0.4,
+                          "rgb(209,229,240)",
+                          0.6,
+                          "rgb(253,219,199)",
+                          0.8,
+                          "rgb(239,138,98)",
+                          1,
+                          "rgb(178,24,43)",
+                        ],
+                        "heatmap-radius": {
+                          "base": 2,
+                          "stops": [
+                            [
+                              10,
+                              2
                             ],
-                          },
-                          "heatmap-color": [
-                            "interpolate",
-                            ["linear"],
-                            ["heatmap-density"],
-                            0,
-                            "rgba(33,102,172,0)",
-                            0.2,
-                            "rgb(103,169,207)",
-                            0.4,
-                            "rgb(209,229,240)",
-                            0.6,
-                            "rgb(253,219,199)",
-                            0.8,
-                            "rgb(239,138,98)",
-                            1,
-                            "rgb(178,24,43)",
-                          ],
-                          "heatmap-radius": {
-                            property: "mag",
-                            type: "exponential",
-                            stops: [
-                              [0, 2],
-                              [6, 20],
-                            ],
-                          },
-                          "heatmap-opacity": 1, // Establecer la opacidad en 1
+                            [
+                              19,
+                              512
+                            ]
+                          ]
+                        },
+                        "heatmap-opacity": 1, // Establecer la opacidad en 1
+                        "heatmap-radius-transition": {
+                          duration: 0, // Transición rápida para evitar cambios bruscos al hacer zoom
                         },
                       },
-                      "waterway-label"
-                    );
+                    }, "waterway-label");
+                    
     
           }else {
              // Remover la capa de calor si está presente

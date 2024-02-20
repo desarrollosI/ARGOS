@@ -8,61 +8,143 @@
 */
 
 //se importa react
-import React from "react";
+import React, { useRef } from "react";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import Carousel from 'react-elastic-carousel'
 
+import './css/inicio.css';
+
+import busqueda from '../../assets/bus.jpg';
+import estadistica from '../../assets/est.jpg';
+import geoanalisis from '../../assets/geo.jpg';
+import reconocimiento from '../../assets/rf.jpg';
+
+
+
+const Card = ({ card }) => (
+  <div className="card" style={{minWidth:'500px'}}>
+    <h3 className="text-center">{card.titulo}</h3>
+    <ul className="me-4">
+      {card.actualizaciones.map((actualizacion,index) => (<li key={index}>{actualizacion}</li>))}
+    </ul>
+      {card.desc}
+  </div>
+);
+
+const actualizaciones = [
+  {
+    "titulo": "A.R.G.O.S. RC-2.7.0",
+    "actualizaciones": [
+      "Nueva Interfaz de Usuario",
+      "Correciones en el poligono personalizado",
+      "Correcciones en el filtro de fechas"
+    ]
+  },
+  {
+    "titulo": "A.R.G.O.S. RC-2.6.3",
+    "actualizaciones": [
+      "Solucionado problema de carga del módulo de Geoanálisis",
+      "Añadida la navegacion por coordenadas",
+      "Reeestructuracion del Módulo de estadística",
+      "Añadidas gráficas SIC"
+    ]
+  },
+  {
+    "titulo": "A.R.G.O.S. RC-2.5.0",
+    "actualizaciones": [
+      "Añadida capa Puntos Identificados",
+      "Añadida Vista Atlas",
+      "Añadida Vista Eventos Delictivos",
+      "Correccion en el catalogo de Falta/Delito ya no se repiten opciones",
+      "Inicio de reestructuracion del Modulo Estadistica"
+    ]
+  },
+  {
+    "titulo": "A.R.G.O.S. RC-2.1.0",
+    "actualizaciones": [
+      "Añadida Vista Incidencia Delictiva",
+      "Añadida Vista Eventos SIC",
+      "Añadido Filtro FaltaDelito En Geoanalisis SIC",
+      "Añadido el Domicilio Detenido en las busquedas Datos Personales, y Busqueda General"
+    ]
+  }
+]
+// Componente InicioPage
 export const InicioPage = () => {
+
+  const itemsPerPage = 3
+  const items = actualizaciones
+  const carouselRef = useRef(null);
+  const totalPages = Math.ceil(items.length / itemsPerPage)
+  let resetTimeout;
+
   return (
-    <>
-      <>
-        <div className="container-fluid content">
-          <div className="row card shadow">
-            <div className="col">
-              <h1 className="titulo">
-                {" "}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="48"
-                  height="48"
-                  fill="currentColor"
-                  className="bi bi-house-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z" />
-                  <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z" />
-                </svg>{" "}
-                Bienvenido
-              </h1>
-            </div>
-            <hr />
-          </div>
-          <div className="row card shadow">
-            <div className="col-md-12">
-              <h3>A.R.G.O.S. RC-2.6.3</h3>
-              <ul>
-                <li>Solucionado problema de carga del módulo de Geoanálisis</li>
-                <li>Añadida la navegacion por coordenadas</li>
-                <li>Reeestructuracion del Módulo de estadística</li>
-                <li>Añadidas gráficas SIC</li>
-              </ul>
-              <h5>A.R.G.O.S. RC-2.5.0</h5>
-              <ul>
-                <li>Añadida capa Puntos Identificados</li>
-                <li>Añadida Vista Atlas</li>
-                <li>Añadida Vista Eventos Delictivos</li>
-                <li>Correccion en el catalogo de Falta/Delito ya no se repiten opciones</li>
-                <li>Inicio de reestructuracion del Modulo Estadistica</li>
-              </ul>
-              <h5>A.R.G.O.S. RC-2.1.0</h5>
-              <ul>
-                <li>Añadida Vista Incidencia Delictiva</li>
-                <li>Añadida Vista Eventos SIC</li>
-                <li>Añadido Filtro FaltaDelito En Geoanalisis SIC</li>
-                <li>Añadido el Domicilio Detenido en las busquedas Datos Personales, y Busqueda General</li>
-              </ul>
-            </div>
+    <div className="container-fluid content">
+      <div className="row card shadow">
+        <div className="row">
+          <div className="col-md-12">
+            <h1 className="text-center titulo">Bienvenida(o) al</h1>
+            <h4 className="text-center subtitulo" > Sistema de Inteligencia policial con módulos especializados para el análisis de Información criminal.</h4>
           </div>
         </div>
-      </>
-    </>
+        <div className="row d-flex justify-content-around mb-5">
+          <div className="col-md-2">
+            <img className="imagen" src={busqueda} width={300} alt="busqueda" />
+          </div>
+          <div className="col-md-2">
+            <img className="imagen" src={reconocimiento} width={300} alt="reconocimiento" />
+          </div>
+          <div className="col-md-2">
+            <img className="imagen" src={geoanalisis} width={300} alt="geoanalisis" />
+          </div>
+          <div className="col-md-2">
+            <img className="imagen" src={estadistica} width={300} alt="estadistica" />
+          </div>
+        </div>
+
+        <div className="row d-flex justify-content-around mb-5">
+          <div className="col-md-2">
+            <h5 className="text-center modulo">Buscador de Información</h5>
+          </div>
+          <div className="col-md-2">
+            <h5 className="text-center modulo">Reconocimiento Facial</h5>
+          </div>
+          <div className="col-md-2">
+            <h5 className="text-center modulo">Geoanálisis</h5>
+          </div>
+          <div className="col-md-2">
+            <h5 className="text-center modulo">Estádistica</h5>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-md-12 mb-5">
+            {/* Utiliza ReactCaroussel en lugar de Carousel */}
+            <Carousel 
+            ref={carouselRef}
+            itemsToShow={2}
+            enableAutoPlay
+            autoPlaySpeed={4000}
+            onNextEnd={({ index }) => {
+              clearTimeout(resetTimeout)
+              if (index + 1 === totalPages) {
+                 resetTimeout = setTimeout(() => {
+                    carouselRef.current.goTo(0)
+                }, 1500) // same time
+              }
+         }}>
+             
+               {actualizaciones.map((actualziacion, index) => (
+                <div key={actualziacion.titulo}>
+                  <Card className="ms-2"card={actualziacion} />
+                </div>
+              ))} 
+            </Carousel>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };

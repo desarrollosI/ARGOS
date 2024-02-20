@@ -15,7 +15,7 @@ export const GeoanalisisPage = () => {
   return (
     <>
       <div className="container-fluid content">
-        <div className="row card shadow">
+        {/* <div className="row card shadow">
           <div className="col">
             <h1 className="titulo">
               <svg
@@ -32,7 +32,7 @@ export const GeoanalisisPage = () => {
             </h1>
           </div>
           <hr />
-        </div>
+        </div> */}
         <div className="container-fluid">
           <Mapa/>
         </div>

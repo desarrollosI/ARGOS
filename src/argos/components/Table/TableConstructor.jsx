@@ -51,6 +51,31 @@ export const TableConstructor = ({lugar, datos}) => {
         en el cual se le indica el tipo de filtro que se quiere inyectar a la columna, es algo complejo se recomienda visitar la documentacion de react table, son en si minicomponentes.
         Hay diferentes propiedades diferentes, pudiendo inyercar jsx en determinaadas columnas, como en las que se quiere generar enlaces para obtener mas informacion.       
         */
+
+        case 'extra': 
+        let columnas = datos[1].map(columna =>  {
+          return {
+            Header: `${columna.name}`,
+            accessor: `${columna.name}`,
+            filter: 'fuzzyText',
+          };
+        });
+      
+        columns = React.useMemo(
+          () => columnas, // Sin envolver en otro arreglo
+          [] // Dependenecia vacía para que solo se calcule una vez
+        );
+      
+        data = React.useMemo(() =>
+          datos[0],
+          []
+        );
+        
+        return (
+          <Table columns={columns} data={data} base={'BASES EXTRA'} setFiltros={setFiltros}/>
+        );
+
+
       case 'Detenido: Datos Personales':
         columns = React.useMemo(
           () => [

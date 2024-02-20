@@ -135,6 +135,7 @@ export const CardReconocimientoFacial = ({ parecido }) => {
                   <div className=" card-body card-img-top" > 
                     <div className="row">
                       <p className="card-text">{parecido._label}, Porcentaje: {100-(parecido.distance*100)} %</p>
+                      <p className="card-text">{parecido.nombre.toUpperCase()}</p>
                     </div>
                     <div className="row">
                       <Link to={`/remision/${remision}`} target="_blank"  onClick={registrarMovimiento}>

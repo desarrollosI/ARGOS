@@ -15,7 +15,7 @@ export const BuscadorPage = () => {
   return (
     <>
       <div className="container-fluid content">
-        <div className="row card shadow">
+        {/* <div className="row card shadow">
           <div className="col">
             <h1 className="titulo">
               {" "}
@@ -33,7 +33,7 @@ export const BuscadorPage = () => {
             </h1>
           </div>
           <hr />
-        </div>
+        </div> */}
         <BaseMultiplier/>
       </div>
     </>

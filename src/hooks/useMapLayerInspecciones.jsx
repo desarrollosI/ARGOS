@@ -219,14 +219,7 @@ const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
                         type: "heatmap",
                         source: "heatmap"+capa,
                         paint: {
-                          "heatmap-weight": {
-                            property: "mag",
-                            type: "exponential",
-                            stops: [
-                              [0, 0],
-                              [6, 1],
-                            ],
-                          },
+                          "heatmap-weight": 1, // Puedes mantener esto como lo tienes si no necesitas ajustar el peso
                           "heatmap-color": [
                             "interpolate",
                             ["linear"],
@@ -245,14 +238,22 @@ const useMapLayerInspecciones = (endpoint,color,capa,setInspeccion) => {
                             "rgb(178,24,43)",
                           ],
                           "heatmap-radius": {
-                            property: "mag",
-                            type: "exponential",
-                            stops: [
-                              [0, 2],
-                              [6, 20],
-                            ],
+                            "base": 2,
+                            "stops": [
+                              [
+                                10,
+                                2
+                              ],
+                              [
+                                19,
+                                512
+                              ]
+                            ]
                           },
                           "heatmap-opacity": 1, // Establecer la opacidad en 1
+                          "heatmap-radius-transition": {
+                            duration: 0, // Transición rápida para evitar cambios bruscos al hacer zoom
+                          },
                         },
                       },
                       "waterway-label"

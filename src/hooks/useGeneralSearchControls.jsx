@@ -30,6 +30,7 @@ const useGeneralSearchControls = () => {
       const response = await buscadorGeneralApi.post(endpoint, { ...objeto });
       insertHistorial({lugar:'Buscador General',tipo:lugar, descripcion:JSON.stringify(objeto)});
       if (response.status === 200) {
+        console.warn('DATA DE BUSQUEDA: ',response.data.data)
         setDataResultadoBusquedaGeneral(response.data.data);
         generarTablas(lugar);
         setIsLoadingData(false);
@@ -176,6 +177,26 @@ const useGeneralSearchControls = () => {
             );
         }
 
+        if (DataResultadoBusquedaGeneral.bases_extra) {
+            console.log('GENERANDO TABLAS: ',Object.keys(DataResultadoBusquedaGeneral.bases_extra))
+
+            Object.keys(DataResultadoBusquedaGeneral.bases_extra).map(base => {
+              console.log('BASE: ',base)
+              console.log(DataResultadoBusquedaGeneral.bases_extra[base])
+              if(DataResultadoBusquedaGeneral.bases_extra[base][0].length){
+                newTablasResultado.push(
+                  <div key={base}>
+                  <div className="row mb-4">
+                      <h3 className="titulo">{base}</h3>
+                  </div>
+                  <TableConstructor lugar={'extra'} datos={ DataResultadoBusquedaGeneral.bases_extra[base] } />
+                  {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
+                  </div>
+                );
+              }
+            })
+        }
+
         break;
       case 'direccion':
           //console.log('si entre al caso de DIRECCION',DataResultadoBusquedaGeneral)
@@ -304,6 +325,26 @@ const useGeneralSearchControls = () => {
                 </div>
             );
           }
+
+          if (DataResultadoBusquedaGeneral.bases_extra) {
+            console.log('GENERANDO TABLAS: ',Object.keys(DataResultadoBusquedaGeneral.bases_extra))
+
+            Object.keys(DataResultadoBusquedaGeneral.bases_extra).map(base => {
+              console.log('BASE: ',base)
+              console.log(DataResultadoBusquedaGeneral.bases_extra[base])
+              if(DataResultadoBusquedaGeneral.bases_extra[base][0].length){
+                newTablasResultado.push(
+                  <div key={base}>
+                  <div className="row mb-4">
+                      <h3 className="titulo">{base}</h3>
+                  </div>
+                  <TableConstructor lugar={'extra'} datos={ DataResultadoBusquedaGeneral.bases_extra[base] } />
+                  {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
+                  </div>
+                );
+              }
+            })
+          }
         break;
       case 'alias':
         //console.log('si entre al caso de nombre')
@@ -372,6 +413,27 @@ const useGeneralSearchControls = () => {
                 </div>
             );
         }
+
+        
+        if (DataResultadoBusquedaGeneral.bases_extra) {
+          console.log('GENERANDO TABLAS: ',Object.keys(DataResultadoBusquedaGeneral.bases_extra))
+
+          Object.keys(DataResultadoBusquedaGeneral.bases_extra).map(base => {
+            console.log('BASE: ',base)
+            console.log(DataResultadoBusquedaGeneral.bases_extra[base])
+            if(DataResultadoBusquedaGeneral.bases_extra[base][0].length){
+              newTablasResultado.push(
+                <div key={base}>
+                <div className="row mb-4">
+                    <h3 className="titulo">{base}</h3>
+                </div>
+                <TableConstructor lugar={'extra'} datos={ DataResultadoBusquedaGeneral.bases_extra[base] } />
+                {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
+                </div>
+              );
+            }
+          })
+        }
     
         break;
       case 'placaniv':
@@ -416,6 +478,27 @@ const useGeneralSearchControls = () => {
             );
         }
       
+
+        
+        if (DataResultadoBusquedaGeneral.bases_extra) {
+          console.log('GENERANDO TABLAS: ',Object.keys(DataResultadoBusquedaGeneral.bases_extra))
+
+          Object.keys(DataResultadoBusquedaGeneral.bases_extra).map(base => {
+            console.log('BASE: ',base)
+            console.log(DataResultadoBusquedaGeneral.bases_extra[base])
+            if(DataResultadoBusquedaGeneral.bases_extra[base][0].length){
+              newTablasResultado.push(
+                <div key={base}>
+                <div className="row mb-4">
+                    <h3 className="titulo">{base}</h3>
+                </div>
+                <TableConstructor lugar={'extra'} datos={ DataResultadoBusquedaGeneral.bases_extra[base] } />
+                {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
+                </div>
+              );
+            }
+          })
+        }
 
         break;
       case 'telefono':
@@ -495,6 +578,27 @@ const useGeneralSearchControls = () => {
                 {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
                 </div>
             );
+        }
+
+        
+        if (DataResultadoBusquedaGeneral.bases_extra) {
+          console.log('GENERANDO TABLAS: ',Object.keys(DataResultadoBusquedaGeneral.bases_extra))
+
+          Object.keys(DataResultadoBusquedaGeneral.bases_extra).map(base => {
+            console.log('BASE: ',base)
+            console.log(DataResultadoBusquedaGeneral.bases_extra[base])
+            if(DataResultadoBusquedaGeneral.bases_extra[base][0].length){
+              newTablasResultado.push(
+                <div key={base}>
+                <div className="row mb-4">
+                    <h3 className="titulo">{base}</h3>
+                </div>
+                <TableConstructor lugar={'extra'} datos={ DataResultadoBusquedaGeneral.bases_extra[base] } />
+                {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
+                </div>
+              );
+            }
+          })
         }
 
         break;

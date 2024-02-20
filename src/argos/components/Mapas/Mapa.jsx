@@ -525,18 +525,20 @@ export function Mapa() {
             ?(
               <>
                 <div className="row">   
-                  <div className="col-md-12">
+                  <div className="col-md-6">
                       <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHechos" aria-expanded="false" aria-controls="collapseHechos">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="red" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
-                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
-                      </svg>
 
-                        Capa Ubicacion Hechos 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="red" className="bi bi-layers-fill  me-1" viewBox="0 0 16 16">
+                          <path d="M7.765 1.559a.5.5 0 0 1 .47 0l7.5 4a.5.5 0 0 1 0 .882l-7.5 4a.5.5 0 0 1-.47 0l-7.5-4a.5.5 0 0 1 0-.882z"/>
+                          <path d="m2.125 8.567-1.86.992a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882l-1.86-.992-5.17 2.756a1.5 1.5 0 0 1-1.41 0z"/>
                         </svg>
+
+                        Ubicacion Hechos 
                       </button>
-                      <div className="col-md-12 card shadow mb-3 collapse" id="collapseHechos">
+                     
+                  </div>
+
+                  <div className="col-md-12 card shadow mb-3 collapse" id="collapseHechos">
                         {/* El patron es general y se repite para todos los controles, tienen que recibir los handler de los hook, asi como los estados, o catalgos
                         que necesiten estos controles, depende mucho de que es lo que se requiera y que funcionalidad se le quere asignar a la capa */}
                         <LayerHechosControls 
@@ -555,19 +557,21 @@ export function Mapa() {
                           handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoHechos}
                         />
                     </div>
+
+                  <div className="col-md-6">
+                    <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDomicilio" aria-expanded="false" aria-controls="collapseDomicilio">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="blue" className="bi bi-layers-fill  me-1" viewBox="0 0 16 16">
+                          <path d="M7.765 1.559a.5.5 0 0 1 .47 0l7.5 4a.5.5 0 0 1 0 .882l-7.5 4a.5.5 0 0 1-.47 0l-7.5-4a.5.5 0 0 1 0-.882z"/>
+                          <path d="m2.125 8.567-1.86.992a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882l-1.86-.992-5.17 2.756a1.5 1.5 0 0 1-1.41 0z"/>
+                        </svg>
+
+                        Domicilio Detenido
+
+                    </button>
+                   
                   </div>
 
-                  <div className="col-md-12">
-                    <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDomicilio" aria-expanded="false" aria-controls="collapseDomicilio">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="blue" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
-                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
-                      </svg>
-                        Capa Domicilio Detenido
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                        </svg>
-                    </button>
-                    <div className="col-md-12 card shadow mb-3 collapse" id="collapseDomicilio">
+                  <div className="col-md-12 card shadow mb-3 collapse" id="collapseDomicilio">
                       <LayerDomicilioDetControls
                         handleCheckboxDomicilioDetLayer={handleCheckboxLayerDomicilioDetenido} 
                         showDomicilioDetLayer={showLayerDomicilioDetenido}  
@@ -584,21 +588,22 @@ export function Mapa() {
                         handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoDomicilio}
                       />
                     </div>
-                  </div>
 
-                  <div className="col-md-12">
+                  <div className="col-md-6">
                     <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetencion" aria-expanded="false" aria-controls="collapseDetencion">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="green" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
-                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
-                      </svg>
-
-                        Capa Ubicacion Detencion
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                      <svg svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="green" className="bi bi-layers-fill  me-1" viewBox="0 0 16 16">
+                          <path d="M7.765 1.559a.5.5 0 0 1 .47 0l7.5 4a.5.5 0 0 1 0 .882l-7.5 4a.5.5 0 0 1-.47 0l-7.5-4a.5.5 0 0 1 0-.882z"/>
+                          <path d="m2.125 8.567-1.86.992a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882l-1.86-.992-5.17 2.756a1.5 1.5 0 0 1-1.41 0z"/>
                         </svg>
+
+                        Ubicacion Detencion
+                        
                     </button>
 
-                    <div className="col-md-12 card shadow mb-3 collapse" id="collapseDetencion">
+                    
+                  </div>
+
+                  <div className="col-md-12 card shadow mb-3 collapse" id="collapseDetencion">
                       <LayerUbicacionDetencionControls
                         handleCheckboxUbicacionDetencionLayer={handleCheckboxLayerUbicacionDetencion} 
                         showUbicacionDetencionLayer={showLayerUbicacionDetencion}  
@@ -615,21 +620,20 @@ export function Mapa() {
                         handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoDetencion}
                       />
                     </div>
-                  </div>
 
-                  <div className="col-md-12">
+                  <div className="col-md-6">
                     <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInspecciones" aria-expanded="false" aria-controls="collapseInspecciones">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="purple" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
-                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
-                      </svg>
-
-                        Capa Inspecciones
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="purple" className="bi bi-layers-fill  me-1" viewBox="0 0 16 16">
+                          <path d="M7.765 1.559a.5.5 0 0 1 .47 0l7.5 4a.5.5 0 0 1 0 .882l-7.5 4a.5.5 0 0 1-.47 0l-7.5-4a.5.5 0 0 1 0-.882z"/>
+                          <path d="m2.125 8.567-1.86.992a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882l-1.86-.992-5.17 2.756a1.5 1.5 0 0 1-1.41 0z"/>
                         </svg>
+                        Inspecciones
                     </button>
 
-                    <div className="col-md-12 card shadow mb-3 collapse" id="collapseInspecciones">
+                    
+                  </div>
+
+                  <div className="col-md-12 card shadow mb-3 collapse" id="collapseInspecciones">
                       <LayerInspeccionesControls
                         handleCheckboxInspeccionesLayer={handleCheckboxLayerInspecciones} 
                         showInspeccionesLayer={showLayerInspecciones}  
@@ -643,21 +647,21 @@ export function Mapa() {
                         handleJuntaAuxiliarInspecciones={handleJuntaAuxiliarInspecciones}
                       />
                     </div>
-                  </div>
 
-                  <div className="col-md-12">
+                  <div className="col-md-6">
                     <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSic" aria-expanded="false" aria-controls="collapseSic">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="orange" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
-                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
-                      </svg>
-
-                        Capa Eventos SIC
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="orange" className="bi bi-layers-fill  me-1" viewBox="0 0 16 16">
+                          <path d="M7.765 1.559a.5.5 0 0 1 .47 0l7.5 4a.5.5 0 0 1 0 .882l-7.5 4a.5.5 0 0 1-.47 0l-7.5-4a.5.5 0 0 1 0-.882z"/>
+                          <path d="m2.125 8.567-1.86.992a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882l-1.86-.992-5.17 2.756a1.5 1.5 0 0 1-1.41 0z"/>
                         </svg>
+
+
+                        Eventos SIC
                     </button>
 
-                    <div className="col-md-12 card shadow mb-3 collapse" id="collapseSic">
+                    
+                  </div>
+                  <div className="col-md-12 card shadow mb-3 collapse" id="collapseSic">
                       <LayerSicEventosControls
                         handleCheckboxEventosSicLayer={handleCheckboxLayerSicEventos} 
                         showEventosSicLayer={showLayerSicEventos}  
@@ -673,20 +677,20 @@ export function Mapa() {
                         handleFaltaDelitoEspecifico={handleFaltaDelitoEspecificoSicEventos}
                       />
                     </div>
+
+
+                  <div className="col-md-6">
+                    <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePuntosIdentificados" aria-expanded="false" aria-controls="collapsePuntosIdentificados">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="brown" className="bi bi-layers-fill  me-1" viewBox="0 0 16 16">
+                          <path d="M7.765 1.559a.5.5 0 0 1 .47 0l7.5 4a.5.5 0 0 1 0 .882l-7.5 4a.5.5 0 0 1-.47 0l-7.5-4a.5.5 0 0 1 0-.882z"/>
+                          <path d="m2.125 8.567-1.86.992a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882l-1.86-.992-5.17 2.756a1.5 1.5 0 0 1-1.41 0z"/>
+                        </svg>
+                         Puntos Identificados
+                    </button>
+                   
                   </div>
 
-                  <div className="col-md-12">
-                    <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePuntosIdentificados" aria-expanded="false" aria-controls="collapsePuntosIdentificados">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="brown" className="bi bi-square-fill me-2" viewBox="0 0 16 16">
-                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
-                      </svg>
-
-                        Capa Puntos Identificados
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                        </svg>
-                    </button>
-                    {(!isLoadingCatalogo) && !(isLoadingCatalogoFuente) && !(isLoadingCatalogoBanda)  && !(isLoadingCatalogoObjetivo) &&(
+                  {(!isLoadingCatalogo) && !(isLoadingCatalogoFuente) && !(isLoadingCatalogoBanda)  && !(isLoadingCatalogoObjetivo) &&(
 
                     <div className="col-md-12 card shadow mb-3 collapse" id="collapsePuntosIdentificados">
                       <LayerPuntosIdentificadosControls
@@ -705,7 +709,6 @@ export function Mapa() {
                       />
                     </div>
                     )}
-                  </div>
 
                 </div>  
               </>
@@ -715,44 +718,42 @@ export function Mapa() {
           }
           </div>
           
-          <div className="col-md-12">
-            <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFlyTo" aria-expanded="false" aria-controls="collapseFlyTo">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-pin-map-fill" viewBox="0 0 16 16">
-              <path fillRule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/>
-              <path fillRule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
-            </svg>
-              Mover Mapa
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+          <div className="row">
+
+            <div className="col-md-6">
+              <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFlyTo" aria-expanded="false" aria-controls="collapseFlyTo">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-pin-map-fill" viewBox="0 0 16 16">
+                <path fillRule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/>
+                <path fillRule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
               </svg>
-            </button>
+                Mover Mapa
+               
+              </button>
+            </div>
+
+            <div className="col-md-12 card shadow mb-3 collapse" id="collapseFlyTo">
+              <FlyTo setCoordenadasFlyTo={setCoordenadasFlyTo}/>
+            </div>
+
+            <div className="col-md-6">
+              <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBusqueda" aria-expanded="false" aria-controls="collapseBusqueda">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-person-bounding-box me-2" viewBox="0 0 16 16">
+                  <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
+                  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                </svg>
+                Buscar Persona
+                
+              </button>
+            </div>
+
+            <div className="col-md-12 card shadow mb-3 collapse" id="collapseBusqueda">
+              <SearchPerson setSetDataResultadoBusqueda = {setSetDataResultadoBusqueda} handleCapasPersonaExcel={handleCapasPersonaExcel}/>
+            </div>
+
+            <div className="col-md-12">
+              <KmlToGeoJsonConverter mapa={mapaArchivo}/>
+            </div>
           </div>
-
-          <div className="col-md-12 card shadow mb-3 collapse" id="collapseFlyTo">
-            <FlyTo setCoordenadasFlyTo={setCoordenadasFlyTo}/>
-          </div>
-
-
-          <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBusqueda" aria-expanded="false" aria-controls="collapseBusqueda">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-person-bounding-box me-2" viewBox="0 0 16 16">
-              <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
-              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-            </svg>
-            Buscar Persona
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
-              <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-            </svg>
-          </button>
-
-          <div className="col-md-12 card shadow mb-3 collapse" id="collapseBusqueda">
-            <SearchPerson setSetDataResultadoBusqueda = {setSetDataResultadoBusqueda} handleCapasPersonaExcel={handleCapasPersonaExcel}/>
-          </div>
-
-          <div className="col-md-12">
-            <KmlToGeoJsonConverter mapa={mapaArchivo}/>
-          </div>
-          
-
         </div>
 
         <div className="col-md-8">

@@ -1,6 +1,12 @@
-.titulo{
-    font-size: 1.2rem;
+.imagen {
+    border-radius: 20px;
+    margin-top: 50px;
 }
-.parrafo{
-    font-size: 1.1rem;
+.modulo{
+    color: #0D2758;
+}
+
+.titulo{
+    color: #C42189;
+    margin-top: 15px;
 }

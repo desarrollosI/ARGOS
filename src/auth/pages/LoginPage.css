@@ -1,7 +1,7 @@
 .container-fondo{
     width: 100vw;
     height: 100vh;
-    /* background-image: url('../public/login-bg-2.svg'); */
+    background-image: url('../assets/background.webp');
     background-color: transparent;
     background-repeat: no-repeat;
     background-size: cover;
@@ -14,7 +14,39 @@ input {
   z-index: 99999 !important;
 }
 
-.container-center {
+.container-center{
+  min-height: 95vh;
+  min-width: 100vw;
+}
+
+.container-login {
+  background-color: #fff;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  max-height: 50vh;
+  max-width: 40%;
+}
+
+.text-login {
+  color: #fff;
+}
+
+input {
+  max-width: 100%;
+}
+
+.form-group {
+  max-width: 100% !important;
+}
+.form-control {
+  max-width: 100%;
+}
+.copyright{
+  max-height:30px;
+}
+
+/* .container-center {
     font-family: arial;
     font-size: 24px;
     margin: auto !important;
@@ -22,20 +54,21 @@ input {
     width: 700px;
     height: 530px;
     /* Center vertically and horizontally */
-    display: flex;
+    /* display: flex;
     justify-content: center;
     align-items: center;
     background-color: #ffffff73;
     border-radius: 5px;
-    z-index: 99999;
+    z-index: 99999; */
     
-  }
+  /* } */ */
   .container-fondo .container-center {
     position: relative; /* Agrega esta línea para establecer el contexto de apilamiento */
     z-index: 1; /* Asegura que el formulario esté en un nivel superior */
   }
 
   .btnSubmit{
+    max-width:100%;
     background-color: var(--icon-color);
     color:#fff;
     border-radius: 5px;

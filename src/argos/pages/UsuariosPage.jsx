@@ -16,7 +16,7 @@ export const UsuariosPage = () => {
   return (
     <>
       <div className="container-fluid content">
-        <div className="row card shadow">
+        {/* <div className="row card shadow">
           <div className="col">
             <h1 className="titulo">
               {" "}
@@ -34,7 +34,7 @@ export const UsuariosPage = () => {
             </h1>
           </div>
           <hr />
-        </div>
+        </div> */}
 
         <div className="row card shadow">
             <div className="col-md-12 mt-3">

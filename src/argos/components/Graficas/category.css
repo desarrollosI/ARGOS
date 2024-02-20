@@ -1,0 +1,22 @@
+.min-space{
+    min-height: 60vh;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+.botones-busqueda{
+    background-color: #273B5F !important;
+    max-height: 60vh;
+}
+
+.bd-selector{
+    height: 130px;
+    color: #ffff;   
+}
+
+.nav-pills .nav-link.active {
+    background-color: #C42189 !important;
+}
+
+.reset{
+    margin: 0 !important;
+}

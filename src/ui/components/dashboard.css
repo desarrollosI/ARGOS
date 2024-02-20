@@ -69,6 +69,67 @@ body {
   left: 0;
   width: 100%;
 }
+.navbar-nav{
+  min-width: 100vw;
+}
+
+.fondo-blanco{
+  padding-top: 10px;
+  padding-botton: 10px;
+  background-color: #fff !important;
+}
+.user{
+  background-color: #273B5F;
+  padding: 15px;
+  border-radius: 10px
+}
+
+.border-bottom {
+  border-bottom: 4px solid #C42189 !important; /* Puedes ajustar el ancho y el color según tus necesidades */
+}
+
+.nav-item a.active {
+  color:#fff;
+  background-color:#C42189;
+  padding-left: 10px; /* Margen izquierdo */
+  padding-right: 10px; /* Margen derecho */
+  border-top-left-radius: 15px; /* Curva la esquina superior izquierda */
+  border-top-right-radius: 15px; /* Curva la esquina superior derecha */
+}
+
+.nav-item a.active::before {
+  /* aca van los estilos de especificos para transformar */
+}
+
+.nav-item a:hover{
+  transform:scale(1.2);
+  opacity:1;
+  filter:blur(0);
+  text-decoration:none;
+  color:#fff;
+  background-color:#C42189;
+  padding-left: 10px; /* Margen izquierdo */
+  padding-right: 10px; /* Margen derecho */
+  border-top-left-radius: 15px; /* Curva la esquina superior izquierda */
+  border-top-right-radius: 15px; /* Curva la esquina superior derecha */
+}
+.nav-item a:hover:before{
+  transition:transform 0.5s;
+  transform-origin:left;
+  transform:scaleX(1);
+}
+
+.icono {
+  display: none; /* Por defecto, el icono estará oculto */
+}
+
+.nav-item a:hover .icono{
+  display: inline-block; /* Muestra el icono cuando el elemento padre está en hover */
+}
+.nav-item a.active .icono{
+  display: inline-block; /* Muestra el icono cuando el elemento padre está en hover */
+}
+
 .navbar-brand {
   padding-top: .75rem;
   padding-bottom: .75rem;
