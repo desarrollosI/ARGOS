@@ -7,7 +7,7 @@ import mapboxgl from "mapbox-gl";
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import "mapbox-gl/dist/mapbox-gl.css";
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
-import KmlToGeoJsonConverter from "./KmlToGeoJsonConverter";
+//import KmlToGeoJsonConverter from "./KmlToGeoJsonConverter";
 //se importa el adaptador para conectarnos a la base de datos
 import { catalogosApi } from "../../../api";
 //se importan los hooks necesarios para cada una de las capas que presenta el mapa
@@ -27,6 +27,7 @@ import { GeneralControls } from "./GeneralControls";
 import { SearchPerson } from "./SearchPerson";
 import { FlyTo } from "./FlyTo";
 import { ImageZoom } from "../Shared";
+import { AddLayer } from "./KmlMultiplier";
 
 //se importan los helpers necesarios 
 import { capasToExcel, capasPerToExcel } from "../../helpers";
@@ -751,7 +752,8 @@ export function Mapa() {
             </div>
 
             <div className="col-md-12">
-              <KmlToGeoJsonConverter mapa={mapaArchivo}/>
+              {/* <KmlToGeoJsonConverter mapa={mapaArchivo}/> */}
+              <AddLayer mapa={mapaArchivo}/>
             </div>
           </div>
         </div>

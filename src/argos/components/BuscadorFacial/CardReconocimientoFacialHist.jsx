@@ -120,7 +120,7 @@ export const CardReconocimientoFacialHist = ({ parecido }) => {
                   <div className=" card-body card-img-top" > 
                     <div className="row">
                       <p className="card-text">Folio: {folio}, Porcentaje: {100-(parecido.distance*100)} %</p>
-                      <p className="card-text">{parecido.nombre.toUpperCase()}</p>
+                      <p className="card-text">{(parecido.nombre) ? parecido.nombre.toUpperCase() : 'S/D'}</p>
                     </div>
                     <div className="row">
                       <Link to={`/historico/${folio}`} target="_blank" onClick={registrarMovimiento}>

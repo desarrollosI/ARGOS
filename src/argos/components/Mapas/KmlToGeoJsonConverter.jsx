@@ -1,47 +1,52 @@
-//Se importa react y sus hook necesarios
-import React, { useEffect, useState } from 'react';
-//se importa la biblioteca de toGeoJSON para convertir el kml a GeoJSON
+import React, { useState, useEffect } from 'react';
 import toGeoJSON from 'togeojson';
-/*
-  El componente recibe como entrada la referencia hacia el mapa pues ahi se pintara
-  la capa que se reciba de entrada
+import Swal from 'sweetalert2';
 
-*/
-const KmlToGeoJsonConverter = ({mapa}) => {
+export const KmlToGeoJsonConverter = ({ mapa }) => {
   const [geoJsonData, setGeoJsonData] = useState(null);
+  const [geoType, setGeoType] = useState(null);
+  const [layerName, setLayerName] = useState('');
+  const [featureProperties, setFeatureProperties] = useState(null)
 
-  // la biblioteca se encarga de la mayoria con sus funciones, aca simplemente se genera una capa con el archivo y se añade al mapa
   const addGeoJsonLayerToMap = (mapa, geoJsonData) => {
+    if (mapa.getLayer(layerName)) {
+      mapa.removeLayer(layerName);
+    }
 
-    if (mapa.getLayer('pointLayer')) {
-      mapa.removeLayer('pointLayer');
-      }
+    if (mapa.getSource(layerName)) {
+      mapa.removeSource(layerName);
+    }
 
-      if (mapa.getSource('geojsonSource')) {
-      mapa.removeSource('geojsonSource');
-      }
-
-
-    mapa.addSource('geojsonSource', {
+    mapa.addSource(layerName, {  // Cambio: Usar el nombre del archivo para el nombre del source
       type: 'geojson',
       data: geoJsonData,
     });
 
-    mapa.addLayer({
-      id: 'pointLayer',
-      type: 'circle',
-      source: 'geojsonSource',
-      paint: {
-        'circle-color': 'yellow',
-        'circle-radius': 5,
-      },
-    });
+    if (geoType === 'Point') {
+      // Capa de puntos
+      mapa.addLayer({
+        id: layerName,
+        type: 'circle',
+        source: layerName,
+        paint: {
+          'circle-color': '#'+Math.floor(Math.random()*16777215).toString(16),
+          'circle-radius': 8,
+        },
+      });
+    } else if (geoType === 'Polygon') {
+      // Capa de polígonos
+      mapa.addLayer({
+        id: layerName,
+        type: 'fill',
+        source: layerName,
+        paint: {
+          'fill-color': ['get', 'fill'] || '#'+Math.floor(Math.random()*16777215).toString(16) ,
+          'fill-opacity': 0.3,
+        },
+      });
+    }
   };
-  /*
-    En este handler se detectan cambios en el input de entrada,
-    se invoda el filereader y ya que se tiene el archivo, se utlian las funciones
-    para convertir esa entrada en un geoJSON valido a partir de un kml de entrada
-  */
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -52,32 +57,70 @@ const KmlToGeoJsonConverter = ({mapa}) => {
       const kml = domParser.parseFromString(content, 'text/xml');
       const geoJson = toGeoJSON.kml(kml);
 
+      
+      console.log('GeoJSON:', geoJson);
+
+      // Determinar el tipo de geometría (punto, polígono, etc.)
+      const geometryType = geoJson.features[0].geometry.type;
+      console.log('Tipo de geometría:', geometryType);
+
+      // Acceder a las propiedades de la primera geometría
+      const properties = geoJson.features[0].properties;
+      console.log('Propiedades de la geometría:', properties);
+
+      const uniqueProperties = Object.keys(Object.assign({}, ...geoJson.features.map(feature => feature.properties)));
+      setFeatureProperties(uniqueProperties)
+      console.log('UNICAS: ', uniqueProperties);
+
+
       setGeoJsonData(geoJson);
+      setGeoType(geometryType)
+
+      // Obtener el nombre del archivo sin la extensión
+      const fileName = file.name.replace(/\.[^/.]+$/, '');
+      setLayerName(fileName);
     };
 
     reader.readAsText(file);
   };
 
   const removeGeoJsonLayerFromMap = () => {
-    if (mapa.getLayer('pointLayer')) {
-      mapa.removeLayer('pointLayer');
+    if (mapa.getLayer(layerName)) {
+      mapa.removeLayer(layerName);
     }
 
-    if (mapa.getSource('geojsonSource')) {
-      mapa.removeSource('geojsonSource');
+    if (mapa.getSource(layerName)) {
+      mapa.removeSource(layerName);
     }
 
     setGeoJsonData(null);
   };
 
-  //se añade la capa al mapa
   useEffect(() => {
-    console.log('EFECTO DE ADD JSON')
     if (mapa && geoJsonData) {
       addGeoJsonLayerToMap(mapa, geoJsonData);
     }
+
+          // Agregar evento de clic al mapa
+          mapa.on('click', layerName, (e) => {
+            console.log(e.features[0].properties);
+          
+            // Utilizamos la función map para crear un nuevo array con los elementos formateados
+            const propshtml = Object.entries(e.features[0].properties).map(([key, value]) => {
+              return `<strong>${key}</strong>: ${value}<br>`;
+            }).join(''); // Usamos join() para convertir el array en un string
+          
+            Swal.fire({
+              title: 'Propiedades de la feature:',
+              html: `${propshtml}`,
+              confirmButtonText: 'Cerrar'
+            });
+          });
+  
   }, [mapa, geoJsonData]);
-  //por ultimo el retorno no es mas que el input de tipo file, que de momento solo acpeta archivos KML
+
+
+
   return (
     <div className='my-3'>
       <input type="file" className="form-control form-control-lg" accept=".kml" onChange={handleFileChange} />
@@ -85,5 +128,3 @@ const KmlToGeoJsonConverter = ({mapa}) => {
     </div>
   );
 };
-
-export default KmlToGeoJsonConverter;

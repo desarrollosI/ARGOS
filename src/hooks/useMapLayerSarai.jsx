@@ -27,6 +27,7 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
     const [fechaFin, setFechaFin] = useState((new Date()).toISOString().split('T')[0])
     const [showLayer, setShowLayer] = useState(false);
     const [showHeatLayer, setShowHeatLayer] = useState(false);
+    const [rangeValue, setRangeValue] = useState(0);
     const [FaltaDelito, setFaltaDelito] = useState('todas')
     const [FaltaDelitoEspecifico,setFaltaDelitoEspecifico] = useState('')
     const [Zona, setZona] = useState('todas')
@@ -64,6 +65,13 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
   const handleCheckboxHeatLayer = () => {
     setShowHeatLayer(!showHeatLayer);
   };
+
+//PARA EN RANGO DE INFLUENCIA DE LA CAPA DE CALOR 
+  const handleRange = (event) => {
+    console.log('VALOR DEL RANGE :',event.target.value)
+    setRangeValue(event.target.value)
+  }
+
 // PARA FILTRAR POR FALTA DELITO  
   const handleFaltaDelito = (event) => {
     setFaltaDelito(event.target.value)
@@ -196,7 +204,8 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
             if (map.getSource("heatmap"+capa)) {
               map.removeSource("heatmap"+capa);
             }
-    
+                        // Definir una función para calcular el radio del heatmap de manera más gradual
+                  
                     // Agregar la capa de calor
                     map.addSource("heatmap"+capa, {
                       type: "geojson",
@@ -240,16 +249,16 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
                           1,
                           "rgb(178,24,43)",
                         ],
-                        "heatmap-radius": {
-                          "base": 2,
+                        "heatmap-radius":{
+                          "base": 2.17,
                           "stops": [
                             [
                               10,
-                              2
+                              2.17
                             ],
                             [
                               19,
-                              512
+                              1066.9
                             ]
                           ]
                         },
@@ -260,7 +269,7 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
                       },
                     }, "waterway-label");
                     
-    
+                 
           }else {
              // Remover la capa de calor si está presente
             if (map.getLayer("heatmap"+capa)) {
@@ -273,7 +282,7 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
             }
           }
     
-      }, [isLoadingData, fetchedData2,showHeatLayer]);
+      }, [isLoadingData, fetchedData2,showHeatLayer,rangeValue]);
     
         /*---------------------EFECTOS DE CAPA DE HECHOS --------------------------------------------- */
     //EFECTO PARA DISPARAR EL FILTRADO DE LOS PUNTOS CON BASE EN POLIGONO 
@@ -349,6 +358,7 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
     fechaFin,
     Zona,
     JuntaAuxiliar,
+    rangeValue,
     // Remision,
     // Ficha,
     // Nombre,
@@ -356,6 +366,7 @@ const useMapLayerSARAI = (endpoint,color,capa,setRemision,setFicha,setNombre,Fal
     // Resto de los estados...
     setMap,
     setMapContainer,
+    handleRange,
     fetchData,
     handleStartDateChange,
     handleEndDateChange,

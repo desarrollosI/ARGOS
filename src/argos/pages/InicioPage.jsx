@@ -33,6 +33,16 @@ const Card = ({ card }) => (
 
 const actualizaciones = [
   {
+    "titulo": "A.R.G.O.S. RC-3.0.0",
+    "actualizaciones": [
+      "Nueva Interfaz de Usuario",
+      "Carga de bases de datos dinamica",
+      "Multiples capas personalizadas en el mapa",
+      "Capa de calor estatica",
+      "Ahora se muestran nombres en RF"
+    ]
+  },
+  {
     "titulo": "A.R.G.O.S. RC-2.7.0",
     "actualizaciones": [
       "Nueva Interfaz de Usuario",
@@ -72,7 +82,7 @@ const actualizaciones = [
 // Componente InicioPage
 export const InicioPage = () => {
 
-  const itemsPerPage = 3
+  const itemsPerPage = 2
   const items = actualizaciones
   const carouselRef = useRef(null);
   const totalPages = Math.ceil(items.length / itemsPerPage)
