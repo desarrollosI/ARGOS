@@ -61,7 +61,7 @@ input {
     border-radius: 5px;
     z-index: 99999; */
     
-  /* } */ */
+  /* } */
   .container-fondo .container-center {
     position: relative; /* Agrega esta línea para establecer el contexto de apilamiento */
     z-index: 1; /* Asegura que el formulario esté en un nivel superior */
