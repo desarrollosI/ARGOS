@@ -10,6 +10,7 @@ import { TableDecider } from './TableDecider'; //En el table decider hace refere
 import { TableHolder } from './TableHolder'; //Este componente encapsula el Skeleton Loader
 import { TableDeciderArgos } from './TableDeciderArgos'; //Este componente encapsula las tablas en este caso del historial
 import { TableDeciderArgosUsuarios } from './TableDeciderArgosUsuarios';
+import { TableDeciderWithParams } from './TableDeciderWithParams';
 
 /* 
     El componente recibe la base de la que se quieren acceder los filtros del que se quiere obtener la información
@@ -219,6 +220,36 @@ export const SelectBaseComponent = ({base}) => {
             
         )
     
+        case 'REPORTES ESPECIALES':
+       
+        return (
+            <>
+                <div className="container-fluid">
+                    <div className="row mb-5">
+                        <div className="col-md-12">
+                            <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
+                        </div>
+                        <div className="col-md-12">
+                            <select className="form-select" aria-label="Default select example"
+                                onChange={handleChange}
+                            >
+                                <option value=" ">SELECCIONE UNA OPCIÓN</option>
+                                <option value="Reporte: Reincidentes por semana">REINCIDENTES POR SEMANA</option>
+                                <option value="Reporte: Reincidentes general">REINCIDENTES GENERAL</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {
+                    ( baseSelect != " " ) 
+                        ? <TableDeciderWithParams lugar={baseSelect} /> //Si hay algun cambio en el estado se invoca al componente TableDecider con el filtro que se desa como parametro de entrada
+                        : <TableHolder />
+                }
+            </>
+            
+        )
+
         default:
             break;
     }

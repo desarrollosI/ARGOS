@@ -3613,7 +3613,56 @@ export const TableConstructor = ({lugar, datos}) => {
             return (
               <Table columns={columns} data={data} base={'Alertas: Personas'}/>
             )
-    
+            
+            case 'Reporte: Reincidentes general':
+            case 'Reporte: Reincidentes por semana':
+              columns = React.useMemo(
+                () => [
+                      {
+                        Header:'FECHA',
+                        accessor:'Fecha_Registro_Detenido',
+                        Filter: DateRangeColumnFilter,
+                        filter: dateBetweenFilterFn
+                      },
+                      {
+                        Header:'REMITIDO',
+                        accessor:'Instancia',
+                        Filter: SelectColumnFilter,
+                        filter: 'equals',
+                      },
+                      {
+                        Header:'NOMBRE COMPLETO',
+                        accessor:'Nombre_Completo',
+                        filter: 'fuzzyText',
+                      },
+                      {
+                        Header:'DOMICILIO',
+                        accessor:'Domicilio',
+                        filter: 'fuzzyText',
+                      },
+                      {
+                        Header:'REMITIDO POR',
+                        accessor:'Faltas_Delitos_Detenido',
+                        filter: 'fuzzyText',
+                      },
+                      {
+                        Header:'STATUS',
+                        accessor:'Status_Remision',
+                        Filter: SelectColumnFilter,
+                        filter: 'equals',
+                      },
+                ],[]
+              )
+      
+              data = React.useMemo(() =>
+              datos.Reincidentes
+              , [])
+                
+                
+                return (
+                  <Table columns={columns} data={data} base={'Reporte: Reincidentes por semana'}/>
+                )  
+      
       default:
         break;
     }

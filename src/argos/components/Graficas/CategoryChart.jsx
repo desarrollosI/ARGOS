@@ -9,6 +9,7 @@ conteniendo tres categorias, Renisiones,Sic e Historico, Si se quieren mas categ
 un componente similar y adoc a la base de datos con la que se trabaja 
 */
 import './category.css';
+import { ReportesEspeciales } from '../Reportes';
 export const CategoryChart = () => {
   return (
     <div className="row d-flex align-items-start content ">
@@ -35,6 +36,12 @@ export const CategoryChart = () => {
                     </svg>
                     <b>ESTADÍSTICA HISTORICO</b>
                 </button>
+                <button className="nav-link bd-selector" id="v-pills-reportes-tab" data-bs-toggle="pill" data-bs-target="#v-pills-reportes" type="button" role="tab" aria-controls="v-pills-reportes" aria-selected="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
+                <path d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0M2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+                    <b>REPORTES ESPECIALES</b>
+                </button>
             </div>
         </div>
         <div className="ms-3 col-md-10">
@@ -52,6 +59,11 @@ export const CategoryChart = () => {
                 <div className="tab-pane fade" id="v-pills-historico" role="tabpanel" aria-labelledby="v-pills-historico-tab">
                     <div className="row my-3">
                         <CatergoryHistorico/>
+                    </div>
+                </div>
+                <div className="tab-pane fade" id="v-pills-reportes" role="tabpanel" aria-labelledby="v-pills-reportes-tab">
+                    <div className="row my-3">
+                        <ReportesEspeciales/>
                     </div>
                 </div>
             </div>
