@@ -868,6 +868,11 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'fuzzyText',
                 },
                 {
+                  Header:'FALTAS/DELITOS',
+                  accessor:'Faltas_Delitos_Detenido',
+                  filter: 'fuzzyText',
+                },
+                {
                   Header:'EXTRACTO IPH',
                   accessor:'Extracto_IPH',
                   minWidth: 1680,
