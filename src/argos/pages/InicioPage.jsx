@@ -33,7 +33,7 @@ const Card = ({ card }) => (
 
 const actualizaciones = [
   {
-    "titulo": "A.R.G.O.S. RC-3.0.0",
+    "titulo": "S.I.A. RC-3.0.0",
     "actualizaciones": [
       "Nueva Interfaz de Usuario",
       "Carga de bases de datos dinamica",
@@ -43,7 +43,7 @@ const actualizaciones = [
     ]
   },
   {
-    "titulo": "A.R.G.O.S. RC-2.7.0",
+    "titulo": "S.I.A. RC-2.7.0",
     "actualizaciones": [
       "Nueva Interfaz de Usuario",
       "Correciones en el poligono personalizado",
@@ -51,7 +51,7 @@ const actualizaciones = [
     ]
   },
   {
-    "titulo": "A.R.G.O.S. RC-2.6.3",
+    "titulo": "S.I.A. RC-2.6.3",
     "actualizaciones": [
       "Solucionado problema de carga del módulo de Geoanálisis",
       "Añadida la navegacion por coordenadas",
@@ -60,7 +60,7 @@ const actualizaciones = [
     ]
   },
   {
-    "titulo": "A.R.G.O.S. RC-2.5.0",
+    "titulo": "S.I.A. RC-2.5.0",
     "actualizaciones": [
       "Añadida capa Puntos Identificados",
       "Añadida Vista Atlas",

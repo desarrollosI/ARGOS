@@ -31,7 +31,7 @@ import { useEffect } from "react";
 
 import perfil from "../../assets/default.png"
 import logo21 from "../../assets/logo21.png"
-import argos from "../../assets/argos-logo-1.png"
+import sia from "../../assets/SIA.png"
 
 //El componente resultante es la barra de navegacion
 export const NavbarN = () => {
@@ -54,7 +54,7 @@ export const NavbarN = () => {
               <div className="navbar-nav">
                 <div className="row">
                   <div className="col-md-7">
-                  <img src={argos} alt="argos" width={150} />
+                  <img src={sia} alt="sia" width={150} height={85} />
                   <img src={logo21} alt="scc" width={150} />
                   </div>
                   <div className="col-md-5">

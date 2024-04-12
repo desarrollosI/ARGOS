@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { useAuthStore, useForm } from '../../hooks';
 //se importan las hojas de estilo necesarias para el componente
 import './LoginPage.css';
-import logo from '../../assets/argos-logo-1.png';
+import logo from '../../assets/SIA.png';
 import background from '../../assets/background.webp'
 import CanvasAnimation from './CanvasAnimation';
 //Se debe de tener un pseudo estado pristine del formulario, de otra forma se entra en un bucle de re-renderizado
@@ -50,8 +50,8 @@ export const LoginPage = () => {
                         </div>
                         <div className="col-md-5 container-login align-self-center mx-auto">
                                <div className="row">
-                                <div className="col-md-11 ms-4">
-                                    <img src={logo} alt="ARGOS" style={{width:'100%'}} />
+                                <div className="col-md-11 ms-4 text-center">
+                                    <img src={logo} alt="SIA" style={{maxWidth:400}} />
                                 </div>
                                </div>
                                <div className="row ">
