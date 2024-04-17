@@ -1,4 +1,4 @@
-# Sistema Argos
+# Sistema S.I.A.
 
 En este repositorio se encuentra el código del Front-End del sistema S.I.A..
 Se encuentra desarrollado usando React v18.2.0 utilizando como servidor de desarrollo a Vite, mismo que sirve para compilar el código y generar los archivos de producción.
