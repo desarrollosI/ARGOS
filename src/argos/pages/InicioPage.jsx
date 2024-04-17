@@ -17,10 +17,9 @@ import './css/inicio.css';
 import busqueda from '../../assets/bus.jpg';
 import estadistica from '../../assets/est.jpg';
 import geoanalisis from '../../assets/geo.jpg';
-import reconocimiento from '../../assets/rf.jpg';
+import reconocimiento from '../../assets/rf.png';
 
-
-
+// 
 const Card = ({ card }) => (
   <div className="card" style={{minWidth:'500px'}}>
     <h3 className="text-center">{card.titulo}</h3>
@@ -70,7 +69,7 @@ const actualizaciones = [
     ]
   },
   {
-    "titulo": "A.R.G.O.S. RC-2.1.0",
+    "titulo": "S.I.A. RC-2.1.0",
     "actualizaciones": [
       "Añadida Vista Incidencia Delictiva",
       "Añadida Vista Eventos SIC",
@@ -99,10 +98,10 @@ export const InicioPage = () => {
         </div>
         <div className="row d-flex justify-content-around mb-5">
           <div className="col-md-2">
-            <img className="imagen" src={busqueda} width={300} alt="busqueda" />
+              <img className="imagen" src={busqueda} width={300} alt="busqueda" />
           </div>
           <div className="col-md-2">
-            <img className="imagen" src={reconocimiento} width={300} alt="reconocimiento" />
+            <img className="imagen" src={reconocimiento} width={300} height={270} alt="reconocimiento" />
           </div>
           <div className="col-md-2">
             <img className="imagen" src={geoanalisis} width={300} alt="geoanalisis" />

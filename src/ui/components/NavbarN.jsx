@@ -170,81 +170,30 @@ export const NavbarN = () => {
           </div>
         </div>
 
-{/*       
-      <NavLink to="/" className="navbar-brand col-md-3 col-lg-1 me-0 px-3 fs-6">
-        A.R.G.O.S
-      </NavLink>
-      <div className="navbar-nav d-flex flex-row float-start">
-        <div className="nav-item">
-          <NavLink to="/" className="me-3 text-white nav-link active">Inicio</NavLink>
-        </div>
-        {(user.permisos.buscar) &&(
-        <div className="nav-item">
-          <NavLink to="/buscador" className="me-3 text-white nav-link">Buscador</NavLink>
-        </div>
-        )}
-        {(user.permisos.reconocimiento) &&(
-        <div className="nav-item">
-          <NavLink to="/reconocimiento" className="me-3 text-white nav-link">Reconocimiento Facial</NavLink>
-        </div>
-        )}
-        {(user.permisos.geoanalisis) &&( 
-        <div className="nav-item">
-          <NavLink to="/geoanalisis" className="me-3 text-white nav-link">Geoanálisis</NavLink>
-        </div>
-        )}
-        {(user.permisos.estadistica) &&( 
-          <div className="nav-item">
-            <NavLink to="/estadistica" className="me-3 text-white nav-link">Estádistica</NavLink>
-          </div>
-        )}
-        {(user.permisos.usuarios) &&( 
-        <div className="nav-item">
-          <NavLink to="/usuarios" className="me-3 text-white nav-link">Usuarios</NavLink>
-        </div>
-        )}
-        {(user.permisos.historial) &&( 
-        <div className="nav-item">
-          <NavLink to="/historial" className="me-3 text-white nav-link">Historial</NavLink>
-        </div>
-        )}
-      </div>
-
-      <div className="navbar-nav">
-        <div className="nav-item">
-          <span className="me-3 text-white">{user.name}</span>
-          <button
-            className="px-3 me-5 btn btn-primary Red-Violet"
-            onClick={startLogout}
-          >
-            Cerrar Sesión
-          </button>
-        </div>
-      </div> */}
     </header>
 
       <div className="container-fluid">
         <div className="row mt-5">
-          <main className="col-md-12 ms-sm-auto col-lg-12 area-visual">
+          <main className="col-md-12 ms-sm-auto col-lg-12 area-visual mt-5">
           {/* <Routes>
             <Route path="inicio" element={<InicioPage />} />
           </Routes> */}
            <Routes>
               <Route path="inicio" element={<InicioPage />} />
               {(user.permisos.buscar) &&(
-              <Route path="buscador" element={<BuscadorPage />} />
+              <Route path="/buscador" element={<BuscadorPage />} />
               )}
               {(user.permisos.reconocimiento) &&(
-              <Route path="reconocimiento" element={<ReconocimientoPage />} />
+              <Route path="/reconocimiento" element={<ReconocimientoPage />} />
                )}
               {(user.permisos.estadistica) &&(
-              <Route path="estadistica" element={<EstadisticaPage />} />
+              <Route path="/estadistica" element={<EstadisticaPage />} />
               )}
               {(user.permisos.historial) &&(
               <Route path="historial" element={<HistorialPage/>} />
               )}
               {(user.permisos.geoanalisis) &&(
-              <Route path="geoanalisis" element={<GeoanalisisPage />} />
+              <Route path="/geoanalisis" element={<GeoanalisisPage />} />
               )}
               {(user.permisos.usuarios) &&(
               <Route path="usuarios" element={<UsuariosPage />} />

@@ -51,7 +51,7 @@ const CustomZoomContent = ({buttonUnzoom,modalState,img}) => {
   
   let water='';
   (isLoaded)
-      ? water = `A.R.G.O.S. `.repeat(3000) 
+      ? water = `S.I.A. `.repeat(6000) 
       : water = '';
    
   return (
@@ -60,7 +60,7 @@ const CustomZoomContent = ({buttonUnzoom,modalState,img}) => {
   
       <figure>
           {img}
-          <figcaption className={classCaption} data-watermark="A.R.G.O.S.">
+          <figcaption className={classCaption} data-watermark="S.I.A.">
           {water}
           </figcaption>
       </figure>
@@ -104,7 +104,7 @@ export const CardReconocimientoFacialInsp = ({ parecido }) => {
         <ControlledZoom isZoomed={isZoomed} onZoomChange={handleZoomChange} ZoomContent={CustomZoomContent} key={url}>
               <div className="card" style={{width: '25rem'}} ref={imgContainerRef}>
                       <div
-                      className="watermarked" data-watermark="A.R.G.O.S."
+                      className="watermarked" data-watermark="S.I.A."
                       aria-label="hongo"
                       role="img"
                       style={{

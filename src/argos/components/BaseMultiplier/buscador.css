@@ -4,6 +4,7 @@
 .botones-busqueda{
     background-color: #273B5F !important;
     min-height: 70vh;
+    border-radius: 0.5rem !important;
 }
 
 .bd-selector{

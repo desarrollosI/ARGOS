@@ -6,15 +6,20 @@
 .botones-busqueda{
     background-color: #273B5F !important;
     max-height: 60vh;
+    border-radius: 0.5rem !important;
 }
 
 .bd-selector{
-    height: 130px;
+    height: 106px;
     color: #ffff;   
 }
 
+.small-text{
+    font-size: 0.8rem;
+}
 .nav-pills .nav-link.active {
     background-color: #C42189 !important;
+    
 }
 
 .reset{
