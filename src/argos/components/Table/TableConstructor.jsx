@@ -2300,29 +2300,10 @@ export const TableConstructor = ({lugar, datos}) => {
                   accessor:'No_h',
                   filter: 'fuzzyText',
                 },
-                {
-                  Header:'MOTIVO',
-                  accessor:'Tipo_Motivo',
-                  filter: 'fuzzyText',
-                },
+
                 {
                   Header:'DESCRIPCION',
                   accessor:'Descripcion',
-                  filter: 'fuzzyText',
-                },
-                {
-                  Header:'CANTIDAD MOTIVO',
-                  accessor:'Cantidad Motivo',
-                  filter: 'fuzzyText',
-                },
-                {
-                  Header:'CARACTERISTICAS',
-                  accessor:'Caracteristicas_Motivo',
-                  filter: 'fuzzyText',
-                },
-                {
-                  Header:'MODALIDAD',
-                  accessor:'Modalidad_Motivo',
                   filter: 'fuzzyText',
                 },
                 {
