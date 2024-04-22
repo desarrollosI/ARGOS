@@ -23,7 +23,7 @@ export const LayerChecksInspecciones = ({handleCheckboxInspeccionesLayer,showIns
                 checked={showInspeccionesHeatLayer}
                 onChange={handleCheckboxInspeccionesHeatLayer}
             />
-            <label>Mostrar capa de calor <Consultas></Consultas></label>
+            <label>Mostrar capa de calor Consultas</label>
         </div>
   </div>
   )
