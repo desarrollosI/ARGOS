@@ -73,17 +73,17 @@ export const SelectBaseComponent = ({base}) => {
                 <div className="container-fluid">
                     <div className="row mb-5">
                         <div className="col-md-12">
-                            <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE {base}:</h3>
+                            <h3 className="mt-4">SELECCIONE EL TIPO DE INFORMACIÓN A BUSCAR DE CONSULTAS:</h3>
                         </div>
                         <div className="col-md-12">
                             <select className="form-select" aria-label="Default select example"
                                 onChange={handleChange}
                             >
                                 <option value=" ">SELECCIONE UNA OPCIÓN</option>
-                                <option value="Inspecciones: Datos Generales">INSPECCIONES: DATOS GENERALES</option>
-                                <option value="Inspecciones: Personas Inspeccionadas">INSPECCIONES: PERSONAS INSPECCIONADAS</option>
-                                <option value="Inspecciones: Vehiculos Inspeccionados">INSPECCIONES: VEHICULOS INSPECCIONADOS</option>
-                                <option value="Inspecciones: Ubicaciones">INSPECCIONES: UBICACIONES</option>
+                                <option value="Inspecciones: Datos Generales">CONSULTAS: DATOS GENERALES</option>
+                                <option value="Inspecciones: Personas Inspeccionadas">CONSULTAS: PERSONAS CONSULTADAS</option>
+                                <option value="Inspecciones: Vehiculos Inspeccionados">CONSULTAS: VEHICULOS CONSULTADOS</option>
+                                <option value="Inspecciones: Ubicaciones">CONSULTAS: UBICACIONES</option>
                             </select>
                         </div>
                     </div>
