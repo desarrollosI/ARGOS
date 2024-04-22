@@ -1863,7 +1863,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
-                  Header:'RESULTADO INSPECCIÓN',
+                  Header:'RESULTADO CONSULTA',
                   accessor:'Resultado_Inspeccion',
                   filter: 'fuzzyText',
                 }
@@ -1923,7 +1923,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
-                  Header:'RESULTADO INSPECCIÓN',
+                  Header:'RESULTADO CONSULTA',
                   accessor:'Resultado_Inspeccion',
                   filter: 'fuzzyText',
                 },
@@ -1998,7 +1998,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'equals',
                 },
                 {
-                  Header:'RESULTADO INSPECCIÓN',
+                  Header:'RESULTADO CONSULTA',
                   accessor:'Resultado_Inspeccion',
                   filter: 'fuzzyText',
                 },
@@ -2113,7 +2113,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: 'fuzzyText',
                 },
                 {
-                  Header:'RESULTADO INSPECCIÓN',
+                  Header:'RESULTADO CONSULTA',
                   accessor:'Resultado_Inspeccion',
                   filter: 'fuzzyText',
                 }
@@ -2991,7 +2991,7 @@ export const TableConstructor = ({lugar, datos}) => {
                     filter: 'equals',
                   },
                   {
-                    Header:'RESULTADO INSPECCIÓN',
+                    Header:'RESULTADO CONSULTA',
                     accessor:'Resultado_Inspeccion',
                     filter: 'fuzzyText',
                   },
