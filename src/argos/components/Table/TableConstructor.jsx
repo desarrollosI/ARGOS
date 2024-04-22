@@ -1829,7 +1829,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: dateBetweenFilterFn
                 },
                 {
-                  Header:'ID INSPECCIÓN',
+                  Header:'ID CONSULTA',
                   accessor:'Id_Inspeccion',
                   Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Inspecciones: Datos Generales'})} >{props.value}</Link>,
                   filter: 'fuzzyText',
@@ -1889,7 +1889,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: dateBetweenFilterFn
                 },
                 {
-                  Header:'ID INSPECCIÓN',
+                  Header:'ID CONSULTA',
                   accessor:'Id_Inspeccion',
                   Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Inspecciones: Personas Inspeccionadas'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
@@ -1964,7 +1964,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: dateBetweenFilterFn
                 },
                 {
-                  Header:'ID INSPECCIÓN',
+                  Header:'ID CONSULTA',
                   accessor:'Id_Inspeccion',
                   Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Inspecciones: Vehiculos Inspeccionados'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
@@ -2054,7 +2054,7 @@ export const TableConstructor = ({lugar, datos}) => {
                   filter: dateBetweenFilterFn
                 },
                 {
-                  Header:'ID INSPECCIÓN',
+                  Header:'ID CONSULTA',
                   accessor:'Id_Inspeccion',
                   Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Inspecciones: Ubicaciones'})}>{props.value}</Link>,
                   filter: 'fuzzyText',
@@ -2957,7 +2957,7 @@ export const TableConstructor = ({lugar, datos}) => {
                     filter: dateBetweenFilterFn
                   },
                   {
-                    Header:'ID INSPECCIÓN',
+                    Header:'ID CONSULTA',
                     accessor:'Id_Inspeccion',
                     Cell: props =>  <Link to={`/inspeccion/${props.value}`} target="_blank" onClick={()=>registrarMovimiento({lugar:'Buscador',tipo: 'Mas detalles',folio: props.value,base: 'Inspecciones: Personas Inspeccionadas'})}>{props.value}</Link>,
                     filter: 'fuzzyText',

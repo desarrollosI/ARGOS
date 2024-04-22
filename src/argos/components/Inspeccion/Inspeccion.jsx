@@ -19,8 +19,8 @@ export const Inspeccion = ({data}) => {
 
 			<div className="row">
 				<div className="col">
-					<h2 className="text-center titulo mt-4">DATOS DE LA INSPECCION:</h2>
-				</div>
+					<h2 className="text-center titulo mt-4">DATOS DE LA CONSULTA:</h2>
+				</div> 
 			</div>
 
 			<div className="row">
@@ -60,7 +60,7 @@ export const Inspeccion = ({data}) => {
 					
 				<div className="row mt-3">
 					<div className="col">
-						<h3 className='text-center titulo'> UBICACIÓN DE LA INSPECCIÓN: </h3>
+						<h3 className='text-center titulo'> UBICACIÓN DE LA CONSULTA: </h3>
 					</div>
 				</div>
 				<div className="row mt-3">
@@ -83,7 +83,7 @@ export const Inspeccion = ({data}) => {
 
 				<div className="row mt-3">
 					<div className="col">
-						<h3 className='text-center titulo'> PERSONAS INSPECCIONADAS: </h3>
+						<h3 className='text-center titulo'> PERSONAS CONSULTADAS: </h3>
 					</div>
 				</div>
 				{	
@@ -101,7 +101,7 @@ export const Inspeccion = ({data}) => {
 
 				<div className="row mt-3">
 					<div className="col">
-						<h3 className='text-center titulo'> VEHICULO INSPECCIONADO: </h3>
+						<h3 className='text-center titulo'> VEHICULO CONSULTADO: </h3>
 					</div>
 				</div>
 
