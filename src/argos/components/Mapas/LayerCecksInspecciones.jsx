@@ -14,7 +14,7 @@ export const LayerChecksInspecciones = ({handleCheckboxInspeccionesLayer,showIns
                 checked={showInspeccionesLayer}
                 onChange={handleCheckboxInspeccionesLayer}
             />
-            <label>Mostrar Ubicacion de Inspecciones</label>
+            <label>Mostrar Ubicacion de Consultas</label>
         </div>
         <div className="col-md-6 form-check">
             <input
@@ -23,7 +23,7 @@ export const LayerChecksInspecciones = ({handleCheckboxInspeccionesLayer,showIns
                 checked={showInspeccionesHeatLayer}
                 onChange={handleCheckboxInspeccionesHeatLayer}
             />
-            <label>Mostrar capa de calor Inspecciones</label>
+            <label>Mostrar capa de calor <Consultas></Consultas></label>
         </div>
   </div>
   )

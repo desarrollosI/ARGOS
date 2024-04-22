@@ -30,7 +30,7 @@ export const LayerSicEventosControls = ({
         <div className="container">
 
             <div className="row">
-                <h3 className='text-center'>Eventos SIC</h3>
+                <h3 className='text-center'>Eventos AURA</h3>
             </div>
             <div className="row mb-2">
                 <h6>Opciones de la Capa:</h6>

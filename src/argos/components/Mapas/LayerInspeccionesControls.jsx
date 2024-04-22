@@ -27,7 +27,7 @@ export const LayerInspeccionesControls = ({
         <div className="container">
 
             <div className="row">
-                <h3 className='text-center'>Inspecciones</h3>
+                <h3 className='text-center'>Consultas</h3>
             </div>
             <div className="row mb-2">
                 <h6>Opciones de la Capa:</h6>

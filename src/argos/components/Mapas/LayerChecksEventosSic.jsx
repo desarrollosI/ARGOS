@@ -14,7 +14,7 @@ export const LayerChecksEventosSic = ({handleCheckboxEventosSicLayer,showEventos
                 checked={showEventosSicLayer}
                 onChange={handleCheckboxEventosSicLayer}
             />
-            <label>Mostrar Ubicacion de Eventos Sic</label>
+            <label>Mostrar Ubicacion de Eventos AURA</label>
         </div>
         <div className="col-md-6 form-check">
             <input
@@ -23,7 +23,7 @@ export const LayerChecksEventosSic = ({handleCheckboxEventosSicLayer,showEventos
                 checked={showEventosSicHeatLayer}
                 onChange={handleCheckboxEventosSicHeatLayer}
             />
-            <label>Mostrar capa de calor Eventos Sic</label>
+            <label>Mostrar capa de calor Eventos AURA</label>
         </div>
   </div>
   )
