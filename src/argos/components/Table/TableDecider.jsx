@@ -103,7 +103,7 @@ export const TableDecider = ({lugar}) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <h3 className='text-center titulo'>TABLA DE {`${lugar}`.toUpperCase()}</h3>
+                            <h3 className='text-center titulo'>TABLA DE {lugar.includes('Inspecciones:') ? lugar.replace('Inspecciones:', 'CONSULTAS:').toUpperCase() : lugar.toUpperCase()}</h3>
                             <hr className='decorator'/>
                         </div>
                     </div>
