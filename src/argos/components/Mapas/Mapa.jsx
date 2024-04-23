@@ -367,7 +367,14 @@ export function Mapa() {
         setMapaCargado(true)
       })
       //Se crean los controles de dibujo de los poligonos personalizados y se añaden al mapa
-      const draw = new MapboxDraw();
+      const draw = new MapboxDraw({
+        displayControlsDefault: false,
+        // Select which mapbox-gl-draw control buttons to add to the map.
+        controls: {
+            polygon: true,
+            trash: true
+        },
+      });
       map.current.addControl(draw);
 
       // Escucha el evento de creación de un polígono
