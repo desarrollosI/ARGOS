@@ -22,7 +22,7 @@ const separarFolioHistorico = ({ _label }) => {
     //console.log('FILE: ', guardar);
 
     let url =
-        "http://172.18.10.227/planeacion-recuperadas/Historicos/" +
+        "http://187.216.250.245/planeacion-recuperadas/Historicos/" +
         guardar.trim()+
         "/"+
         newLabel[2];
