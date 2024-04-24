@@ -786,10 +786,16 @@ export function Mapa() {
                 </div>
                 <div className="row">
                 {Remision != 0 ? (
-                  <ImageZoom  url={`http://187.216.250.245/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} width={'270'} height={'180'}/>
-                ) : (
-                  <></>
-                )}
+                    <ImageZoom  
+                      url={window.location.href.includes('187.128.250.252') 
+                        ? `http://187.128.250.252/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`
+                        : `http://187.216.250.245/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} 
+                      width={'270'} 
+                      height={'180'}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </div>
                 <div className="row mt-3">
                   {Remision !== 0 ? (

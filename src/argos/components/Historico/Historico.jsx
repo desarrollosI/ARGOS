@@ -7,7 +7,7 @@ import 'animate.css';
 //El componente es sencillo solo es la maquetacion en jsx de la información y como debe de ser mostrada
 export const Historico = ({data}) => {
   console.log('RECIBI LA REMISION:',data)
-  const imgUrl =  `http://187.216.250.245/planeacion-recuperadas/Historicos/${data[0].Folio}/${data[0].Folio}.jpg`
+const imgUrl =  window.location.href.includes('172.18.110.90') ? `http://172.18.0.25/planeacion-recuperadas/Historicos/${data[0].Folio}/${data[0].Folio}.jpg` : `http://187.216.250.245/planeacion-recuperadas/Historicos/${data[0].Folio}/${data[0].Folio}.jpg`;
 
   return (
     <>

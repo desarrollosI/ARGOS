@@ -27,10 +27,11 @@ const separarFichaInspeccion = ({ _label }) => {
     file = file.replaceAll('(','%28')
     file = file.replaceAll(')','%29')
     let url =
-        "http://187.216.250.245/sarai/public/files/inspecciones/images/" +
-        guardar+
-        "/"+
-        file;
+      window.location.href.includes("172.18.110.90")
+        ? "http://172.18.0.25/sarai/public/files/inspecciones/images/" + guardar + "/" + file
+        : window.location.href.includes("187.216.250.252")
+        ? "http://187.216.250.245/sarai/public/files/inspecciones/images/" + guardar + "/" + file
+        : "";
   return {url,inspeccion:guardar};
 };
 

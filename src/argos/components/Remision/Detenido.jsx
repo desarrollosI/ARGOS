@@ -7,8 +7,12 @@ import 'animate.css';
 //El componente es sencillo solo es la maquetacion en jsx de la información y como debe de ser mostrada
 export const Detenido = ({data}) => {
   console.log('RECIBI LA REMISION:',data)
-  const imgUrl = `http://187.216.250.245/sarai/public/files/Remisiones/${data.Ficha}/FotosHuellas/${data.No_Remision}/rostro_frente.jpeg`;
-  const objUrl = `http://187.216.250.245/sarai/public/files/Remisiones/${data.Ficha}/ObjRecuperados/${data.Ficha}_obj.jpeg`;
+const imgUrl = window.location.href.includes('172.18.110.90') ? `http://172.18.0.25/sarai/public/files/Remisiones/${data.Ficha}/FotosHuellas/${data.No_Remision}/rostro_frente.jpeg` :
+							 window.location.href.includes('187.216.250.252') ? `http://187.216.250.245/sarai/public/files/Remisiones/${data.Ficha}/FotosHuellas/${data.No_Remision}/rostro_frente.jpeg` :
+							 `http://187.216.250.245/sarai/public/files/Remisiones/${data.Ficha}/FotosHuellas/${data.No_Remision}/rostro_frente.jpeg`;
+const objUrl = window.location.href.includes('172.18.110.90') ? `http://172.18.0.25/sarai/public/files/Remisiones/${data.Ficha}/ObjRecuperados/${data.Ficha}_obj.jpeg` :
+							 window.location.href.includes('187.216.250.252') ? `http://187.216.250.245/sarai/public/files/Remisiones/${data.Ficha}/ObjRecuperados/${data.Ficha}_obj.jpeg` :
+							 `http://187.216.250.245/sarai/public/files/Remisiones/${data.Ficha}/ObjRecuperados/${data.Ficha}_obj.jpeg`;
 
   return (
     <>

@@ -20,12 +20,23 @@ const separarFichaRemision = ({ _label }) => {
   newLabel[0] = newLabel[0].split(" ");
   newLabel[1] = newLabel[1].trim();
   newLabel[1] = newLabel[1].split(" ");
-  let url =
-    "http://187.216.250.245/sarai/public/files/Remisiones/" +
-    newLabel[0][1] +
-    "/FotosHuellas/" +
-    newLabel[1][1] +
-    "/rostro_frente.jpeg";
+  let url = "";
+
+  if (window.location.href.includes("172.18.110.90")) {
+    url =
+      "http://172.18.0.25/sarai/public/files/Remisiones/" +
+      newLabel[0][1] +
+      "/FotosHuellas/" +
+      newLabel[1][1] +
+      "/rostro_frente.jpeg";
+  } else if (window.location.href.includes("187.216.250.252")) {
+    url =
+      "http://187.216.250.245/sarai/public/files/Remisiones/" +
+      newLabel[0][1] +
+      "/FotosHuellas/" +
+      newLabel[1][1] +
+      "/rostro_frente.jpeg";
+  }
     
   return {url,remision:newLabel[1][1],ficha:newLabel[0][1]};
 };
