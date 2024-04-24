@@ -788,8 +788,8 @@ export function Mapa() {
                 {Remision != 0 ? (
                     <ImageZoom  
                       url={window.location.href.includes('187.128.250.252') 
-                        ? `http://187.128.250.252/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`
-                        : `http://187.216.250.245/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} 
+                        ? `http://187.216.250.245/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`
+                        : `http://172.18.0.25/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} 
                       width={'270'} 
                       height={'180'}
                     />
