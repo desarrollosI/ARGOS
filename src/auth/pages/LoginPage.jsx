@@ -105,7 +105,7 @@ export const LoginPage = () => {
                             <div className="col-md-12 copyright">
                                     <div className="row">
                                         <div className="col-md-12">
-                                            <h6 className='text-center text-login'>&#169;2024 Copyright: &#169;2024 Todos los derechos reservados. SSCMP</h6>
+                                            <h6 className='text-center text-login'>SSCMP</h6>
                                         </div>
                                     </div>
                                 </div>

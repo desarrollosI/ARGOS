@@ -129,7 +129,7 @@ export const InicioPage = () => {
         <div className="row">
           <div className="col-md-12 mb-5">
             {/* Utiliza ReactCaroussel en lugar de Carousel */}
-            <Carousel 
+            {/* <Carousel 
             ref={carouselRef}
             itemsToShow={2}
             enableAutoPlay
@@ -148,7 +148,7 @@ export const InicioPage = () => {
                   <Card className="ms-2"card={actualziacion} />
                 </div>
               ))} 
-            </Carousel>
+            </Carousel> */}
 
 
           </div>
