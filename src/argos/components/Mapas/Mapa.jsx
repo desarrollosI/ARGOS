@@ -38,7 +38,7 @@ import "../css/Mapa/mapa.css";
 
 //se asigna el token para el componente del mapa de mapbox 
 mapboxgl.accessToken =
-  "pk.eyJ1IjoicmF1bHJvbWVybzI2IiwiYSI6ImNsZGl4bjkzcjFneXczcG1wYWo1OHdlc2sifQ.kpzVNWm4rIrqWqTFFmqYLg";
+  "pk.eyJ1Ijoic3NjZGlwYyIsImEiOiJjbHllcmM0dG8wNW9oMmtvaHhubWxsa3VyIn0.IwPkHtYfl3X9IOsF5U4VFA";
 /* Este componente es de los mas complejos que maneja el sistema por lo que se ira explicando dentro del mismo 
    La funcionalidad general: es un mapa con diferentes capas con informacion obtenida de bases de datos 
 */
@@ -785,17 +785,29 @@ export function Mapa() {
                   <h4> Foto: </h4>
                 </div>
                 <div className="row">
-                {Remision != 0 ? (
-                    <ImageZoom  
-                      url={window.location.href.includes('187.128.250.252') 
-                        ? `http://187.216.250.245/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`
-                        : `http://172.18.0.25/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`} 
-                      width={'270'} 
-                      height={'180'}
-                    />
-                  ) : (
-                    <></>
-                  )}
+                {
+                  (Remision !== 0) && (
+                    (() => {
+                      // Aquí puedes realizar operaciones de JavaScript adicionales antes de retornar el componente
+                      let urlBase = 'http://187.216.250.245'
+                      if(window.location.href.includes('187.216.250.252')){
+                        urlBase = 'http://187.216.250.245';
+                      }else if(window.location.href.includes('172.18.110.90')){
+                        urlBase = 'http://172.18.0.25';
+                      }
+                      console.log('URL', urlBase)
+                      const imageUrl = `${urlBase}/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`;
+
+                      return (
+                        <ImageZoom  
+                          url={imageUrl}
+                          width={'270'} 
+                          height={'180'}
+                        />
+                      );
+                    })()
+                  )
+                }
                 </div>
                 <div className="row mt-3">
                   {Remision !== 0 ? (
