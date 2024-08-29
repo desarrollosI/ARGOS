@@ -40,3 +40,8 @@
     z-index: 9999;
 }
     
+
+button[data-bs-toggle="collapse"]{
+    min-width: 200px;
+    max-width: 200px;
+}

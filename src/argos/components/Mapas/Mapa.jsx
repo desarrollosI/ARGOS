@@ -525,7 +525,7 @@ export function Mapa() {
   return (
     <>
       <div className="row">
-        <div className="col-md-4">
+        <div className="col-md-3">
           <div className="row">
             {/* Para evitar errores es necesario esperar a que ya se cuente con la informacion de los catalogos para poder renderizar ciertas partes del componente
                 como los controles por ejemplo */}
@@ -746,7 +746,7 @@ export function Mapa() {
 
             <div className="col-md-6">
               <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBusqueda" aria-expanded="false" aria-controls="collapseBusqueda">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-person-bounding-box me-2" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-person-bounding-box " viewBox="0 0 16 16">
                   <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
                   <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                 </svg>
@@ -759,8 +759,8 @@ export function Mapa() {
               <SearchPerson setSetDataResultadoBusqueda = {setSetDataResultadoBusqueda} handleCapasPersonaExcel={handleCapasPersonaExcel}/>
             </div>
 
-            <button className=" col-md-12 btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKNN" aria-expanded="false" aria-controls="collapseKNN">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-person-bounding-box me-2" viewBox="0 0 16 16">
+            <button className=" col-md-6 btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKNN" aria-expanded="false" aria-controls="collapseKNN">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-person-bounding-box me-2" viewBox="0 0 16 16">
               <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
               <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
             </svg>
@@ -781,7 +781,7 @@ export function Mapa() {
           </div>
         </div>
 
-        <div className="col-md-8">
+        <div className="col-md-9">
           <div className="row card shadow">
             <GeneralControls 
               showVectoresLayer={showVectoresLayer} 
