@@ -2,26 +2,65 @@ import React, { useState } from 'react';
 import { useForm } from '../../../hooks';
 import { knnApi } from '../../../api';
 import Swal from 'sweetalert2';
+import ReactDOMServer from 'react-dom/server';
 
 const coordenadasFormFields = {
   coordx: '',
   coordy: '',
-  diasemana: '',
-  tiempo: ''
 };
 
 export const FormKnn = ({ setCoordenadasFlyTo }) => {
 
     const [isLoadingData, setIsLoadingData] = useState(false);
-    const { coordx, coordy, diasemana, tiempo, onInputChange } = useForm(coordenadasFormFields);
+    const { coordx, coordy, onInputChange } = useForm(coordenadasFormFields);
 
     const fetchKnn = async (endpoint) => {
     try {
         setIsLoadingData(true)
-        const response = await knnApi.post(endpoint,{coordx, coordy, diasemana, tiempo});
+        const response = await knnApi.post(endpoint,{coordx, coordy});
         console.log(response)
         //setSetDataResultadoBusqueda(response.data.data)
-        Swal.fire('Prediccion realizada', `Prediccion: ${response.data.data.prediccion} DIA: ${response.data.data.dia} HORARIO: ${response.data.data.rango}`, 'info');
+        const {data} = response.data
+        let predicciones = data.nuevas_predicciones_formateadas;
+        console.log('PREDICCIONES', predicciones);
+        const tableHtml = ReactDOMServer.renderToString(
+          <table border="1" className="table table-striped" style={{ margin: "auto !important", width: "80% !important" }}>
+            <thead>
+              <tr>
+                <th></th>
+                {Object.keys(predicciones).map(dia => <th>{dia}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {['MAÑANA', 'TARDE', 'NOCHE', 'MADRUGADA'].map(horario => (
+                <tr className="mt-1">
+                  <td style={{ padding: "10px !important", width:"200px" }}><strong>{horario}</strong></td>
+                  {Object.keys(predicciones).map(dia => <td style={{ padding: "10px !important" }}>{predicciones[dia][horario]}</td>)}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        );
+
+        Swal.fire({
+          title: 'Predicción realizada',
+          html: `
+            <h3>MODELO K-NN (K-Nearest Neighbors)</h3>
+            <h5>Coordenadas de interpretación: (${coordx}, ${coordy})</h5>
+            <p style="margin: auto !important; width: 80% !important; margin-bottom: 20px !important;">
+            K-NN, o K-Vecinos Más Cercanos, es un método de clasificación en aprendizaje supervisado no
+            paramétrico que se basa en la proximidad entre puntos de datos para realizar predicciones o
+            clasificaciones individuales. Aquí se presenta una tabla que detalla los resultados del modelo de
+            clasificación K-NN, identificando el delito más probable por día y franja horaria. El valor k en el
+            algoritmo k-NN define cuántos vecinos se verificarán para determinar la clasificación de un punto de
+            consulta específico, en el caso del presente es K=15.
+            </p>
+          ${tableHtml}
+          `,
+          icon: 'info',
+          width: '90vw'  // Cambia esto al ancho que desees
+        });
+      
         setIsLoadingData(false)
         } catch (error) {
         console.log(error.response);
@@ -39,7 +78,7 @@ export const FormKnn = ({ setCoordenadasFlyTo }) => {
       <form onSubmit={FlyTo} className="my-3">
         <div className="row">
           <div className="col-md-12">
-            <h3>Buscar coordenadas</h3>
+            <h3>Realizar Predicciones en las coordenadas: </h3>
           </div>
         </div>
         <div className="row">
@@ -69,45 +108,7 @@ export const FormKnn = ({ setCoordenadasFlyTo }) => {
               />
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="form-group">
-              <label className="form-label">Día:</label>
-              <select
-                name="diasemana"
-                id="diasemana"
-                className="form-select"
-                value={diasemana}
-                onChange={onInputChange}
-              >
-                <option value="">Seleccionar Día</option>
-                <option value="LUNES">Lunes</option>
-                <option value="MARTES">Martes</option>
-                <option value="MIERCOLES">Miércoles</option>
-                <option value="JUEVES">Jueves</option>
-                <option value="VIERNES">Viernes</option>
-                <option value="SABADO">Sábado</option>
-                <option value="DOMINGO">Domingo</option>
-              </select>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="form-group">
-              <label className="form-label">Tiempo:</label>
-              <select
-                name="tiempo"
-                id="tiempo"
-                className="form-select"
-                value={tiempo}
-                onChange={onInputChange}
-              >
-                <option value="">Seleccionar Tiempo</option>
-                <option value="MAÑANA">Mañana</option>
-                <option value="TARDE">Tarde</option>
-                <option value="NOCHE">Noche</option>
-                <option value="MADRUGADA">Madrugada</option>
-              </select>
-            </div>
-          </div>
+        
         </div>
         <div className="row">
           <div className="col-md-12 mt-2">

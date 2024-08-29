@@ -11,7 +11,7 @@ export const Inspeccion = ({data}) => {
   console.log(generales, fotos, personas)
 
   var date = new Date(generales[0].Fecha_Hora_Inspeccion);
-const baseURLF = window.location.href.includes('172.18.110.90') ? 'http://172.18.0.25/sarai/public/files/inspecciones/images/' : 'http://187.216.250.245/sarai/public/files/inspecciones/images/';
+const baseURLF = window.location.href.includes('172.18.110.90') ? 'http://172.18.110.25/sarai/public/files/inspecciones/images/' : 'http://187.216.250.245/sarai/public/files/inspecciones/images/';
 
   return (
     <>

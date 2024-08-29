@@ -15,6 +15,8 @@ authApi.interceptors.request.use(config => {
         config.baseURL = VITE_BACKEND_SERVER_AUTH;
     } else if (url.includes('172.18.110.90')) {
         config.baseURL = VITE_BACKEND_SERVER_AUTH_LOCAL;
+    }else if(url.includes('localhost')){
+        config.baseURL = VITE_BACKEND_SERVER_AUTH_LOCAL;
     }
 
     config.headers = {

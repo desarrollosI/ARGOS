@@ -6,3 +6,4 @@ export * from './graficasApi';
 export * from './mapasApi';
 export * from './catalogosApi';
 export * from './usuariosApi';
+export * from './knnApi';

@@ -19,6 +19,8 @@ graficasApi.interceptors.request.use( config => {
         config.baseURL = VITE_BACKEND_SERVER_GRAFICAS;
     } else if (url.includes('172.18.110.90')) {
         config.baseURL = VITE_BACKEND_SERVER_GRAFICAS_LOCAL;
+    } else if (url.includes('localhost')) {
+        config.baseURL = VITE_BACKEND_SERVER_GRAFICAS_LOCAL;
     }
   
 

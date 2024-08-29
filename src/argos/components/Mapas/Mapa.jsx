@@ -28,6 +28,7 @@ import { SearchPerson } from "./SearchPerson";
 import { FlyTo } from "./FlyTo";
 import { ImageZoom } from "../Shared";
 import { AddLayer } from "./KmlMultiplier";
+import { FormKnn } from "./FormKnn";
 
 //se importan los helpers necesarios 
 import { capasToExcel, capasPerToExcel } from "../../helpers";
@@ -758,6 +759,21 @@ export function Mapa() {
               <SearchPerson setSetDataResultadoBusqueda = {setSetDataResultadoBusqueda} handleCapasPersonaExcel={handleCapasPersonaExcel}/>
             </div>
 
+            <button className=" col-md-12 btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKNN" aria-expanded="false" aria-controls="collapseKNN">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-person-bounding-box me-2" viewBox="0 0 16 16">
+              <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
+              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+            </svg>
+            Modelo Predictivo (KNN)
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
+              <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+            </svg>
+          </button>
+
+          <div className="col-md-12 card shadow mb-3 collapse" id="collapseKNN">
+            <FormKnn setCoordenadasFlyTo={setCoordenadasFlyTo} />
+          </div>
+
             <div className="col-md-12">
               {/* <KmlToGeoJsonConverter mapa={mapaArchivo}/> */}
               <AddLayer mapa={mapaArchivo}/>
@@ -793,7 +809,7 @@ export function Mapa() {
                       if(window.location.href.includes('187.216.250.252')){
                         urlBase = 'http://187.216.250.245';
                       }else if(window.location.href.includes('172.18.110.90')){
-                        urlBase = 'http://172.18.0.25';
+                        urlBase = 'http://172.18.110.25';
                       }
                       console.log('URL', urlBase)
                       const imageUrl = `${urlBase}/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`;

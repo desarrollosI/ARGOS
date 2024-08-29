@@ -24,7 +24,7 @@ const separarFichaRemision = ({ _label }) => {
 
   if (window.location.href.includes("172.18.110.90")) {
     url =
-      "http://172.18.0.25/sarai/public/files/Remisiones/" +
+      "http://172.18.110.25/sarai/public/files/Remisiones/" +
       newLabel[0][1] +
       "/FotosHuellas/" +
       newLabel[1][1] +
