@@ -27,6 +27,20 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
                   : parseFloat(item.CoordY),
           ];
           break;
+        case 'alto-impacto':
+          coordenadascase = [
+            isNaN(parseFloat(item.CoordX))
+              ? -0.0
+              : (parseFloat(item.CoordX) > 0)
+              ? parseFloat(item.CoordY)
+              : parseFloat(item.CoordX),
+            isNaN(parseFloat(item.CoordY))
+              ? 0.0
+              : (parseFloat(item.CoordX) > 0)
+              ? parseFloat(item.CoordX)
+              : parseFloat(item.CoordY),
+          ];
+          break;
       
         default:
           coordenadascase = [
@@ -44,7 +58,7 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
         break;
       }
       const coordenadas = coordenadascase;
-
+      //console.log('COORDENADAS: ', coordenadas,lugar);
       switch (lugar) {
         case 'inspecciones':
           return turf.point(coordenadas, {
@@ -57,6 +71,14 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
         case 'eventossic':
           return turf.point(coordenadas, {
             Folio_Infra: item.Folio_infra
+          });
+          break;
+        
+        case 'alto-impacto':
+          return turf.point(coordenadas, {
+            narrativa: item.Narrativa,
+            remision: item.Remision,
+            id: item.Id_Punto
           });
           break;
       
@@ -74,7 +96,6 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
 
     // Almacenar puntos separados por zona
     const puntosPorZona = {};
-
     capaVectores.features.forEach((poligono) => {
         const zona = poligono.properties.ZONA;
       
@@ -83,13 +104,19 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
             resultados: []
           };
         }
-      
+        
         const puntosEnPoligonoDataBuscar = turf.pointsWithinPolygon(puntosDataBuscar, poligono);
         
+        if (puntosEnPoligonoDataBuscar.features.length > 0) {
+          if (puntosPorZona[zona].resultados) {
+            puntosPorZona[zona].resultados.push(...puntosEnPoligonoDataBuscar.features);
+          }
+        }
         if (puntosPorZona[zona].resultados) {
           puntosPorZona[zona].resultados.push(...puntosEnPoligonoDataBuscar.features);
         }
       });
+      //console.log({puntosPorZona})
 
     if (zonaGeneral === 'todas') {
       //console.log('voy a regresar por todas las zonas', puntosPorZona);
@@ -101,6 +128,7 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
         resultados: []
       };
 
+      
 
       switch (lugar) {
         case 'inspecciones':
@@ -125,6 +153,22 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
             }
           });
           break;
+        case 'alto-impacto':
+          dataBuscar.forEach((data) => {
+          
+            if (puntosPorZona[zonaGeneral]) {
+              //console.log('entre al if de puntos por zona')
+              const coincidencia = puntosPorZona[zonaGeneral].resultados.find((punto) =>{
+                //console.log('entre al find de coincidencia')
+                return punto.properties.id === data.Id_Punto
+              });
+                //console.log({coincidencia})
+                if (coincidencia) {
+                  puntosFiltrados[zonaGeneral].resultados.push(data);
+              }
+            }
+          });
+          break;
       
         default:
           dataBuscar.forEach((data) => {
@@ -138,7 +182,7 @@ export const PuntosEnZona = async (vectores, dataBuscar, zonaGeneral, lugar ) =>
           });
           break;
       }
-     
+      console.log('PUNTOS FILTRADOS: ', puntosFiltrados)
     return puntosFiltrados[zonaGeneral];
     }
   } catch (error) {

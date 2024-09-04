@@ -1,6 +1,6 @@
 import * as turf from "@turf/turf";
-export const PuntosEnPoligonoPer = async (poligono, datosHechos,datosDomicilio,datosDetencion,datosInspecciones,datosSicEventos,datosPuntosIdentificados) => {
-    //console.log('ENTRO A LA FUNCION DE PERSONALIZADDO ',{poligono, datosHechos,datosDomicilio,datosDetencion,datosInspecciones})
+export const PuntosEnPoligonoPer = async (poligono, datosHechos,datosDomicilio,datosDetencion,datosInspecciones,datosSicEventos,datosPuntosIdentificados,datosAltoImpacto) => {
+    console.log('ENTRO A LA FUNCION DE PERSONALIZADDO ',{datosAltoImpacto});
     const puntosHechos = turf.featureCollection(
       datosHechos.map((item) => {
         const coordenadas = [
@@ -140,7 +140,29 @@ export const PuntosEnPoligonoPer = async (poligono, datosHechos,datosDomicilio,d
         });
       })
     );
+    const puntosAltoImpacto = turf.featureCollection(
+      datosAltoImpacto.map((item) => {
+        const coordenadas = [
+          isNaN(parseFloat(item.CoordX))
+          ? -0.0
+          : (parseFloat(item.CoordX) > 0)
+          ? parseFloat(item.CoordY)
+          : parseFloat(item.CoordX),
+        isNaN(parseFloat(item.CoordY))
+          ? 0.0
+          : (parseFloat(item.CoordX) > 0)
+          ? parseFloat(item.CoordX)
+          : parseFloat(item.CoordY),
+        ];
+        return turf.point(coordenadas, {
+          id: item.Id_Punto,
+          narrativa: item.Narrativa,
+          remision: item.Remision,
+        });
+      })
+    );
     // Almacenar puntos separados por zona
+    console.log({puntosAltoImpacto})
     let puntosPorPoligonoPer = {
       hechos: [],
       domicilio:[],
@@ -157,6 +179,8 @@ export const PuntosEnPoligonoPer = async (poligono, datosHechos,datosDomicilio,d
     const puntosEnPoligonoPerInsp = turf.pointsWithinPolygon(puntosInspecciones, poligono);
     const puntosEnPoligonoPerSicEv = turf.pointsWithinPolygon(puntosSicEventos, poligono);
     const puntosEnPoligonoPerPuntIden = turf.pointsWithinPolygon(puntosPuntosIdentificados, poligono);
+    const puntosAltoImpactoPer = turf.pointsWithinPolygon(puntosAltoImpacto, poligono);
+    console.log('DESPUES DEL TURF:',{ puntosAltoImpactoPer})
     console.log('linea 38:', puntosEnPoligonoPerPuntIden.features);
   
     let puntosFiltrados = {
@@ -165,7 +189,8 @@ export const PuntosEnPoligonoPer = async (poligono, datosHechos,datosDomicilio,d
       detencion:[],
       inspecciones:[],
       siceventos:[],
-      puntosidentificados:[]
+      puntosidentificados:[],
+      altoimpacto:[]
     };
   
     puntosEnPoligonoPer.features.forEach((punto) => {
@@ -213,12 +238,20 @@ export const PuntosEnPoligonoPer = async (poligono, datosHechos,datosDomicilio,d
           return punto.properties.Folio === data.FOLIO;
       });
       if (coincidencia) {
-          console.log('COINCIDENCIA: ',coincidencia);
           puntosFiltrados.puntosidentificados.push(coincidencia);
       }
       });
+      puntosAltoImpactoPer.features.forEach((punto) => {
+      const coincidencia = datosAltoImpacto.find((data) => {
+          return punto.properties.id == data.Id_Punto;
+      });
+      if (coincidencia) {
+          console.log('COINCIDENCIA: ',coincidencia);
+          puntosFiltrados.altoimpacto.push(coincidencia);
+      }
+      });
 
-    //console.log(puntosFiltrados);
+    console.log(puntosFiltrados);
     return puntosFiltrados;
   };
   

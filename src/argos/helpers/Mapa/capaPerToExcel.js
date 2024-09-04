@@ -6,7 +6,7 @@ import { insertHistorial } from '../../../helpers/insertHistorial';
 
 // la funcion que se exporta  recibe la informacion que se plasmara en el excel
 // asi como la inofrmacion para ingresar en el historial del argos
-export const capasPerToExcel = ({hechos,detencion,domicilio,inspecciones,siceventos,puntosidentificados}) => {
+export const capasPerToExcel = ({hechos,detencion,domicilio,inspecciones,siceventos,puntosidentificados,altoImpacto}) => {
 
       console.log('LLEGAN DE FILTRO: ',puntosidentificados)
 
@@ -34,6 +34,12 @@ export const capasPerToExcel = ({hechos,detencion,domicilio,inspecciones,siceven
             const fieldsPI = Object.keys(puntosidentificados[0]);
             const ws5 = XLSX.utils.json_to_sheet(puntosidentificados, { header: fieldsPI }); // sheet
             XLSX.utils.book_append_sheet(wb, ws5, "Resultrados_Puntos"); //sheet name
+      }
+
+      if(altoImpacto.length > 0){
+            const fieldsAI = Object.keys(altoImpacto[0]);
+            const ws6 = XLSX.utils.json_to_sheet(altoImpacto, { header: fieldsAI }); // sheet
+            XLSX.utils.book_append_sheet(wb, ws6, "Resultrados_AltoImpacto"); //sheet name
       }
 
       insertHistorial({lugar:'Geoanalisis',tipo:'Exportacion CSV', descripcion:'Exportacion datos de poligono personalizado'});

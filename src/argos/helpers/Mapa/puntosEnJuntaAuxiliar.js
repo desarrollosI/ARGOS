@@ -25,6 +25,20 @@ export const PuntosEnJuntaAuxiliar = async (JuntaAuxiliar, dataBuscar, lugar ) =
                   : parseFloat(item.CoordY),
           ];
           break;
+        case 'alto-impacto':
+          coordenadascase = [
+              isNaN(parseFloat(item.CoordX))
+                  ? -0.0
+                  : (parseFloat(item.CoordX) > 0)
+                  ? parseFloat(item.CoordY)
+                  : parseFloat(item.CoordX),
+              isNaN(parseFloat(item.CoordY))
+                  ? 0.0
+                  : (parseFloat(item.CoordX) > 0)
+                  ? parseFloat(item.CoordX)
+                  : parseFloat(item.CoordY),
+          ];
+          break;
       
         default:
           coordenadascase = [
@@ -42,6 +56,7 @@ export const PuntosEnJuntaAuxiliar = async (JuntaAuxiliar, dataBuscar, lugar ) =
           break;
       }
       const coordenadas = coordenadascase;
+      //console.log('COORDENADAS ',coordenadas)
       switch (lugar) {
         case 'inspecciones':
           return turf.point(coordenadas, {
@@ -54,6 +69,14 @@ export const PuntosEnJuntaAuxiliar = async (JuntaAuxiliar, dataBuscar, lugar ) =
         case 'eventossic':
           return turf.point(coordenadas, {
             Folio_Infra: item.Folio_infra
+          });
+          break;
+        
+        case 'alto-impacto':
+          return turf.point(coordenadas, {
+            narrativa: item.Narrativa,
+            remision: item.Remision,
+            id: item.Id_Punto
           });
           break;
       
@@ -74,6 +97,9 @@ export const PuntosEnJuntaAuxiliar = async (JuntaAuxiliar, dataBuscar, lugar ) =
         resultados: []
       };
 
+    
+    //console.log('SE CREO ',puntosDataBuscar)
+
     capaJuntaAuxiliar.features.forEach((poligono) => {
       
         if (!puntosPorJuntaAuxiliar) {
@@ -83,7 +109,7 @@ export const PuntosEnJuntaAuxiliar = async (JuntaAuxiliar, dataBuscar, lugar ) =
         }
       
         const puntosEnPoligonoDataBuscar = turf.pointsWithinPolygon(puntosDataBuscar, poligono);
-        
+        //console.log(puntosEnPoligonoDataBuscar);
         if (puntosPorJuntaAuxiliar.resultados) {
           puntosPorJuntaAuxiliar.resultados.push(...puntosEnPoligonoDataBuscar.features);
         }
@@ -109,6 +135,16 @@ export const PuntosEnJuntaAuxiliar = async (JuntaAuxiliar, dataBuscar, lugar ) =
           if (Array.isArray(puntosPorJuntaAuxiliar.resultados)) {
             dataBuscar.forEach((data) => {
               const coincidencia = puntosPorJuntaAuxiliar.resultados.find((punto) => punto.properties && punto.properties.Folio_Infra === data.Folio_infra);
+              if (coincidencia) {
+                puntosFiltrados.resultados.push(data);
+              }
+            });
+          }
+          break;
+        case 'alto-impacto':
+          if (Array.isArray(puntosPorJuntaAuxiliar.resultados)) {
+            dataBuscar.forEach((data) => {
+              const coincidencia = puntosPorJuntaAuxiliar.resultados.find((punto) => punto.properties && punto.properties.id === data.Id_Punto);
               if (coincidencia) {
                 puntosFiltrados.resultados.push(data);
               }

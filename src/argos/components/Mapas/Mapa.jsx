@@ -36,6 +36,8 @@ import { PuntosEnPoligonoPer } from "../../helpers/Mapa/puntosEnPoligonoPer";
 import { insertHistorial } from "../../../helpers/insertHistorial";
 //se importan los estilos generales del modulo
 import "../css/Mapa/mapa.css";
+import useMapLayerAltoImpacto from "../../../hooks/useMapLayerAltoImpacto";
+import { LayerAltoImpactoControls } from "./LayerAltoImpactoControls";
 
 //se asigna el token para el componente del mapa de mapbox 
 mapboxgl.accessToken =
@@ -281,6 +283,26 @@ export function Mapa() {
   } = useMapLayerPuntos('puntos-identificados', 'brown', 'puntosidentificados', setFolioPunto);
 
 
+  const {
+    showLayer: showLayerAltoImpacto,
+    showHeatLayer: showHeatLayerAltoImpacto,  
+    fechaInicio: fechaInicioAltoImpacto,
+    fechaFin: fechaFinAltoImpacto,
+    Zona: ZonaAltoImpacto,
+    JuntaAuxiliar: JuntaAuxiliarAltoImpacto,
+    fetchedData2: datosAltoImpacto,
+    setMap: setMapAltoImpacto,
+    setMapContainer: setMapContainerAltoImpacto,
+    fetchData: fetchDataAltoImpacto,
+    handleStartDateChange: handleStartDateChangeAltoImpacto,
+    handleEndDateChange: handleEndDateChangeAltoImpacto,
+    handleCheckboxLayer: handleCheckboxAltoImpactoLayer,
+    handleCheckboxHeatLayer: handleCheckboxAltoImpactoHeatLayer,
+    handleZonaAltoImpacto: handleZonaAltoImpacto,
+    handleJuntaAuxiliarAltoImpacto: handleJuntaAuxiliarAltoImpacto,
+  } = useMapLayerAltoImpacto('alto-impacto', 'cyan', 'alto-impacto',setFicha,setNombre,setRemision);
+
+
   //Handler para ocultar/mostrar la capa de vectores
   const handleCheckboxVectoresLayer = () => {
     setShowVectoresLayer(!showVectoresLayer);
@@ -291,19 +313,20 @@ export function Mapa() {
   };
   //Handler para exportar la informacion de las capas hacia un csv
   const handleCapasExcel = (event) =>{
-    capasToExcel({hechos:datosUbicacionHechos,domicilio:datosDomicilioDetenido,detencion:datosUbicacionDetencion,inspecciones:datosInspecciones,siceventos:datosSicEventos,puntosidentificados:datosPuntosIdentificados})
+    capasToExcel({hechos:datosUbicacionHechos,domicilio:datosDomicilioDetenido,detencion:datosUbicacionDetencion,inspecciones:datosInspecciones,siceventos:datosSicEventos,puntosidentificados:datosPuntosIdentificados,altoImpacto:datosAltoImpacto})
   }
 
   //Handler para pasar la informacion que se encuentre en un poligono personalizado a csv
   const handleCapasPerExcel = async(event) =>{
-    let resultadosEnPoligonoPer = await PuntosEnPoligonoPer(dataPoligonoPersonalizado,datosUbicacionHechos,datosDomicilioDetenido,datosUbicacionDetencion,datosInspecciones,datosSicEventos,datosPuntosIdentificados)
+    let resultadosEnPoligonoPer = await PuntosEnPoligonoPer(dataPoligonoPersonalizado,datosUbicacionHechos,datosDomicilioDetenido,datosUbicacionDetencion,datosInspecciones,datosSicEventos,datosPuntosIdentificados,datosAltoImpacto)
     capasPerToExcel({
       hechos:resultadosEnPoligonoPer.hechos,
       domicilio:resultadosEnPoligonoPer.domicilio,
       detencion:resultadosEnPoligonoPer.detencion,
       inspecciones:resultadosEnPoligonoPer.inspecciones,
       siceventos:resultadosEnPoligonoPer.siceventos,
-      puntosidentificados:resultadosEnPoligonoPer.puntosidentificados
+      puntosidentificados:resultadosEnPoligonoPer.puntosidentificados,
+      altoImpacto:resultadosEnPoligonoPer.altoimpacto
     })
   }
   //Handler para pasar la informacion de una persona buscada a csv
@@ -354,6 +377,7 @@ export function Mapa() {
       setMapContainerInspecciones(mapContainer.current);
       setMapContainerSicEventos(map.current);
       setMapContainerPuntosIdentificados(map.current);
+      setMapContainerAltoImpacto(map.current);
 
       setMapDomicilioDetenido(map.current);
       setMapUbicacionDetencion(map.current)
@@ -363,6 +387,7 @@ export function Mapa() {
       setMapInspecciones(map.current);
       setMapSicEventos(map.current);
       setMapPuntosIdentificados(map.current);
+      setMapAltoImpacto(map.current);
       //Hay un error con determiandos estilos provenientes de mapbox esta funcion busca hacer tiempo hasta que cargue
       map.current.on('style.load', () => {
         setMapaCargado(true)
@@ -687,6 +712,36 @@ export function Mapa() {
                       />
                     </div>
 
+                    <div className="col-md-6">
+                    <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAltoImpacto" aria-expanded="false" aria-controls="collapseAltoImpacto">
+                      <svg svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="cyan" className="bi bi-layers-fill  me-1" viewBox="0 0 16 16">
+                          <path d="M7.765 1.559a.5.5 0 0 1 .47 0l7.5 4a.5.5 0 0 1 0 .882l-7.5 4a.5.5 0 0 1-.47 0l-7.5-4a.5.5 0 0 1 0-.882z"/>
+                          <path d="m2.125 8.567-1.86.992a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882l-1.86-.992-5.17 2.756a1.5 1.5 0 0 1-1.41 0z"/>
+                        </svg>
+
+                        Alto Impacto
+                        
+                    </button>
+
+                    
+                  </div>
+
+                  <div className="col-md-12 card shadow mb-3 collapse" id="collapseAltoImpacto">
+                      <LayerAltoImpactoControls
+                        handleCheckboxAltoImpactoLayer={handleCheckboxAltoImpactoLayer} 
+                        showAltoImpactoLayer={showLayerAltoImpacto}  
+                        handleCheckboxAltoImpactoHeatLayer={handleCheckboxAltoImpactoHeatLayer} 
+                        showAltoImpactoHeatLayer={showHeatLayerAltoImpacto}
+                        fechaInicioAltoImpacto={fechaInicioAltoImpacto}
+                        fechaFinAltoImpacto={fechaFinAltoImpacto}
+                        handleStartDateChangeAltoImpacto={handleStartDateChangeAltoImpacto}
+                        handleEndDateChangeAltoImpacto={handleEndDateChangeAltoImpacto} 
+                        handleZonaAltoImpacto={handleZonaAltoImpacto}
+                        handleJuntaAuxiliarAltoImpacto={handleJuntaAuxiliarAltoImpacto}
+                      />
+                  </div>
+
+
 
                   <div className="col-md-6">
                     <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePuntosIdentificados" aria-expanded="false" aria-controls="collapsePuntosIdentificados">
@@ -719,6 +774,51 @@ export function Mapa() {
                     </div>
                     )}
 
+
+                    <div className="col-md-6">
+                      <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFlyTo" aria-expanded="false" aria-controls="collapseFlyTo">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-pin-map-fill" viewBox="0 0 16 16">
+                        <path fillRule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/>
+                        <path fillRule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
+                      </svg>
+                        Mover Mapa
+                      
+                      </button>
+                    </div>
+
+                    <div className="col-md-12 card shadow mb-3 collapse" id="collapseFlyTo">
+                      <FlyTo setCoordenadasFlyTo={setCoordenadasFlyTo}/>
+                    </div>
+
+                    <div className="col-md-6">
+                      <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBusqueda" aria-expanded="false" aria-controls="collapseBusqueda">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-person-bounding-box " viewBox="0 0 16 16">
+                          <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
+                          <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        </svg>
+                        Buscar Persona
+                        
+                      </button>
+                    </div>
+
+                    <div className="col-md-12 card shadow mb-3 collapse" id="collapseBusqueda">
+                      <SearchPerson setSetDataResultadoBusqueda = {setSetDataResultadoBusqueda} handleCapasPersonaExcel={handleCapasPersonaExcel}/>
+                    </div>
+
+                    <button className=" col-md-6 btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKNN" aria-expanded="false" aria-controls="collapseKNN">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-person-bounding-box me-2" viewBox="0 0 16 16">
+                      <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
+                      <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                    </svg>
+                    Modelo Predictivo (KNN)
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                      <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                    </svg>
+                  </button>
+
+                  <div className="col-md-12 card shadow mb-3 collapse" id="collapseKNN">
+                    <FormKnn setCoordenadasFlyTo={setCoordenadasFlyTo} />
+                  </div>
                 </div>  
               </>
 
@@ -729,50 +829,6 @@ export function Mapa() {
           
           <div className="row">
 
-            <div className="col-md-6">
-              <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFlyTo" aria-expanded="false" aria-controls="collapseFlyTo">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-pin-map-fill" viewBox="0 0 16 16">
-                <path fillRule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/>
-                <path fillRule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
-              </svg>
-                Mover Mapa
-               
-              </button>
-            </div>
-
-            <div className="col-md-12 card shadow mb-3 collapse" id="collapseFlyTo">
-              <FlyTo setCoordenadasFlyTo={setCoordenadasFlyTo}/>
-            </div>
-
-            <div className="col-md-6">
-              <button className="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBusqueda" aria-expanded="false" aria-controls="collapseBusqueda">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-person-bounding-box " viewBox="0 0 16 16">
-                  <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
-                  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                </svg>
-                Buscar Persona
-                
-              </button>
-            </div>
-
-            <div className="col-md-12 card shadow mb-3 collapse" id="collapseBusqueda">
-              <SearchPerson setSetDataResultadoBusqueda = {setSetDataResultadoBusqueda} handleCapasPersonaExcel={handleCapasPersonaExcel}/>
-            </div>
-
-            <button className=" col-md-6 btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKNN" aria-expanded="false" aria-controls="collapseKNN">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-person-bounding-box me-2" viewBox="0 0 16 16">
-              <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
-              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-            </svg>
-            Modelo Predictivo (KNN)
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill" viewBox="0 0 16 16">
-              <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-            </svg>
-          </button>
-
-          <div className="col-md-12 card shadow mb-3 collapse" id="collapseKNN">
-            <FormKnn setCoordenadasFlyTo={setCoordenadasFlyTo} />
-          </div>
 
             <div className="col-md-12">
               {/* <KmlToGeoJsonConverter mapa={mapaArchivo}/> */}
@@ -805,13 +861,13 @@ export function Mapa() {
                   (Remision !== 0) && (
                     (() => {
                       // Aquí puedes realizar operaciones de JavaScript adicionales antes de retornar el componente
-                      let urlBase = 'http://187.216.250.245'
+                      let urlBase = 'http://172.18.110.25'
                       if(window.location.href.includes('187.216.250.252')){
                         urlBase = 'http://187.216.250.245';
                       }else if(window.location.href.includes('172.18.110.90')){
                         urlBase = 'http://172.18.110.25';
                       }
-                      console.log('URL', urlBase)
+                      //console.log('URL', urlBase)
                       const imageUrl = `${urlBase}/sarai/public/files/Remisiones/${Ficha}/FotosHuellas/${Remision}/rostro_frente.jpeg`;
 
                       return (
