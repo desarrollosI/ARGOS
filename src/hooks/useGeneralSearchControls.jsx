@@ -84,6 +84,17 @@ const useGeneralSearchControls = () => {
             </div>
           );
         }
+        if (DataResultadoBusquedaGeneral.Remisiones_Contactos && DataResultadoBusquedaGeneral.Remisiones_Contactos.length > 0) {
+          newTablasResultado.push(
+            <div key="remisiones_contactos">
+                <div className="row mb-4">
+                    <h3 className="titulo">Remisiones Contactos</h3>
+                </div>
+              <TableConstructor lugar={'Detenido: Contactos'} datos={{ Remisiones:DataResultadoBusquedaGeneral.Remisiones_Contactos }} />
+              {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
+            </div>
+          );
+        }
       
         // Verifica si Inspecciones está definida y tiene elementos antes de acceder a 'length'
         if (DataResultadoBusquedaGeneral.Inspecciones && DataResultadoBusquedaGeneral.Inspecciones.length > 0) {
@@ -155,7 +166,7 @@ const useGeneralSearchControls = () => {
             newTablasResultado.push(
                 <div key="sic">
                 <div className="row mb-4">
-                    <h3 className="titulo">SIC</h3>
+                    <h3 className="titulo">A.U.R.A.</h3>
                 </div>
                 <TableConstructor lugar={'SIC: Personas'} datos={{ SIC:DataResultadoBusquedaGeneral.SIC }} />
                 {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
@@ -291,7 +302,7 @@ const useGeneralSearchControls = () => {
             newTablasResultado.push(
                 <div key="sic_eventos">
                 <div className="row mb-4">
-                    <h3 className="titulo">SIC EVENTOS</h3>
+                    <h3 className="titulo">A.U.R.A. EVENTOS</h3>
                 </div>
                 <TableConstructor lugar={'SIC: Eventos'} datos={{ SIC:DataResultadoBusquedaGeneral.SIC_Eventos }} />
                 {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
@@ -406,13 +417,25 @@ const useGeneralSearchControls = () => {
             newTablasResultado.push(
                 <div key="sic">
                 <div className="row mb-4">
-                    <h3 className="titulo">SIC</h3>
+                    <h3 className="titulo">A.U.R.A.</h3>
                 </div>
                 <TableConstructor lugar={'SIC: Personas'} datos={{ SIC:DataResultadoBusquedaGeneral.SIC }} />
                 {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
                 </div>
             );
         }
+        
+        if (DataResultadoBusquedaGeneral.Contactos && DataResultadoBusquedaGeneral.Contactos.length > 0) {
+          newTablasResultado.push(
+              <div key="llamadas911">
+              <div className="row mb-4">
+                  <h3 className="titulo">Contactos E.</h3>
+              </div>
+              <TableConstructor lugar={'Telefonos: Contactos'} datos={{ Contactos:DataResultadoBusquedaGeneral.Contactos }} />
+              {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
+              </div>
+          );
+      }
 
         
         if (DataResultadoBusquedaGeneral.bases_extra) {
@@ -549,7 +572,7 @@ const useGeneralSearchControls = () => {
             newTablasResultado.push(
                 <div key="sic">
                 <div className="row mb-4">
-                    <h3 className="titulo">SIC</h3>
+                    <h3 className="titulo">A.U.R.A.</h3>
                 </div>
                 <TableConstructor lugar={'SIC: Personas'} datos={{ SIC:DataResultadoBusquedaGeneral.SIC }} />
                 {/* Aquí puedes añadir más componentes TableConstructor con diferentes datos si es necesario */}
