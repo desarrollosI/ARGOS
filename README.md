@@ -54,7 +54,5 @@ Como se trabaja con vite todas las variables de entorno personalizadas deben de 
 
 ## Código
 
-Todo el código fue realizado por [@RaulRomero26](https://github.com/RaulRomero26), se que hay mejores formas de programarlo y si las encuentran los invito a que mejoren el código, todo se encuentra comentado lo mejor que pude, sin embargo recomiendo al 100% tener conocimiento de ReactJS, Vite y NodeJS.
-
 *Cuando escribí esto, sólo Dios y yo entendíamos lo que estaba haciendo.*
 *Ahora ya solo lo sabe Dios.*
